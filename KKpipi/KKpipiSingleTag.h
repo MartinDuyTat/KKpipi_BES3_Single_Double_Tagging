@@ -41,6 +41,10 @@ class KKpipiSingleTag: public Algorithm {
     StatusCode finalize();
   private:
     /**
+     * Dummy variable, placeholder for more important properties to be added later
+     */
+    int m_dummy;
+    /**
      * The NTuple itself that is filled
      */
     NTuple::tuple *m_tuple;
