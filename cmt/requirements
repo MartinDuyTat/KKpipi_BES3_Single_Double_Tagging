@@ -2,3 +2,6 @@ package KKpipi
 author Martin Duy Tat <martin.tat@physics.ox.ac.uk>
 
 branches cmt src KKpipi share
+
+apply_pattern component_library
+library KKpipi *.cxx  components/*.cxx
