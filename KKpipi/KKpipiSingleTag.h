@@ -39,6 +39,12 @@ class KKpipiSingleTag: public Algorithm {
      * This function runs when algorithm is finalized
      */
     StatusCode finalize();
+    /**
+     * Helper function to fill in information about the \f$D\f$ candidate
+     * This function should be the same for all tag modes
+     * @param DTTool_iter Iterator pointing to single tag candidate
+     */
+    void AssignTagInfo(DTagToolIterator DTTool_iter)
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later

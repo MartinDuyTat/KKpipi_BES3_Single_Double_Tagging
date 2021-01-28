@@ -24,6 +24,7 @@
 // STL
 #include<vector>
 #include<string>
+#include<algorithm>
 
 KKpipiSingleTag::KKpipiSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
@@ -45,11 +46,11 @@ KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
       status = m_tuple->addItem("NumberOfParticles", m_NumberParticles);
-      status = m_tuple->addIndexedItem("ParticleIDs", m_pdgID);
-      status = m_tuple->addIndexedItem("MotherIndex", m_MotherIndex);
+      status = m_tuple->addIndexedItem("ParticleIDs", m_NumberParticles, m_pdgID);
+      status = m_tuple->addIndexedItem("MotherIndex", m_NumberParticles, m_MotherIndex);
       status = m_tuple->addItem("GeneratorNumberOfParticles", m_GeneratorNumberParticles);
-      status = m_tuple->addItem("GeneratorParticleIDs", m_GeneratorPDGID);
-      status = m_tuple->addItem("GeneratorMotherID", m_MotherID);
+      status = m_tuple->addIndexedItem("GeneratorParticleIDs", m_GeneratorNumberParticles, m_GeneratorPDGID);
+      status = m_tuple->addIndexedItem("GeneratorMotherID", m_GeneratorNumberParticles, m_MotherID);
       status = m_tuple->addItem("True_P", m_TrueMomentum);
       status = m_tuple->addItem("True_PT", m_TruePT);
       status = m_tuple->addItem("True_phi", m_TruePhi);
@@ -85,4 +86,86 @@ KKpipiSingleTag::initialize() {
     }
     return StatusCode::SUCCESS;
   }
+}
+
+StatusCode KKpipiSingleTat::execute() {
+  MsgStream log(msgSvc(), name());
+  log << MSG::INFO << "Executing KKpipi Single Tag Algorithm" << endreq;
+  SmartDataPtr<Event::EventHeader> = EventHeader(eventSvc(), "/Event/EventHeader");
+  m_RunNumber = EventHeader->runNumber();
+  m_EventNumber = EventHeader->eventNumber();
+  if(m_RunNumber < 0) {
+    SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
+    if(!MCParticleCol) {
+      log << MSG::FATAL << "Could not load McParticleCol" << endreq;
+      return StatusCode::FAILURE;
+    }
+    std::vector<int> pdgID, MotherIndex;
+    int ParticleNumber = 0;
+    for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
+      if((*MCParticleCol_iter)->primaryParticle()) {
+	continue;
+      } else if((*MCParticleCol_iter)->decayFromGenerator) {
+	continue;
+      } else if((*MCParticleCol_iter)->particleProperty() == 30443) {
+	HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
+	m_TrueMomentum[ParticlesNumber] = inititalP.mag();
+	m_TruePT[ParticleNumber] = initialP.perp();
+	m_TruePhi[ParticleNumber] = initialP.phi();
+	m_TrueTheta[ParticleNumber] = initialP.cosTheta();
+	m_GeneratorPDGID[ParticleNumber] = (*MCParticleCol_iter)->particleProperty();
+	m_MotherID[ParticleNumber] = (*MCParticleCol_iter)->mother().particleProperty();
+	++ParticleNumber;
+	IMcDecayModeSvc *IMcDecayModeService;
+	StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", McDecayModeSVC);
+	if(McDecayModeSVC_Status.isFailure()) {
+	  log << MSG::FATAL << "Could not load McDecayModeSvc" << endreq;
+	  return McDecayModeSVC_Status;
+	}
+	McDecayModeSvc *McDecayModeService = dynamic_cast<McDecayModeSvc*>(IMcDecayModeService);
+	m_MCmode = McDecayModeService->extract(*MCParticleCol_iter, pdgID, MotherIndex);
+      }
+    }
+    m_GeneratorNumberParticles = ParticleNumber;
+    m_NumberParticles = pdgID.size();
+    std::copy(pdgID.begin(), pdgID.end(), m_pdgID.begin());
+    std::copy(MotherIndex.begin(), MotherIndex.end(), m_MotherIndex.begin());
+  }
+  DTagTool DTTool;
+  DTTool.setPID(true);
+  if(DTTool.isDTagListEmpty()) {
+    log << MSG::DEBUG << "No D candidates found" << endreq;
+    return StatusCode::SUCCESS;
+  }
+  if(!DTTool.cosmicandleptonVeto()) {
+    log << MSG::DEBUG << "Cosmic and lepton veto" << endreq;
+    return StatusCode::SUCCESS;
+  }
+  if(DTTool.findStag(EvtRecDTag::kD0toKKPiPi)) {
+    DTagToolIterator DTTool_iter = DTTool.stag();
+    AssignTagInfo(DTTool_iter);
+    m_tuple->write();
+  }
+  return StatusCode::SUCCESS;
+}
+
+StatusCode KKpipiSingleTag::finalize() {
+  MsgStream log(msgSvc(), name());
+  log << MSG::INFO << "Finalizing KKpipi Single Tagging" << endreq;
+  return StatusCode::SUCCESS;
+}
+
+void KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
+  m_Charm = (*DTTool_iter)->charm();
+  m_DMass = (*DTTool_iter)->mass();
+  m_MBC = (*DTTool_iter)->mBC();
+  m_DeltaE = (*DTTool_iter)->deltaE();
+  m_BeamE = (*DTTool_iter)->beamE();
+  m_Dpx = (*DTTool_iter)->p4().x();
+  m_Dpy = (*DTTool_iter)->p4().y();
+  m_Dpz = (*DTTool_iter)->p4().z();
+  m_Denergy = (*DTTool_iter)->p4().t();
+  m_Charm = (*DTTool_iter)->charm();
+  m_Charm = (*DTTool_iter)->charm();
+  m_Charm = (*DTTool_iter)->charm();
 }
