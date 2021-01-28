@@ -8,6 +8,7 @@
 #define KKPIPISINGLETAG
 
 // Gaudi
+#include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Algorithm.h"
 #include "GaudiKernel/NTuple.h"
 // BOSS
