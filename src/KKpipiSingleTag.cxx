@@ -1,7 +1,7 @@
 // Martin Duy Tat 28th January 2021
 
 // Header file
-#include "KKpipiSingleTag.h"
+#include "KKpipi/KKpipiSingleTag.h"
 // Gaudi
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
