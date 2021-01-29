@@ -3,17 +3,21 @@
 // Header file
 #include "KKpipi/KKpipiSingleTag.h"
 // Gaudi
-#include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/AlgFactory.h"
-#include "GaudiKernel/ISvcLocator.h"
-#include "GaudiKernel/SmartDataPtr.h"
+#include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
-#include "GaudiKernel/PropertyMgr.h"
+#include "GaudiKernel/MsgStream.h"
+#include "GaudiKernel/ISvcLocator.h"
+#include "GaudiKernel/IHistogramSvc.h"
 #include "GaudiKernel/INTupleSvc.h"
+#include "GaudiKernel/ISvcLocator.h"
+#include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/NTuple.h"
+#include "GaudiKernel/PropertyMgr.h"
+#include "GaudiKernel/SmartDataPtr.h"
 // Event information
-#include "EventModel/EventModel.h"
 #include "EventModel/Event.h"
+#include "EventModel/EventModel.h"
 #include "EventModel/EventHeader.h"
 #include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecTrack.h"
@@ -109,7 +113,7 @@ StatusCode KKpipiSingleTag::execute() {
 	continue;
       } else if((*MCParticleCol_iter)->particleProperty() == 30443) {
 	HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
-	m_TrueMomentum[ParticlesNumber] = inititalP.mag();
+	m_TrueMomentum[ParticleNumber] = inititalP.mag();
 	m_TruePT[ParticleNumber] = initialP.perp();
 	m_TruePhi[ParticleNumber] = initialP.phi();
 	m_TrueTheta[ParticleNumber] = initialP.cosTheta();
