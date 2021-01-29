@@ -36,7 +36,7 @@ KKpipiSingleTag::~KKpipiSingleTag() {
 StatusCode KKpipiSingleTag::initialize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Initializing KKpipi Single Tagging" << endreq;
-  Statuscode status;
+  StatusCode status;
   NTuplePtr ntp(ntupleSvc(), "KKPIPI/SingleTag");
   if(ntp) {
     m_tuple = ntp;
@@ -54,7 +54,7 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("True_P", m_TrueMomentum);
       status = m_tuple->addItem("True_PT", m_TruePT);
       status = m_tuple->addItem("True_phi", m_TruePhi);
-      status = m_tuple->addItem("True_theta", m_Theta);
+      status = m_tuple->addItem("True_theta", m_TrueTheta);
       status = m_tuple->addItem("Charm", m_Charm);
       status = m_tuple->addItem("DMass", m_DMass);
       status = m_tuple->addItem("MBC", m_MBC);
@@ -91,9 +91,9 @@ StatusCode KKpipiSingleTag::initialize() {
 StatusCode KKpipiSingleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing KKpipi Single Tag Algorithm" << endreq;
-  SmartDataPtr<Event::EventHeader> = EventHeader(eventSvc(), "/Event/EventHeader");
-  m_RunNumber = EventHeader->runNumber();
-  m_EventNumber = EventHeader->eventNumber();
+  SmartDataPtr<Event::EventHeader> = eventHeader(eventSvc(), "/Event/EventHeader");
+  m_RunNumber = eventHeader->runNumber();
+  m_EventNumber = eventHeader->eventNumber();
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
