@@ -45,7 +45,7 @@ class KKpipiSingleTag: public Algorithm {
      * This function should be the same for all tag modes
      * @param DTTool_iter Iterator pointing to single tag candidate
      */
-    void AssignTagInfo(DTagToolIterator DTTool_iter)
+    void AssignTagInfo(DTagToolIterator DTTool_iter);
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later
