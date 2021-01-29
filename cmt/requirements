@@ -16,7 +16,7 @@ use DTagTool       DTagTool-*   Analysis
 #use GammaConv             GammaConv-*                   Analysis
 #use ParticleID   ParticleID-*  Analysis
 #use SimplePIDSvc   SimplePIDSvc-* Utilities
-use VertexFit    VertexFit-*   Analysis
+use KalmanKinematicFit    VertexFit-*   Analysis
 ##use XBAF      XBAF-*
 #use McTruth   McTruth-*         Event
 use McDecayModeSvc McDecayModeSvc-* 

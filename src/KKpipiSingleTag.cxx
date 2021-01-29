@@ -15,6 +15,7 @@
 #include "GaudiKernel/NTuple.h"
 #include "GaudiKernel/PropertyMgr.h"
 #include "GaudiKernel/SmartDataPtr.h"
+#include "Gaudikernel/SmartRefVector.h"
 // Event information
 #include "EventModel/Event.h"
 #include "EventModel/EventModel.h"
@@ -26,10 +27,10 @@
 #include "CLHEP/Vector/LorentzVector.h"
 // Boss
 #include "DTagTool/DTagTool.h"
+#include "VertexFit/KalmanKinematicFit.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "McTruth/McParticle.h"
 #include "MdcRecEvent/RecMdcKalTrack.h"
-#include "VertexFit/KinematicFit.h"
 // STL
 #include<vector>
 #include<string>
@@ -178,12 +179,12 @@ StatusCode KKpipiSingleTag::execute() {
     DTagToolIterator DTTool_iter = DTTool.stag();
     StatusCode AssignTagStatus = AssignTagInfo(DTTool_iter);
     if(AssignTagStatus != StatusCode::SUCCESS) {
-        log << MSG::FAILURE << "Assigning tag info failed" << endreq;
+        log << MSG::FATAL << "Assigning tag info failed" << endreq;
 	return StatusCode::FAILURE;
     }
-    StatuCode AssignDaughterStatus = AssignKKpipiDaughterInfo(DTTool_iter, DTTool);
+    StatusCode AssignDaughterStatus = AssignKKpipiDaughterInfo(DTTool_iter, DTTool);
     if(AssignDaughterStatus != StatusCode::SUCCESS) {
-        log << MSG::FAILURE << "Assigning tag info failed" << endreq;
+        log << MSG::FATAL << "Assigning tag info failed" << endreq;
 	return StatusCode::FAILURE;
     }
     m_tuple->write();
@@ -233,7 +234,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
 	m_KMinuspz = Kaon4Momentum.z();
 	m_KMinusenergy = Kaon4Momentum.t();
       } else {
-	return StatusCode::FAILURE;
+	return StatusCode::FATAL;
       }
     } else if(DTTool.isPion(*Track_iter)) {
       MDCKalTrack->setPidType(RecMdcKalTrack::pion);
@@ -253,14 +254,14 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
 	m_PiMinuspz = Pion4Momentum.z();
 	m_PiMinusenergy = Pion4Momentum.t();
       } else {
-	return StatusCode::FAILURE;
+	return StatusCode::FATAL;
       }
     }
   }
-  WTrackParameter WTrackKplus(K_MASS, KalmanTracks[DaughterParticle::Kplus]->getZHeliz(), KalmanTracks[DaughterParticle::Kplus]->getZError());
-  WTrackParameter WTrackKminus(K_MASS, KalmanTracks[DaughterParticle::Kminus]->getZHeliz(), KalmanTracks[DaughterParticle::Kminus]->getZError());
-  WTrackParameter WTrackPIplus(PI_MASS, KalmanTracks[DaughterParticle::PIplus]->getZHeliz(), KalmanTracks[DaughterParticle::PIplus]->getZError());
-  WTrackParameter WTrackPIminus(K_MASS, KalmanTracks[DaughterParticle::PIminus]->getZHeliz(), KalmanTracks[DaughterParticle::PIminus]->getZError());
+  WTrackParameter WTrackKplus(K_MASS, KalmanTracks[KPLUS]->getZHeliz(), KalmanTracks[KPLUS]->getZError());
+  WTrackParameter WTrackKminus(K_MASS, KalmanTracks[KMINUS]->getZHeliz(), KalmanTracks[KMINUS]->getZError());
+  WTrackParameter WTrackPIplus(PI_MASS, KalmanTracks[PIPLUS]->getZHeliz(), KalmanTracks[PIPLUS]->getZError());
+  WTrackParameter WTrackPIminus(K_MASS, KalmanTracks[PIMINUS]->getZHeliz(), KalmanTracks[PIMINUS]->getZError());
   KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
   KalmanFit->init();
   KalmanFit->AddTrack(0, WTrackKplus);
