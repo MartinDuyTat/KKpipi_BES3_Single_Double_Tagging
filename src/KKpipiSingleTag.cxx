@@ -122,7 +122,7 @@ StatusCode KKpipiSingleTag::execute() {
     for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
       if((*MCParticleCol_iter)->primaryParticle()) {
 	continue;
-      } else if((*MCParticleCol_iter)->decayFromGenerator()) {
+      } else if(!(*MCParticleCol_iter)->decayFromGenerator()) {
 	continue;
       } else if((*MCParticleCol_iter)->particleProperty() == 30443) {
 	CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
@@ -178,7 +178,4 @@ void KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
   m_Dpy = (*DTTool_iter)->p4().y();
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
-  m_Charm = (*DTTool_iter)->charm();
-  m_Charm = (*DTTool_iter)->charm();
-  m_Charm = (*DTTool_iter)->charm();
 }
