@@ -14,7 +14,6 @@
 // BOSS
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "DTagTool/DTagTool.h"
-#include "SimplePIDSvc/ISimplePIDSvc.h"
 // STL
 #include<string>
 
@@ -52,6 +51,10 @@ class KKpipiSingleTag: public Algorithm {
      * @param DTTool DTagTool object with all the tag information
      */
     void AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool);
+    /**
+     * Enumeration to label daughter particles in the order K+ K- pi+ pi-
+     */
+    enum DaughterParticle {Kplus, Kminus, PIplus, PIminus};
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later
@@ -211,6 +214,78 @@ class KKpipiSingleTag: public Algorithm {
      * \f$K^-\f$ energy
      */
     NTuple::Item<double> m_KMinusenergy;
+    /**
+     * Flag equal to 1 for success and 0 for fail in the Kalman fit of tracks
+     */
+    NTuple::Item<int> m_KalmanFitSuccess;
+    /**
+     * \f$\chi^2\f$ of Kalman fit
+     */
+    NTuple::Item<double> m_KalmanFitChi2;
+    /**
+     * Kalman fitted \f$\pi^+\f$ momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_PiPluspxKalmanFit;
+    /**
+     * Kalman fitted \f$\pi^+\f$ momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_PiPluspyKalmanFit;
+    /**
+     * Kalman fitted \f$\pi^+\f$ momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_PiPluspzKalmanFit;
+    /**
+     * Kalman fitted \f$\pi^+\f$ energy
+     */
+    NTuple::Item<double> m_PiPlusenergyKalmanFit;
+    /**
+     * Kalman fitted \f$\pi^-\f$ momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_PiMinuspxKalmanFit;
+    /**
+     * Kalman fitted \f$\pi^-\f$ momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_PiMinuspyKalmanFit;
+    /**
+     * Kalman fitted \f$\pi^-\f$ momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_PiMinuspzKalmanFit;
+    /**
+     * Kalman fitted \f$\pi^-\f$ energy
+     */
+    NTuple::Item<double> m_PiMinusenergyKalmanFit;
+    /**
+     * Kalman fitted \f$K^+\f$ momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_KPluspxKalmanFit;
+    /**
+     * Kalman fitted \f$K^+\f$ momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_KPluspyKalmanFit;
+    /**
+     * Kalman fitted \f$K^+\f$ momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_KPluspzKalmanFit;
+    /**
+     * Kalman fitted \f$K^+\f$ energy
+     */
+    NTuple::Item<double> m_KPlusenergyKalmanFit;
+    /**
+     * Kalman fitted \f$K^-\f$ momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_KMinuspxKalmanFit;
+    /**
+     * Kalman fitted \f$K^-\f$ momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_KMinuspyKalmanFit;
+    /**
+     * Kalman fitted \f$K^-\f$ momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_KMinuspzKalmanFit;
+    /**
+     * Kalman fitted \f$K^-\f$ energy
+     */
+    NTuple::Item<double> m_KMinusenergyKalmanFit;
 };
 
 #endif

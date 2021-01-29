@@ -26,12 +26,18 @@
 #include "CLHEP/Vector/LorentzVector.h"
 // Boss
 #include "DTagTool/DTagTool.h"
-#include "SimplePIDSvc/ISimplePIDSvc.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "McTruth/McParticle.h"
+#include "MdcRecEvent/RecMdcKalTrack.h"
+#include "VertexFit/KinematicFit.h"
 // STL
 #include<vector>
 #include<string>
+
+// Particle masses, from PDG 2020
+const double D_MASS = 1.86483;
+const double K_MASS = 0.493677;
+const double PI_MASS = 0.13957039;
 
 KKpipiSingleTag::KKpipiSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
@@ -87,6 +93,24 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KMinuspy", m_KMinuspy);
       status = m_tuple->addItem("KMinuspz", m_KMinuspz);
       status = m_tuple->addItem("KMinusenergy", m_KMinusenergy);
+      status = m_tuple->addItem("KalmanFitSuccess", m_KalmanFitSuccess);
+      status = m_tuple->addItem("KalmanFitChi2", m_KalmanFitChi2);
+      status = m_tuple->addItem("PiPluspxKalmanFit", m_PiPluspxKalmanFit);
+      status = m_tuple->addItem("PiPluspyKalmanFit", m_PiPluspyKalmanFit);
+      status = m_tuple->addItem("PiPluspzKalmanFit", m_PiPluspzKalmanFit);
+      status = m_tuple->addItem("PiPlusenergyKalmanFit", m_PiPlusenergyKalmanFit);
+      status = m_tuple->addItem("PiMinuspxKalmanFit", m_PiMinuspxKalmanFit);
+      status = m_tuple->addItem("PiMinuspyKalmanFit", m_PiMinuspyKalmanFit);
+      status = m_tuple->addItem("PiMinuspzKalmanFit", m_PiMinuspzKalmanFit);
+      status = m_tuple->addItem("PiMinusenergyKalmanFit", m_PiMinusenergyKalmanFit);
+      status = m_tuple->addItem("KPluspxKalmanFit", m_KPluspxKalmanFit);
+      status = m_tuple->addItem("KPluspyKalmanFit", m_KPluspyKalmanFit);
+      status = m_tuple->addItem("KPluspzKalmanFit", m_KPluspzKalmanFit);
+      status = m_tuple->addItem("KPlusenergyKalmanFit", m_KPlusenergyKalmanFit);
+      status = m_tuple->addItem("KMinuspxKalmanFit", m_KMinuspxKalmanFit);
+      status = m_tuple->addItem("KMinuspyKalmanFit", m_KMinuspyKalmanFit);
+      status = m_tuple->addItem("KMinuspzKalmanFit", m_KMinuspzKalmanFit);
+      status = m_tuple->addItem("KMinusenergyKalmanFit", m_KMinusenergyKalmanFit);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -178,19 +202,22 @@ void KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
 void KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool) {
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> DaugtherTrackIterators(4); // In the order K+ K- pi+ pi-
+  std::vector<RecMdcKalTrack*> KalmanTracks(4); //In the order K+ K- pi+ pi-
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Tracks_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(DTTool.isKaon(*Track_iter)) {
       MDCKalTrack->SetPidType(RecMdcKalTrack::kaon);
       CLHEP::HepLorentzVector Kaon4Momentum = MDCKalTrack->p4();
       if(MDCKalTrack->charge() == +1) {
-	DaughterTrackIterators[0] = Track_iter;
+	DaughterTrackIterators[DaughterParticle::Kplus] = Track_iter;
+	KalmanTracks[DaughterParticle::Kplus] = MDCKalTrack;
 	m_KPluspx = Kaon4Momentum.x();
 	m_KPluspy = Kaon4Momentum.y();
 	m_KPluspz = Kaon4Momentum.z();
 	m_KPlusenergy = Kaon4Momentum.t();
       } else if (MDCKalTrack->charge() == -1) {
-	DaughterTrackIterators[1] = Track_iter;
+	DaughterTrackIterators[DaughterParticle::Kminus] = Track_iter;
+	KalmanTracks[DaughterParticle::Kminus] = MDCKalTrack;
 	m_KMinuspx = Kaon4Momentum.x();
 	m_KMinuspy = Kaon4Momentum.y();
 	m_KMinuspz = Kaon4Momentum.z();
@@ -202,16 +229,55 @@ void KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, con
     } else if(DTTool.isPion(*Track_iter)) {
       CLHEP::HepLorentzVector Pion4Momentum = MDCKalTrack->p4();
       if(MDCKalTrack->charge() == +1) {
-	DaughterTrackIterators[2] = Track_iter;
+	DaughterTrackIterators[DaughterParticle::PIplus] = Track_iter;
+	KalmanTracks[DaughterParticle::PIplus] = MDCKalTrack;
 	m_PiPluspx = Pion4Momentum.x();
 	m_PiPluspy = Pion4Momentum.y();
 	m_PiPluspz = Pion4Momentum.z();
 	m_PiPlusenergy = Pion4Momentum.t();
       } else if(MDCKalTrack->charge() == -1) {
-	DaughterTrackIterators[3] = Track_iter;
+	DaughterTrackIterators[DaughterParticle::PIminus] = Track_iter;
+	KalmanTracks[DaughterParticle::PIminus] = MDCKalTrack;
 	m_PiMinuspx = Pion4Momentum.x();
 	m_PiMinuspy = Pion4Momentum.y();
 	m_PiMinuspz = Pion4Momentum.z();
 	m_PiMinusenergy = Pion4Momentum.t();
       }
     }
+  }
+  WTrackParameter WTrackKplus(K_MASS, KalmanTracks[DaughterParticle::Kplus]->getZHeliz(), KalmanTracks[DaughterParticle::Kplus]->getZError());
+  WTrackParameter WTrackKminus(K_MASS, KalmanTracks[DaughterParticle::Kminus]->getZHeliz(), KalmanTracks[DaughterParticle::Kminus]->getZError());
+  WTrackParameter WTrackPIplus(PI_MASS, KalmanTracks[DaughterParticle::PIplus]->getZHeliz(), KalmanTracks[DaughterParticle::PIplus]->getZError());
+  WTrackParameter WTrackPIminus(K_MASS, KalmanTracks[DaughterParticle::PIminus]->getZHeliz(), KalmanTracks[DaughterParticle::PIminus]->getZError());
+  KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
+  KalmanFit->init();
+  KalmanFit->AddTrack(0, WTrackKplus);
+  KalmanFit->AddTrack(1, WTrackKminus);
+  KalmanFit->AddTrack(2, WTrackPIplus);
+  KalmanFit->AddTrack(3, WTrackPIminus);
+  KalmanFit->AddResonance(0, D_MASS, 0, 1, 2, 3, 4);
+  m_KalmanFitSuccess = KalmanFit->Fit();
+  std::vector<CLHEP::HepLorentzVector> FourMomentumFit(4);
+  if(m_KalmanFitSuccess) {
+    m_KalmanFitChi2 = KalmanFit->chisq();
+    for(int i = 0; i < 4; i++) {
+      FourMomentumFit[i] = KalmanFit->pfit(i);
+    }
+  }
+  m_KPluspxKalmanFit = FourMomentumFit[DaughterParticle::Kplus].x();
+  m_KPluspxKalmanFit = FourMomentumFit[DaughterParticle::Kplus].y();
+  m_KPluspxKalmanFit = FourMomentumFit[DaughterParticle::Kplus].z();
+  m_KPluspxKalmanFit = FourMomentumFit[DaughterParticle::Kplus].t();
+  m_KMinuspxKalmanFit = FourMomentumFit[DaughterParticle::Kminus].x();
+  m_KMinuspxKalmanFit = FourMomentumFit[DaughterParticle::Kminus].y();
+  m_KMinuspxKalmanFit = FourMomentumFit[DaughterParticle::Kminus].z();
+  m_KMinuspxKalmanFit = FourMomentumFit[DaughterParticle::Kminus].t();
+  m_PiPluspxKalmanFit = FourMomentumFit[DaughterParticle::PIplus].x();
+  m_PiPluspxKalmanFit = FourMomentumFit[DaughterParticle::PIplus].y();
+  m_PiPluspxKalmanFit = FourMomentumFit[DaughterParticle::PIplus].z();
+  m_PiPluspxKalmanFit = FourMomentumFit[DaughterParticle::PIplus].t();
+  m_PiMinuspxKalmanFit = FourMomentumFit[DaughterParticle::PIminus].x();
+  m_PiMinuspxKalmanFit = FourMomentumFit[DaughterParticle::PIminus].y();
+  m_PiMinuspxKalmanFit = FourMomentumFit[DaughterParticle::PIminus].z();
+  m_PiMinuspxKalmanFit = FourMomentumFit[DaughterParticle::PIminus].t();
+}
