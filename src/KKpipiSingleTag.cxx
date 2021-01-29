@@ -110,6 +110,15 @@ StatusCode KKpipiSingleTag::execute() {
     }
     std::vector<int> pdgID, MotherIndex;
     int ParticleNumber = 0;
+
+	IMcDecayModeSvc *IMcDecayModeService;
+	StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", IMcDecayModeService);
+	if(McDecayModeSVC_Status.isFailure()) {
+	  log << MSG::FATAL << "Could not load McDecayModeSvc" << endreq;
+	  return McDecayModeSVC_Status;
+	}
+	McDecayModeSvc *McDecayModeService = dynamic_cast<McDecayModeSvc*>(IMcDecayModeService);
+
     for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
       if((*MCParticleCol_iter)->primaryParticle()) {
 	continue;
@@ -124,13 +133,7 @@ StatusCode KKpipiSingleTag::execute() {
 	m_GeneratorPDGID[ParticleNumber] = (*MCParticleCol_iter)->particleProperty();
 	m_MotherID[ParticleNumber] = (*MCParticleCol_iter)->mother().particleProperty();
 	++ParticleNumber;
-	IMcDecayModeSvc *IMcDecayModeService;
-	StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", IMcDecayModeService);
-	if(McDecayModeSVC_Status.isFailure()) {
-	  log << MSG::FATAL << "Could not load McDecayModeSvc" << endreq;
-	  return McDecayModeSVC_Status;
-	}
-	McDecayModeSvc *McDecayModeService = dynamic_cast<McDecayModeSvc*>(IMcDecayModeService);
+
 	m_MCmode = McDecayModeService->extract(*MCParticleCol_iter, pdgID, MotherIndex);
       }
     }
