@@ -44,17 +44,17 @@ class KKpipiSingleTag: public Algorithm {
      * This function should be the same for all tag modes
      * @param DTTool_iter Iterator pointing to single tag candidate
      */
-    void AssignTagInfo(DTagToolIterator DTTool_iter);
+    StatusCode AssignTagInfo(DTagToolIterator DTTool_iter);
     /**
      * Helper function to fill in information about the \f$D\f$ daughters
      * @param DTTool_iter Iterator pointing to single tag candidate
      * @param DTTool DTagTool object with all the tag information
      */
-    void AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool);
+    StatusCode AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool);
     /**
      * Enumeration to label daughter particles in the order K+ K- pi+ pi-
      */
-    enum DaughterParticle {Kplus, Kminus, PIplus, PIminus};
+    enum DaughterParticle {KPLUS, KMINUS, PIPLUS, PIMINUS};
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later

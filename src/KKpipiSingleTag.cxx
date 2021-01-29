@@ -176,7 +176,16 @@ StatusCode KKpipiSingleTag::execute() {
   }
   if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
     DTagToolIterator DTTool_iter = DTTool.stag();
-    AssignTagInfo(DTTool_iter);
+    StatusCode AssignTagStatus = AssignTagInfo(DTTool_iter);
+    if(AssignTagStatus != StatusCode::SUCCESS) {
+        log << MSG::FAILURE << "Assigning tag info failed" << endreq;
+	return StatusCode::FAILURE;
+    }
+    StatuCode AssignDaughterStatus = AssignKKpipiDaughterInfo(DTTool_iter, DTTool);
+    if(AssignDaughterStatus != StatusCode::SUCCESS) {
+        log << MSG::FAILURE << "Assigning tag info failed" << endreq;
+	return StatusCode::FAILURE;
+    }
     m_tuple->write();
   }
   return StatusCode::SUCCESS;
@@ -188,7 +197,7 @@ StatusCode KKpipiSingleTag::finalize() {
   return StatusCode::SUCCESS;
 }
 
-void KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
+StatusCode KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
   m_DMass = (*DTTool_iter)->mass();
   m_MBC = (*DTTool_iter)->mBC();
   m_DeltaE = (*DTTool_iter)->deltaE();
@@ -197,51 +206,54 @@ void KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
   m_Dpy = (*DTTool_iter)->p4().y();
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
+  return StatusCode::SUCCESS;
 }
 
-void KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool) {
+StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool) {
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
-  std::vector<SmartRefVector<EvtRecTrack>::iterator> DaugtherTrackIterators(4); // In the order K+ K- pi+ pi-
+  std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(4); // In the order K+ K- pi+ pi-
   std::vector<RecMdcKalTrack*> KalmanTracks(4); //In the order K+ K- pi+ pi-
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Tracks_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(DTTool.isKaon(*Track_iter)) {
-      MDCKalTrack->SetPidType(RecMdcKalTrack::kaon);
+      MDCKalTrack->setPidType(RecMdcKalTrack::kaon);
       CLHEP::HepLorentzVector Kaon4Momentum = MDCKalTrack->p4();
       if(MDCKalTrack->charge() == +1) {
-	DaughterTrackIterators[DaughterParticle::Kplus] = Track_iter;
-	KalmanTracks[DaughterParticle::Kplus] = MDCKalTrack;
+	DaughterTrackIterators[KPLUS] = Track_iter;
+	KalmanTracks[KPLUS] = MDCKalTrack;
 	m_KPluspx = Kaon4Momentum.x();
 	m_KPluspy = Kaon4Momentum.y();
 	m_KPluspz = Kaon4Momentum.z();
 	m_KPlusenergy = Kaon4Momentum.t();
       } else if (MDCKalTrack->charge() == -1) {
-	DaughterTrackIterators[DaughterParticle::Kminus] = Track_iter;
-	KalmanTracks[DaughterParticle::Kminus] = MDCKalTrack;
+	DaughterTrackIterators[KMINUS] = Track_iter;
+	KalmanTracks[KMINUS] = MDCKalTrack;
 	m_KMinuspx = Kaon4Momentum.x();
 	m_KMinuspy = Kaon4Momentum.y();
 	m_KMinuspz = Kaon4Momentum.z();
 	m_KMinusenergy = Kaon4Momentum.t();
       } else {
-	log << MSG::FATAL << "Found kaon track without charge" << endreq;
-	return StatusCode::Failure;
+	return StatusCode::FAILURE;
       }
     } else if(DTTool.isPion(*Track_iter)) {
+      MDCKalTrack->setPidType(RecMdcKalTrack::pion);
       CLHEP::HepLorentzVector Pion4Momentum = MDCKalTrack->p4();
       if(MDCKalTrack->charge() == +1) {
-	DaughterTrackIterators[DaughterParticle::PIplus] = Track_iter;
-	KalmanTracks[DaughterParticle::PIplus] = MDCKalTrack;
+	DaughterTrackIterators[PIPLUS] = Track_iter;
+	KalmanTracks[PIPLUS] = MDCKalTrack;
 	m_PiPluspx = Pion4Momentum.x();
 	m_PiPluspy = Pion4Momentum.y();
 	m_PiPluspz = Pion4Momentum.z();
 	m_PiPlusenergy = Pion4Momentum.t();
       } else if(MDCKalTrack->charge() == -1) {
-	DaughterTrackIterators[DaughterParticle::PIminus] = Track_iter;
-	KalmanTracks[DaughterParticle::PIminus] = MDCKalTrack;
+	DaughterTrackIterators[PIMINUS] = Track_iter;
+	KalmanTracks[PIMINUS] = MDCKalTrack;
 	m_PiMinuspx = Pion4Momentum.x();
 	m_PiMinuspy = Pion4Momentum.y();
 	m_PiMinuspz = Pion4Momentum.z();
 	m_PiMinusenergy = Pion4Momentum.t();
+      } else {
+	return StatusCode::FAILURE;
       }
     }
   }
@@ -264,20 +276,20 @@ void KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, con
       FourMomentumFit[i] = KalmanFit->pfit(i);
     }
   }
-  m_KPluspxKalmanFit = FourMomentumFit[DaughterParticle::Kplus].x();
-  m_KPluspxKalmanFit = FourMomentumFit[DaughterParticle::Kplus].y();
-  m_KPluspxKalmanFit = FourMomentumFit[DaughterParticle::Kplus].z();
-  m_KPluspxKalmanFit = FourMomentumFit[DaughterParticle::Kplus].t();
-  m_KMinuspxKalmanFit = FourMomentumFit[DaughterParticle::Kminus].x();
-  m_KMinuspxKalmanFit = FourMomentumFit[DaughterParticle::Kminus].y();
-  m_KMinuspxKalmanFit = FourMomentumFit[DaughterParticle::Kminus].z();
-  m_KMinuspxKalmanFit = FourMomentumFit[DaughterParticle::Kminus].t();
-  m_PiPluspxKalmanFit = FourMomentumFit[DaughterParticle::PIplus].x();
-  m_PiPluspxKalmanFit = FourMomentumFit[DaughterParticle::PIplus].y();
-  m_PiPluspxKalmanFit = FourMomentumFit[DaughterParticle::PIplus].z();
-  m_PiPluspxKalmanFit = FourMomentumFit[DaughterParticle::PIplus].t();
-  m_PiMinuspxKalmanFit = FourMomentumFit[DaughterParticle::PIminus].x();
-  m_PiMinuspxKalmanFit = FourMomentumFit[DaughterParticle::PIminus].y();
-  m_PiMinuspxKalmanFit = FourMomentumFit[DaughterParticle::PIminus].z();
-  m_PiMinuspxKalmanFit = FourMomentumFit[DaughterParticle::PIminus].t();
+  m_KPluspxKalmanFit = FourMomentumFit[KPLUS].x();
+  m_KPluspxKalmanFit = FourMomentumFit[KPLUS].y();
+  m_KPluspxKalmanFit = FourMomentumFit[KPLUS].z();
+  m_KPluspxKalmanFit = FourMomentumFit[KPLUS].t();
+  m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].x();
+  m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].y();
+  m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].z();
+  m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].t();
+  m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].x();
+  m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].y();
+  m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].z();
+  m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].t();
+  m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].x();
+  m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].y();
+  m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].z();
+  m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].t();
 }
