@@ -52,10 +52,11 @@ StatusCode KKpipiSingleTag::initialize() {
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
-      status = m_tuple->addItem("NumberOfParticles", m_NumberParticles);
+      status = m_tuple->addItem("NumberOfParticles", m_NumberParticles, 0, 100);
       status = m_tuple->addIndexedItem("ParticleIDs", m_NumberParticles, m_pdgID);
       status = m_tuple->addIndexedItem("MotherIndex", m_NumberParticles, m_MotherIndex);
-      status = m_tuple->addItem("GeneratorNumberOfParticles", m_GeneratorNumberParticles);
+      status = m_tuple->addItem("MCmode", m_MCmode);
+      status = m_tuple->addItem("GeneratorNumberOfParticles", m_GeneratorNumberParticles, 0, 100);
       status = m_tuple->addIndexedItem("GeneratorParticleIDs", m_GeneratorNumberParticles, m_GeneratorPDGID);
       status = m_tuple->addIndexedItem("GeneratorMotherID", m_GeneratorNumberParticles, m_MotherID);
       status = m_tuple->addIndexedItem("True_P", m_GeneratorNumberParticles, m_TrueMomentum);
