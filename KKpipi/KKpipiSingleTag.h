@@ -110,10 +110,6 @@ class KKpipiSingleTag: public Algorithm {
      */
     NTuple::Array<double> m_TrueTheta;
     /**
-     * Charm content of \f$D\f$ meson
-     */
-    NTuple::Item<int> m_Charm;
-    /**
      * Invariant mass of \f$D\f$ meson
      */
     NTuple::Item<double> m_DMass;

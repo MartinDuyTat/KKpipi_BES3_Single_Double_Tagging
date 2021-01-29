@@ -63,7 +63,6 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addIndexedItem("True_PT", m_GeneratorNumberParticles, m_TruePT);
       status = m_tuple->addIndexedItem("True_phi", m_GeneratorNumberParticles, m_TruePhi);
       status = m_tuple->addIndexedItem("True_theta", m_GeneratorNumberParticles, m_TrueTheta);
-      status = m_tuple->addItem("Charm", m_Charm);
       status = m_tuple->addItem("DMass", m_DMass);
       status = m_tuple->addItem("MBC", m_MBC);
       status = m_tuple->addItem("DeltaE", m_DeltaE);
@@ -111,19 +110,19 @@ StatusCode KKpipiSingleTag::execute() {
     std::vector<int> pdgID, MotherIndex;
     int ParticleNumber = 0;
     for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
-      if((*MCParticleCol_iter)->primaryParticle()) {
+      if((*MCParticleCol_iter)->primaryParticle() || !(*MCParticleCol_iter)->decayFromGenerator()) {
 	continue;
-      } else if(!(*MCParticleCol_iter)->decayFromGenerator()) {
-	continue;
-      } else if((*MCParticleCol_iter)->particleProperty() == 30443) {
-	CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
-	m_TrueMomentum[ParticleNumber] = initialP.mag();
-	m_TruePT[ParticleNumber] = initialP.perp();
-	m_TruePhi[ParticleNumber] = initialP.phi();
-	m_TrueTheta[ParticleNumber] = initialP.cosTheta();
-	m_GeneratorPDGID[ParticleNumber] = (*MCParticleCol_iter)->particleProperty();
-	m_MotherID[ParticleNumber] = (*MCParticleCol_iter)->mother().particleProperty();
-	++ParticleNumber;
+      }
+      CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
+      m_TrueMomentum[ParticleNumber] = initialP.mag();
+      m_TruePT[ParticleNumber] = initialP.perp();
+      m_TruePhi[ParticleNumber] = initialP.phi();
+      m_TrueTheta[ParticleNumber] = initialP.cosTheta();
+      m_GeneratorPDGID[ParticleNumber] = (*MCParticleCol_iter)->particleProperty();
+      m_MotherID[ParticleNumber] = (*MCParticleCol_iter)->mother().particleProperty();
+      ++ParticleNumber;
+      if((*MCParticleCol_iter)->particleProperty() == 30443) {
+
 	IMcDecayModeSvc *IMcDecayModeService;
         StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", IMcDecayModeService);
         if(McDecayModeSVC_Status.isFailure()) {
@@ -166,7 +165,6 @@ StatusCode KKpipiSingleTag::finalize() {
 }
 
 void KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
-  m_Charm = (*DTTool_iter)->charm();
   m_DMass = (*DTTool_iter)->mass();
   m_MBC = (*DTTool_iter)->mBC();
   m_DeltaE = (*DTTool_iter)->deltaE();
