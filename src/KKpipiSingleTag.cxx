@@ -32,7 +32,6 @@
 // STL
 #include<vector>
 #include<string>
-#include<algorithm>
 
 KKpipiSingleTag::KKpipiSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
@@ -117,7 +116,7 @@ StatusCode KKpipiSingleTag::execute() {
 	continue;
       } else if((*MCParticleCol_iter)->particleProperty() == 30443) {
 	CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
-	m_TrueMomentum[ParticleNumber] = inititalP.mag();
+	m_TrueMomentum[ParticleNumber] = initialP.mag();
 	m_TruePT[ParticleNumber] = initialP.perp();
 	m_TruePhi[ParticleNumber] = initialP.phi();
 	m_TrueTheta[ParticleNumber] = initialP.cosTheta();
@@ -125,7 +124,7 @@ StatusCode KKpipiSingleTag::execute() {
 	m_MotherID[ParticleNumber] = (*MCParticleCol_iter)->mother().particleProperty();
 	++ParticleNumber;
 	IMcDecayModeSvc *IMcDecayModeService;
-	StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", McDecayModeSVC);
+	StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", IMcDecayModeService);
 	if(McDecayModeSVC_Status.isFailure()) {
 	  log << MSG::FATAL << "Could not load McDecayModeSvc" << endreq;
 	  return McDecayModeSVC_Status;
@@ -136,8 +135,10 @@ StatusCode KKpipiSingleTag::execute() {
     }
     m_GeneratorNumberParticles = ParticleNumber;
     m_NumberParticles = pdgID.size();
-    std::copy(pdgID.begin(), pdgID.end(), m_pdgID.begin());
-    std::copy(MotherIndex.begin(), MotherIndex.end(), m_MotherIndex.begin());
+    for(int i = 0; i < m_NumberParticles; i++) {
+      m_pdgID[i] = pdgID[i];
+      m_MotherIndex[i] = MotherIndex[i];
+    }
   }
   DTagTool DTTool;
   DTTool.setPID(true);
@@ -149,7 +150,7 @@ StatusCode KKpipiSingleTag::execute() {
     log << MSG::DEBUG << "Cosmic and lepton veto" << endreq;
     return StatusCode::SUCCESS;
   }
-  if(DTTool.findStag(EvtRecDTag::kD0toKKPiPi)) {
+  if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
     DTagToolIterator DTTool_iter = DTTool.stag();
     AssignTagInfo(DTTool_iter);
     m_tuple->write();
