@@ -25,6 +25,7 @@
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "SimplePIDSvc/ISimplePIDSvc.h"
+#include "McTruth/McParticle.h"
 // STL
 #include<vector>
 #include<string>
