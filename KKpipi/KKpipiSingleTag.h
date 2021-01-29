@@ -110,10 +110,6 @@ class KKpipiSingleTag: public Algorithm {
      */
     NTuple::Array<double> m_TrueTheta;
     /**
-     * Type of cut, defined as (0, 1, 2) = (Loose, Right, Default)
-     */
-    NTuple::Item<int> m_CutType;
-    /**
      * Invariant mass of \f$D\f$ meson
      */
     NTuple::Item<double> m_DMass;

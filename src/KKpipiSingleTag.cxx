@@ -63,7 +63,6 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addIndexedItem("True_PT", m_GeneratorNumberParticles, m_TruePT);
       status = m_tuple->addIndexedItem("True_phi", m_GeneratorNumberParticles, m_TruePhi);
       status = m_tuple->addIndexedItem("True_theta", m_GeneratorNumberParticles, m_TrueTheta);
-      status = m_tuple->addItem("CutType", m_CutType);
       status = m_tuple->addItem("DMass", m_DMass);
       status = m_tuple->addItem("MBC", m_MBC);
       status = m_tuple->addItem("DeltaE", m_DeltaE);
@@ -166,7 +165,6 @@ StatusCode KKpipiSingleTag::finalize() {
 }
 
 void KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
-  m_CutType = (*DTTool_iter)->type();
   m_DMass = (*DTTool_iter)->mass();
   m_MBC = (*DTTool_iter)->mBC();
   m_DeltaE = (*DTTool_iter)->deltaE();
