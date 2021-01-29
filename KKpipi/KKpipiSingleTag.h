@@ -96,19 +96,19 @@ class KKpipiSingleTag: public Algorithm {
     /**
      * True total momentum of the \f$D\f$ meson
      */
-    NTuple::Item<double> m_TrueMomentum;
+    NTuple::Array<double> m_TrueMomentum;
     /**
      * True transverse momentum of the \f$D\f$ meson
      */
-    NTuple::Item<double> m_TruePT;
+    NTuple::Array<double> m_TruePT;
     /**
      * True azimuthal angle \f$\phi\f$
      */
-    NTuple::Item<double> m_TruePhi;
+    NTuple::Array<double> m_TruePhi;
     /**
      * True polar angle \f$\theta\f$ 
      */
-    NTuple::Item<double> m_TrueTheta;
+    NTuple::Array<double> m_TrueTheta;
     /**
      * Charm content of \f$D\f$ meson
      */

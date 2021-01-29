@@ -22,9 +22,12 @@
 #include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecTrack.h"
 #include "EvtRecEvent/EvtRecDTag.h"
+// CLHEP
+#include "CLHEP/Vector/LorentzVector.h"
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "SimplePIDSvc/ISimplePIDSvc.h"
+#include "McDecayModeSvc/McDecayModeSvc.h"
 #include "McTruth/McParticle.h"
 // STL
 #include<vector>
@@ -56,10 +59,10 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("GeneratorNumberOfParticles", m_GeneratorNumberParticles);
       status = m_tuple->addIndexedItem("GeneratorParticleIDs", m_GeneratorNumberParticles, m_GeneratorPDGID);
       status = m_tuple->addIndexedItem("GeneratorMotherID", m_GeneratorNumberParticles, m_MotherID);
-      status = m_tuple->addItem("True_P", m_TrueMomentum);
-      status = m_tuple->addItem("True_PT", m_TruePT);
-      status = m_tuple->addItem("True_phi", m_TruePhi);
-      status = m_tuple->addItem("True_theta", m_TrueTheta);
+      status = m_tuple->addIndexedItem("True_P", m_GeneratorNumberParticles, m_TrueMomentum);
+      status = m_tuple->addIndexedItem("True_PT", m_GeneratorNumberParticles, m_TruePT);
+      status = m_tuple->addIndexedItem("True_phi", m_GeneratorNumberParticles, m_TruePhi);
+      status = m_tuple->addIndexedItem("True_theta", m_GeneratorNumberParticles, m_TrueTheta);
       status = m_tuple->addItem("Charm", m_Charm);
       status = m_tuple->addItem("DMass", m_DMass);
       status = m_tuple->addItem("MBC", m_MBC);
@@ -96,7 +99,7 @@ StatusCode KKpipiSingleTag::initialize() {
 StatusCode KKpipiSingleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing KKpipi Single Tag Algorithm" << endreq;
-  SmartDataPtr<Event::EventHeader> = eventHeader(eventSvc(), "/Event/EventHeader");
+  SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
   if(m_RunNumber < 0) {
@@ -110,10 +113,10 @@ StatusCode KKpipiSingleTag::execute() {
     for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
       if((*MCParticleCol_iter)->primaryParticle()) {
 	continue;
-      } else if((*MCParticleCol_iter)->decayFromGenerator) {
+      } else if((*MCParticleCol_iter)->decayFromGenerator()) {
 	continue;
       } else if((*MCParticleCol_iter)->particleProperty() == 30443) {
-	HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
+	CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
 	m_TrueMomentum[ParticleNumber] = inititalP.mag();
 	m_TruePT[ParticleNumber] = initialP.perp();
 	m_TruePhi[ParticleNumber] = initialP.phi();
