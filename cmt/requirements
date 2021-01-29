@@ -3,23 +3,23 @@ author Martin Duy Tat <martin.tat@physics.ox.ac.uk>
 
 branches cmt src KKpipi share
 
-#use BesAIDA BesAIDA-*    External
-#use BesPolicy BesPolicy-01-*
-#use GaudiInterface GaudiInterface-01-* External
+use BesAIDA BesAIDA-*    External
+use BesPolicy BesPolicy-01-*
+use GaudiInterface GaudiInterface-01-* External
 #use DstEvent     DstEvent-*    Event
-#use EventModel   EventModel-*  Event
+use EventModel   EventModel-*  Event
 #use TrigEvent TrigEvent-* Event
 #use EvtRecEvent EvtRecEvent-* Event
 #use BesROOT      BesROOT-00-*     External
 #use MdcRecEvent  MdcRecEvent-*  Mdc
-#use DTagTool     DTagTool-00-00-12   Reconstruction 
+use DTagTool     DTagTool-00-00-12   Reconstruction 
 #use GammaConv             GammaConv-*                   Analysis
 #use ParticleID   ParticleID-*  Analysis
 #use SimplePIDSvc SimplePIDSvc-* Utilities
 #use VertexFit    VertexFit-*   Analysis
 ##use XBAF      XBAF-*
 #use McTruth   McTruth-*         Event
-#use McDecayModeSvc McDecayModeSvc-* 
+use McDecayModeSvc McDecayModeSvc-* 
 #use BestDTagSvc BestDTagSvc-*  Utilities
 
 apply_pattern component_library
