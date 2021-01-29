@@ -15,7 +15,7 @@
 #include "GaudiKernel/NTuple.h"
 #include "GaudiKernel/PropertyMgr.h"
 #include "GaudiKernel/SmartDataPtr.h"
-#include "Gaudikernel/SmartRefVector.h"
+#include "GaudiKernel/SmartRefVector.h"
 // Event information
 #include "EventModel/Event.h"
 #include "EventModel/EventModel.h"
@@ -234,7 +234,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
 	m_KMinuspz = Kaon4Momentum.z();
 	m_KMinusenergy = Kaon4Momentum.t();
       } else {
-	return StatusCode::FATAL;
+	return StatusCode::FAILURE;
       }
     } else if(DTTool.isPion(*Track_iter)) {
       MDCKalTrack->setPidType(RecMdcKalTrack::pion);
@@ -254,14 +254,14 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
 	m_PiMinuspz = Pion4Momentum.z();
 	m_PiMinusenergy = Pion4Momentum.t();
       } else {
-	return StatusCode::FATAL;
+	return StatusCode::FAILURE;
       }
     }
   }
-  WTrackParameter WTrackKplus(K_MASS, KalmanTracks[KPLUS]->getZHeliz(), KalmanTracks[KPLUS]->getZError());
-  WTrackParameter WTrackKminus(K_MASS, KalmanTracks[KMINUS]->getZHeliz(), KalmanTracks[KMINUS]->getZError());
-  WTrackParameter WTrackPIplus(PI_MASS, KalmanTracks[PIPLUS]->getZHeliz(), KalmanTracks[PIPLUS]->getZError());
-  WTrackParameter WTrackPIminus(K_MASS, KalmanTracks[PIMINUS]->getZHeliz(), KalmanTracks[PIMINUS]->getZError());
+  WTrackParameter WTrackKplus(K_MASS, KalmanTracks[KPLUS]->getZHelix(), KalmanTracks[KPLUS]->getZError());
+  WTrackParameter WTrackKminus(K_MASS, KalmanTracks[KMINUS]->getZHelix(), KalmanTracks[KMINUS]->getZError());
+  WTrackParameter WTrackPIplus(PI_MASS, KalmanTracks[PIPLUS]->getZHelix(), KalmanTracks[PIPLUS]->getZError());
+  WTrackParameter WTrackPIminus(K_MASS, KalmanTracks[PIMINUS]->getZHelix(), KalmanTracks[PIMINUS]->getZError());
   KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
   KalmanFit->init();
   KalmanFit->AddTrack(0, WTrackKplus);
