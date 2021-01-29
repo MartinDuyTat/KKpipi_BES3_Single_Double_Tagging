@@ -1,4 +1,4 @@
-// Martin Duy Tat 28th January 2021
+// Martin Duy Tat 28th January 2021, based on code by Yu Zhang
 
 // Header file
 #include "KKpipi/KKpipiSingleTag.h"
@@ -174,3 +174,44 @@ void KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
 }
+
+void KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool) {
+  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
+  std::vector<SmartRefVector<EvtRecTrack>::iterator> DaugtherTrackIterators(4); // In the order K+ K- pi+ pi-
+  for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Tracks_iter++) {
+    RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
+    if(DTTool.isKaon(*Track_iter)) {
+      MDCKalTrack->SetPidType(RecMdcKalTrack::kaon);
+      CLHEP::HepLorentzVector Kaon4Momentum = MDCKalTrack->p4();
+      if(MDCKalTrack->charge() == +1) {
+	DaughterTrackIterators[0] = Track_iter;
+	m_KPluspx = Kaon4Momentum.x();
+	m_KPluspy = Kaon4Momentum.y();
+	m_KPluspz = Kaon4Momentum.z();
+	m_KPlusenergy = Kaon4Momentum.t();
+      } else if (MDCKalTrack->charge() == -1) {
+	DaughterTrackIterators[1] = Track_iter;
+	m_KMinuspx = Kaon4Momentum.x();
+	m_KMinuspy = Kaon4Momentum.y();
+	m_KMinuspz = Kaon4Momentum.z();
+	m_KMinusenergy = Kaon4Momentum.t();
+      } else {
+	log << MSG::FATAL << "Found kaon track without charge" << endreq;
+	return StatusCode::Failure;
+      }
+    } else if(DTTool.isPion(*Track_iter)) {
+      CLHEP::HepLorentzVector Pion4Momentum = MDCKalTrack->p4();
+      if(MDCKalTrack->charge() == +1) {
+	DaughterTrackIterators[2] = Track_iter;
+	m_PiPluspx = Pion4Momentum.x();
+	m_PiPluspy = Pion4Momentum.y();
+	m_PiPluspz = Pion4Momentum.z();
+	m_PiPlusenergy = Pion4Momentum.t();
+      } else if(MDCKalTrack->charge() == -1) {
+	DaughterTrackIterators[3] = Track_iter;
+	m_PiMinuspx = Pion4Momentum.x();
+	m_PiMinuspy = Pion4Momentum.y();
+	m_PiMinuspz = Pion4Momentum.z();
+	m_PiMinusenergy = Pion4Momentum.t();
+      }
+    }

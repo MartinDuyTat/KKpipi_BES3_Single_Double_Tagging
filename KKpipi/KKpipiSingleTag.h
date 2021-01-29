@@ -1,4 +1,4 @@
-// Martin Duy Tat 28th January 2021
+// Martin Duy Tat 28th January 2021, based on code by Yu Zhang
 /**
  * KKpipiSingleTag is a class for a BOSS algorithm
  * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a single \f$D\to K^+K^-\pi^+\pi^-\f$ tag
@@ -46,6 +46,12 @@ class KKpipiSingleTag: public Algorithm {
      * @param DTTool_iter Iterator pointing to single tag candidate
      */
     void AssignTagInfo(DTagToolIterator DTTool_iter);
+    /**
+     * Helper function to fill in information about the \f$D\f$ daughters
+     * @param DTTool_iter Iterator pointing to single tag candidate
+     * @param DTTool DTagTool object with all the tag information
+     */
+    void AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool);
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later
