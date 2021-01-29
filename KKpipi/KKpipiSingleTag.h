@@ -54,7 +54,7 @@ class KKpipiSingleTag: public Algorithm {
     /**
      * The NTuple itself that is filled
      */
-    NTuple::tuple *m_tuple;
+    NTuple::Tuple *m_tuple;
     /**
      * Run number (negative for MC event)
      */
@@ -88,7 +88,7 @@ class KKpipiSingleTag: public Algorithm {
     /**
      * Array of particle IDs of all particles in the decay chain at a generator level
      */
-    Ntuple::Array<int> m_GeneratorPDGID;
+    NTuple::Array<int> m_GeneratorPDGID;
     /**
      * Array of particle IDs of the mother particles at a generator level
      */

@@ -33,7 +33,7 @@ KKpipiSingleTag::KKpipiSingleTag(const std::string &name, ISvcLocator *pSvcLocat
 KKpipiSingleTag::~KKpipiSingleTag() {
 }
 
-KKpipiSingleTag::initialize() {
+StatusCode KKpipiSingleTag::initialize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Initializing KKpipi Single Tagging" << endreq;
   Statuscode status;
@@ -88,7 +88,7 @@ KKpipiSingleTag::initialize() {
   }
 }
 
-StatusCode KKpipiSingleTat::execute() {
+StatusCode KKpipiSingleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing KKpipi Single Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> = EventHeader(eventSvc(), "/Event/EventHeader");
