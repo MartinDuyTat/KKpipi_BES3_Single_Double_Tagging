@@ -210,12 +210,11 @@ StatusCode KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool) {
+StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(4); // In the order K+ K- pi+ pi-
   std::vector<RecMdcKalTrack*> KalmanTracks(4); //In the order K+ K- pi+ pi-
-  SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin();
-  for(; Track_iter != Tracks.end(); Track_iter++) {
+  for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(DTTool.isKaon(*Track_iter)) {
       MDCKalTrack->setPidType(RecMdcKalTrack::kaon);
