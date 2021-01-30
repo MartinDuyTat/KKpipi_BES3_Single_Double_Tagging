@@ -268,7 +268,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
   KalmanFit->AddTrack(1, WTrackKminus);
   KalmanFit->AddTrack(2, WTrackPIplus);
   KalmanFit->AddTrack(3, WTrackPIminus);
-  KalmanFit->AddResonance(0, D_MASS, 0, 1, 2, 3, 4);
+  KalmanFit->AddResonance(0, D_MASS, 0, 1, 2, 3);
   m_KalmanFitSuccess = KalmanFit->Fit();
   std::vector<CLHEP::HepLorentzVector> FourMomentumFit(4);
   if(m_KalmanFitSuccess) {
