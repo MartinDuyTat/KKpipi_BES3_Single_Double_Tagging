@@ -272,20 +272,20 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
     }
   }
   m_KPluspxKalmanFit = FourMomentumFit[KPLUS].x();
-  m_KPluspxKalmanFit = FourMomentumFit[KPLUS].y();
-  m_KPluspxKalmanFit = FourMomentumFit[KPLUS].z();
-  m_KPluspxKalmanFit = FourMomentumFit[KPLUS].t();
+  m_KPluspyKalmanFit = FourMomentumFit[KPLUS].y();
+  m_KPluspzKalmanFit = FourMomentumFit[KPLUS].z();
+  m_KPlusenergyKalmanFit = FourMomentumFit[KPLUS].t();
   m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].x();
-  m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].y();
-  m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].z();
-  m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].t();
+  m_KMinuspyKalmanFit = FourMomentumFit[KMINUS].y();
+  m_KMinuspzKalmanFit = FourMomentumFit[KMINUS].z();
+  m_KMinusenergyKalmanFit = FourMomentumFit[KMINUS].t();
   m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].x();
-  m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].y();
-  m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].z();
-  m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].t();
+  m_PiPluspyKalmanFit = FourMomentumFit[PIPLUS].y();
+  m_PiPluspzKalmanFit = FourMomentumFit[PIPLUS].z();
+  m_PiPlusenergyKalmanFit = FourMomentumFit[PIPLUS].t();
   m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].x();
-  m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].y();
-  m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].z();
-  m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].t();
+  m_PiMinuspyKalmanFit = FourMomentumFit[PIMINUS].y();
+  m_PiMinuspzKalmanFit = FourMomentumFit[PIMINUS].z();
+  m_PiMinusenergyKalmanFit = FourMomentumFit[PIMINUS].t();
   return StatusCode::SUCCESS;
 }
