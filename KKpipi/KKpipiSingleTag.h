@@ -50,7 +50,7 @@ class KKpipiSingleTag: public Algorithm {
      * @param DTTool_iter Iterator pointing to single tag candidate
      * @param DTTool DTagTool object with all the tag information
      */
-    StatusCode AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, const DTagTool &DTTool);
+    StatusCode AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool);
     /**
      * Enumeration to label daughter particles in the order K+ K- pi+ pi-
      */
