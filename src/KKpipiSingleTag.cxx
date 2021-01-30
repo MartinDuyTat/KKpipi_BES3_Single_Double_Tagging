@@ -233,8 +233,6 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
 	m_KMinuspy = Kaon4Momentum.y();
 	m_KMinuspz = Kaon4Momentum.z();
 	m_KMinusenergy = Kaon4Momentum.t();
-      } else {
-	return StatusCode::FAILURE;
       }
     } else if(DTTool.isPion(*Track_iter)) {
       MDCKalTrack->setPidType(RecMdcKalTrack::pion);
@@ -253,8 +251,6 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
 	m_PiMinuspy = Pion4Momentum.y();
 	m_PiMinuspz = Pion4Momentum.z();
 	m_PiMinusenergy = Pion4Momentum.t();
-      } else {
-	return StatusCode::FAILURE;
       }
     }
   }
@@ -293,4 +289,5 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
   m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].y();
   m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].z();
   m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].t();
+  return StatusCode::SUCCESS;
 }
