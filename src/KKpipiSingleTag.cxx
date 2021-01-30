@@ -217,8 +217,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(DTTool.isKaon(*Track_iter)) {
-      MDCKalTrack->setPidType(RecMdcKalTrack::kaon);
-      CLHEP::HepLorentzVector Kaon4Momentum = MDCKalTrack->p4();
+      CLHEP::HepLorentzVector Kaon4Momentum = MDCKalTrack->p4(K_MASS);
       if(MDCKalTrack->charge() == +1) {
 	DaughterTrackIterators[KPLUS] = Track_iter;
 	KalmanTracks[KPLUS] = MDCKalTrack;
@@ -235,8 +234,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
 	m_KMinusenergy = Kaon4Momentum.t();
       }
     } else if(DTTool.isPion(*Track_iter)) {
-      MDCKalTrack->setPidType(RecMdcKalTrack::pion);
-      CLHEP::HepLorentzVector Pion4Momentum = MDCKalTrack->p4();
+      CLHEP::HepLorentzVector Pion4Momentum = MDCKalTrack->p4(PI_MASS);
       if(MDCKalTrack->charge() == +1) {
 	DaughterTrackIterators[PIPLUS] = Track_iter;
 	KalmanTracks[PIPLUS] = MDCKalTrack;
