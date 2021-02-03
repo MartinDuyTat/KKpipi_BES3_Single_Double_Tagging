@@ -167,7 +167,7 @@ StatusCode KKpipiSingleTag::execute() {
       m_TruePx[i] = TruePx[i];
       m_TruePy[i] = TruePy[i];
       m_TruePz[i] = TruePz[i];
-      m_TrueEnergy[i] = TruePEnergy[i];
+      m_TrueEnergy[i] = TrueEnergy[i];
     }
   }
   DTagTool DTTool;
