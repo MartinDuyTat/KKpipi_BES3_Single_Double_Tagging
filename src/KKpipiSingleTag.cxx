@@ -63,9 +63,6 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addIndexedItem("ParticleIDs", m_NumberParticles, m_pdgID);
       status = m_tuple->addIndexedItem("MotherIndex", m_NumberParticles, m_MotherIndex);
       status = m_tuple->addItem("MCmode", m_MCmode);
-      status = m_tuple->addItem("GeneratorNumberOfParticles", m_GeneratorNumberParticles, 0, 100);
-      status = m_tuple->addIndexedItem("GeneratorParticleIDs", m_GeneratorNumberParticles, m_GeneratorPDGID);
-      status = m_tuple->addIndexedItem("GeneratorMotherID", m_GeneratorNumberParticles, m_MotherID);
       status = m_tuple->addIndexedItem("True_Px", m_NumberParticles, m_TruePx);
       status = m_tuple->addIndexedItem("True_Py", m_NumberParticles, m_TruePy);
       status = m_tuple->addIndexedItem("True_Pz", m_NumberParticles, m_TruePz);
@@ -134,19 +131,10 @@ StatusCode KKpipiSingleTag::execute() {
     }
     std::vector<int> pdgID, MotherIndex;
     std::vector<double> TruePx, TruePy, TruePz, TrueEnergy;
-    int ParticleNumber = 0;
     for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
       if((*MCParticleCol_iter)->primaryParticle() || !(*MCParticleCol_iter)->decayFromGenerator()) {
 	continue;
       }
-      /*CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
-      m_TruePx[ParticleNumber] = initialP.x();
-      m_TruePy[ParticleNumber] = initialP.y();
-      m_TruePz[ParticleNumber] = initialP.z();
-      m_TrueEnergy[ParticleNumber] = initialP.t();*/
-      m_GeneratorPDGID[ParticleNumber] = (*MCParticleCol_iter)->particleProperty();
-      m_MotherID[ParticleNumber] = (*MCParticleCol_iter)->mother().particleProperty();
-      ++ParticleNumber;
       if((*MCParticleCol_iter)->particleProperty() == 30443) {
 
 	IMcDecayModeSvc *IMcDecayModeService;
@@ -159,7 +147,6 @@ StatusCode KKpipiSingleTag::execute() {
 	m_MCmode = McDecayModeService->extract(*MCParticleCol_iter, pdgID, MotherIndex, TruePx, TruePy, TruePz, TrueEnergy);
       }
     }
-    m_GeneratorNumberParticles = ParticleNumber;
     m_NumberParticles = pdgID.size();
     for(int i = 0; i < m_NumberParticles; i++) {
       m_pdgID[i] = pdgID[i];

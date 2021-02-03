@@ -91,18 +91,6 @@ class KKpipiSingleTag: public Algorithm {
      */
     NTuple::Item<int> m_MCmode;
     /**
-     * Number of particles at generator level
-     */
-    NTuple::Item<int> m_GeneratorNumberParticles;
-    /**
-     * Array of particle IDs of all particles in the decay chain at a generator level
-     */
-    NTuple::Array<int> m_GeneratorPDGID;
-    /**
-     * Array of particle IDs of the mother particles at a generator level
-     */
-    NTuple::Array<int> m_MotherID;
-    /**
      * True x momentum of the \f$D\f$ meson
      */
     NTuple::Array<double> m_TruePx;
