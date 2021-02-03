@@ -66,10 +66,10 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("GeneratorNumberOfParticles", m_GeneratorNumberParticles, 0, 100);
       status = m_tuple->addIndexedItem("GeneratorParticleIDs", m_GeneratorNumberParticles, m_GeneratorPDGID);
       status = m_tuple->addIndexedItem("GeneratorMotherID", m_GeneratorNumberParticles, m_MotherID);
-      status = m_tuple->addIndexedItem("True_Px", m_GeneratorNumberParticles, m_TruePx);
-      status = m_tuple->addIndexedItem("True_Py", m_GeneratorNumberParticles, m_TruePy);
-      status = m_tuple->addIndexedItem("True_Pz", m_GeneratorNumberParticles, m_TruePz);
-      status = m_tuple->addIndexedItem("True_Energy", m_GeneratorNumberParticles, m_TrueEnergy);
+      status = m_tuple->addIndexedItem("True_Px", m_NumberParticles, m_TruePx);
+      status = m_tuple->addIndexedItem("True_Py", m_NumberParticles, m_TruePy);
+      status = m_tuple->addIndexedItem("True_Pz", m_NumberParticles, m_TruePz);
+      status = m_tuple->addIndexedItem("True_Energy", m_NumberParticles, m_TrueEnergy);
       status = m_tuple->addItem("DMass", m_DMass);
       status = m_tuple->addItem("MBC", m_MBC);
       status = m_tuple->addItem("DeltaE", m_DeltaE);
