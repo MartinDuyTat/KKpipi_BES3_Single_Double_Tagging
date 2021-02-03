@@ -66,10 +66,10 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("GeneratorNumberOfParticles", m_GeneratorNumberParticles, 0, 100);
       status = m_tuple->addIndexedItem("GeneratorParticleIDs", m_GeneratorNumberParticles, m_GeneratorPDGID);
       status = m_tuple->addIndexedItem("GeneratorMotherID", m_GeneratorNumberParticles, m_MotherID);
-      status = m_tuple->addIndexedItem("True_P", m_GeneratorNumberParticles, m_TrueMomentum);
-      status = m_tuple->addIndexedItem("True_PT", m_GeneratorNumberParticles, m_TruePT);
-      status = m_tuple->addIndexedItem("True_phi", m_GeneratorNumberParticles, m_TruePhi);
-      status = m_tuple->addIndexedItem("True_theta", m_GeneratorNumberParticles, m_TrueTheta);
+      status = m_tuple->addIndexedItem("True_Px", m_GeneratorNumberParticles, m_TruePx);
+      status = m_tuple->addIndexedItem("True_Py", m_GeneratorNumberParticles, m_TruePy);
+      status = m_tuple->addIndexedItem("True_Pz", m_GeneratorNumberParticles, m_TruePz);
+      status = m_tuple->addIndexedItem("True_Energy", m_GeneratorNumberParticles, m_TrueEnergy);
       status = m_tuple->addItem("DMass", m_DMass);
       status = m_tuple->addItem("MBC", m_MBC);
       status = m_tuple->addItem("DeltaE", m_DeltaE);
@@ -139,10 +139,10 @@ StatusCode KKpipiSingleTag::execute() {
 	continue;
       }
       CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
-      m_TrueMomentum[ParticleNumber] = initialP.mag();
-      m_TruePT[ParticleNumber] = initialP.perp();
-      m_TruePhi[ParticleNumber] = initialP.phi();
-      m_TrueTheta[ParticleNumber] = initialP.cosTheta();
+      m_TruePx[ParticleNumber] = initialP.x();
+      m_TruePy[ParticleNumber] = initialP.y();
+      m_TruePz[ParticleNumber] = initialP.z();
+      m_TrueEnergy[ParticleNumber] = initialP.t();
       m_GeneratorPDGID[ParticleNumber] = (*MCParticleCol_iter)->particleProperty();
       m_MotherID[ParticleNumber] = (*MCParticleCol_iter)->mother().particleProperty();
       ++ParticleNumber;
