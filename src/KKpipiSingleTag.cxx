@@ -133,16 +133,17 @@ StatusCode KKpipiSingleTag::execute() {
       return StatusCode::FAILURE;
     }
     std::vector<int> pdgID, MotherIndex;
+    std::vector<double> TruePx, TruePy, TruePz, TrueEnergy;
     int ParticleNumber = 0;
     for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
       if((*MCParticleCol_iter)->primaryParticle() || !(*MCParticleCol_iter)->decayFromGenerator()) {
 	continue;
       }
-      CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
+      /*CLHEP::HepLorentzVector initialP = (*MCParticleCol_iter)->initialFourMomentum();
       m_TruePx[ParticleNumber] = initialP.x();
       m_TruePy[ParticleNumber] = initialP.y();
       m_TruePz[ParticleNumber] = initialP.z();
-      m_TrueEnergy[ParticleNumber] = initialP.t();
+      m_TrueEnergy[ParticleNumber] = initialP.t();*/
       m_GeneratorPDGID[ParticleNumber] = (*MCParticleCol_iter)->particleProperty();
       m_MotherID[ParticleNumber] = (*MCParticleCol_iter)->mother().particleProperty();
       ++ParticleNumber;
@@ -155,7 +156,7 @@ StatusCode KKpipiSingleTag::execute() {
           return McDecayModeSVC_Status;
         }
         McDecayModeSvc *McDecayModeService = dynamic_cast<McDecayModeSvc*>(IMcDecayModeService);
-	m_MCmode = McDecayModeService->extract(*MCParticleCol_iter, pdgID, MotherIndex);
+	m_MCmode = McDecayModeService->extract(*MCParticleCol_iter, pdgID, MotherIndex, TruePx, TruePy, TruePz, TrueEnergy);
       }
     }
     m_GeneratorNumberParticles = ParticleNumber;
@@ -163,6 +164,10 @@ StatusCode KKpipiSingleTag::execute() {
     for(int i = 0; i < m_NumberParticles; i++) {
       m_pdgID[i] = pdgID[i];
       m_MotherIndex[i] = MotherIndex[i];
+      m_TruePx[i] = TruePx[i];
+      m_TruePy[i] = TruePy[i];
+      m_TruePz[i] = TruePz[i];
+      m_TrueEnergy[i] = TruePEnergy[i];
     }
   }
   DTagTool DTTool;
