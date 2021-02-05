@@ -11,6 +11,7 @@
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Algorithm.h"
 #include "GaudiKernel/NTuple.h"
+#include "GaudiKernel/StatusCode.h"
 // BOSS
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "DTagTool/DTagTool.h"

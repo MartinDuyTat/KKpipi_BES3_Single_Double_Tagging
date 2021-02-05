@@ -7,7 +7,6 @@
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
 #include "GaudiKernel/MsgStream.h"
-#include "GaudiKernel/ISvcLocator.h"
 #include "GaudiKernel/IHistogramSvc.h"
 #include "GaudiKernel/INTupleSvc.h"
 #include "GaudiKernel/ISvcLocator.h"
@@ -34,11 +33,8 @@
 // STL
 #include<vector>
 #include<string>
-
-// Particle masses, from PDG 2020
-const double D_MASS = 1.86483;
-const double K_MASS = 0.493677;
-const double PI_MASS = 0.13957039;
+// Particle masses
+#include "KKpipi/ParticleMasses.h"
 
 KKpipiSingleTag::KKpipiSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
@@ -209,7 +205,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(DTTool.isKaon(*Track_iter)) {
-      CLHEP::HepLorentzVector Kaon4Momentum = MDCKalTrack->p4(K_MASS);
+      CLHEP::HepLorentzVector Kaon4Momentum = MDCKalTrack->p4(MASS::K_MASS);
       if(MDCKalTrack->charge() == +1) {
 	DaughterTrackIterators[KPLUS] = Track_iter;
 	KalmanTracks[KPLUS] = MDCKalTrack;
@@ -226,7 +222,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
 	m_KMinusenergy = Kaon4Momentum.t();
       }
     } else if(DTTool.isPion(*Track_iter)) {
-      CLHEP::HepLorentzVector Pion4Momentum = MDCKalTrack->p4(PI_MASS);
+      CLHEP::HepLorentzVector Pion4Momentum = MDCKalTrack->p4(MASS::PI_MASS);
       if(MDCKalTrack->charge() == +1) {
 	DaughterTrackIterators[PIPLUS] = Track_iter;
 	KalmanTracks[PIPLUS] = MDCKalTrack;
@@ -244,17 +240,17 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
       }
     }
   }
-  WTrackParameter WTrackKplus(K_MASS, KalmanTracks[KPLUS]->getZHelix(), KalmanTracks[KPLUS]->getZError());
-  WTrackParameter WTrackKminus(K_MASS, KalmanTracks[KMINUS]->getZHelix(), KalmanTracks[KMINUS]->getZError());
-  WTrackParameter WTrackPIplus(PI_MASS, KalmanTracks[PIPLUS]->getZHelix(), KalmanTracks[PIPLUS]->getZError());
-  WTrackParameter WTrackPIminus(PI_MASS, KalmanTracks[PIMINUS]->getZHelix(), KalmanTracks[PIMINUS]->getZError());
+  WTrackParameter WTrackKplus(MASS::K_MASS, KalmanTracks[KPLUS]->getZHelix(), KalmanTracks[KPLUS]->getZError());
+  WTrackParameter WTrackKminus(MASS::K_MASS, KalmanTracks[KMINUS]->getZHelix(), KalmanTracks[KMINUS]->getZError());
+  WTrackParameter WTrackPIplus(MASS::PI_MASS, KalmanTracks[PIPLUS]->getZHelix(), KalmanTracks[PIPLUS]->getZError());
+  WTrackParameter WTrackPIminus(MASS::PI_MASS, KalmanTracks[PIMINUS]->getZHelix(), KalmanTracks[PIMINUS]->getZError());
   KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
   KalmanFit->init();
   KalmanFit->AddTrack(0, WTrackKplus);
   KalmanFit->AddTrack(1, WTrackKminus);
   KalmanFit->AddTrack(2, WTrackPIplus);
   KalmanFit->AddTrack(3, WTrackPIminus);
-  KalmanFit->AddResonance(0, D_MASS, 0, 1, 2, 3);
+  KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2, 3);
   m_KalmanFitSuccess = KalmanFit->Fit();
   std::vector<CLHEP::HepLorentzVector> FourMomentumFit(4);
   if(m_KalmanFitSuccess) {
