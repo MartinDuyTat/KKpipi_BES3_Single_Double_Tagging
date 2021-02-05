@@ -2,6 +2,7 @@
 /**
  * KKpipiSingleTag is a class for a BOSS algorithm
  * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a single \f$D\to K^+K^-\pi^+\pi^-\f$ tag
+ * It also runs a fit for the decay \f$K_S^0\to\pi^+\pi^-\f$ by refitting the primary and secondary vertex in the class FindKS, from this the flight significance is used to eliminate peaking background
  */
 
 #ifndef KKPIPISINGLETAG
@@ -275,6 +276,38 @@ class KKpipiSingleTag: public Algorithm {
      * Kalman fitted \f$K^-\f$ energy
      */
     NTuple::Item<double> m_KMinusenergyKalmanFit;
+    /**
+     * The \f$K_S\f$ decay length, from VeeVertexAlg
+     */
+    NTuple::Item<double> m_DecayLengthVeeVertex;
+    /**
+     * The \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
+     */
+    NTuple::Item<double> m_Chi2VeeVpertex;
+    /**
+     * The \f$K_S^0\f$ mass, from VeeVertexAlg
+     */
+    NTuple::Item<double> m_KSMassVeeVertex;
+    /**
+     * The \f$K_S^0\f$ decay length, from fit
+     */
+    NTuple::Item<double> m_DecayLengthFit;
+    /**
+     * The \f$K_S^0\f$ decay length error, from fit
+     */
+    NTuple::Item<double> m_DecayLengthErrorFit;
+    /**
+     * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
+     */
+    NTuple::Item<double> m_Chi2PrimaryVertexFit;
+    /**
+     * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of seoncdary vertex
+     */
+    NTuple::Item<double> m_Chi2SecondaryVertexFit;
+    /**
+     * The \f$K_S^0\f$ mass, from fit
+     */
+    NTuple::Item<double> m_KSMassFit;
 };
 
 #endif

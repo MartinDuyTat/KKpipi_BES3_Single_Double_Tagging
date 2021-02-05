@@ -105,6 +105,14 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KMinuspyKalmanFit", m_KMinuspyKalmanFit);
       status = m_tuple->addItem("KMinuspzKalmanFit", m_KMinuspzKalmanFit);
       status = m_tuple->addItem("KMinusenergyKalmanFit", m_KMinusenergyKalmanFit);
+      status = m_tuple->addItem("KSDecayLengthVeeVertex", m_DecayLengthVeeVertex);
+      status = m_tuple->addItem("KSChi2VeeVertex", m_Chi2VeeVertex);
+      status = m_tuple->addItem("KSMassVeeVertex", m_KSMassVeeVertex);
+      status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
+      status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
+      status = m_tuple->addItem("KSChi2PrimaryVertexFit", m_Chi2PrimaryVertexFit);
+      status = m_tuple->addItem("KSChi2SecondaryVertexFit", m_Chi2SecondaryVertexFit);
+      status = m_tuple->addItem("KSMassFit", m_KSMassFit);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
