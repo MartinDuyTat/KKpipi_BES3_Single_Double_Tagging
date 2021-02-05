@@ -128,7 +128,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     PrimaryVertexFit->AddTrack(0, WTrackKS);
     PrimaryVertexFit->setVpar(SecondaryVertexFit->vpar(0));
     PrimaryVertexFit->setPrimaryVertex(KSOrigin);
-    if(PrimaryVertexFit()) {
+    if(PrimaryVertexFit()->Fit()) {
       m_DecayLengthFit = PrimaryVertexFit->decayLength();
       m_DecayLengthErrorFit = PrimaryVertexFit->decayLengthError();
       m_Chi2Fit = PrimaryVertexFit->chisq();
