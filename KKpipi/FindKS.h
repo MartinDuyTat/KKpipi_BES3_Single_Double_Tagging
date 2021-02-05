@@ -69,7 +69,7 @@ class FindKS {
     /**
      * The \f$\chi^2\f$, from VeeVertexAlg
      */
-    double m_Chi2VeeVpertex;
+    double m_Chi2VeeVertex;
     /**
      * The \f$K_S^0\f$ mass, from VeeVertexAlg
      */
