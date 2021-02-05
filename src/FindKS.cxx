@@ -17,7 +17,7 @@
 #include "EvtRecEvent/EvtRecDTag.h"
 #include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecTrack.h"
-#include "EvtRecVeeVertex.h"
+#include "EvtRecEvent/EvtRecVeeVertex.h"
 // CLHEP
 #include "CLHEP/Geometry/Point3D.h"
 #include "CLHEP/Matrix/SymMatrix.h"
@@ -34,19 +34,21 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_DecayLengthErrorVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0) {
+FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0) {
 }
 
 FindKS::~FindKS() {
 }
 
-StatusCode findKS(DTagToolIterator &DTTool_iter, const std::vector<int> &PiTrackIndex) {
+StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> &PiTrackIndex) {
+  IMessageSvc *msgSvc;
+  Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");
   // Check if event has two pions
   if(PiTrackIndex.size() != 2) {
     log << MSG::ERROR << "Need two pions to reconstruct KS" << endreq;
   }
-  IDataProvider *eventSvc = nullptr;
+  IDataProviderSvc *eventSvc = nullptr;
   Gaudi::svcLocator()->service("EventDataSvc", eventSvc);
   SmartDataPtr<EvtRecVeeVertexCol> evtRecVeeVertexCol(eventSvc, "/Event/EvtRec/EvtRecVeeVertexCol");
   if(!evtRecVeeVertexCol) {
@@ -55,9 +57,9 @@ StatusCode findKS(DTagToolIterator &DTTool_iter, const std::vector<int> &PiTrack
   // Get tracks in the event
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   // Get Kalman tracks and pion track IDs
-  RecMdcKalTrack *MDCKalmanTrack1 = (*tracks.begin() + PiTrackIndex[0])->mdcKalTrack();
+  RecMdcKalTrack *MDCKalmanTrack1 = (*Tracks.begin() + PiTrackIndex[0])->mdcKalTrack();
   int PiTrackID1 = (*tracks.begin() + PiTrackIndex[0])->trackId();
-  RecMdcKalTrack *MDCKalmanTrack2 = (*tracks.begin() + PiTrackIndex[1])->mdcKalTrack();
+  RecMdcKalTrack *MDCKalmanTrack2 = (*Tracks.begin() + PiTrackIndex[1])->mdcKalTrack();
   int PiTrackID2 = (*tracks.begin() + PiTrackIndex[1])->trackId();
   // Loop over KS in the event (should only be one)
   for(EvtRecVeeVertexCol::iterator KS_iter = evtRecVeeVertexCol->begin(); KS_iter != evtRecVeeVertexCol->end(); KS_iter++) {
@@ -80,7 +82,7 @@ StatusCode findKS(DTagToolIterator &DTTool_iter, const std::vector<int> &PiTrack
     // Get VeeVertexAlg KS mass
     m_KSMassVeeVertex = (*KS_iter)->mass();
     // Set up initial guess for secondary vertex position and error and put into a VertexParameter object
-    CLHEP::Point3D SecondaryVertexPosition(0.0, 0.0, 0.0);
+    CLHEP::HepPoint3D SecondaryVertexPosition(0.0, 0.0, 0.0);
     CLHEP::HepSymMatrix SecondaryVertexError(3, 0);
     SecondaryVertexError[0][0] = 10.0;
     SecondaryVertexError[1][1] = 10.0;
@@ -89,17 +91,17 @@ StatusCode findKS(DTagToolIterator &DTTool_iter, const std::vector<int> &PiTrack
     SecondaryVertexParam.setVx(SecondaryVertexPosition);
     SecondaryVertexParam.setEvx(SecondaryVertexError);
     // Get Kalman fitted pion tracks and their track parameters
-    KSChildKalmanTrack1 = KSChildTrack1->mdcKalTrack();
-    KSChildKalmanTrack2 = KSChildTrack2->mdcKalTrack();
+    RecMdcKalTrack *KSChildKalmanTrack1 = KSChildTrack1->mdcKalTrack();
+    RecMdcKalTrack *KSChildKalmanTrack2 = KSChildTrack2->mdcKalTrack();
     WTrackParameter WTrackPion1(MASS::PI_MASS, KSChildKalmanTrack1->helix(), KSChildKalmanTrack1->err());
     WTrackParameter WTrackPion2(MASS::PI_MASS, KSChildKalmanTrack2->helix(), KSChildKalmanTrack2->err());
     // Start fitting secondary vertex
     VertexFit *SecondaryVertexFit = VertexFit::instance();
     SecondaryVertexFit->AddTrack(0, WTrackPion1);
     SecondaryVertexFit->AddTrack(1, WTrackPion2);
-    SecondaryVertexFit->AddVertex(0, SecondaryVertexParam);
+    SecondaryVertexFit->AddVertex(0, SecondaryVertexParam, 0, 1);
     SecondaryVertexFit->Fit(0);
-    SecondaryVertexFit->BuildVirtualPaticle(0);
+    SecondaryVertexFit->BuildVirtualParticle(0);
     // Save fitted track parameters of the KS
     WTrackParameter WTrackKS = SecondaryVertexFit->wVirtualTrack(0);
     // Get VertexDbSvc, which determines the average beam position for each run
