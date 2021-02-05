@@ -137,3 +137,31 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     return StatusCode::SUCCESS;
   }
 }
+
+double FindKS::getDecayLengthVeeVertex() const {
+  return m_DecayLengthVeeVertex();
+}
+
+double FindKS::getChi2VeeVertex() const {
+  return m_Chi2VeeVertex();
+}
+
+double FindKS::getKSMassVeeVertex() const {
+  return m_KSMassVeeVertex();
+}
+
+double FindKS::getDecayLengthFit() const {
+  return m_DecayLengthFit();
+}
+
+double FindKS::getDecayLengthErrorFit() const {
+  return m_DecayLengthErrorFit();
+}
+
+double FindKS::getChi2Fit() const {
+  return m_Chi2Fit();
+}
+
+double FindKS::getKSMassFit() const {
+  return m_KSMassFit();
+}
