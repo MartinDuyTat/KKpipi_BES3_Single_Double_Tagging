@@ -163,5 +163,5 @@ double FindKS::getChi2Fit() const {
 }
 
 double FindKS::getKSMassFit() const {
-  return m_KSMassFit();
+  return m_KSMassFit;
 }
