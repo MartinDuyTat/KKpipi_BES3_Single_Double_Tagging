@@ -58,9 +58,9 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   // Get Kalman tracks and pion track IDs
   RecMdcKalTrack *MDCKalmanTrack1 = (*Tracks.begin() + PiTrackIndex[0])->mdcKalTrack();
-  int PiTrackID1 = (*tracks.begin() + PiTrackIndex[0])->trackId();
+  int PiTrackID1 = (*Tracks.begin() + PiTrackIndex[0])->trackId();
   RecMdcKalTrack *MDCKalmanTrack2 = (*Tracks.begin() + PiTrackIndex[1])->mdcKalTrack();
-  int PiTrackID2 = (*tracks.begin() + PiTrackIndex[1])->trackId();
+  int PiTrackID2 = (*Tracks.begin() + PiTrackIndex[1])->trackId();
   // Loop over KS in the event (should only be one)
   for(EvtRecVeeVertexCol::iterator KS_iter = evtRecVeeVertexCol->begin(); KS_iter != evtRecVeeVertexCol->end(); KS_iter++) {
     // Get KS daughter tracks
@@ -82,7 +82,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     // Get VeeVertexAlg KS mass
     m_KSMassVeeVertex = (*KS_iter)->mass();
     // Set up initial guess for secondary vertex position and error and put into a VertexParameter object
-    CLHEP::HepPoint3D SecondaryVertexPosition(0.0, 0.0, 0.0);
+    HepPoint3D SecondaryVertexPosition(0.0, 0.0, 0.0);
     CLHEP::HepSymMatrix SecondaryVertexError(3, 0);
     SecondaryVertexError[0][0] = 10.0;
     SecondaryVertexError[1][1] = 10.0;
@@ -114,8 +114,8 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     double *PVertex = VertexService->PrimaryVertex();
     double *SigmaPV = VertexService->SigmaPrimaryVertex();
     // Put parameters into a VertexParameter object for fitting
-    CLHEP::HepPoint3D PrimaryVertex(PVertex[0], PVertex[1], PVertex[2]);
-    CLHEP::SymMatrix PVError(3, 0);
+    HepPoint3D PrimaryVertex(PVertex[0], PVertex[1], PVertex[2]);
+    CLHEP::HepSymMatrix PVError(3, 0);
     PVError[0][0] = SigmaPV[0]*SigmaPV[0];
     PVError[1][1] = SigmaPV[1]*SigmaPV[1];
     PVError[2][2] = SigmaPV[2]*SigmaPV[2];
