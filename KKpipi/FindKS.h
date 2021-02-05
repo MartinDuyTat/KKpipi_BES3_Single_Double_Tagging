@@ -28,7 +28,7 @@ class FindKS {
      * @param DTTool_iter DTagTool iterator pointing to the event with the tag
      * @param PiTrackIndex List of length 2 with track indices to the two pions in the event
      */
-    StatusCode findKS(DTagToolIterator &DTTool_iter, std::vector<int> &PiTrackIndex);
+    StatusCode findKS(DTagToolIterator &DTTool_iter, const std::vector<int> &PiTrackIndex);
   private:
     /**
      * The decay length, from VeeVertexAlg
