@@ -131,7 +131,8 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     if(PrimaryVertexFit->Fit()) {
       m_DecayLengthFit = PrimaryVertexFit->decayLength();
       m_DecayLengthErrorFit = PrimaryVertexFit->decayLengthError();
-      m_Chi2Fit = PrimaryVertexFit->chisq();
+      m_Chi2PrimaryVertexFit = PrimaryVertexFit->chisq();
+      m_Chi2SecondaryVertexFit = SecondaryVertexFit->chisq();
       m_KSMassFit = PrimaryVertexFit->p4par().m();
     }
     return StatusCode::SUCCESS;
@@ -158,8 +159,12 @@ double FindKS::getDecayLengthErrorFit() const {
   return m_DecayLengthErrorFit;
 }
 
-double FindKS::getChi2Fit() const {
-  return m_Chi2Fit;
+double FindKS::getChi2PrimaryVertexFit() const {
+  return m_Chi2PrimaryVertexFit;
+}
+
+double FindKS::getChi2PrimaryVertexFit() const {
+  return m_Chi2SecondaryVertexFit;
 }
 
 double FindKS::getKSMassFit() const {

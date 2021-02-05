@@ -50,9 +50,13 @@ class FindKS {
      */
     double getDecayLengthErrorFit() const;
     /** 
-     * Get \f$\chi^2\f$ from fit
+     * Get \f$\chi^2\f$ from fit of primary vertex
      */
-    double getChi2Fit() const;
+    double getChi2PrimaryVertexFit() const;
+    /** 
+     * Get \f$\chi^2\f$ from fit of secondary vertex
+     */
+    double getChi2SecondaryVertexFit() const;
     /** 
      * Get \f$K_S^0\f$ from fit
      */
@@ -65,7 +69,7 @@ class FindKS {
     /**
      * The \f$\chi^2\f$, from VeeVertexAlg
      */
-    double m_Chi2VeeVertex;
+    double m_Chi2VeeVpertex;
     /**
      * The \f$K_S^0\f$ mass, from VeeVertexAlg
      */
@@ -79,9 +83,13 @@ class FindKS {
      */
     double m_DecayLengthErrorFit;
     /**
-     * The \f$\chi^2\f$, from fit
+     * The \f$\chi^2\f$, from fit of primary vertex
      */
-    double m_Chi2Fit;
+    double m_Chi2PrimaryVertexFit;
+    /**
+     * The \f$\chi^2\f$, from fit of secondary vertex
+     */
+    double m_Chi2SecondaryVertexFit;
     /**
      * The \f$K_S^0\f$ mass, from fit
      */
