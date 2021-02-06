@@ -86,9 +86,9 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     // Set up initial guess for secondary vertex position and error and put into a VertexParameter object
     HepPoint3D SecondaryVertexPosition(0.0, 0.0, 0.0);
     CLHEP::HepSymMatrix SecondaryVertexError(3, 0);
-    SecondaryVertexError[0][0] = 1e12;
-    SecondaryVertexError[1][1] = 1e12;
-    SecondaryVertexError[2][2] = 1e12;
+    SecondaryVertexError[0][0] = 100.0;
+    SecondaryVertexError[1][1] = 100.0;
+    SecondaryVertexError[2][2] = 100.0;
     VertexParameter SecondaryVertexParam;
     SecondaryVertexParam.setVx(SecondaryVertexPosition);
     SecondaryVertexParam.setEvx(SecondaryVertexError);
@@ -101,6 +101,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     WTrackParameter WTrackPion2(MASS::PI_MASS, KSChildKalmanTrack2->helix(), KSChildKalmanTrack2->err());
     // Start fitting secondary vertex
     VertexFit *SecondaryVertexFit = VertexFit::instance();
+    SecondaryVertexFit->init();
     SecondaryVertexFit->AddTrack(0, WTrackPion1);
     SecondaryVertexFit->AddTrack(1, WTrackPion2);
     SecondaryVertexFit->AddVertex(0, SecondaryVertexParam, 0, 1);
