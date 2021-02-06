@@ -34,6 +34,8 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
+#include<iostream>// remove
+
 FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2PrimaryVertexFit(0.0), m_Chi2SecondaryVertexFit(0.0), m_KSMassFit(0.0) {
 }
 
@@ -84,9 +86,11 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     // Set up initial guess for secondary vertex position and error and put into a VertexParameter object
     HepPoint3D SecondaryVertexPosition(0.0, 0.0, 0.0);
     CLHEP::HepSymMatrix SecondaryVertexError(3, 0);
-    SecondaryVertexError[0][0] = 10.0;
-    SecondaryVertexError[1][1] = 10.0;
-    SecondaryVertexError[2][2] = 10.0;
+    std::cout << "One!\n"; // remove
+    SecondaryVertexError[0][0] = 1e6;
+    SecondaryVertexError[1][1] = 1e6;
+    SecondaryVertexError[2][2] = 1e6;
+    std::cout << "Two!\n"; // remove
     VertexParameter SecondaryVertexParam;
     SecondaryVertexParam.setVx(SecondaryVertexPosition);
     SecondaryVertexParam.setEvx(SecondaryVertexError);
@@ -116,9 +120,11 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     // Put parameters into a VertexParameter object for fitting
     HepPoint3D PrimaryVertex(PVertex[0], PVertex[1], PVertex[2]);
     CLHEP::HepSymMatrix PVError(3, 0);
+    std::cout << "Three!\n"; // remove
     PVError[0][0] = SigmaPV[0]*SigmaPV[0];
     PVError[1][1] = SigmaPV[1]*SigmaPV[1];
     PVError[2][2] = SigmaPV[2]*SigmaPV[2];
+    std::cout << "Four!\n"; // remove
     VertexParameter KSOrigin;
     KSOrigin.setVx(PrimaryVertex);
     KSOrigin.setEvx(PVError);
