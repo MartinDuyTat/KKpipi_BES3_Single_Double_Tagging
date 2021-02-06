@@ -65,6 +65,10 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
   int PiTrackID2 = (*Tracks.begin() + PiTrackIndex[1])->trackId();
   // Loop over KS in the event (should only be one)
   for(EvtRecVeeVertexCol::iterator KS_iter = evtRecVeeVertexCol->begin(); KS_iter != evtRecVeeVertexCol->end(); KS_iter++) {
+    // Check if the vertex is actually a KS
+    if((*KS_iter)->vertexId() != 310) {
+      continue;
+    }
     // Get KS daughter tracks
     EvtRecTrack *KSChildTrack1 = (*KS_iter)->daughter(0);
     EvtRecTrack *KSChildTrack2 = (*KS_iter)->daughter(1);
