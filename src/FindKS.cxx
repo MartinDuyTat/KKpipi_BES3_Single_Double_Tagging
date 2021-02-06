@@ -95,6 +95,8 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     // Get Kalman fitted pion tracks and their track parameters
     RecMdcKalTrack *KSChildKalmanTrack1 = KSChildTrack1->mdcKalTrack();
     RecMdcKalTrack *KSChildKalmanTrack2 = KSChildTrack2->mdcKalTrack();
+    KSChildKalmanTrack1->setPidType(RecMdcKalTrack::pion);
+    KSChildKalmanTrack2->setPidType(RecMdcKalTrack::pion);
     WTrackParameter WTrackPion1(MASS::PI_MASS, KSChildKalmanTrack1->helix(), KSChildKalmanTrack1->err());
     WTrackParameter WTrackPion2(MASS::PI_MASS, KSChildKalmanTrack2->helix(), KSChildKalmanTrack2->err());
     // Start fitting secondary vertex
