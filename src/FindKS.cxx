@@ -86,9 +86,9 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     // Set up initial guess for secondary vertex position and error and put into a VertexParameter object
     HepPoint3D SecondaryVertexPosition(0.0, 0.0, 0.0);
     CLHEP::HepSymMatrix SecondaryVertexError(3, 0);
-    SecondaryVertexError[0][0] = 10.0;
-    SecondaryVertexError[1][1] = 10.0;
-    SecondaryVertexError[2][2] = 10.0;
+    SecondaryVertexError[0][0] = 1e12;
+    SecondaryVertexError[1][1] = 1e12;
+    SecondaryVertexError[2][2] = 1e12;
     VertexParameter SecondaryVertexParam;
     SecondaryVertexParam.setVx(SecondaryVertexPosition);
     SecondaryVertexParam.setEvx(SecondaryVertexError);
