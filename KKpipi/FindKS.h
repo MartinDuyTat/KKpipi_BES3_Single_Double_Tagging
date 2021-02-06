@@ -4,8 +4,8 @@
  * In addition, the secondary vertex is fitted again using the \f$\pi^+\pi^-\f$ tracks and a primary vertex is fitted using the vertex parameters from the secondary vertex fit
  */
 
-#ifndef KKPIPISINGLETAG
-#define KKPIPISINGLETAG
+#ifndef FINDKS
+#define FINDKS
 // Gaudi
 #include "GaudiKernel/StatusCode.h"
 // BOSS

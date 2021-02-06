@@ -283,7 +283,7 @@ class KKpipiSingleTag: public Algorithm {
     /**
      * The \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
      */
-    NTuple::Item<double> m_Chi2VeeVpertex;
+    NTuple::Item<double> m_Chi2VeeVertex;
     /**
      * The \f$K_S^0\f$ mass, from VeeVertexAlg
      */
