@@ -137,6 +137,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     }
     return StatusCode::SUCCESS;
   }
+  return StatusCode::FAILURE;
 }
 
 double FindKS::getDecayLengthVeeVertex() const {

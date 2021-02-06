@@ -1,7 +1,8 @@
 // Martin Duy Tat 28th January 2021, based on code by Yu Zhang
 
-// Header file
+// KKpipi
 #include "KKpipi/KKpipiSingleTag.h"
+#include "KKpipi/FindKS.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -283,5 +284,17 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
   m_PiMinuspyKalmanFit = FourMomentumFit[PIMINUS].y();
   m_PiMinuspzKalmanFit = FourMomentumFit[PIMINUS].z();
   m_PiMinusenergyKalmanFit = FourMomentumFit[PIMINUS].t();
+  FindKS findKS;
+  StatusCode statuscode = findKS.findKS(DTTool_iter, {KalmanTracks[PIPLUS]->trackId(), KalmanTracks[PIMINUS]->trackId()});
+  if(statuscode == StatusCode::SUCCESS) {
+    m_DecayLengthVeeVertex = findKS.getDecayLengthVeeVertex();
+    m_Chi2VeeVertex = findKS.getChi2VeeVertex();
+    m_KSMassVeeVertex = findKS.getKSMassVeeVertex();
+    m_DecayLengthFit = findKS.getDecayLengthFit();
+    m_DecayLengthErrorFit = findKS.getDecayLengthError();
+    m_Chi2PrimaryVertexFit = findKS.getChi2PrimaryVertexFit();
+    m_Chi2SecondaryVertexFit = findKS.getChi2SecondaryVertexFit();
+    m_KSMassFit = findKS.getKSMassFit();
+  }
   return StatusCode::SUCCESS;
 }
