@@ -34,8 +34,6 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-#include<iostream>// remove
-
 FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2PrimaryVertexFit(0.0), m_Chi2SecondaryVertexFit(0.0), m_KSMassFit(0.0) {
 }
 
@@ -49,12 +47,14 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
   // Check if event has two pions
   if(PiTrackIndex.size() != 2) {
     log << MSG::ERROR << "Need two pions to reconstruct KS" << endreq;
+    return StatusCode::FAILURE;
   }
   IDataProviderSvc *eventSvc = nullptr;
   Gaudi::svcLocator()->service("EventDataSvc", eventSvc);
   SmartDataPtr<EvtRecVeeVertexCol> evtRecVeeVertexCol(eventSvc, "/Event/EvtRec/EvtRecVeeVertexCol");
   if(!evtRecVeeVertexCol) {
     log << MSG::ERROR << "EvtRecVeeVertexCol not found" << endreq;
+    return StatusCode::FAILURE;
   }
   // Get tracks in the event
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
@@ -105,14 +105,10 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     SecondaryVertexFit->AddTrack(0, WTrackPion1);
     SecondaryVertexFit->AddTrack(1, WTrackPion2);
     SecondaryVertexFit->AddVertex(0, SecondaryVertexParam, 0, 1);
-    std::cout << "One!\n"; //remove
     SecondaryVertexFit->Fit(0);
-    std::cout << "Two!\n"; //remove
     SecondaryVertexFit->BuildVirtualParticle(0);
-    std::cout << "Three!\n"; //remove
     // Save fitted track parameters of the KS
     WTrackParameter WTrackKS = SecondaryVertexFit->wVirtualTrack(0);
-    std::cout << "Four!\n"; // remove
     // Get VertexDbSvc, which determines the average beam position for each run
     IVertexDbSvc *VertexService;
     Gaudi::svcLocator()->service("VertexDbSvc", VertexService);
@@ -125,11 +121,9 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
     // Put parameters into a VertexParameter object for fitting
     HepPoint3D PrimaryVertex(PVertex[0], PVertex[1], PVertex[2]);
     CLHEP::HepSymMatrix PVError(3, 0);
-    std::cout << "Three!\n"; // remove
     PVError[0][0] = SigmaPV[0]*SigmaPV[0];
     PVError[1][1] = SigmaPV[1]*SigmaPV[1];
     PVError[2][2] = SigmaPV[2]*SigmaPV[2];
-    std::cout << "Four!\n"; // remove
     VertexParameter KSOrigin;
     KSOrigin.setVx(PrimaryVertex);
     KSOrigin.setEvx(PVError);
@@ -145,8 +139,8 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
       m_Chi2PrimaryVertexFit = PrimaryVertexFit->chisq();
       m_Chi2SecondaryVertexFit = SecondaryVertexFit->chisq();
       m_KSMassFit = PrimaryVertexFit->p4par().m();
+      return StatusCode::SUCCESS;
     }
-    return StatusCode::SUCCESS;
   }
   return StatusCode::FAILURE;
 }
