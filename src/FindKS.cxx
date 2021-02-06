@@ -34,7 +34,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2PrimaryVertexFit(0.0), m_Chi2SecondaryVertex(0.0), m_KSMassFit(0.0) {
+FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2PrimaryVertexFit(0.0), m_Chi2SecondaryVertexFit(0.0), m_KSMassFit(0.0) {
 }
 
 FindKS::~FindKS() {
