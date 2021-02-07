@@ -286,8 +286,8 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
   m_PiMinusenergyKalmanFit = FourMomentumFit[PIMINUS].t();
   FindKS findKS;
   std::vector<int> PionTracks;
-  PionTracks.push_back(KalmanTracks[PIPLUS]->trackId());
-  PionTracks.push_back(KalmanTracks[PIMINUS]->trackId());
+  PionTracks.push_back(DaughterTrackIterators[PIPLUS]);
+  PionTracks.push_back(DaughterTrackIterators[PIMINUS]);
   StatusCode statuscode = findKS.findKS(DTTool_iter, PionTracks);
   if(statuscode == StatusCode::SUCCESS) {
     m_DecayLengthVeeVertex = findKS.getDecayLengthVeeVertex();
