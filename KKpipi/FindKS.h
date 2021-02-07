@@ -8,6 +8,8 @@
 #define FINDKS
 // Gaudi
 #include "GaudiKernel/StatusCode.h"
+// Event information
+#include "EvtRecEvent/EvtRecTrack.h"
 // BOSS
 #include "DTagTool/DTagTool.h"
 // STL
@@ -28,7 +30,7 @@ class FindKS {
      * @param DTTool_iter DTagTool iterator pointing to the event with the tag
      * @param PiTrackIndex List of length 2 with track indices to the two pions in the event
      */
-    StatusCode findKS(DTagToolIterator &DTTool_iter, const std::vector<int> &PiTrackIndex);
+    StatusCode findKS(DTagToolIterator &DTTool_iter, const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter);
     /** 
      * Get decay length from VeeVertexAlg
      */

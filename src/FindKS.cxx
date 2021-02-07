@@ -40,7 +40,7 @@ FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVee
 FindKS::~FindKS() {
 }
 
-StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> &PiTrackIndex) {
+StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter) {
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");
@@ -59,10 +59,10 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<int> 
   // Get tracks in the event
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   // Get Kalman tracks and pion track IDs
-  RecMdcKalTrack *MDCKalmanTrack1 = (*Tracks.begin() + PiTrackIndex[0])->mdcKalTrack();
-  int PiTrackID1 = (*Tracks.begin() + PiTrackIndex[0])->trackId();
-  RecMdcKalTrack *MDCKalmanTrack2 = (*Tracks.begin() + PiTrackIndex[1])->mdcKalTrack();
-  int PiTrackID2 = (*Tracks.begin() + PiTrackIndex[1])->trackId();
+  RecMdcKalTrack *MDCKalmanTrack1 = (*PiTrack_iter[0])->mdcKalTrack();
+  int PiTrackID1 = (*PiTrack_iter[0])->trackId();
+  RecMdcKalTrack *MDCKalmanTrack2 = (*PiTrack_iter[1])->mdcKalTrack();
+  int PiTrackID2 = (*PiTrack_iter[1])->trackId();
   // Loop over KS in the event (should only be one)
   for(EvtRecVeeVertexCol::iterator KS_iter = evtRecVeeVertexCol->begin(); KS_iter != evtRecVeeVertexCol->end(); KS_iter++) {
     // Check if the vertex is actually a KS
