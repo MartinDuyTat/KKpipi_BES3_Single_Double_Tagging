@@ -31,6 +31,8 @@
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "McTruth/McParticle.h"
 #include "MdcRecEvent/RecMdcKalTrack.h"
+// ROOT
+#include "TMath.h"
 // STL
 #include<vector>
 #include<string>
@@ -106,6 +108,7 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KMinuspyKalmanFit", m_KMinuspyKalmanFit);
       status = m_tuple->addItem("KMinuspzKalmanFit", m_KMinuspzKalmanFit);
       status = m_tuple->addItem("KMinusenergyKalmanFit", m_KMinusenergyKalmanFit);
+      status = m_tuple->addItem("KSFitSuccess", m_KSFitSuccess);
       status = m_tuple->addItem("KSDecayLengthVeeVertex", m_DecayLengthVeeVertex);
       status = m_tuple->addItem("KSChi2VeeVertex", m_Chi2VeeVertex);
       status = m_tuple->addItem("KSMassVeeVertex", m_KSMassVeeVertex);
@@ -283,19 +286,24 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
   m_PiMinuspyKalmanFit = FourMomentumFit[PIMINUS].y();
   m_PiMinuspzKalmanFit = FourMomentumFit[PIMINUS].z();
   m_PiMinusenergyKalmanFit = FourMomentumFit[PIMINUS].t();
+  double Mpipi = TMath::Sqrt(TMath::Power(PiPlusenergy + PiMinusenergy, 2) - TMath::Power(PiPluspx + PiMinuspx, 2) - TMath::Power(PiPluspy + PiMinuspy, 2) - TMath::Power(PiPluspz + PiMinuspz, 2));
   FindKS findKS;
   std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
-  PionTracks_iter.push_back(DaughterTrackIterators[PIPLUS]);
-  PionTracks_iter.push_back(DaughterTrackIterators[PIMINUS]);
-  StatusCode statuscode = findKS.findKS(DTTool_iter, PionTracks_iter);
-  if(statuscode == StatusCode::SUCCESS) {
-    m_DecayLengthVeeVertex = findKS.getDecayLengthVeeVertex();
-    m_Chi2VeeVertex = findKS.getChi2VeeVertex();
-    m_KSMassVeeVertex = findKS.getKSMassVeeVertex();
-    m_DecayLengthFit = findKS.getDecayLengthFit();
-    m_DecayLengthErrorFit = findKS.getDecayLengthErrorFit();
-    m_Chi2Fit = findKS.getChi2Fit();
-    m_KSMassFit = findKS.getKSMassFit();
+  m_KSFitSuccess = 0;
+  if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
+    PionTracks_iter.push_back(DaughterTrackIterators[PIPLUS]);
+    PionTracks_iter.push_back(DaughterTrackIterators[PIMINUS]);
+    StatusCode statuscode = findKS.findKS(DTTool_iter, PionTracks_iter);
+    if(statuscode == StatusCode::SUCCESS) {
+      m_KSFitSuccess = 1;
+      m_DecayLengthVeeVertex = findKS.getDecayLengthVeeVertex();
+      m_Chi2VeeVertex = findKS.getChi2VeeVertex();
+      m_KSMassVeeVertex = findKS.getKSMassVeeVertex();
+      m_DecayLengthFit = findKS.getDecayLengthFit();
+      m_DecayLengthErrorFit = findKS.getDecayLengthErrorFit();
+      m_Chi2Fit = findKS.getChi2Fit();
+      m_KSMassFit = findKS.getKSMassFit();
+    }
   }
   return StatusCode::SUCCESS;
 }

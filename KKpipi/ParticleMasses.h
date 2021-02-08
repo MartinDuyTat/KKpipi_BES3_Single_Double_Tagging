@@ -9,9 +9,13 @@ namespace MASS {
    */
   const double D_MASS = 1.86483;
   /**
-   * \f$K^0\f$ meson mass
+   * \f$K^+\f$ meson mass
    */
   const double K_MASS = 0.493677;
+  /**
+   * \f$K_S^0\f$ meson mass
+   */
+  const double KS_MASS = 0.497611;
   /**
    * \f$\pi^+\f$ meson mass
    */
