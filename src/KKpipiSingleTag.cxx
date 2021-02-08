@@ -111,8 +111,7 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KSMassVeeVertex", m_KSMassVeeVertex);
       status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
       status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
-      status = m_tuple->addItem("KSChi2PrimaryVertexFit", m_Chi2PrimaryVertexFit);
-      status = m_tuple->addItem("KSChi2SecondaryVertexFit", m_Chi2SecondaryVertexFit);
+      status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
       status = m_tuple->addItem("KSMassFit", m_KSMassFit);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi Single Tags" << endmsg;
