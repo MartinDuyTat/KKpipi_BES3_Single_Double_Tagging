@@ -286,7 +286,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
   m_PiMinuspyKalmanFit = FourMomentumFit[PIMINUS].y();
   m_PiMinuspzKalmanFit = FourMomentumFit[PIMINUS].z();
   m_PiMinusenergyKalmanFit = FourMomentumFit[PIMINUS].t();
-  double Mpipi = TMath::Sqrt(TMath::Power(PiPlusenergy + PiMinusenergy, 2) - TMath::Power(PiPluspx + PiMinuspx, 2) - TMath::Power(PiPluspy + PiMinuspy, 2) - TMath::Power(PiPluspz + PiMinuspz, 2));
+  double Mpipi = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy, 2) - TMath::Power(m_PiPluspx + m_PiMinuspx, 2) - TMath::Power(m_PiPluspy + m_PiMinuspy, 2) - TMath::Power(m_PiPluspz + m_PiMinuspz, 2));
   FindKS findKS;
   std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
   m_KSFitSuccess = 0;
