@@ -295,8 +295,7 @@ StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_ite
     m_KSMassVeeVertex = findKS.getKSMassVeeVertex();
     m_DecayLengthFit = findKS.getDecayLengthFit();
     m_DecayLengthErrorFit = findKS.getDecayLengthErrorFit();
-    m_Chi2PrimaryVertexFit = findKS.getChi2PrimaryVertexFit();
-    m_Chi2SecondaryVertexFit = findKS.getChi2SecondaryVertexFit();
+    m_Chi2Fit = findKS.getChi2Fit();
     m_KSMassFit = findKS.getKSMassFit();
   }
   return StatusCode::SUCCESS;

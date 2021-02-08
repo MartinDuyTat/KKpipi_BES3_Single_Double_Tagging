@@ -299,11 +299,7 @@ class KKpipiSingleTag: public Algorithm {
     /**
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
-    NTuple::Item<double> m_Chi2PrimaryVertexFit;
-    /**
-     * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of seoncdary vertex
-     */
-    NTuple::Item<double> m_Chi2SecondaryVertexFit;
+    NTuple::Item<double> m_Chi2Fit;
     /**
      * The \f$K_S^0\f$ mass, from fit
      */

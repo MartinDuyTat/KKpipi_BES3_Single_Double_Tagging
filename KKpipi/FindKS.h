@@ -54,11 +54,7 @@ class FindKS {
     /** 
      * Get \f$\chi^2\f$ from fit of primary vertex
      */
-    double getChi2PrimaryVertexFit() const;
-    /** 
-     * Get \f$\chi^2\f$ from fit of secondary vertex
-     */
-    double getChi2SecondaryVertexFit() const;
+    double getChi2Fit() const;
     /** 
      * Get \f$K_S^0\f$ from fit
      */
@@ -87,11 +83,7 @@ class FindKS {
     /**
      * The \f$\chi^2\f$, from fit of primary vertex
      */
-    double m_Chi2PrimaryVertexFit;
-    /**
-     * The \f$\chi^2\f$, from fit of secondary vertex
-     */
-    double m_Chi2SecondaryVertexFit;
+    double m_Chi2Fit;
     /**
      * The \f$K_S^0\f$ mass, from fit
      */
