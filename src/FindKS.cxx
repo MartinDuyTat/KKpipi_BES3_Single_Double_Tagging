@@ -34,7 +34,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2VertexFit(0.0), m_KSMassFit(0.0) {
+FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0) {
 }
 
 FindKS::~FindKS() {
@@ -140,7 +140,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     if(PrimaryVertexFit->Fit()) {
       m_DecayLengthFit = PrimaryVertexFit->decayLength();
       m_DecayLengthErrorFit = PrimaryVertexFit->decayLengthError();
-      m_Chi2VertexFit = PrimaryVertexFit->chisq();
+      m_Chi2Fit = PrimaryVertexFit->chisq();
       m_KSMassFit = PrimaryVertexFit->p4par().m();
       return StatusCode::SUCCESS;
     }
