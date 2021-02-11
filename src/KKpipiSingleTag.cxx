@@ -222,7 +222,7 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_PiMinuspy = findKKpipiTagInfo.GetPiMinusP(1);
   m_PiMinuspz = findKKpipiTagInfo.GetPiMinusP(2);
   m_PiMinusenergy = findKKpipiTagInfo.GetPiMinusP(3);
-  m_KalmanFitSucess = findKKpipiTagInfo.GetKalmanFitSucess();
+  m_KalmanFitSuccess = findKKpipiTagInfo.GetKalmanFitSuccess();
   m_KalmanFitChi2 = findKKpipiTagInfo.GetKalmanFitChi2();
   m_KPluspxKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(0);
   m_KPluspyKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(1);
