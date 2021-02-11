@@ -73,7 +73,7 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     m_KPlusPKalmanFit = KalmanFit->pfit(KPLUS);
     m_KMinusPKalmanFit = KalmanFit->pfit(KMINUS);
     m_PiPlusPKalmanFit = KalmanFit->pfit(PIPLUS);
-    M_PiMinusPKalmanFit = KalmanFit->pfit(PIMINUS);
+    m_PiMinusPKalmanFit = KalmanFit->pfit(PIMINUS);
   }
   double Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_KSFitSuccess = 0;

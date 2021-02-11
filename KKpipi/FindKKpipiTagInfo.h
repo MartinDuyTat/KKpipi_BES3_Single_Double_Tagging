@@ -149,7 +149,7 @@ class FindKKpipiTagInfo {
     /**
      * Kalman fitted \f$K^-\f$ four-momentum
      */
-    CLHEP::HepLorentzVector m_KMinuspxKalmanFit;
+    CLHEP::HepLorentzVector m_KMinusKalmanFit;
     /**
      * Kalman fitted \f$\pi^+\f$ four-momentum
      */
