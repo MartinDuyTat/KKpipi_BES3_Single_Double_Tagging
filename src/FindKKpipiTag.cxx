@@ -1,35 +1,17 @@
 // Martin Duy Tat 28th January 2021, based on code by Yu Zhang
 
 // KKpipi
-#include "KKpipi/KKpipiSingleTag.h"
+#include "KKpipi/FindKKpipiTag.h"
 #include "KKpipi/FindKS.h"
 // Gaudi
-#include "GaudiKernel/AlgFactory.h"
-#include "GaudiKernel/Bootstrap.h"
-#include "GaudiKernel/IDataProviderSvc.h"
-#include "GaudiKernel/MsgStream.h"
-#include "GaudiKernel/IHistogramSvc.h"
-#include "GaudiKernel/INTupleSvc.h"
-#include "GaudiKernel/ISvcLocator.h"
-#include "GaudiKernel/MsgStream.h"
-#include "GaudiKernel/NTuple.h"
-#include "GaudiKernel/PropertyMgr.h"
-#include "GaudiKernel/SmartDataPtr.h"
 #include "GaudiKernel/SmartRefVector.h"
 // Event information
-#include "EventModel/Event.h"
-#include "EventModel/EventModel.h"
-#include "EventModel/EventHeader.h"
-#include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecTrack.h"
-#include "EvtRecEvent/EvtRecDTag.h"
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "VertexFit/KalmanKinematicFit.h"
-#include "McDecayModeSvc/McDecayModeSvc.h"
-#include "McTruth/McParticle.h"
 #include "MdcRecEvent/RecMdcKalTrack.h"
 // ROOT
 #include "TMath.h"
@@ -45,7 +27,7 @@ FindKKpipiTag::FindKKpipiTag() {
 FindKKpipiTag::~FindKKpipiTag() {
 }
 
-bool FindKKpipiTag::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
+StatusCode FindKKpipiTag::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(4); // In the order K+ K- pi+ pi-
   std::vector<RecMdcKalTrack*> KalmanTracks(4); //In the order K+ K- pi+ pi-
@@ -113,4 +95,76 @@ bool FindKKpipiTag::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTT
     }
   }
   return StatusCode::SUCCESS;
+}
+
+double FindKKpipiTag::GetKPlusP(int i) {
+  return m_KPlusP[i];
+}
+
+double FindKKpipiTag::GetKMinusP(int i) {
+  return m_KMinusP[i];
+}
+
+double FindKKpipiTag::GetPiPlusP(int i) {
+  return m_PiPlusP[i];
+}
+
+double FindKKpipiTag::GetPiMinusP(int i) {
+  return m_PiMinusP[i];
+}
+
+int FindKKpipiTag::GetKalmanFitSuccess() {
+  return m_KalmanFitSuccess;
+}
+
+double FindKKpipiTag::GetKalmanFitChi2() {
+  return m_KalmanFitChi2;
+}
+
+double FindKKpipiTag::GetKPlusPKalmanFit(int i) {
+  return m_KPlusPKalmanFit[i];
+}
+
+double FindKKpipiTag::GetKMinusPKalmanFit(int i) {
+  return m_KMinusPKalmanFit[i];
+}
+
+double FindKKpipiTag::GetPiPlusPKalmanFit(int i) {
+  return m_PiPlusPKalmanFit[i];
+}
+
+double FindKKpipiTag::GetPiMinusPKalmanFit(int i) {
+  return m_PiMinusPKalmanFit[i];
+}
+
+int FindKKpipiTag::GetKSFitSuccess() {
+  return m_KSFitSuccess;
+}
+
+double FindKKpipiTag::GetDecayLengthVeeVertex() {
+  return m_DecayLengthVeeVertex;
+}
+
+double FindKKpipiTag::GetChi2VeeVertex() {
+  return m_Chi2VeeVertex;
+}
+
+double FindKKpipiTag::GetKSMassVeeVertex() {
+  return m_KSMassVeeVertex;
+}
+
+double FindKKpipiTag::GetDecayLengthFit() {
+  return m_DecayLengthFit;
+}
+
+double FindKKpipiTag::GetDecayLengthErrorFit() {
+  return m_DecayLengthErrorFit;
+}
+
+double FindKKpipiTag::GetChi2Fit() {
+  return m_Chi2Fit;
+}
+
+double FindKKpipiTag::GetKSMassFit() {
+  return m_KSMassFit;
 }
