@@ -77,34 +77,34 @@ StatusCode CalculateMCInfo() {
   return StatusCode::SUCCESS;
 }
 
-int GetNumberParticles() {
+int FindMCInfo::GetNumberParticles() {
   return m_NumberParticles;
 }
 
-int GetpdgID(int i) {
+int FindMCInfo::GetpdgID(int i) {
   return m_pdgID;
 }
 
-int GetMotherIndex(int i) {
+int FindMCInfo::GetMotherIndex(int i) {
   return m_MotherIndex;
 }
 
-int GetMCmode() {
+int FindMCInfo::GetMCmode() {
   return m_TruePx;
 }
 
-int GetTruePx(int i) {
+int FindMCInfo::GetTruePx(int i) {
   return m_TruePx;
 }
 
-int GetTruePy(int i) {
+int FindMCInfo::GetTruePy(int i) {
   return m_True_Py;
 }
 
-int GetTruePz(int i) {
+int FindMCInfo::GetTruePz(int i) {
   return m_TruePz;
 }
 
-int GetTrueEnergy(int i) {
+int FindMCInfo::GetTrueEnergy(int i) {
   return m_TrueEnergy;
 }
