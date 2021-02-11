@@ -61,18 +61,18 @@ int FindMCInfo::GetMCmode() {
   return m_MCmode;
 }
 
-int FindMCInfo::GetTruePx(int i) {
+double FindMCInfo::GetTruePx(int i) {
   return m_TruePx[i];
 }
 
-int FindMCInfo::GetTruePy(int i) {
+double FindMCInfo::GetTruePy(int i) {
   return m_True_Py[i];
 }
 
-int FindMCInfo::GetTruePz(int i) {
+double FindMCInfo::GetTruePz(int i) {
   return m_TruePz[i];
 }
 
-int FindMCInfo::GetTrueEnergy(int i) {
+double FindMCInfo::GetTrueEnergy(int i) {
   return m_TrueEnergy[i];
 }
