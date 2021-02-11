@@ -1,4 +1,4 @@
-// Martin Duy Tat 28th January 2021, based on code by Yu Zhang
+// Martin Duy Tat 11th February 2021, based on code by Yu Zhang
 /**
  * FindMCInfo is a class for finding the MC truth info of an event
  */
@@ -8,6 +8,9 @@
 
 // Gaudi
 #include "GaudiKernel/StatusCode.h"
+// Boss
+#include "McDecayModeSvc/McDecayModeSvc.h"
+#include "McTruth/McParticle.h"
 // STL
 #include<vector>
 
@@ -24,7 +27,7 @@ class FindMCInfo {
     /**
      * Helper function to calculate the MC truth information
      */
-    StatusCode CalculateMCInfo();
+    StatusCode CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCParticleCol, IMcDecayModeSvc *IMcDecayModeService);
     /**
      * Get the number of particles
      */

@@ -1,4 +1,4 @@
-// Martin Duy Tat 28th January 2021, based on code by Yu Zhang
+// Martin Duy Tat 11th February 2021, based on code by Yu Zhang
 /**
  * FindKKpipiTag is a class for extracting all the variables of a KKpipi tag
  */

@@ -161,11 +161,20 @@ StatusCode KKpipiSingleTag::finalize() {
 
 StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
-    StatusCode MCStatus = FindMCInfo findMCInfo;
+    SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
+    if(!MCParticleCol) {
+      return StatusCode::FAILURE;
+    }
+    IMcDecayModeSvc *IMcDecayModeService;
+    StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", IMcDecayModeService);
+    if(McDecayModeSVC_Status.isFailure()) {
+      return StatusCode::FAILURE;
+    }
+    FindMCInfo findMCInfo;
+    StatusCode MCStatus = findMCInfo.CalculateMCInfo();
     if(MCStatus != StatusCode::SUCCESS) {
       return MCStatus;
     }
-    findMCInfo.CalculateMCInfo();
     m_NumberParticles = findMCInfo.GetNumberParticles();
     m_MCmode = findMCInfo.GetMCmode();
     for(int i = 0; i < m_NumberParticles; i++) {
