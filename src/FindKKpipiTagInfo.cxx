@@ -1,7 +1,7 @@
 // Martin Duy Tat 28th January 2021, based on code by Yu Zhang
 
 // KKpipi
-#include "KKpipi/FindKKpipiTag.h"
+#include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindKS.h"
 // Gaudi
 #include "GaudiKernel/SmartRefVector.h"
