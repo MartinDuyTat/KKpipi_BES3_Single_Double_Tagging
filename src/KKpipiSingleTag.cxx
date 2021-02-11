@@ -143,7 +143,6 @@ StatusCode KKpipiSingleTag::execute() {
 	continue;
       }
       if((*MCParticleCol_iter)->particleProperty() == 30443) {
-
 	IMcDecayModeSvc *IMcDecayModeService;
         StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", IMcDecayModeService);
         if(McDecayModeSVC_Status.isFailure()) {
