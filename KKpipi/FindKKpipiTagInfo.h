@@ -16,16 +16,16 @@
 #include<vector>
 #include<string>
 
-class FindKKpipiTag {
+class FindKKpipiTagInfo {
   public: 
     /**
      * Default constructor that initalizes all variables to zero
      */
-    FindKKpipiTag();
+    FindKKpipiTagInfo();
     /**
      * Trivial destructor
      */
-    ~FindKKpipiTag();
+    ~FindKKpipiTagInfo();
     /**
      * Function that calculates all the tag information and saves them
      * @param DTTool_iter Iterator pointing to tag candidate

@@ -1,7 +1,7 @@
 // Martin Duy Tat 28th January 2021, based on code by Yu Zhang
 
 // KKpipi
-#include "KKpipi/KKpipiSingleTag.h"
+#include "KKpipi/KKpipiSingleTagInfo.h"
 #include "KKpipi/FindKKpipiTag.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -206,51 +206,51 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_Dpy = (*DTTool_iter)->p4().y();
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
-  FindKKpipiTag findKKpipiTag;
-  StatusCode status = findKKpipiTag.CalculateTagInfo(DTTool_iter, DTTool);
+  FindKKpipiTagInfo findKKpipiTagInfo;
+  StatusCode status = findKKpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  m_KPluspx = findKKpipiTag.GetKPlusP(0);
-  m_KPluspy = findKKpipiTag.GetKPlusP(1);
-  m_KPluspz = findKKpipiTag.GetKPlusP(2);
-  m_KPlusenergy = findKKpipiTag.GetKPlusP(3);
-  m_KMinuspx = findKKpipiTag.GetKMinusP(0);
-  m_KMinuspy = findKKpipiTag.GetKMinusP(1);
-  m_KMinuspz = findKKpipiTag.GetKMinusP(2);
-  m_KMinusenergy = findKKpipiTag.GetKMinusP(3);
-  m_PiPluspx = findKKpipiTag.GetPiPlusP(0);
-  m_PiPluspy = findKKpipiTag.GetPiPlusP(1);
-  m_PiPluspz = findKKpipiTag.GetPiPlusP(2);
-  m_PiPlusenergy = findKKpipiTag.GetPiPlusP(3);
-  m_PiMinuspx = findKKpipiTag.GetPiMinusP(0);
-  m_PiMinuspy = findKKpipiTag.GetPiMinusP(1);
-  m_PiMinuspz = findKKpipiTag.GetPiMinusP(2);
-  m_PiMinusenergy = findKKpipiTag.GetPiMinusP(3);
-  m_KalmanFitSucess = findKKpipiTag.GetKalmanFitSucess();
-  m_KalmanFitChi2 = findKKpipiTag.GetKalmanFitChi2();
-  m_KPluspxKalmanFit = findKKpipiTag.GetKPlusPKalmanFit(0);
-  m_KPluspyKalmanFit = findKKpipiTag.GetKPlusPKalmanFit(1);
-  m_KPluspzKalmanFit = findKKpipiTag.GetKPlusPKalmanFit(2);
-  m_KPlusenergyKalmanFit = findKKpipiTag.GetKPlusPKalmanFit(3);
-  m_KMinuspxKalmanFit = findKKpipiTag.GetKMinusPKalmanFit(0);
-  m_KMinuspyKalmanFit = findKKpipiTag.GetKMinusPKalmanFit(1);
-  m_KMinuspzKalmanFit = findKKpipiTag.GetKMinusPKalmanFit(2);
-  m_KMinusenergyKalmanFit = findKKpipiTag.GetKMinusPKalmanFit(3);
-  m_PiPluspxKalmanFit = findKKpipiTag.GetPiPlusPKalmanFit(0);
-  m_PiPluspyKalmanFit = findKKpipiTag.GetPiPlusPKalmanFit(1);
-  m_PiPluspzKalmanFit = findKKpipiTag.GetPiPlusPKalmanFit(2);
-  m_PiPlusenergyKalmanFit = findKKpipiTag.GetPiPlusPKalmanFit(3);
-  m_PiMinuspxKalmanFit = findKKpipiTag.GetPiMinusPKalmanFit(0);
-  m_PiMinuspyKalmanFit = findKKpipiTag.GetPiMinusPKalmanFit(1);
-  m_PiMinuspzKalmanFit = findKKpipiTag.GetPiMinusPKalmanFit(2);
-  m_KSFitSuccess = findKKpipiTag.GetKSFitSuccess();
-  m_DecayLengthVeeVertex = findKKpipiTag.GetDecayLengthVeeVertex();
-  m_Chi2VeeVertex = findKKpipiTag.GetChi2VeeVertex();
-  m_KSMassVeeVertex = findKKpipiTag.GetKSMassVeeVertex();
-  m_DecayLengthFit = findKKpipiTag.GetDecayLengthFit();
-  m_DecayLengthErrorFit = findKKpipiTag.GetDecayLengthErrorFit();
-  m_Chi2Fit = findKKpipiTag.GetChi2Fit();
-  m_KSMassFit = findKKpipiTag.GetKSMassFit();
+  m_KPluspx = findKKpipiTagInfo.GetKPlusP(0);
+  m_KPluspy = findKKpipiTagInfo.GetKPlusP(1);
+  m_KPluspz = findKKpipiTagInfo.GetKPlusP(2);
+  m_KPlusenergy = findKKpipiTagInfo.GetKPlusP(3);
+  m_KMinuspx = findKKpipiTagInfo.GetKMinusP(0);
+  m_KMinuspy = findKKpipiTagInfo.GetKMinusP(1);
+  m_KMinuspz = findKKpipiTagInfo.GetKMinusP(2);
+  m_KMinusenergy = findKKpipiTagInfo.GetKMinusP(3);
+  m_PiPluspx = findKKpipiTagInfo.GetPiPlusP(0);
+  m_PiPluspy = findKKpipiTagInfo.GetPiPlusP(1);
+  m_PiPluspz = findKKpipiTagInfo.GetPiPlusP(2);
+  m_PiPlusenergy = findKKpipiTagInfo.GetPiPlusP(3);
+  m_PiMinuspx = findKKpipiTagInfo.GetPiMinusP(0);
+  m_PiMinuspy = findKKpipiTagInfo.GetPiMinusP(1);
+  m_PiMinuspz = findKKpipiTagInfo.GetPiMinusP(2);
+  m_PiMinusenergy = findKKpipiTagInfo.GetPiMinusP(3);
+  m_KalmanFitSucess = findKKpipiTagInfo.GetKalmanFitSucess();
+  m_KalmanFitChi2 = findKKpipiTagInfo.GetKalmanFitChi2();
+  m_KPluspxKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(0);
+  m_KPluspyKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(1);
+  m_KPluspzKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(2);
+  m_KPlusenergyKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(3);
+  m_KMinuspxKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(0);
+  m_KMinuspyKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(1);
+  m_KMinuspzKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(2);
+  m_KMinusenergyKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(3);
+  m_PiPluspxKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(0);
+  m_PiPluspyKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(1);
+  m_PiPluspzKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(2);
+  m_PiPlusenergyKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(3);
+  m_PiMinuspxKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(0);
+  m_PiMinuspyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(1);
+  m_PiMinuspzKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(2);
+  m_KSFitSuccess = findKKpipiTagInfo.GetKSFitSuccess();
+  m_DecayLengthVeeVertex = findKKpipiTagInfo.GetDecayLengthVeeVertex();
+  m_Chi2VeeVertex = findKKpipiTagInfo.GetChi2VeeVertex();
+  m_KSMassVeeVertex = findKKpipiTagInfo.GetKSMassVeeVertex();
+  m_DecayLengthFit = findKKpipiTagInfo.GetDecayLengthFit();
+  m_DecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
+  m_Chi2Fit = findKKpipiTagInfo.GetChi2Fit();
+  m_KSMassFit = findKKpipiTagInfo.GetKSMassFit();
   return StatusCode::SUCCESS;
 }
