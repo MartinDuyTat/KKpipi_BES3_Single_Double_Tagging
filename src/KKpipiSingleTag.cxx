@@ -176,14 +176,9 @@ StatusCode KKpipiSingleTag::execute() {
   }
   if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
     DTagToolIterator DTTool_iter = DTTool.stag();
-    StatusCode AssignTagStatus = AssignTagInfo(DTTool_iter);
-    if(AssignTagStatus != StatusCode::SUCCESS) {
-        log << MSG::FATAL << "Assigning tag info failed" << endreq;
-	return StatusCode::FAILURE;
-    }
-    StatusCode AssignDaughterStatus = AssignKKpipiDaughterInfo(DTTool_iter, DTTool);
-    if(AssignDaughterStatus != StatusCode::SUCCESS) {
-        log << MSG::FATAL << "Assigning tag info failed" << endreq;
+    StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
+    if(FillTupleStatus != StatusCode::SUCCESS) {
+        log << MSG::FATAL << "Assigning tuple info failed" << endreq;
 	return StatusCode::FAILURE;
     }
     m_tuple->write();
