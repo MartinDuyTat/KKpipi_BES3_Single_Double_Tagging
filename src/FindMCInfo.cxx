@@ -35,12 +35,12 @@ StatusCode FindMCInfo::CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCPart
   }
   m_NumberParticles = pdgID.size();
   for(int i = 0; i < m_NumberParticles; i++) {
-    m_pdgID[i] = pdgID[i];
-    m_MotherIndex[i] = MotherIndex[i];
-    m_TruePx[i] = TruePx[i];
-    m_TruePy[i] = TruePy[i];
-    m_TruePz[i] = TruePz[i];
-    m_TrueEnergy[i] = TrueEnergy[i];
+    m_pdgID.push_back(pdgID[i]);
+    m_MotherIndex.push_back(MotherIndex[i]);
+    m_TruePx.push_back(TruePx[i]);
+    m_TruePy.push_back(TruePy[i]);
+    m_TruePz.push_back(TruePz[i]);
+    m_TrueEnergy.push_back(TrueEnergy[i]);
   }
   return StatusCode::SUCCESS;
 }
