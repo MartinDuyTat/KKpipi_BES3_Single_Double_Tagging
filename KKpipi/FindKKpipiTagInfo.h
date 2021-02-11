@@ -6,6 +6,8 @@
 #ifndef FINDKKPIPITAG
 #define FINDKKPIPITAG
 
+// Gaudi
+#include "GaudiKernel/StatusCode.h"
 // BOSS
 #include "DTagTool/DTagTool.h"
 // CLHEP
@@ -30,7 +32,7 @@ class FindKKpipiTag {
      * @param DTTool DTagTool object with all the tag information
      * @param Returns true if successful
      */
-    bool AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool);
+    StatusCode CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool);
     /**
      * Enumeration to label daughter particles in the order K+ K- pi+ pi-
      */

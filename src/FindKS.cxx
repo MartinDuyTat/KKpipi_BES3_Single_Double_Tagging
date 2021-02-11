@@ -10,6 +10,7 @@
 #include "GaudiKernel/PropertyMgr.h"
 #include "GaudiKernel/SmartDataPtr.h"
 #include "GaudiKernel/SmartRefVector.h"
+#include "GaudiKernel/StatusCode.h"
 // Event information
 #include "EventModel/Event.h"
 #include "EventModel/EventHeader.h"
