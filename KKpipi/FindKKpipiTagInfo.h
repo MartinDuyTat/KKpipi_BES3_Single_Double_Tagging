@@ -137,11 +137,11 @@ class FindKKpipiTagInfo {
     /**
      * Flag equal to 1 for success and 0 for fail in the Kalman fit of tracks
      */
-    int m_KalmanFitSuccess = 0;
+    int m_KalmanFitSuccess;
     /**
      * \f$\chi^2\f$ of Kalman fit
      */
-    double m_KalmanFitChi2 = 0;
+    double m_KalmanFitChi2;
     /**
      * Kalman fitted \f$K^+\f$ four- momentum
      */
@@ -161,35 +161,35 @@ class FindKKpipiTagInfo {
     /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
      */
-    int m_KSFitSuccess = 0;
+    int m_KSFitSuccess;
     /**
      * The \f$K_S\f$ decay length, from VeeVertexAlg
      */
-    double m_DecayLengthVeeVertex = 0;
+    double m_DecayLengthVeeVertex;
     /**
      * The \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
      */
-    double m_Chi2VeeVertex = 0;
+    double m_Chi2VeeVertex;
     /**
      * The \f$K_S^0\f$ mass, from VeeVertexAlg
      */
-    double m_KSMassVeeVertex = 0;
+    double m_KSMassVeeVertex;
     /**
      * The \f$K_S^0\f$ decay length, from fit
      */
-    double m_DecayLengthFit = 0;
+    double m_DecayLengthFit;
     /**
      * The \f$K_S^0\f$ decay length error, from fit
      */
-    double m_DecayLengthErrorFit = 0;
+    double m_DecayLengthErrorFit;
     /**
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
-    double m_Chi2Fit = 0;
+    double m_Chi2Fit;
     /**
      * The \f$K_S^0\f$ mass, from fit
      */
-    double m_KSMassFit = 0;
+    double m_KSMassFit;
 };
 
 #endif

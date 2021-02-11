@@ -21,7 +21,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKKpipiTag::FindKKpipiTag() {
+FindKKpipiTag::FindKKpipiTag(): m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_KSFitSuccess(0), m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0, m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0) {
 }
 
 FindKKpipiTag::~FindKKpipiTag() {
