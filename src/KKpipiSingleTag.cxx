@@ -178,12 +178,12 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
     m_NumberParticles = findMCInfo.GetNumberParticles();
     m_MCmode = findMCInfo.GetMCmode();
     for(int i = 0; i < m_NumberParticles; i++) {
-      m_pdgID = findMCInfo.GetpdgID(i);
-      m_MotherIndex = findMCInfo.GetMotherIndex(i);
-      m_TruePx = findMCInfo.GetTruePx(i);
-      m_TruePy = findMCInfo.GetTruePy(i);
-      m_TruePz = findMCInfo.GetTruePz(i);
-      m_TrueEnergy = findMCInfo.GetTrueEnergy(i);
+      m_pdgID[i] = findMCInfo.GetpdgID(i);
+      m_MotherIndex[i] = findMCInfo.GetMotherIndex(i);
+      m_TruePx[i] = findMCInfo.GetTruePx(i);
+      m_TruePy[i] = findMCInfo.GetTruePy(i);
+      m_TruePz[i] = findMCInfo.GetTruePz(i);
+      m_TrueEnergy[i] = findMCInfo.GetTrueEnergy(i);
     }
   }
   m_DMass = (*DTTool_iter)->mass();
