@@ -18,6 +18,8 @@
 #include "DTagTool/DTagTool.h"
 // STL
 #include<string>
+// Helpers to find tag information
+#include "KKpipi/FindKKpipiTag.h"
 
 class KKpipiSingleTag: public Algorithm {
   public: 
@@ -42,17 +44,11 @@ class KKpipiSingleTag: public Algorithm {
      */
     StatusCode finalize();
     /**
-     * Helper function to fill in information about the \f$D\f$ candidate
-     * This function should be the same for all tag modes
+     * Helper function to fill in information about the tag mode
      * @param DTTool_iter Iterator pointing to single tag candidate
+     * @param DTTool DTagTool object with all the event information
      */
-    StatusCode AssignTagInfo(DTagToolIterator DTTool_iter);
-    /**
-     * Helper function to fill in information about the \f$D\f$ daughters
-     * @param DTTool_iter Iterator pointing to single tag candidate
-     * @param DTTool DTagTool object with all the tag information
-     */
-    StatusCode AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool);
+    StatusCode FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool);
     /**
      * Enumeration to label daughter particles in the order K+ K- pi+ pi-
      */

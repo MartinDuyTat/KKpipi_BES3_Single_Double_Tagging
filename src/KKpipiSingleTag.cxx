@@ -2,7 +2,7 @@
 
 // KKpipi
 #include "KKpipi/KKpipiSingleTag.h"
-#include "KKpipi/FindKS.h"
+#include "KKpipi/FindKKpipiTag.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -197,7 +197,7 @@ StatusCode KKpipiSingleTag::finalize() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
+StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   m_DMass = (*DTTool_iter)->mass();
   m_MBC = (*DTTool_iter)->mBC();
   m_DeltaE = (*DTTool_iter)->deltaE();
@@ -206,104 +206,51 @@ StatusCode KKpipiSingleTag::AssignTagInfo(DTagToolIterator DTTool_iter) {
   m_Dpy = (*DTTool_iter)->p4().y();
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
-  return StatusCode::SUCCESS;
-}
-
-StatusCode KKpipiSingleTag::AssignKKpipiDaughterInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
-  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
-  std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(4); // In the order K+ K- pi+ pi-
-  std::vector<RecMdcKalTrack*> KalmanTracks(4); //In the order K+ K- pi+ pi-
-  for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
-    RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
-    if(DTTool.isKaon(*Track_iter)) {
-      CLHEP::HepLorentzVector Kaon4Momentum = MDCKalTrack->p4(MASS::K_MASS);
-      if(MDCKalTrack->charge() == +1) {
-	DaughterTrackIterators[KPLUS] = Track_iter;
-	KalmanTracks[KPLUS] = MDCKalTrack;
-	m_KPluspx = Kaon4Momentum.x();
-	m_KPluspy = Kaon4Momentum.y();
-	m_KPluspz = Kaon4Momentum.z();
-	m_KPlusenergy = Kaon4Momentum.t();
-      } else if (MDCKalTrack->charge() == -1) {
-	DaughterTrackIterators[KMINUS] = Track_iter;
-	KalmanTracks[KMINUS] = MDCKalTrack;
-	m_KMinuspx = Kaon4Momentum.x();
-	m_KMinuspy = Kaon4Momentum.y();
-	m_KMinuspz = Kaon4Momentum.z();
-	m_KMinusenergy = Kaon4Momentum.t();
-      }
-    } else if(DTTool.isPion(*Track_iter)) {
-      CLHEP::HepLorentzVector Pion4Momentum = MDCKalTrack->p4(MASS::PI_MASS);
-      if(MDCKalTrack->charge() == +1) {
-	DaughterTrackIterators[PIPLUS] = Track_iter;
-	KalmanTracks[PIPLUS] = MDCKalTrack;
-	m_PiPluspx = Pion4Momentum.x();
-	m_PiPluspy = Pion4Momentum.y();
-	m_PiPluspz = Pion4Momentum.z();
-	m_PiPlusenergy = Pion4Momentum.t();
-      } else if(MDCKalTrack->charge() == -1) {
-	DaughterTrackIterators[PIMINUS] = Track_iter;
-	KalmanTracks[PIMINUS] = MDCKalTrack;
-	m_PiMinuspx = Pion4Momentum.x();
-	m_PiMinuspy = Pion4Momentum.y();
-	m_PiMinuspz = Pion4Momentum.z();
-	m_PiMinusenergy = Pion4Momentum.t();
-      }
-    }
+  FindKKpipiTag findKKpipiTag;
+  StatusCode status = findKKpipiTag.CalculateTagInfo(DTTool_iter, DTTool);
+  if(status != StatusCode::SUCCESS) {
+    return status;
   }
-  WTrackParameter WTrackKplus(MASS::K_MASS, KalmanTracks[KPLUS]->getZHelix(), KalmanTracks[KPLUS]->getZError());
-  WTrackParameter WTrackKminus(MASS::K_MASS, KalmanTracks[KMINUS]->getZHelix(), KalmanTracks[KMINUS]->getZError());
-  WTrackParameter WTrackPIplus(MASS::PI_MASS, KalmanTracks[PIPLUS]->getZHelix(), KalmanTracks[PIPLUS]->getZError());
-  WTrackParameter WTrackPIminus(MASS::PI_MASS, KalmanTracks[PIMINUS]->getZHelix(), KalmanTracks[PIMINUS]->getZError());
-  KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
-  KalmanFit->init();
-  KalmanFit->AddTrack(0, WTrackKplus);
-  KalmanFit->AddTrack(1, WTrackKminus);
-  KalmanFit->AddTrack(2, WTrackPIplus);
-  KalmanFit->AddTrack(3, WTrackPIminus);
-  KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2, 3);
-  m_KalmanFitSuccess = KalmanFit->Fit();
-  std::vector<CLHEP::HepLorentzVector> FourMomentumFit(4);
-  if(m_KalmanFitSuccess) {
-    m_KalmanFitChi2 = KalmanFit->chisq();
-    for(int i = 0; i < 4; i++) {
-      FourMomentumFit[i] = KalmanFit->pfit(i);
-    }
-  }
-  m_KPluspxKalmanFit = FourMomentumFit[KPLUS].x();
-  m_KPluspyKalmanFit = FourMomentumFit[KPLUS].y();
-  m_KPluspzKalmanFit = FourMomentumFit[KPLUS].z();
-  m_KPlusenergyKalmanFit = FourMomentumFit[KPLUS].t();
-  m_KMinuspxKalmanFit = FourMomentumFit[KMINUS].x();
-  m_KMinuspyKalmanFit = FourMomentumFit[KMINUS].y();
-  m_KMinuspzKalmanFit = FourMomentumFit[KMINUS].z();
-  m_KMinusenergyKalmanFit = FourMomentumFit[KMINUS].t();
-  m_PiPluspxKalmanFit = FourMomentumFit[PIPLUS].x();
-  m_PiPluspyKalmanFit = FourMomentumFit[PIPLUS].y();
-  m_PiPluspzKalmanFit = FourMomentumFit[PIPLUS].z();
-  m_PiPlusenergyKalmanFit = FourMomentumFit[PIPLUS].t();
-  m_PiMinuspxKalmanFit = FourMomentumFit[PIMINUS].x();
-  m_PiMinuspyKalmanFit = FourMomentumFit[PIMINUS].y();
-  m_PiMinuspzKalmanFit = FourMomentumFit[PIMINUS].z();
-  m_PiMinusenergyKalmanFit = FourMomentumFit[PIMINUS].t();
-  double Mpipi = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy, 2) - TMath::Power(m_PiPluspx + m_PiMinuspx, 2) - TMath::Power(m_PiPluspy + m_PiMinuspy, 2) - TMath::Power(m_PiPluspz + m_PiMinuspz, 2));
-  FindKS findKS;
-  std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
-  m_KSFitSuccess = 0;
-  if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
-    PionTracks_iter.push_back(DaughterTrackIterators[PIPLUS]);
-    PionTracks_iter.push_back(DaughterTrackIterators[PIMINUS]);
-    StatusCode statuscode = findKS.findKS(DTTool_iter, PionTracks_iter);
-    if(statuscode == StatusCode::SUCCESS) {
-      m_KSFitSuccess = 1;
-      m_DecayLengthVeeVertex = findKS.getDecayLengthVeeVertex();
-      m_Chi2VeeVertex = findKS.getChi2VeeVertex();
-      m_KSMassVeeVertex = findKS.getKSMassVeeVertex();
-      m_DecayLengthFit = findKS.getDecayLengthFit();
-      m_DecayLengthErrorFit = findKS.getDecayLengthErrorFit();
-      m_Chi2Fit = findKS.getChi2Fit();
-      m_KSMassFit = findKS.getKSMassFit();
-    }
-  }
+  m_KPluspx = findKKpipiTag.GetKPlusP(0);
+  m_KPluspy = findKKpipiTag.GetKPlusP(1);
+  m_KPluspz = findKKpipiTag.GetKPlusP(2);
+  m_KPlusenergy = findKKpipiTag.GetKPlusP(3);
+  m_KMinuspx = findKKpipiTag.GetKMinusP(0);
+  m_KMinuspy = findKKpipiTag.GetKMinusP(1);
+  m_KMinuspz = findKKpipiTag.GetKMinusP(2);
+  m_KMinusenergy = findKKpipiTag.GetKMinusP(3);
+  m_PiPluspx = findKKpipiTag.GetPiPlusP(0);
+  m_PiPluspy = findKKpipiTag.GetPiPlusP(1);
+  m_PiPluspz = findKKpipiTag.GetPiPlusP(2);
+  m_PiPlusenergy = findKKpipiTag.GetPiPlusP(3);
+  m_PiMinuspx = findKKpipiTag.GetPiMinusP(0);
+  m_PiMinuspy = findKKpipiTag.GetPiMinusP(1);
+  m_PiMinuspz = findKKpipiTag.GetPiMinusP(2);
+  m_PiMinusenergy = findKKpipiTag.GetPiMinusP(3);
+  m_KalmanFitSucess = findKKpipiTag.GetKalmanFitSucess();
+  m_KalmanFitChi2 = findKKpipiTag.GetKalmanFitChi2();
+  m_KPluspxKalmanFit = findKKpipiTag.GetKPlusPKalmanFit(0);
+  m_KPluspyKalmanFit = findKKpipiTag.GetKPlusPKalmanFit(1);
+  m_KPluspzKalmanFit = findKKpipiTag.GetKPlusPKalmanFit(2);
+  m_KPlusenergyKalmanFit = findKKpipiTag.GetKPlusPKalmanFit(3);
+  m_KMinuspxKalmanFit = findKKpipiTag.GetKMinusPKalmanFit(0);
+  m_KMinuspyKalmanFit = findKKpipiTag.GetKMinusPKalmanFit(1);
+  m_KMinuspzKalmanFit = findKKpipiTag.GetKMinusPKalmanFit(2);
+  m_KMinusenergyKalmanFit = findKKpipiTag.GetKMinusPKalmanFit(3);
+  m_PiPluspxKalmanFit = findKKpipiTag.GetPiPlusPKalmanFit(0);
+  m_PiPluspyKalmanFit = findKKpipiTag.GetPiPlusPKalmanFit(1);
+  m_PiPluspzKalmanFit = findKKpipiTag.GetPiPlusPKalmanFit(2);
+  m_PiPlusenergyKalmanFit = findKKpipiTag.GetPiPlusPKalmanFit(3);
+  m_PiMinuspxKalmanFit = findKKpipiTag.GetPiMinusPKalmanFit(0);
+  m_PiMinuspyKalmanFit = findKKpipiTag.GetPiMinusPKalmanFit(1);
+  m_PiMinuspzKalmanFit = findKKpipiTag.GetPiMinusPKalmanFit(2);
+  m_KSFitSuccess = findKKpipiTag.GetKSFitSuccess();
+  m_DecayLengthVeeVertex = findKKpipiTag.GetDecayLengthVeeVertex();
+  m_Chi2VeeVertex = findKKpipiTag.GetChi2VeeVertex();
+  m_KSMassVeeVertex = findKKpipiTag.GetKSMassVeeVertex();
+  m_DecayLengthFit = findKKpipiTag.GetDecayLengthFit();
+  m_DecayLengthErrorFit = findKKpipiTag.GetDecayLengthErrorFit();
+  m_Chi2Fit = findKKpipiTag.GetChi2Fit();
+  m_KSMassFit = findKKpipiTag.GetKSMassFit();
   return StatusCode::SUCCESS;
 }
