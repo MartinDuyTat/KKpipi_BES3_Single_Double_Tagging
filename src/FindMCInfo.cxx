@@ -66,7 +66,7 @@ double FindMCInfo::GetTruePx(int i) {
 }
 
 double FindMCInfo::GetTruePy(int i) {
-  return m_True_Py[i];
+  return m_TruePy[i];
 }
 
 double FindMCInfo::GetTruePz(int i) {
