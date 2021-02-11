@@ -81,11 +81,11 @@ int GetNumberParticles() {
   return m_NumberParticles;
 }
 
-std::vector<int> GetpdgID() {
+int GetpdgID(int i) {
   return m_pdgID;
 }
 
-std::vector<int> GetMotherIndex() {
+int GetMotherIndex(int i) {
   return m_MotherIndex;
 }
 
@@ -93,18 +93,18 @@ int GetMCmode() {
   return m_TruePx;
 }
 
-std::vector<int> GetTruePx() {
+int GetTruePx(int i) {
   return m_TruePx;
 }
 
-std::vector<int> GetTruePy() {
+int GetTruePy(int i) {
   return m_True_Py;
 }
 
-std::vector<int> GetTruePz() {
+int GetTruePz(int i) {
   return m_TruePz;
 }
 
-std::vector<int> GetTrueEnergy() {
+int GetTrueEnergy(int i) {
   return m_TrueEnergy;
 }

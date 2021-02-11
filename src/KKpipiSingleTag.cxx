@@ -130,39 +130,6 @@ StatusCode KKpipiSingleTag::execute() {
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
-  if(m_RunNumber < 0) {
-    SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
-    if(!MCParticleCol) {
-      log << MSG::FATAL << "Could not load McParticleCol" << endreq;
-      return StatusCode::FAILURE;
-    }
-    std::vector<int> pdgID, MotherIndex;
-    std::vector<double> TruePx, TruePy, TruePz, TrueEnergy;
-    for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
-      if((*MCParticleCol_iter)->primaryParticle() || !(*MCParticleCol_iter)->decayFromGenerator()) {
-	continue;
-      }
-      if((*MCParticleCol_iter)->particleProperty() == 30443) {
-	IMcDecayModeSvc *IMcDecayModeService;
-        StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", IMcDecayModeService);
-        if(McDecayModeSVC_Status.isFailure()) {
-          log << MSG::FATAL << "Could not load McDecayModeSvc" << endreq;
-          return McDecayModeSVC_Status;
-        }
-        McDecayModeSvc *McDecayModeService = dynamic_cast<McDecayModeSvc*>(IMcDecayModeService);
-	m_MCmode = McDecayModeService->extract(*MCParticleCol_iter, pdgID, MotherIndex, TruePx, TruePy, TruePz, TrueEnergy);
-      }
-    }
-    m_NumberParticles = pdgID.size();
-    for(int i = 0; i < m_NumberParticles; i++) {
-      m_pdgID[i] = pdgID[i];
-      m_MotherIndex[i] = MotherIndex[i];
-      m_TruePx[i] = TruePx[i];
-      m_TruePy[i] = TruePy[i];
-      m_TruePz[i] = TruePz[i];
-      m_TrueEnergy[i] = TrueEnergy[i];
-    }
-  }
   DTagTool DTTool;
   DTTool.setPID(true);
   if(DTTool.isDTagListEmpty()) {
@@ -192,6 +159,23 @@ StatusCode KKpipiSingleTag::finalize() {
 }
 
 StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
+  if(m_RunNumber < 0) {
+    StatusCode MCStatus = FindMCInfo findMCInfo;
+    if(MCStatus != StatusCode::SUCCESS) {
+      return MCStatus;
+    }
+    findMCInfo.CalculateMCInfo();
+    m_NumberParticles = findMCInfo.GetNumberParticles();
+    m_MCmode = findMCInfo.GetMCmode();
+    for(int i = 0; i < m_NumberParticles; i++) {
+      m_pdgID = findMCInfo.GetpdgID(i);
+      m_MotherIndex = findMCInfo.GetMotherIndex(i);
+      m_TruePx = findMCInfo.GetTruePx(i);
+      m_TruePy = findMCInfo.GetTruePy(i);
+      m_TruePz = findMCInfo.GetTruePz(i);
+      m_TrueEnergy = findMCInfo.GetTrueEnergy(i);
+    }
+  }
   m_DMass = (*DTTool_iter)->mass();
   m_MBC = (*DTTool_iter)->mBC();
   m_DeltaE = (*DTTool_iter)->deltaE();

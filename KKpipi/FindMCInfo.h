@@ -30,33 +30,39 @@ class FindMCInfo {
      */
     int GetNumberParticles();
     /**
-     * Get vector of PDG IDs
+     * Get PDG ID
+     * @param i Vector component
      */
-    std::vector<int> GetpdgID();
+    int GetpdgID(int i);
     /**
-     * Get vector of mother indices
+     * Get mother index
+     * @param i Vector component
      */
-    std::vector<int> GetMotherIndex();
+    int GetMotherIndex(int i);
     /**
      * Get MC mode label
      */
     int GetMCmode();
     /**
-     * Get vector of true momenta in the \f$x\f$ direction
+     * Get true momentum in the \f$x\f$ direction
+     * @param i Vector component
      */
-    std::vector<int> GetTruePx();
+    double GetTruePx(int i);
     /**
-     * Get vector of true momenta in the \f$y\f$ direction
+     * Get true momentum in the \f$y\f$ direction
+     * @param i Vector component
      */
-    std::vector<int> GetTruePy();
+    double GetTruePy(int i);
     /**
-     * Get vector of true momenta in the \f$y\f$ direction
+     * Get true momentum in the \f$y\f$ direction
+     * @param i Vector component
      */
-    std::vector<int> GetTruePz();
+    double GetTruePz(int i);
     /**
-     * Get vector of true energies
+     * Get true energy
+     * @param i Vector component
      */
-    std::vector<int> GetTrueEnergy();
+    double GetTrueEnergy(int i);
   private:
     /**
      * Number of particles in the decay chain
