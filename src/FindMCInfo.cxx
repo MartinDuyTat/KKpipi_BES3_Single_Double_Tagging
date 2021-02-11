@@ -21,7 +21,7 @@ FindMCInfo::FindMCInfo(): m_NumberParticles(0), m_MCmode(0) {
 FindMCInfo::~FindMCInfo() {
 }
 
-StatusCode CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCParticleCol, IMcDecayModeSvc *IMcDecayModeService) {
+StatusCode FindMCInfo::CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCParticleCol, IMcDecayModeSvc *IMcDecayModeService) {
   std::vector<int> pdgID, MotherIndex;
   std::vector<double> TruePx, TruePy, TruePz, TrueEnergy;
   for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
@@ -50,29 +50,29 @@ int FindMCInfo::GetNumberParticles() {
 }
 
 int FindMCInfo::GetpdgID(int i) {
-  return m_pdgID;
+  return m_pdgID[i];
 }
 
 int FindMCInfo::GetMotherIndex(int i) {
-  return m_MotherIndex;
+  return m_MotherIndex[i];
 }
 
 int FindMCInfo::GetMCmode() {
-  return m_TruePx;
+  return m_MCmode;
 }
 
 int FindMCInfo::GetTruePx(int i) {
-  return m_TruePx;
+  return m_TruePx[i];
 }
 
 int FindMCInfo::GetTruePy(int i) {
-  return m_True_Py;
+  return m_True_Py[i];
 }
 
 int FindMCInfo::GetTruePz(int i) {
-  return m_TruePz;
+  return m_TruePz[i];
 }
 
 int FindMCInfo::GetTrueEnergy(int i) {
-  return m_TrueEnergy;
+  return m_TrueEnergy[i];
 }

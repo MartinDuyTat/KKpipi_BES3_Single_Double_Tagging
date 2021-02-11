@@ -7,6 +7,7 @@
 #define FINDMCINFO
 
 // Gaudi
+#include "GaudiKernel/SmartDataPtr.h"
 #include "GaudiKernel/StatusCode.h"
 // Boss
 #include "McDecayModeSvc/McDecayModeSvc.h"
