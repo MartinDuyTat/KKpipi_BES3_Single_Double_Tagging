@@ -18,8 +18,6 @@
 #include "DTagTool/DTagTool.h"
 // STL
 #include<string>
-// Helpers to find tag information
-#include "KKpipi/FindKKpipiTag.h"
 
 class KKpipiSingleTag: public Algorithm {
   public: 
