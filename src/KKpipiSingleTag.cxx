@@ -1,8 +1,8 @@
 // Martin Duy Tat 28th January 2021, based on code by Yu Zhang
 
 // KKpipi
-#include "KKpipi/KKpipiSingleTagInfo.h"
-#include "KKpipi/FindKKpipiTag.h"
+#include "KKpipi/KKpipiSingleTag.h"
+#include "KKpipi/FindKKpipiTagInfo.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
