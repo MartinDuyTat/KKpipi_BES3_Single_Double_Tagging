@@ -17,7 +17,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKKTagInfo::FindKKTagInfo(): {
+FindKKTagInfo::FindKKTagInfo() {
 }
 
 FindKKTagInfo::~FindKKTagInfo() {
