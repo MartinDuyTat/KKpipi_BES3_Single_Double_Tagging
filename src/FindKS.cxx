@@ -106,7 +106,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     WTrackParameter WTrackPion2(MASS::PI_MASS, KSChildKalmanTrack2->helix(), KSChildKalmanTrack2->err());
     // Store the four-momenta of daughter particles from the MDC tracks
     m_KSPiPlusP = KSChildKalmanTrack1->p4(MASS::PI_MASS);
-    m_KSPiMinusP = KSChildKalmanTrack2->p4(MASS::P_IMASS);
+    m_KSPiMinusP = KSChildKalmanTrack2->p4(MASS::PI_MASS);
     // Start fitting secondary vertex
     VertexFit *SecondaryVertexFit = VertexFit::instance();
     SecondaryVertexFit->init();
