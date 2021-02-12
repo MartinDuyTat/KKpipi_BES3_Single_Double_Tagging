@@ -260,7 +260,7 @@ StatusCode KKpipiVersusKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_ite
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
-  FindKpiTagInfo findKKTagInfo;
+  FindKKTagInfo findKKTagInfo;
   status = findKKTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
@@ -272,6 +272,6 @@ StatusCode KKpipiVersusKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_ite
   m_TagKMinuspx = findKKTagInfo.GetKMinusP(0);
   m_TagKMinuspy = findKKTagInfo.GetKMinusP(1);
   m_TagKMinuspz = findKKTagInfo.GetKMinusP(2);
-  m_TagKMinusenergy = findKpiTagInfo.GetKMinusP(3);
+  m_TagKMinusenergy = findKKTagInfo.GetKMinusP(3);
   return StatusCode::SUCCESS;
 }
