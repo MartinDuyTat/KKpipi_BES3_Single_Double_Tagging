@@ -48,10 +48,10 @@ double FindKpiTagInfo::GetPiP(int i) const {
   return m_PiP[i];
 }
 
-int FindKpiTagInfo::GetKCharge(int i) const {
+int FindKpiTagInfo::GetKCharge() const {
   return m_KCharge;
 }
 
-int FindKpiTagInfo::GetPiCharge(int i) const {
+int FindKpiTagInfo::GetPiCharge() const {
   return m_PiCharge;
 }
