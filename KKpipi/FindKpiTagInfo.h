@@ -41,20 +41,20 @@ class FindKpiTagInfo {
      * Get \f$K\f$ momentum component
      * @param i Component
      */
-    double GetKP(int i);
+    double GetKP(int i) const;
     /**
      * Get \f$\pi\f$ momentum component
      * @param i Component
      */
-    double GetPiP(int i);
+    double GetPiP(int i) const;
     /**
      * Get \f$K\f$ charge
      */
-    int GetKCharge();
+    int GetKCharge() const;
     /**
      * Get \f$\pi\f$ charge
      */
-    int GetPiCharge();
+    int GetPiCharge() const;
   private:
     /**
      * \f$K\f$ four-momentum
