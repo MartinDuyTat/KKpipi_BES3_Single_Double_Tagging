@@ -81,7 +81,7 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
     PionTracks_iter.push_back(DaughterTrackIterators[PIPLUS]);
     PionTracks_iter.push_back(DaughterTrackIterators[PIMINUS]);
-    StatusCode statuscode = findKS.findKS(DTTool_iter, PionTracks_iter);
+    StatusCode statuscode = findKS.findKS(PionTracks_iter);
     if(statuscode == StatusCode::SUCCESS) {
       m_KSFitSuccess = 1;
       m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();

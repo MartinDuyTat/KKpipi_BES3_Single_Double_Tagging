@@ -293,7 +293,7 @@ StatusCode KKpipiVersusKSpi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
   FindKS findKS;
-  status = findKS.findKS(DTTool_Tag_iter);
+  status = findKS.findKS();
   if(status != StatusCode::SUCCESS) {
     return status;
   }

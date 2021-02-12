@@ -43,7 +43,7 @@ FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVee
 FindKS::~FindKS() {
 }
 
-StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter) {
+StatusCode FindKS::findKS(const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter) {
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");
@@ -60,10 +60,6 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     return StatusCode::FAILURE;
   }
   // Get tracks in the event
-  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
-  // Get Kalman tracks and pion track IDs
-  int PiTrackID1 = (*PiTrack_iter[0])->trackId();
-  int PiTrackID2 = (*PiTrack_iter[1])->trackId();
   // Loop over KS in the event (should only be one)
   for(EvtRecVeeVertexCol::iterator KS_iter = evtRecVeeVertexCol->begin(); KS_iter != evtRecVeeVertexCol->end(); KS_iter++) {
     // Check if the vertex is actually a KS
@@ -77,8 +73,13 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     int KSChildTrackID1 = KSChildTrack1->trackId();
     int KSChildTrackID2 = KSChildTrack2->trackId();
     // Check if KS daughter tracks are the same as the pion tracks (if pion tracks are given)
-    if(PiTrack_iter.size() != 0 && !((KSChildTrackID1 == PiTrackID1 && KSChildTrackID2 == PiTrackID2) || (KSChildTrackID1 == PiTrackID2 && KSChildTrackID2 == PiTrackID1))) {
-      continue;
+    if(PiTrack_iter.size() != 0) {
+      // Get Kalman tracks and pion track IDs
+      int PiTrackID1 = (*PiTrack_iter[0])->trackId();
+      int PiTrackID2 = (*PiTrack_iter[1])->trackId();
+      if(!((KSChildTrackID1 == PiTrackID1 && KSChildTrackID2 == PiTrackID2) || (KSChildTrackID1 == PiTrackID2 && KSChildTrackID2 == PiTrackID1))) {
+	continue;
+      }
     }
     // Get KS position vector from VeeVertexAlg
     CLHEP::Hep3Vector KS_PositionVector((*KS_iter)->w()[4], (*KS_iter)->w()[5], (*KS_iter)->w()[6]);
