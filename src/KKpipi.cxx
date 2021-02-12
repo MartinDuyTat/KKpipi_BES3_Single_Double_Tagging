@@ -56,15 +56,15 @@ StatusCode KKpipi::initialize() {
 }
 
 StatusCode KKpipi::execute() {
-  for(std::vector<Algorithm*>::const_iterator it = subAlgorithms->begin(); it != subAlgorithms->end(); it++) {
-    sc = (*it)->execute();
+  for(std::vector<Algorithm*>::const_iterator it = subAlgorithms()->begin(); it != subAlgorithms()->end(); it++) {
+    StatusCode sc = (*it)->execute();
     if(sc.isFailure()) {
       return StatusCode::FAILURE;
     }
   }
 }
 
-Statuscode KKpipi::finalize() {
+StatusCode KKpipi::finalize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "KKpipi Double Tag Algorithm finalized" << endmsg;
   return StatusCode::SUCCESS;
