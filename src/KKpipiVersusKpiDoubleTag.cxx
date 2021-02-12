@@ -138,7 +138,7 @@ StatusCode KKpipiVersusKpiDoubleTag::initialize() {
   }
 }
 
-StatusCode KKpipiSingleTag::execute() {
+StatusCode KKpipiVersusKpiDoubleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing KKpipi vs Kpi Double Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
@@ -167,13 +167,13 @@ StatusCode KKpipiSingleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiSingleTag::finalize() {
+StatusCode KKpipiVersusKpiDoubleTag::finalize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Finalizing KKpipi vs Kpi Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
+StatusCode KKpipiVersusKpiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
