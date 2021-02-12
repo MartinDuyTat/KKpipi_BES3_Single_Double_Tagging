@@ -165,13 +165,13 @@ StatusCode KKpipiVersusKKDoubleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKpiDoubleTag::finalize() {
+StatusCode KKpipiVersusKKDoubleTag::finalize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Finalizing KKpipi vs KK Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKpiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
+StatusCode KKpipiVersusKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
