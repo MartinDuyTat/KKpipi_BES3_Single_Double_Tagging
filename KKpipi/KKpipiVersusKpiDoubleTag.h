@@ -42,7 +42,8 @@ class KKpipiVersusKpiDoubleTag: public Algorithm {
     StatusCode finalize();
     /**
      * Helper function to fill in information about the tag mode
-     * @param DTTool_iter Iterator pointing to single tag candidate
+     * @param DTTool_Signal_iter Iterator pointing to signal candidate
+     * @param DTTool_Signal_iter Iterator pointing to tag candidate
      * @param DTTool DTagTool object with all the event information
      */
     StatusCode FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool);

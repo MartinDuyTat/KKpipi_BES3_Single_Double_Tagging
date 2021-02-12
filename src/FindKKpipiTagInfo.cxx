@@ -34,7 +34,6 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(DTTool.isKaon(*Track_iter)) {
-
       if(MDCKalTrack->charge() == +1) {
 	DaughterTrackIterators[KPLUS] = Track_iter;
 	KalmanTracks[KPLUS] = MDCKalTrack;
@@ -97,74 +96,74 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   return StatusCode::SUCCESS;
 }
 
-double FindKKpipiTagInfo::GetKPlusP(int i) {
+double FindKKpipiTagInfo::GetKPlusP(int i) const {
   return m_KPlusP[i];
 }
 
-double FindKKpipiTagInfo::GetKMinusP(int i) {
+double FindKKpipiTagInfo::GetKMinusP(int i) const {
   return m_KMinusP[i];
 }
 
-double FindKKpipiTagInfo::GetPiPlusP(int i) {
+double FindKKpipiTagInfo::GetPiPlusP(int i) const {
   return m_PiPlusP[i];
 }
 
-double FindKKpipiTagInfo::GetPiMinusP(int i) {
+double FindKKpipiTagInfo::GetPiMinusP(int i) const {
   return m_PiMinusP[i];
 }
 
-int FindKKpipiTagInfo::GetKalmanFitSuccess() {
+int FindKKpipiTagInfo::GetKalmanFitSuccess() const {
   return m_KalmanFitSuccess;
 }
 
-double FindKKpipiTagInfo::GetKalmanFitChi2() {
+double FindKKpipiTagInfo::GetKalmanFitChi2() const {
   return m_KalmanFitChi2;
 }
 
-double FindKKpipiTagInfo::GetKPlusPKalmanFit(int i) {
+double FindKKpipiTagInfo::GetKPlusPKalmanFit(int i) const {
   return m_KPlusPKalmanFit[i];
 }
 
-double FindKKpipiTagInfo::GetKMinusPKalmanFit(int i) {
+double FindKKpipiTagInfo::GetKMinusPKalmanFit(int i) const {
   return m_KMinusPKalmanFit[i];
 }
 
-double FindKKpipiTagInfo::GetPiPlusPKalmanFit(int i) {
+double FindKKpipiTagInfo::GetPiPlusPKalmanFit(int i) const {
   return m_PiPlusPKalmanFit[i];
 }
 
-double FindKKpipiTagInfo::GetPiMinusPKalmanFit(int i) {
+double FindKKpipiTagInfo::GetPiMinusPKalmanFit(int i) const {
   return m_PiMinusPKalmanFit[i];
 }
 
-int FindKKpipiTagInfo::GetKSFitSuccess() {
+int FindKKpipiTagInfo::GetKSFitSuccess() const {
   return m_KSFitSuccess;
 }
 
-double FindKKpipiTagInfo::GetDecayLengthVeeVertex() {
+double FindKKpipiTagInfo::GetDecayLengthVeeVertex() const {
   return m_DecayLengthVeeVertex;
 }
 
-double FindKKpipiTagInfo::GetChi2VeeVertex() {
+double FindKKpipiTagInfo::GetChi2VeeVertex() const {
   return m_Chi2VeeVertex;
 }
 
-double FindKKpipiTagInfo::GetKSMassVeeVertex() {
+double FindKKpipiTagInfo::GetKSMassVeeVertex() const {
   return m_KSMassVeeVertex;
 }
 
-double FindKKpipiTagInfo::GetDecayLengthFit() {
+double FindKKpipiTagInfo::GetDecayLengthFit() const {
   return m_DecayLengthFit;
 }
 
-double FindKKpipiTagInfo::GetDecayLengthErrorFit() {
+double FindKKpipiTagInfo::GetDecayLengthErrorFit() const {
   return m_DecayLengthErrorFit;
 }
 
-double FindKKpipiTagInfo::GetChi2Fit() {
+double FindKKpipiTagInfo::GetChi2Fit() const {
   return m_Chi2Fit;
 }
 
-double FindKKpipiTagInfo::GetKSMassFit() {
+double FindKKpipiTagInfo::GetKSMassFit() const {
   return m_KSMassFit;
 }

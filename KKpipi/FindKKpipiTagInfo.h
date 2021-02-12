@@ -41,82 +41,82 @@ class FindKKpipiTagInfo {
      * Get \f$K^+\f$ momentum component
      * @param i Component
      */
-    double GetKPlusP(int i);
+    double GetKPlusP(int i) const;
     /**
      * Get \f$K^-\f$ momentum component
      * @param i Component
      */
-    double GetKMinusP(int i);
+    double GetKMinusP(int i) const;
     /**
      * Get \f$\pi^+\f$ momentum component
      * @param i Component
      */
-    double GetPiPlusP(int i);
+    double GetPiPlusP(int i) const;
     /**
      * Get \f$\pi^-\f$ momentum component
      * @param i Component
      */
-    double GetPiMinusP(int i);
+    double GetPiMinusP(int i) const;
     /**
      * Get flag of Kalman fit success
      */
-    int GetKalmanFitSuccess();
+    int GetKalmanFitSuccess() const;
     /**
      * Get Kalman fit \f$chi^2\f$
      */
-    double GetKalmanFitChi2();
+    double GetKalmanFitChi2() const;
     /**
      * Get \f$K^+\f$ momentum component from Kalman fit
      * @param i Component
      */
-    double GetKPlusPKalmanFit(int i);
+    double GetKPlusPKalmanFit(int i) const;
     /**
      * Get \f$K^-\f$ momentum component from Kalman fit
      * @param i Component
      */
-    double GetKMinusPKalmanFit(int i);
+    double GetKMinusPKalmanFit(int i) const;
     /**
      * Get \f$\pi^+\f$ momentum component from Kalman fit
      * @param i Component
      */
-    double GetPiPlusPKalmanFit(int i);
+    double GetPiPlusPKalmanFit(int i) const;
     /**
      * Get \f$\pi^-\f$ momentum component from Kalman fit
      * @param i Component
      */
-    double GetPiMinusPKalmanFit(int i);
+    double GetPiMinusPKalmanFit(int i) const;
     /**
      * Get flag equal of \f$K_S^0\f$ fit of tracks
      */
-    int GetKSFitSuccess();
+    int GetKSFitSuccess() const;
     /**
      * Get the \f$K_S\f$ decay length, from VeeVertexAlg
      */
-    double GetDecayLengthVeeVertex();
+    double GetDecayLengthVeeVertex() const;
     /**
      * Get the \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
      */
-    double GetChi2VeeVertex();
+    double GetChi2VeeVertex() const;
     /**
      * Get the \f$K_S^0\f$ mass, from VeeVertexAlg
      */
-    double GetKSMassVeeVertex();
+    double GetKSMassVeeVertex() const;
     /**
      * Get the \f$K_S^0\f$ decay length, from fit
      */
-    double GetDecayLengthFit();
+    double GetDecayLengthFit() const;
     /**
      * Get the \f$K_S^0\f$ decay length error, from fit
      */
-    double GetDecayLengthErrorFit();
+    double GetDecayLengthErrorFit() const;
     /**
      * Get the \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
-    double GetChi2Fit();
+    double GetChi2Fit() const;
     /**
      * Get the \f$K_S^0\f$ mass, from fit
      */
-    double GetKSMassFit();
+    double GetKSMassFit() const;
   private:
     /**
      * \f$K^+\f$ four-momentum
