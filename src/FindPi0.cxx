@@ -12,7 +12,7 @@
 #include "GaudiKernel/SmartRefVector.h"
 #include "GaudiKernel/StatusCode.h"
 // Event information
-#include "EventRecEventModel/RecEmcShower.h"
+#include "EmcRecEventModel/RecEmcShower.h"
 #include "EventModel/Event.h"
 #include "EventModel/EventHeader.h"
 #include "EventModel/EventModel.h"
