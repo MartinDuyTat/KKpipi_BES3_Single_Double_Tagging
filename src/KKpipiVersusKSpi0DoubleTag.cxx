@@ -36,7 +36,7 @@
 #include<vector>
 #include<string>
 
-KKpipiVersusKKpi0DoubleTag::KKpipiVersusKSpi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
+KKpipiVersusKSpi0DoubleTag::KKpipiVersusKSpi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
 
