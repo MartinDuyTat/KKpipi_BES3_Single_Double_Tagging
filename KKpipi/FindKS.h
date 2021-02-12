@@ -1,6 +1,6 @@
 // Martin Duy Tat 5th February 2021, based on code by Yu Zhang
 /**
- * FindKS is class for finding \f$K_S^0\f$ candidates and returning the flight distance, the flight distance error, the fit \f$\chi^2\f$ and the \f$K_S^0\f$ mass from VeeVertexAlg
+ * FindKS is class for finding \f$K_S^0\f$ candidates and returning the flight distance, the flight distance error, the fit \f$\chi^2\f$ and the \f$K_S^0\f$ mass from VeeVertexAlg, plus the daughter four-momenta
  * In addition, the secondary vertex is fitted again using the \f$\pi^+\pi^-\f$ tracks and a primary vertex is fitted using the vertex parameters from the secondary vertex fit
  */
 
@@ -12,6 +12,8 @@
 #include "EvtRecEvent/EvtRecTrack.h"
 // BOSS
 #include "DTagTool/DTagTool.h"
+// CLHEP
+#include "CLHEP/Vector/LorentzVector.h"
 // STL
 #include<vector>
 
@@ -34,31 +36,51 @@ class FindKS {
     /** 
      * Get decay length from VeeVertexAlg
      */
-    double getDecayLengthVeeVertex() const;
+    double GetDecayLengthVeeVertex() const;
     /** 
      * Get \f$\chi^2\f$ from VeeVertexAlg
      */
-    double getChi2VeeVertex() const;
+    double GetChi2VeeVertex() const;
     /** 
      * Get \f$K_S^0\f$ mass from VeeVertexAlg
      */
-    double getKSMassVeeVertex() const;
+    double GetKSMassVeeVertex() const;
     /** 
      * Get decay length from fit
      */
-    double getDecayLengthFit() const;
+    double GetDecayLengthFit() const;
     /** 
      * Get decay length error from fit
      */
-    double getDecayLengthErrorFit() const;
+    double GetDecayLengthErrorFit() const;
     /** 
      * Get \f$\chi^2\f$ from fit of primary vertex
      */
-    double getChi2Fit() const;
+    double GetChi2Fit() const;
     /** 
      * Get \f$K_S^0\f$ from fit
      */
-    double getKSMassFit() const;
+    double GetKSMassFit() const;
+    /**
+     * Get the \f$\pi^+\f$ daughter four-momentum from the MDC track
+     * @param i Momentum component
+     */
+    double GetKSPiPlusP(int i) const;
+    /**
+     * Get the \f$\pi^-\f$ daughter four-momentum from the MDC track
+     * @param i Momentum component
+     */
+    double GetKSPiMinusP(int i) const;
+    /**
+     * Get the \f$\pi^+\f$ daughter four-momentum after vertex fit
+     * @param i Momentum component
+     */
+    double GetKSPiPlusPFit(int i) const;
+    /**
+     * Get the \f$\pi^-\f$ daughter four-momentum after vertex fit
+     * @param i Momentum component
+     */
+    double GetKSPiMinusPFit(int i) const;
   private:
     /**
      * The decay length, from VeeVertexAlg
@@ -88,6 +110,22 @@ class FindKS {
      * The \f$K_S^0\f$ mass, from fit
      */
     double m_KSMassFit;
+    /**
+     * The \f$\pi^+\f$ daughter four-momentum from the MDC track
+     */
+    CLHEP::HepLorentzVector m_KSPiPlusP;
+    /**
+     * The \f$\pi^-\f$ daughter four-momentum from the MDC track
+     */
+    CLHEP::HepLorentzVector m_KSPiMinusP;
+    /**
+     * The \f$\pi^+\f$ daughter four-momentum after vertex fit
+     */
+    CLHEP::HepLorentzVector m_KSPiPlusPFit;
+    /**
+     * The \f$\pi^-\f$ daughter four-momentum after vertex fit
+     */
+    CLHEP::HepLorentzVector m_KSPiMinusPFit;
 };
 
 #endif

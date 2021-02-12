@@ -84,13 +84,13 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     StatusCode statuscode = findKS.findKS(DTTool_iter, PionTracks_iter);
     if(statuscode == StatusCode::SUCCESS) {
       m_KSFitSuccess = 1;
-      m_DecayLengthVeeVertex = findKS.getDecayLengthVeeVertex();
-      m_Chi2VeeVertex = findKS.getChi2VeeVertex();
-      m_KSMassVeeVertex = findKS.getKSMassVeeVertex();
-      m_DecayLengthFit = findKS.getDecayLengthFit();
-      m_DecayLengthErrorFit = findKS.getDecayLengthErrorFit();
-      m_Chi2Fit = findKS.getChi2Fit();
-      m_KSMassFit = findKS.getKSMassFit();
+      m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
+      m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
+      m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
+      m_DecayLengthFit = findKS.GetDecayLengthFit();
+      m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
+      m_Chi2Fit = findKS.GetChi2Fit();
+      m_KSMassFit = findKS.GetKSMassFit();
     }
   }
   return StatusCode::SUCCESS;
