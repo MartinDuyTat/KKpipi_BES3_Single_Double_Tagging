@@ -21,6 +21,9 @@ KKpipi::KKpipi(const std::string& name, ISvcLocator* pSvcLocator): Algorithm(nam
   declareProperty("KKpipiVersusKSpi0DoubleTag", m_recKSpi0Tag = true);
 }
 
+KKpipi::~KKpipi() {
+}
+
 StatusCode KKpipi::initialize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Creating KKpipi Double Tag Algorithm" << endreq;
