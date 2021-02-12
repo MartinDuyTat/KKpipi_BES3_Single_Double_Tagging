@@ -1,12 +1,12 @@
 // Martin Duy Tat 12th February 2021
 /**
- * KKpipiVersusKpipi0DoubleTag is a class for a BOSS algorithm
- * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to K^-\pi^+\pi^0\f$ tag
+ * KKpipiVersusKSpi0DoubleTag is a class for a BOSS algorithm
+ * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to K_S^0\pi^0\f$ tag
  * It also runs a fit for the decay \f$K_S^0\to\pi^+\pi^-\f$ by refitting the primary and secondary vertex in the class FindKS, from this the flight significance is used to eliminate peaking background
  */
 
-#ifndef KKPIPIVERSUSKPIPI0DOUBLETAG
-#define KKPIPIVERSUSKPIPI0DOUBLETAG
+#ifndef KKPIPIVERSUSKSPI0DOUBLETAG
+#define KKPIPIVERSUSKSPI0DOUBLETAG
 
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -18,16 +18,16 @@
 // STL
 #include<string>
 
-class KKpipiVersusKpipi0DoubleTag: public Algorithm {
+class KKpipiVersusKSpi0DoubleTag: public Algorithm {
   public: 
     /**
      * Default constructor for an algorithm where all necessary properties are declared
      */
-    KKpipiVersusKpipi0DoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
+    KKpipiVersusKSpi0DoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
     /**
      * Trivial destructor
      */
-    ~KKpipiVersusKpipi0DoubleTag();
+    ~KKpipiVersusKSpi0DoubleTag();
     /**
      * This function runs when algorithm is initialized
      */
@@ -331,45 +331,97 @@ class KKpipiVersusKpipi0DoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_SignalKSMassFit;
     /**
-     * Tag \f$\pi\f$ momentum along \f$x\f$
+     * The \f$K_S\f$ decay length, from VeeVertexAlg
      */
-    NTuple::Item<double> m_TagPipx;
+    NTuple::Item<double> m_TagDecayLengthVeeVertex;
     /**
-     * Tag \f$\pi\f$ momentum along \f$y\f$
+     * The \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
      */
-    NTuple::Item<double> m_TagPipy;
+    NTuple::Item<double> m_TagChi2VeeVertex;
     /**
-     * Tag \f$\pi\f$ momentum along \f$z\f$
+     * The \f$K_S^0\f$ mass, from VeeVertexAlg
      */
-    NTuple::Item<double> m_TagPipz;
+    NTuple::Item<double> m_TagKSMassVeeVertex;
     /**
-     * Tag \f$\pi\f$ energy
+     * The \f$K_S^0\f$ decay length, from fit
      */
-    NTuple::Item<double> m_TagPienergy;
+    NTuple::Item<double> m_TagDecayLengthFit;
     /**
-     * Tag \f$\pi\f$ charge
+     * The \f$K_S^0\f$ decay length error, from fit
      */
-    NTuple::Item<double> m_TagPiCharge;
+    NTuple::Item<double> m_TagDecayLengthErrorFit;
     /**
-     * Tag \f$K\f$ momentum along \f$x\f$
+     * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
-    NTuple::Item<double> m_TagKpx;
+    NTuple::Item<double> m_TagChi2Fit;
     /**
-     * Tag \f$K\f$ momentum along \f$y\f$
+     * The \f$K_S^0\f$ mass, from fit
      */
-    NTuple::Item<double> m_TagKpy;
+    NTuple::Item<double> m_TagKSMassFit;
     /**
-     * Tag \f$K\f$ momentum along \f$z\f$
+     * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKpz;
+    NTuple::Item<double> m_TagKSPiPluspx;
     /**
-     * Tag \f$K\f$ energy
+     * The \f$\pi^+\f$ daughter momentum along \f$y\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKenergy;
+    NTuple::Item<double> m_TagKSPiPluspy;
     /**
-     * Tag \f$K\f$ charge
+     * The \f$\pi^+\f$ daughter momentum along \f$z\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKCharge;
+    NTuple::Item<double> m_TagKSPiPluspz;
+    /**
+     * The \f$\pi^+\f$ daughter energy from the MDC track
+     */
+    NTuple::Item<double> m_TagKSPiPlusenergy;
+    /**
+     * The \f$\pi^-\f$ daughter momentum along \f$x\f$ from the MDC track
+     */
+    NTuple::Item<double> m_TagKSPiMinuspx;
+    /**
+     * The \f$\pi^-\f$ daughter momentum along \f$y\f$ from the MDC track
+     */
+    NTuple::Item<double> m_TagKSPiMinuspy;
+    /**
+     * The \f$\pi^-\f$ daughter momentum along \f$z\f$ from the MDC track
+     */
+    NTuple::Item<double> m_TagKSPiMinuspz;
+    /**
+     * The \f$\pi^-\f$ daughter energy from the MDC track
+     */
+    NTuple::Item<double> m_TagKSPiMinusenergy;
+    /**
+     * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
+     */
+    NTuple::Item<double> m_TagKSPiPluspxFit;
+    /**
+     * The \f$\pi^+\f$ daughter momentum along \f$y\f$ after vertex fit
+     */
+    NTuple::Item<double> m_TagKSPiPluspyFit;
+    /**
+     * The \f$\pi^+\f$ daughter momentum along \f$z\f$ after vertext fit
+     */
+    NTuple::Item<double> m_TagKSPiPluspzFit;
+    /**
+     * The \f$\pi^+\f$ daughter energy after vertext fit
+     */
+    NTuple::Item<double> m_TagKSPiPlusenergyFit;
+    /**
+     * The \f$\pi^-\f$ daughter momentum along \f$x\f$ after vertext fit
+     */
+    NTuple::Item<double> m_TagKSPiMinuspxFit;
+    /**
+     * The \f$\pi^-\f$ daughter momentum along \f$y\f$ after vertext fit
+     */
+    NTuple::Item<double> m_TagKSPiMinuspyFit;
+    /**
+     * The \f$\pi^-\f$ daughter momentum along \f$z\f$ after vertext fit
+     */
+    NTuple::Item<double> m_TagKSPiMinuspzFit;
+    /**
+     * The \f$\pi^-\f$ daughter energy after vertext fit
+     */
+    NTuple::Item<double> m_TagKSPiMinusenergyFit;
     /**
      * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
