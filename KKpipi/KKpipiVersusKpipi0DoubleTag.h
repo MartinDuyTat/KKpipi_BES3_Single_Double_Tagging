@@ -1,12 +1,12 @@
-// Martin Duy Tat 12th February 2021, based on code by Yu Zhang
+// Martin Duy Tat 12th February 2021
 /**
- * KKpipiVersusKpiDoubleTag is a class for a BOSS algorithm
- * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to K^-\pi^+\f$ tag
+ * KKpipiVersusKpipi0DoubleTag is a class for a BOSS algorithm
+ * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to K^-\pi^+\pi^0\f$ tag
  * It also runs a fit for the decay \f$K_S^0\to\pi^+\pi^-\f$ by refitting the primary and secondary vertex in the class FindKS, from this the flight significance is used to eliminate peaking background
  */
 
-#ifndef KKPIPIVERSUSKPIDOUBLETAG
-#define KKPIPIVERSUSKPIDOUBLETAG
+#ifndef KKPIPIPI0VERSUSKPIDOUBLETAG
+#define KKPIPIPI0VERSUSKPIDOUBLETAG
 
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -18,16 +18,16 @@
 // STL
 #include<string>
 
-class KKpipiVersusKpiDoubleTag: public Algorithm {
+class KKpipiVersusKpipi0DoubleTag: public Algorithm {
   public: 
     /**
      * Default constructor for an algorithm where all necessary properties are declared
      */
-    KKpipiVersusKpiDoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
+    KKpipiVersusKpipi0DoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
     /**
      * Trivial destructor
      */
-    ~KKpipiVersusKpiDoubleTag();
+    ~KKpipiVersusKpipi0DoubleTag();
     /**
      * This function runs when algorithm is initialized
      */
@@ -370,6 +370,74 @@ class KKpipiVersusKpiDoubleTag: public Algorithm {
      * Tag \f$K\f$ charge
      */
     NTuple::Item<double> m_TagKCharge;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0px;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0py;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0pz;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ unconstrained energy
+     */
+    NTuple::Item<double> m_TagHighEPi0energy;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0px;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0py;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0pz;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ unconstrained energy
+     */
+    NTuple::Item<double> m_TagLowEPi0energy;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0Constrainedpx;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0Constrainedpy;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0Constrainedpz;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ constrained energy
+     */
+    NTuple::Item<double> m_TagHighEPi0Constrainedenergy;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0Constrainedpx;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0Constrainedpy;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0Constrainedpz;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ constrained energy
+     */
+    NTuple::Item<double> m_TagLowEPi0Constrainedenergy;
+    /**
+     * Tag \f$\pi^0\f$ kinematic fit \f$\chi^2\f$
+     */
+    NTuple::Item<double> m_Pi0Chi2Fit;
 };
 
 #endif
