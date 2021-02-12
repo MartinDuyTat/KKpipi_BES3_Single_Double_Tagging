@@ -14,7 +14,6 @@
 #include "GaudiKernel/NTuple.h"
 #include "GaudiKernel/StatusCode.h"
 // BOSS
-#include "McDecayModeSvc/McDecayModeSvc.h"
 #include "DTagTool/DTagTool.h"
 // STL
 #include<string>
@@ -47,10 +46,6 @@ class KKpipiSingleTag: public Algorithm {
      * @param DTTool DTagTool object with all the event information
      */
     StatusCode FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool);
-    /**
-     * Enumeration to label daughter particles in the order K+ K- pi+ pi-
-     */
-    enum DaughterParticle {KPLUS, KMINUS, PIPLUS, PIMINUS};
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later
@@ -87,19 +82,19 @@ class KKpipiSingleTag: public Algorithm {
      */
     NTuple::Item<int> m_MCmode;
     /**
-     * True x momentum of the \f$D\f$ meson
+     * Array of true x momenta
      */
     NTuple::Array<double> m_TruePx;
     /**
-     * True y momentum of the \f$D\f$ meson
+     * Array of true y momenta
      */
     NTuple::Array<double> m_TruePy;
     /**
-     * True z momentum of the \f$D\f$ meson
+     * Array of true z momenta
      */
     NTuple::Array<double> m_TruePz;
     /**
-     * True total energy of the \f$D\f$ meson
+     * Array of true energies
      */
     NTuple::Array<double> m_TrueEnergy;
     /**

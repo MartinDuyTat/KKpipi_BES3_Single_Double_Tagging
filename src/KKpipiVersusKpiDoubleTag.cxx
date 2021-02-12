@@ -1,8 +1,9 @@
-// Martin Duy Tat 28th January 2021, based on code by Yu Zhang
+// Martin Duy Tat 12th February 2021, based on code by Yu Zhang
 
 // KKpipi
-#include "KKpipi/KKpipiSingleTag.h"
+#include "KKpipi/KKpipiVersusKpiDoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
+#include "KKpipi/FindKpiTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -34,22 +35,22 @@
 #include<vector>
 #include<string>
 
-KKpipiSingleTag::KKpipiSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
+KKpipiVersusKpiDoubleTag::KKpipiVersusKpiDoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
 
-KKpipiSingleTag::~KKpipiSingleTag() {
+KKpipiVersusKpiDoubleTag::~KKpipiVersusKpiDoubleTag() {
 }
 
-StatusCode KKpipiSingleTag::initialize() {
+StatusCode KKpipiVersusKpiDoubleTag::initialize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Initializing KKpipi Single Tagging" << endreq;
+  log << MSG::INFO << "Initializing KKpipi vs Kpi Double Tagging" << endreq;
   StatusCode status;
-  NTuplePtr ntp(ntupleSvc(), "KKPIPI/SingleTag");
+  NTuplePtr ntp(ntupleSvc(), "KKPIPI/KpiDoubleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/SingleTag", CLID_ColumnWiseTuple, "Single tagged D->KKpipi events");
+    m_tuple = ntupleSvc()->book("KKPIPI/KpiDoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->Kpi events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
@@ -61,56 +62,74 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addIndexedItem("True_Py", m_NumberParticles, m_TruePy);
       status = m_tuple->addIndexedItem("True_Pz", m_NumberParticles, m_TruePz);
       status = m_tuple->addIndexedItem("True_Energy", m_NumberParticles, m_TrueEnergy);
-      status = m_tuple->addItem("DMass", m_DMass);
-      status = m_tuple->addItem("MBC", m_MBC);
-      status = m_tuple->addItem("DeltaE", m_DeltaE);
-      status = m_tuple->addItem("BeamE", m_BeamE);
-      status = m_tuple->addItem("Dpx", m_Dpx);
-      status = m_tuple->addItem("Dpy", m_Dpy);
-      status = m_tuple->addItem("Dpz", m_Dpz);
-      status = m_tuple->addItem("Denergy", m_Denergy);
-      status = m_tuple->addItem("PiPluspx", m_PiPluspx);
-      status = m_tuple->addItem("PiPluspy", m_PiPluspy);
-      status = m_tuple->addItem("PiPluspz", m_PiPluspz);
-      status = m_tuple->addItem("PiPlusenergy", m_PiPlusenergy);
-      status = m_tuple->addItem("PiMinuspx", m_PiMinuspx);
-      status = m_tuple->addItem("PiMinuspy", m_PiMinuspy);
-      status = m_tuple->addItem("PiMinuspz", m_PiMinuspz);
-      status = m_tuple->addItem("PiMinusenergy", m_PiMinusenergy);
-      status = m_tuple->addItem("KPluspx", m_KPluspx);
-      status = m_tuple->addItem("KPluspy", m_KPluspy);
-      status = m_tuple->addItem("KPluspz", m_KPluspz);
-      status = m_tuple->addItem("KPlusenergy", m_KPlusenergy);
-      status = m_tuple->addItem("KMinuspx", m_KMinuspx);
-      status = m_tuple->addItem("KMinuspy", m_KMinuspy);
-      status = m_tuple->addItem("KMinuspz", m_KMinuspz);
-      status = m_tuple->addItem("KMinusenergy", m_KMinusenergy);
-      status = m_tuple->addItem("KalmanFitSuccess", m_KalmanFitSuccess);
-      status = m_tuple->addItem("KalmanFitChi2", m_KalmanFitChi2);
-      status = m_tuple->addItem("PiPluspxKalmanFit", m_PiPluspxKalmanFit);
-      status = m_tuple->addItem("PiPluspyKalmanFit", m_PiPluspyKalmanFit);
-      status = m_tuple->addItem("PiPluspzKalmanFit", m_PiPluspzKalmanFit);
-      status = m_tuple->addItem("PiPlusenergyKalmanFit", m_PiPlusenergyKalmanFit);
-      status = m_tuple->addItem("PiMinuspxKalmanFit", m_PiMinuspxKalmanFit);
-      status = m_tuple->addItem("PiMinuspyKalmanFit", m_PiMinuspyKalmanFit);
-      status = m_tuple->addItem("PiMinuspzKalmanFit", m_PiMinuspzKalmanFit);
-      status = m_tuple->addItem("PiMinusenergyKalmanFit", m_PiMinusenergyKalmanFit);
-      status = m_tuple->addItem("KPluspxKalmanFit", m_KPluspxKalmanFit);
-      status = m_tuple->addItem("KPluspyKalmanFit", m_KPluspyKalmanFit);
-      status = m_tuple->addItem("KPluspzKalmanFit", m_KPluspzKalmanFit);
-      status = m_tuple->addItem("KPlusenergyKalmanFit", m_KPlusenergyKalmanFit);
-      status = m_tuple->addItem("KMinuspxKalmanFit", m_KMinuspxKalmanFit);
-      status = m_tuple->addItem("KMinuspyKalmanFit", m_KMinuspyKalmanFit);
-      status = m_tuple->addItem("KMinuspzKalmanFit", m_KMinuspzKalmanFit);
-      status = m_tuple->addItem("KMinusenergyKalmanFit", m_KMinusenergyKalmanFit);
-      status = m_tuple->addItem("KSFitSuccess", m_KSFitSuccess);
-      status = m_tuple->addItem("KSDecayLengthVeeVertex", m_DecayLengthVeeVertex);
-      status = m_tuple->addItem("KSChi2VeeVertex", m_Chi2VeeVertex);
-      status = m_tuple->addItem("KSMassVeeVertex", m_KSMassVeeVertex);
-      status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
-      status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
-      status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
-      status = m_tuple->addItem("KSMassFit", m_KSMassFit);
+      status = m_tuple->addItem("SignalDMass", m_SignalDMass);
+      status = m_tuple->addItem("SignalMBC", m_SignalMBC);
+      status = m_tuple->addItem("SignalDeltaE", m_SignalDeltaE);
+      status = m_tuple->addItem("SignalBeamE", m_SignalBeamE);
+      status = m_tuple->addItem("TagDMass", m_TagDMass);
+      status = m_tuple->addItem("TagMBC", m_TagMBC);
+      status = m_tuple->addItem("TagDeltaE", m_TagDeltaE);
+      status = m_tuple->addItem("TagBeamE", m_TagBeamE);
+      status = m_tuple->addItem("SignalDpx", m_SignalDpx);
+      status = m_tuple->addItem("SignalDpy", m_SignalDpy);
+      status = m_tuple->addItem("SignalDpz", m_SignalDpz);
+      status = m_tuple->addItem("SignalDenergy", m_SignalDenergy);
+      status = m_tuple->addItem("TagDpx", m_TagDpx);
+      status = m_tuple->addItem("TagDpy", m_TagDpy);
+      status = m_tuple->addItem("TagDpz", m_TagDpz);
+      status = m_tuple->addItem("TagDenergy", m_TagDenergy);
+      status = m_tuple->addItem("SignalPiPluspx", m_SignalPiPluspx);
+      status = m_tuple->addItem("SignalPiPluspy", m_SignalPiPluspy);
+      status = m_tuple->addItem("SignalPiPluspz", m_SignalPiPluspz);
+      status = m_tuple->addItem("SignalPiPlusenergy", m_SignalPiPlusenergy);
+      status = m_tuple->addItem("SignalPiMinuspx", m_SignalPiMinuspx);
+      status = m_tuple->addItem("SignalPiMinuspy", m_SignalPiMinuspy);
+      status = m_tuple->addItem("SignalPiMinuspz", m_SignalPiMinuspz);
+      status = m_tuple->addItem("SignalPiMinusenergy", m_SignalPiMinusenergy);
+      status = m_tuple->addItem("SignalKPluspx", m_SignalKPluspx);
+      status = m_tuple->addItem("SignalKPluspy", m_SignalKPluspy);
+      status = m_tuple->addItem("SignalKPluspz", m_SignalKPluspz);
+      status = m_tuple->addItem("SignalKPlusenergy", m_SignalKPlusenergy);
+      status = m_tuple->addItem("SignalKMinuspx", m_SignalKMinuspx);
+      status = m_tuple->addItem("SignalKMinuspy", m_SignalKMinuspy);
+      status = m_tuple->addItem("SignalKMinuspz", m_SignalKMinuspz);
+      status = m_tuple->addItem("SignalKMinusenergy", m_SignalKMinusenergy);
+      status = m_tuple->addItem("SignalKalmanFitSuccess", m_SignalKalmanFitSuccess);
+      status = m_tuple->addItem("SignalKalmanFitChi2", m_SignalKalmanFitChi2);
+      status = m_tuple->addItem("SignalPiPluspxKalmanFit", m_SignalPiPluspxKalmanFit);
+      status = m_tuple->addItem("SignalPiPluspyKalmanFit", m_SignalPiPluspyKalmanFit);
+      status = m_tuple->addItem("SignalPiPluspzKalmanFit", m_SignalPiPluspzKalmanFit);
+      status = m_tuple->addItem("SignalPiPlusenergyKalmanFit", m_SignalPiPlusenergyKalmanFit);
+      status = m_tuple->addItem("SignalPiMinuspxKalmanFit", m_SignalPiMinuspxKalmanFit);
+      status = m_tuple->addItem("SignalPiMinuspyKalmanFit", m_SignalPiMinuspyKalmanFit);
+      status = m_tuple->addItem("SignalPiMinuspzKalmanFit", m_SignalPiMinuspzKalmanFit);
+      status = m_tuple->addItem("SignalPiMinusenergyKalmanFit", m_SignalPiMinusenergyKalmanFit);
+      status = m_tuple->addItem("SignalKPluspxKalmanFit", m_SignalKPluspxKalmanFit);
+      status = m_tuple->addItem("SignalKPluspyKalmanFit", m_SignalKPluspyKalmanFit);
+      status = m_tuple->addItem("SignalKPluspzKalmanFit", m_SignalKPluspzKalmanFit);
+      status = m_tuple->addItem("SignalKPlusenergyKalmanFit", m_SignalKPlusenergyKalmanFit);
+      status = m_tuple->addItem("SignalKMinuspxKalmanFit", m_SignalKMinuspxKalmanFit);
+      status = m_tuple->addItem("SignalKMinuspyKalmanFit", m_SignalKMinuspyKalmanFit);
+      status = m_tuple->addItem("SignalKMinuspzKalmanFit", m_SignalKMinuspzKalmanFit);
+      status = m_tuple->addItem("SignalKMinusenergyKalmanFit", m_SignalKMinusenergyKalmanFit);
+      status = m_tuple->addItem("SignalKSFitSuccess", m_SignalKSFitSuccess);
+      status = m_tuple->addItem("SignalKSDecayLengthVeeVertex", m_SignalDecayLengthVeeVertex);
+      status = m_tuple->addItem("SignalKSChi2VeeVertex", m_SignalChi2VeeVertex);
+      status = m_tuple->addItem("SignalKSMassVeeVertex", m_SignalKSMassVeeVertex);
+      status = m_tuple->addItem("SignalKSDecayLengthFit", m_SignalDecayLengthFit);
+      status = m_tuple->addItem("SignalKSDecayLengthErrorFit", m_SignalDecayLengthErrorFit);
+      status = m_tuple->addItem("SignalKSChi2Fit", m_SignalChi2Fit);
+      status = m_tuple->addItem("SignalKSMassFit", m_SignalKSMassFit);
+      status = m_tuple->addItem("TagPipx", m_TagPipx);
+      status = m_tuple->addItem("TagPipy", m_TagPipy);
+      status = m_tuple->addItem("TagPipz", m_TagPipz);
+      status = m_tuple->addItem("TagPienergy", m_TagPienergy);
+      status = m_tuple->addItem("TagPiCharge", m_TagPiCharge);
+      status = m_tuple->addItem("TagKpx", m_TagKpx);
+      status = m_tuple->addItem("TagKpy", m_TagKpy);
+      status = m_tuple->addItem("TagKpz", m_TagKpz);
+      status = m_tuple->addItem("TagKenergy", m_TagKenergy);
+      status = m_tuple->addItem("TagKCharge", m_TagKCharge);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
