@@ -2,6 +2,7 @@
 #include "KKpipi/KKpipiSingleTag.h"
 
 DECLARE_ALGORITHM_FACTORY(KKpipiSingleTag)
+DECLARE_ALGORITHM_FACTORY(KKpipiVersusKpiDoubleTag)
 
 DECLARE_FACTORY_ENTRIES(KKpipi) {
   DECLARE_ALGORITHM(KKpipi)
