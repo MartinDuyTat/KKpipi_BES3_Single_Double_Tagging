@@ -105,8 +105,8 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     WTrackParameter WTrackPion1(MASS::PI_MASS, KSChildKalmanTrack1->helix(), KSChildKalmanTrack1->err());
     WTrackParameter WTrackPion2(MASS::PI_MASS, KSChildKalmanTrack2->helix(), KSChildKalmanTrack2->err());
     // Store the four-momenta of daughter particles from the MDC tracks
-    m_KSPiPlusP = KSChildKalmanTrack1->p4(MASS::PIMASS);
-    m_KSPiMinusP = KSChildKalmanTrack2->p4(MASS::PIMASS);
+    m_KSPiPlusP = KSChildKalmanTrack1->p4(MASS::PI_MASS);
+    m_KSPiMinusP = KSChildKalmanTrack2->p4(MASS::P_IMASS);
     // Start fitting secondary vertex
     VertexFit *SecondaryVertexFit = VertexFit::instance();
     SecondaryVertexFit->init();
@@ -121,7 +121,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     m_KSPiPlusPFit = SecondaryVertexFit->wTrackInfit(0).p();
     m_KSPiMinusPFit = SecondaryVertexFit->wTrackInfit(1).p();
     // Swap pions if charges are the other way around
-    if(KSChildKalmanTrack1->charge < 0) {
+    if(KSChildKalmanTrack1->charge() < 0) {
       swap(m_KSPiPlusP, m_KSPiMinusP);
       swap(m_KSPiPlusPFit, m_KSPiMinusPFit);
     }
@@ -189,17 +189,17 @@ double FindKS::GetKSMassFit() const {
 }
 
 double FindKS::GetKSPiPlusP(int i) const {
-  return m_KSPiPlus[i];
+  return m_KSPiPlusP[i];
 }
 
 double FindKS::GetKSPiMinusP(int i) const {
-  return m_KSPiMinus[i];
+  return m_KSPiMinusP[i];
 }
 
 double FindKS::GetKSPiPlusPFit(int i) const {
-  return m_KSPiPlusFit[i];
+  return m_KSPiPlusPFit[i];
 }
 
 double FindKS::GetKSPiMinusPFit(int i) const {
-  return m_KSPiMinusFit[i];
+  return m_KSPiMinusPFit[i];
 }
