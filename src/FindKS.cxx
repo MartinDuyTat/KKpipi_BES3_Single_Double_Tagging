@@ -48,7 +48,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");
   // Check if event has two pions
-  if(PiTrack_iter.size() != 2 || PiTrack_iter.size() != 0) {
+  if(PiTrack_iter.size() != 2 && PiTrack_iter.size() != 0) {
     log << MSG::ERROR << "Need two pions to reconstruct KS" << endreq;
     return StatusCode::FAILURE;
   }
