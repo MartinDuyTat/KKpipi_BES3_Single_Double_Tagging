@@ -131,7 +131,7 @@ StatusCode KKpipiVersusKpiDoubleTag::initialize() {
       status = m_tuple->addItem("TagKenergy", m_TagKenergy);
       status = m_tuple->addItem("TagKCharge", m_TagKCharge);
     } else {
-      log << MSG::ERROR << "Cannot book NTuple for KKpipi Single Tags" << endmsg;
+      log << MSG::ERROR << "Cannot book NTuple for KKpipi vs Kpi Double Tags" << endmsg;
       return StatusCode::FAILURE;
     }
     return StatusCode::SUCCESS;
@@ -140,7 +140,7 @@ StatusCode KKpipiVersusKpiDoubleTag::initialize() {
 
 StatusCode KKpipiSingleTag::execute() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Executing KKpipi Single Tag Algorithm" << endreq;
+  log << MSG::INFO << "Executing KKpipi vs Kpi Double Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
@@ -154,9 +154,10 @@ StatusCode KKpipiSingleTag::execute() {
     log << MSG::DEBUG << "Cosmic and lepton veto" << endreq;
     return StatusCode::SUCCESS;
   }
-  if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
-    DTagToolIterator DTTool_iter = DTTool.stag();
-    StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
+  if(DTTool.findDTag(EvtRecDTag::kD0toKKPiPi, EvtRedDTag::kD0toKPi)) {
+    DTagToolIterator DTTool_Signal_iter = DTTool.dtag1();
+    DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
+    StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
         log << MSG::FATAL << "Assigning tuple info failed" << endreq;
 	return StatusCode::FAILURE;
@@ -168,11 +169,11 @@ StatusCode KKpipiSingleTag::execute() {
 
 StatusCode KKpipiSingleTag::finalize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Finalizing KKpipi Single Tagging" << endreq;
+  log << MSG::INFO << "Finalizing KKpipi vs Kpi Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
+StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
@@ -199,59 +200,78 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
       m_TrueEnergy[i] = findMCInfo.GetTrueEnergy(i);
     }
   }
-  m_DMass = (*DTTool_iter)->mass();
-  m_MBC = (*DTTool_iter)->mBC();
-  m_DeltaE = (*DTTool_iter)->deltaE();
-  m_BeamE = (*DTTool_iter)->beamE();
-  m_Dpx = (*DTTool_iter)->p4().x();
-  m_Dpy = (*DTTool_iter)->p4().y();
-  m_Dpz = (*DTTool_iter)->p4().z();
-  m_Denergy = (*DTTool_iter)->p4().t();
+  m_SignalDMass = (*DTTool_Signal_iter)->mass();
+  m_SignalMBC = (*DTTool_Signal_iter)->mBC();
+  m_SignalDeltaE = (*DTTool_Signal_iter)->deltaE();
+  m_SignalBeamE = (*DTTool_Signal_iter)->beamE();
+  m_TagDMass = (*DTTool_Tag_iter)->mass();
+  m_TagMBC = (*DTTool_Tag_iter)->mBC();
+  m_TagDeltaE = (*DTTool_Tag_iter)->deltaE();
+  m_TagBeamE = (*DTTool_Tag_iter)->beamE();
+  m_SignalDpx = (*DTTool_Signal_iter)->p4().x();
+  m_SignalDpy = (*DTTool_Signal_iter)->p4().y();
+  m_SignalDpz = (*DTTool_Signal_iter)->p4().z();
+  m_SignalDenergy = (*DTTool_Signal_iter)->p4().t();
   FindKKpipiTagInfo findKKpipiTagInfo;
-  StatusCode status = findKKpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
+  StatusCode status = findKKpipiTagInfo.CalculateTagInfo(DTTool_Signal_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  m_KPluspx = findKKpipiTagInfo.GetKPlusP(0);
-  m_KPluspy = findKKpipiTagInfo.GetKPlusP(1);
-  m_KPluspz = findKKpipiTagInfo.GetKPlusP(2);
-  m_KPlusenergy = findKKpipiTagInfo.GetKPlusP(3);
-  m_KMinuspx = findKKpipiTagInfo.GetKMinusP(0);
-  m_KMinuspy = findKKpipiTagInfo.GetKMinusP(1);
-  m_KMinuspz = findKKpipiTagInfo.GetKMinusP(2);
-  m_KMinusenergy = findKKpipiTagInfo.GetKMinusP(3);
-  m_PiPluspx = findKKpipiTagInfo.GetPiPlusP(0);
-  m_PiPluspy = findKKpipiTagInfo.GetPiPlusP(1);
-  m_PiPluspz = findKKpipiTagInfo.GetPiPlusP(2);
-  m_PiPlusenergy = findKKpipiTagInfo.GetPiPlusP(3);
-  m_PiMinuspx = findKKpipiTagInfo.GetPiMinusP(0);
-  m_PiMinuspy = findKKpipiTagInfo.GetPiMinusP(1);
-  m_PiMinuspz = findKKpipiTagInfo.GetPiMinusP(2);
-  m_PiMinusenergy = findKKpipiTagInfo.GetPiMinusP(3);
-  m_KalmanFitSuccess = findKKpipiTagInfo.GetKalmanFitSuccess();
-  m_KalmanFitChi2 = findKKpipiTagInfo.GetKalmanFitChi2();
-  m_KPluspxKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(0);
-  m_KPluspyKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(1);
-  m_KPluspzKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(2);
-  m_KPlusenergyKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(3);
-  m_KMinuspxKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(0);
-  m_KMinuspyKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(1);
-  m_KMinuspzKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(2);
-  m_KMinusenergyKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(3);
-  m_PiPluspxKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(0);
-  m_PiPluspyKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(1);
-  m_PiPluspzKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(2);
-  m_PiPlusenergyKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(3);
-  m_PiMinuspxKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(0);
-  m_PiMinuspyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(1);
-  m_PiMinuspzKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(2);
-  m_KSFitSuccess = findKKpipiTagInfo.GetKSFitSuccess();
-  m_DecayLengthVeeVertex = findKKpipiTagInfo.GetDecayLengthVeeVertex();
-  m_Chi2VeeVertex = findKKpipiTagInfo.GetChi2VeeVertex();
-  m_KSMassVeeVertex = findKKpipiTagInfo.GetKSMassVeeVertex();
-  m_DecayLengthFit = findKKpipiTagInfo.GetDecayLengthFit();
-  m_DecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
-  m_Chi2Fit = findKKpipiTagInfo.GetChi2Fit();
-  m_KSMassFit = findKKpipiTagInfo.GetKSMassFit();
+  m_SignalKPluspx = findKKpipiTagInfo.GetKPlusP(0);
+  m_SignalKPluspy = findKKpipiTagInfo.GetKPlusP(1);
+  m_SignalKPluspz = findKKpipiTagInfo.GetKPlusP(2);
+  m_SignalKPlusenergy = findKKpipiTagInfo.GetKPlusP(3);
+  m_SignalKMinuspx = findKKpipiTagInfo.GetKMinusP(0);
+  m_SignalKMinuspy = findKKpipiTagInfo.GetKMinusP(1);
+  m_SignalKMinuspz = findKKpipiTagInfo.GetKMinusP(2);
+  m_SignalKMinusenergy = findKKpipiTagInfo.GetKMinusP(3);
+  m_SignalPiPluspx = findKKpipiTagInfo.GetPiPlusP(0);
+  m_SignalPiPluspy = findKKpipiTagInfo.GetPiPlusP(1);
+  m_SignalPiPluspz = findKKpipiTagInfo.GetPiPlusP(2);
+  m_SignalPiPlusenergy = findKKpipiTagInfo.GetPiPlusP(3);
+  m_SignalPiMinuspx = findKKpipiTagInfo.GetPiMinusP(0);
+  m_SignalPiMinuspy = findKKpipiTagInfo.GetPiMinusP(1);
+  m_SignalPiMinuspz = findKKpipiTagInfo.GetPiMinusP(2);
+  m_SignalPiMinusenergy = findKKpipiTagInfo.GetPiMinusP(3);
+  m_SignalKalmanFitSuccess = findKKpipiTagInfo.GetKalmanFitSuccess();
+  m_SignalKalmanFitChi2 = findKKpipiTagInfo.GetKalmanFitChi2();
+  m_SignalKPluspxKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(0);
+  m_SignalKPluspyKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(1);
+  m_SignalKPluspzKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(2);
+  m_SignalKPlusenergyKalmanFit = findKKpipiTagInfo.GetKPlusPKalmanFit(3);
+  m_SignalKMinuspxKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(0);
+  m_SignalKMinuspyKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(1);
+  m_SignalKMinuspzKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(2);
+  m_SignalKMinusenergyKalmanFit = findKKpipiTagInfo.GetKMinusPKalmanFit(3);
+  m_SignalPiPluspxKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(0);
+  m_SignalPiPluspyKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(1);
+  m_SignalPiPluspzKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(2);
+  m_SignalPiPlusenergyKalmanFit = findKKpipiTagInfo.GetPiPlusPKalmanFit(3);
+  m_SignalPiMinuspxKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(0);
+  m_SignalPiMinuspyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(1);
+  m_SignalPiMinuspzKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(2);
+  m_SignalKSFitSuccess = findKKpipiTagInfo.GetKSFitSuccess();
+  m_SignalDecayLengthVeeVertex = findKKpipiTagInfo.GetDecayLengthVeeVertex();
+  m_SignalChi2VeeVertex = findKKpipiTagInfo.GetChi2VeeVertex();
+  m_SignalKSMassVeeVertex = findKKpipiTagInfo.GetKSMassVeeVertex();
+  m_SignalDecayLengthFit = findKKpipiTagInfo.GetDecayLengthFit();
+  m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
+  m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
+  m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
+  FindKpiTagInfo findKpiTagInfo;
+  status = findKpiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
+  if(status != StatusCode::SUCCESS) {
+    return status;
+  }
+  m_TagPipx = findKpiTagInfo.GetPiP(0);
+  m_TagPipy = findKpiTagInfo.GetPiP(1);
+  m_TagPipz = findKpiTagInfo.GetPiP(2);
+  m_TagPienergy = findKpiTagInfo.GetPiP(3);
+  m_TagPiCharge = findKpiTagInfo.GetPiCharge();
+  m_TagKpx = findKpiTagInfo.GetKP(0);
+  m_TagKpy = findKpiTagInfo.GetKP(1);
+  m_TagKpz = findKpiTagInfo.GetKP(2);
+  m_TagKenergy = findKpiTagInfo.GetKP(3);
+  m_TagKCharge = findKpiTagInfo.GetKCharge();
   return StatusCode::SUCCESS;
 }

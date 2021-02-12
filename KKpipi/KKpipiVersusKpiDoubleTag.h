@@ -45,7 +45,7 @@ class KKpipiVersusKpiDoubleTag: public Algorithm {
      * @param DTTool_iter Iterator pointing to single tag candidate
      * @param DTTool DTagTool object with all the event information
      */
-    StatusCode FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool);
+    StatusCode FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool);
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later
