@@ -48,7 +48,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");
   // Check if event has two pions
-  if(PiTrack_iter.size() != 2 || PiTrack_iter.size != 0) {
+  if(PiTrack_iter.size() != 2 || PiTrack_iter.size() != 0) {
     log << MSG::ERROR << "Need two pions to reconstruct KS" << endreq;
     return StatusCode::FAILURE;
   }
@@ -77,7 +77,7 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     int KSChildTrackID1 = KSChildTrack1->trackId();
     int KSChildTrackID2 = KSChildTrack2->trackId();
     // Check if KS daughter tracks are the same as the pion tracks (if pion tracks are given)
-    if(PiTrack_iter.size != 0 && !((KSChildTrackID1 == PiTrackID1 && KSChildTrackID2 == PiTrackID2) || (KSChildTrackID1 == PiTrackID2 && KSChildTrackID2 == PiTrackID1))) {
+    if(PiTrack_iter.size() != 0 && !((KSChildTrackID1 == PiTrackID1 && KSChildTrackID2 == PiTrackID2) || (KSChildTrackID1 == PiTrackID2 && KSChildTrackID2 == PiTrackID1))) {
       continue;
     }
     // Get KS position vector from VeeVertexAlg
