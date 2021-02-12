@@ -1,5 +1,6 @@
 #include "GaudiKernel/DeclareFactoryEntries.h"
 #include "KKpipi/KKpipiSingleTag.h"
+#include "KKpipi/KKpipiVersusKpiDoubleTag.h"
 
 DECLARE_ALGORITHM_FACTORY(KKpipiSingleTag)
 DECLARE_ALGORITHM_FACTORY(KKpipiVersusKpiDoubleTag)
