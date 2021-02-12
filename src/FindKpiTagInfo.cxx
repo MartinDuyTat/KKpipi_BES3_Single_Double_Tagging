@@ -4,6 +4,7 @@
 #include "KKpipi/FindKpiTagInfo.h"
 // Gaudi
 #include "GaudiKernel/SmartRefVector.h"
+#include "GaudiKernel/StatusCode.h"
 // Event information
 #include "EvtRecEvent/EvtRecTrack.h"
 // CLHEP
@@ -11,11 +12,8 @@
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "MdcRecEvent/RecMdcKalTrack.h"
-// ROOT
-#include "TMath.h"
 // STL
 #include<vector>
-#include<string>
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
