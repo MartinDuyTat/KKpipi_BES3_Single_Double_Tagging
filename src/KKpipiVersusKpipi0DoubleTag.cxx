@@ -51,7 +51,7 @@ StatusCode KKpipiVersusKpipi0DoubleTag::initialize() {
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/KpiDoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->Kpi events");
+    m_tuple = ntupleSvc()->book("KKPIPI/Kpipi0DoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->Kpipi0 events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
