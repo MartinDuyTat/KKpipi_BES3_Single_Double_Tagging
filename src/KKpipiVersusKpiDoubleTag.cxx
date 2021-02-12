@@ -212,6 +212,10 @@ StatusCode KKpipiVersusKpiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_it
   m_SignalDpy = (*DTTool_Signal_iter)->p4().y();
   m_SignalDpz = (*DTTool_Signal_iter)->p4().z();
   m_SignalDenergy = (*DTTool_Signal_iter)->p4().t();
+  m_TagDpx = (*DTTool_Tag_iter)->p4().x();
+  m_TagDpy = (*DTTool_Tag_iter)->p4().y();
+  m_TagDpz = (*DTTool_Tag_iter)->p4().z();
+  m_TagDenergy = (*DTTool_Tag_iter)->p4().t();
   FindKKpipiTagInfo findKKpipiTagInfo;
   StatusCode status = findKKpipiTagInfo.CalculateTagInfo(DTTool_Signal_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
