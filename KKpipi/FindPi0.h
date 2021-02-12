@@ -34,7 +34,7 @@ class FindPi0 {
      * @param DTTool_iter DTagTool iterator pointing to the event with the tag
      * @param PiTrackIndex List of length 2 with track indices to the two pions in the event
      */
-    StatusCode findPi0(DTagToolIterator &DTTool_iter, const DTagTool &DTTool);
+    StatusCode findPi0(DTagToolIterator &DTTool_iter, DTagTool &DTTool);
     /** 
      * Get the high energy photon unconstrained four-momentum
      * @param i Momentum component

@@ -51,12 +51,12 @@ CLHEP::HepLorentzVector FindPi0::GetPhoton4Vector(double Energy, double Theta, d
   return CLHEP::HepLorentzVector(Px, Py, Pz, Energy);
 }
 
-StatusCode FindPi0::findPi0(DTagToolIterator &DTTool_iter, const DTagTool &DTTool) {
+StatusCode FindPi0::findPi0(DTagToolIterator &DTTool_iter, DTagTool &DTTool) {
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindPi0");
   IDataProviderSvc *EventService = nullptr;
-  Gaudi::svcLocator->service("EventDataSvc", EventService);
+  Gaudi::svcLocator()->service("EventDataSvc", EventService);
   SmartDataPtr<EvtRecPi0Col> RecPi0Col(EventService, "/Event/EvtRec/EvtRecPi0Col");
   if(!RecPi0Col) {
     log << "Could not find EvtRecPi0Col" << endreq;
@@ -71,8 +71,8 @@ StatusCode FindPi0::findPi0(DTagToolIterator &DTTool_iter, const DTagTool &DTToo
       continue;
     }
     // Get EM shower four-momenta of photons
-    RecEmcShower *HighEPhotonShower = const_cast<EvtRecTrack*>((*Pi0_iter)->hiEnGamma())->emdShower();
-    RecEmcShower *LowEPhotonShower = const_cast<EvtRecTrack*>((*Pi0_iter)->loEnGamma())->emdShower();
+    RecEmcShower *HighEPhotonShower = const_cast<EvtRecTrack*>((*Pi0_iter)->hiEnGamma())->emcShower();
+    RecEmcShower *LowEPhotonShower = const_cast<EvtRecTrack*>((*Pi0_iter)->loEnGamma())->emcShower();
     m_HighEPhotonP = GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi());
     m_LowEPhotonP = GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi());
     // Get kinematically constrained four-momenta of photons
