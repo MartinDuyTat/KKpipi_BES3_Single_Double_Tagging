@@ -154,7 +154,7 @@ StatusCode KKpipiVersusKpiDoubleTag::execute() {
     log << MSG::DEBUG << "Cosmic and lepton veto" << endreq;
     return StatusCode::SUCCESS;
   }
-  if(DTTool.findDTag(EvtRecDTag::kD0toKKPiPi, EvtRedDTag::kD0toKPi)) {
+  if(DTTool.findDTag(EvtRecDTag::kD0toKKPiPi, EvtRecDTag::kD0toKPi)) {
     DTagToolIterator DTTool_Signal_iter = DTTool.dtag1();
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);

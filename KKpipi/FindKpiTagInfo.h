@@ -67,11 +67,11 @@ class FindKpiTagInfo {
     /**
      * \f$K\f$ charge
      */
-    int m_KCharge
+    int m_KCharge;
     /**
      * \f$\pi\f$ charge
      */
-    int m_PiCharge
+    int m_PiCharge;
 };
 
 #endif
