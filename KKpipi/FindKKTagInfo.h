@@ -1,10 +1,10 @@
-// Martin Duy Tat 12th February 2021, based on code by Yu Zhang
+// Martin Duy Tat 12th February 2021
 /**
- * FindKpiTagInfo is a class for extracting all the variables of a Kpi tag
+ * FindKKTagInfo is a class for extracting all the variables of a KK tag
  */
 
-#ifndef FINDKPITAGINFO
-#define FINDKPITAGINFO
+#ifndef FINDKKTAGINFO
+#define FINDKKTAGINFO
 
 // Gaudi
 #include "GaudiKernel/StatusCode.h"
@@ -16,16 +16,16 @@
 #include<vector>
 #include<string>
 
-class FindKpiTagInfo {
+class FindKKTagInfo {
   public: 
     /**
      * Default constructor that initalizes all variables to zero
      */
-    FindKpiTagInfo();
+    FindKKTagInfo();
     /**
      * Trivial destructor
      */
-    ~FindKpiTagInfo();
+    ~FindKKTagInfo();
     /**
      * Function that calculates all the tag information and saves them
      * @param DTTool_iter Iterator pointing to tag candidate
@@ -36,42 +36,26 @@ class FindKpiTagInfo {
     /**
      * Enumeration to label daughter particles in the order K pi
      */
-    enum DaughterParticle {KAON, PION};
+    enum DaughterParticle {KPLUS, KMINUS};
     /**
-     * Get \f$K\f$ momentum component
+     * Get \f$K^+\f$ momentum component
      * @param i Component
      */
-    double GetKP(int i) const;
+    double GetKPlusP(int i) const;
     /**
-     * Get \f$\pi\f$ momentum component
+     * Get \f$K^-\f$ momentum component
      * @param i Component
      */
-    double GetPiP(int i) const;
-    /**
-     * Get \f$K\f$ charge
-     */
-    int GetKCharge() const;
-    /**
-     * Get \f$\pi\f$ charge
-     */
-    int GetPiCharge() const;
+    double GetKMinusP(int i) const;
   private:
     /**
-     * \f$K\f$ four-momentum
+     * \f$K^+\f$ four-momentum
      */
-    CLHEP::HepLorentzVector m_KP;
+    CLHEP::HepLorentzVector m_KPlusP;
     /**
-     * \f$\pi\f$ four-momentum
+     * \f$K^-\f$ four-momentum
      */
-    CLHEP::HepLorentzVector m_PiP;
-    /**
-     * \f$K\f$ charge
-     */
-    int m_KCharge;
-    /**
-     * \f$\pi\f$ charge
-     */
-    int m_PiCharge;
+    CLHEP::HepLorentzVector m_KMinusP;
 };
 
 #endif

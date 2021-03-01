@@ -22,6 +22,7 @@
 // CLHEP
 #include "CLHEP/Geometry/Point3D.h"
 #include "CLHEP/Matrix/SymMatrix.h"
+#include "CLHEP/Vector/LorentzVector.h"
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "MdcRecEvent/RecMdcKalTrack.h"
@@ -31,6 +32,7 @@
 #include "VertexFit/SecondVertexFit.h"
 #include "VertexFit/WTrackParameter.h"
 // STL
+#include<algorithm>
 #include<vector>
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
@@ -41,12 +43,12 @@ FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVee
 FindKS::~FindKS() {
 }
 
-StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter) {
+StatusCode FindKS::findKS(const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter) {
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");
   // Check if event has two pions
-  if(PiTrack_iter.size() != 2) {
+  if(PiTrack_iter.size() != 2 && PiTrack_iter.size() != 0) {
     log << MSG::ERROR << "Need two pions to reconstruct KS" << endreq;
     return StatusCode::FAILURE;
   }
@@ -58,12 +60,6 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     return StatusCode::FAILURE;
   }
   // Get tracks in the event
-  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
-  // Get Kalman tracks and pion track IDs
-  RecMdcKalTrack *MDCKalmanTrack1 = (*PiTrack_iter[0])->mdcKalTrack();
-  int PiTrackID1 = (*PiTrack_iter[0])->trackId();
-  RecMdcKalTrack *MDCKalmanTrack2 = (*PiTrack_iter[1])->mdcKalTrack();
-  int PiTrackID2 = (*PiTrack_iter[1])->trackId();
   // Loop over KS in the event (should only be one)
   for(EvtRecVeeVertexCol::iterator KS_iter = evtRecVeeVertexCol->begin(); KS_iter != evtRecVeeVertexCol->end(); KS_iter++) {
     // Check if the vertex is actually a KS
@@ -76,9 +72,14 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     // Get KS daughter track IDs
     int KSChildTrackID1 = KSChildTrack1->trackId();
     int KSChildTrackID2 = KSChildTrack2->trackId();
-    // Check if KS daughter tracks are the same as the pion tracks
-    if(!((KSChildTrackID1 == PiTrackID1 && KSChildTrackID2 == PiTrackID2) || (KSChildTrackID1 == PiTrackID2 && KSChildTrackID2 == PiTrackID1))) {
-      continue;
+    // Check if KS daughter tracks are the same as the pion tracks (if pion tracks are given)
+    if(PiTrack_iter.size() != 0) {
+      // Get Kalman tracks and pion track IDs
+      int PiTrackID1 = (*PiTrack_iter[0])->trackId();
+      int PiTrackID2 = (*PiTrack_iter[1])->trackId();
+      if(!((KSChildTrackID1 == PiTrackID1 && KSChildTrackID2 == PiTrackID2) || (KSChildTrackID1 == PiTrackID2 && KSChildTrackID2 == PiTrackID1))) {
+	continue;
+      }
     }
     // Get KS position vector from VeeVertexAlg
     CLHEP::Hep3Vector KS_PositionVector((*KS_iter)->w()[4], (*KS_iter)->w()[5], (*KS_iter)->w()[6]);
@@ -104,6 +105,9 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     KSChildKalmanTrack2->setPidType(RecMdcKalTrack::pion);
     WTrackParameter WTrackPion1(MASS::PI_MASS, KSChildKalmanTrack1->helix(), KSChildKalmanTrack1->err());
     WTrackParameter WTrackPion2(MASS::PI_MASS, KSChildKalmanTrack2->helix(), KSChildKalmanTrack2->err());
+    // Store the four-momenta of daughter particles from the MDC tracks
+    m_KSPiPlusP = KSChildKalmanTrack1->p4(MASS::PI_MASS);
+    m_KSPiMinusP = KSChildKalmanTrack2->p4(MASS::PI_MASS);
     // Start fitting secondary vertex
     VertexFit *SecondaryVertexFit = VertexFit::instance();
     SecondaryVertexFit->init();
@@ -114,6 +118,14 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
     SecondaryVertexFit->BuildVirtualParticle(0);
     // Save fitted track parameters of the KS
     WTrackParameter WTrackKS = SecondaryVertexFit->wVirtualTrack(0);
+    // Store the four-momenta of daughter particles from fit
+    m_KSPiPlusPFit = SecondaryVertexFit->wTrackInfit(0).p();
+    m_KSPiMinusPFit = SecondaryVertexFit->wTrackInfit(1).p();
+    // Swap pions if charges are the other way around
+    if(KSChildKalmanTrack1->charge() < 0) {
+      swap(m_KSPiPlusP, m_KSPiMinusP);
+      swap(m_KSPiPlusPFit, m_KSPiMinusPFit);
+    }
     // Get VertexDbSvc, which determines the average beam position for each run
     IVertexDbSvc *VertexService;
     Gaudi::svcLocator()->service("VertexDbSvc", VertexService);
@@ -149,30 +161,46 @@ StatusCode FindKS::findKS(DTagToolIterator &DTTool_iter, const std::vector<Smart
   return StatusCode::FAILURE;
 }
 
-double FindKS::getDecayLengthVeeVertex() const {
+double FindKS::GetDecayLengthVeeVertex() const {
   return m_DecayLengthVeeVertex;
 }
 
-double FindKS::getChi2VeeVertex() const {
+double FindKS::GetChi2VeeVertex() const {
   return m_Chi2VeeVertex;
 }
 
-double FindKS::getKSMassVeeVertex() const {
+double FindKS::GetKSMassVeeVertex() const {
   return m_KSMassVeeVertex;
 }
 
-double FindKS::getDecayLengthFit() const {
+double FindKS::GetDecayLengthFit() const {
   return m_DecayLengthFit;
 }
 
-double FindKS::getDecayLengthErrorFit() const {
+double FindKS::GetDecayLengthErrorFit() const {
   return m_DecayLengthErrorFit;
 }
 
-double FindKS::getChi2Fit() const {
+double FindKS::GetChi2Fit() const {
   return m_Chi2Fit;
 }
 
-double FindKS::getKSMassFit() const {
+double FindKS::GetKSMassFit() const {
   return m_KSMassFit;
+}
+
+double FindKS::GetKSPiPlusP(int i) const {
+  return m_KSPiPlusP[i];
+}
+
+double FindKS::GetKSPiMinusP(int i) const {
+  return m_KSPiMinusP[i];
+}
+
+double FindKS::GetKSPiPlusPFit(int i) const {
+  return m_KSPiPlusPFit[i];
+}
+
+double FindKS::GetKSPiMinusPFit(int i) const {
+  return m_KSPiMinusPFit[i];
 }
