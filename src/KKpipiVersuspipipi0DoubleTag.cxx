@@ -36,11 +36,11 @@
 #include<vector>
 #include<string>
 
-KKpipiVersusKpipi0DoubleTag::KKpipiVersuspipipi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
+KKpipiVersuspipipi0DoubleTag::KKpipiVersuspipipi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
 
-KKpipiVersusKpipi0DoubleTag::~KKpipiVersuspipipi0DoubleTag() {
+KKpipiVersuspipipi0DoubleTag::~KKpipiVersuspipipi0DoubleTag() {
 }
 
 StatusCode KKpipiVersuspipipi0DoubleTag::initialize() {
@@ -162,7 +162,7 @@ StatusCode KKpipiVersuspipipi0DoubleTag::initialize() {
   }
 }
 
-StatusCode KKpipiVersusKpipi0DoubleTag::execute() {
+StatusCode KKpipiVersuspipipi0DoubleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing KKpipi vs pipipi0 Double Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
@@ -191,13 +191,13 @@ StatusCode KKpipiVersusKpipi0DoubleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKpipi0DoubleTag::finalize() {
+StatusCode KKpipiVersuspipipi0DoubleTag::finalize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Finalizing KKpipi vs pipipi0 Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKpipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
+StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
