@@ -40,9 +40,9 @@
 
 FindPi0::FindPi0(int npi0): m_Chi2Fit(0.0), m_npi0(npi0) {
   m_HighEPhotonP.resize(m_npi0);
-  m_LowEPhoton.resize(m_npi0);
+  m_LowEPhotonP.resize(m_npi0);
   m_HighEPhotonPConstrained.resize(m_npi0);
-  m_LowEPhotonConstrained.resize(m_npi0);
+  m_LowEPhotonPConstrained.resize(m_npi0);
   m_Chi2Fit.resize(m_npi0);
 }
 
