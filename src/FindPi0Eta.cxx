@@ -19,6 +19,7 @@
 #include "EvtRecEvent/EvtRecDTag.h"
 #include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecPi0.h"
+#include "EvtRecEvent/EvtRecEta.h"
 #include "EvtRecEvent/EvtRecTrack.h"
 // CLHEP
 #include "CLHEP/Geometry/Point3D.h"
