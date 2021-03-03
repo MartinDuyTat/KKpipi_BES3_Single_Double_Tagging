@@ -17,7 +17,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindhhTagInfo::FindhhTagInfo(std::string TagMode) m_TagMode(TagMode) {
+FindhhTagInfo::FindhhTagInfo(std::string TagMode): m_TagMode(TagMode) {
 }
 
 FindhhTagInfo::~FindhhTagInfo() {
