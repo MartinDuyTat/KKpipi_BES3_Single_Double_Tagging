@@ -339,7 +339,7 @@ StatusCode KKpipiVersusKSpi0pi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sign
   m_TagKSPiMinuspzFit = findKS.GetKSPiMinusPFit(2);
   m_TagKSPiMinusenergyFit = findKS.GetKSPiMinusPFit(3);
   FindPi0Eta findPi0(2);
-  findPi0.findPi0(DTTool_Tag_iter, DTTool);
+  findPi0.findPi0Eta(DTTool_Tag_iter, DTTool);
   m_TagHighEPi0px1 = findPi0.GetHighEPhotonP(0, 0);
   m_TagHighEPi0py1 = findPi0.GetHighEPhotonP(1, 0);
   m_TagHighEPi0pz1 = findPi0.GetHighEPhotonP(2, 0);
