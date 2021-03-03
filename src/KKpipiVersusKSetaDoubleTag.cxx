@@ -339,6 +339,6 @@ StatusCode KKpipiVersusKSetaDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
   m_TagLowEEtaConstrainedpy = findEta.GetLowEPhotonPConstrained(1);
   m_TagLowEEtaConstrainedpz = findEta.GetLowEPhotonPConstrained(2);
   m_TagLowEEtaConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
-  m_EtaChi2Fit = findeta.GetChi2Fit();
+  m_EtaChi2Fit = findEta.GetChi2Fit();
   return StatusCode::SUCCESS;
 }
