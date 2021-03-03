@@ -260,7 +260,7 @@ StatusCode KKpipiVersuspipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
-  FindhhTagInfo findpipiTagInfo{"pipi"};
+  FindhhTagInfo findpipiTagInfo("pipi");
   status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
