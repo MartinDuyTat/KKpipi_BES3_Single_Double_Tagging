@@ -34,10 +34,6 @@ class FindKpiTagInfo {
      */
     StatusCode CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool);
     /**
-     * Enumeration to label daughter particles in the order K pi
-     */
-    enum DaughterParticle {KAON, PION};
-    /**
      * Get \f$K\f$ momentum component
      * @param i Component
      */

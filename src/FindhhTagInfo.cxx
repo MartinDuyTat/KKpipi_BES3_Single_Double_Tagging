@@ -31,7 +31,7 @@ StatusCode FindhhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagToo
       if(DTTool.isKaon(*Track_iter) && MDCKalTrack->charge() > 0) {
 	m_hPlusP = MDCKalTrack->p4(MASS::K_MASS);
       } else if(DTTool.isKaon(*Track_iter) && MDCKalTrack->charge() < 0) {
-	m_KMinusP = MDCKalTrack->p4(MASS::K_MASS);
+	m_hMinusP = MDCKalTrack->p4(MASS::K_MASS);
       }
     } else if(m_TagMode == "pipi") {
       if(DTTool.isPion(*Track_iter) && MDCKalTrack->charge() > 0) {
