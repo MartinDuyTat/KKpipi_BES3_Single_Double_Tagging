@@ -134,10 +134,10 @@ StatusCode KKpipiVersuspipipi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagPiPluspy", m_TagPiPluspy);
       status = m_tuple->addItem("TagPiPluspz", m_TagPiPluspz);
       status = m_tuple->addItem("TagPiPlusenergy", m_TagPiPlusenergy);
-      status = m_tuple->addItem("TagPiMinuspx", m_TagPiminuspx);
-      status = m_tuple->addItem("TagPiMinuspy", m_TagPiminuspy);
-      status = m_tuple->addItem("TagPiMinuspz", m_TagPiminuspz);
-      status = m_tuple->addItem("TagPiMinusenergy", m_TagPiminusenergy);
+      status = m_tuple->addItem("TagPiMinuspx", m_TagPiMinuspx);
+      status = m_tuple->addItem("TagPiMinuspy", m_TagPiMinuspy);
+      status = m_tuple->addItem("TagPiMinuspz", m_TagPiMinuspz);
+      status = m_tuple->addItem("TagPiMinusenergy", m_TagPiMinusenergy);
       status = m_tuple->addItem("TagHighEPi0px", m_TagHighEPi0px);
       status = m_tuple->addItem("TagHighEPi0py", m_TagHighEPi0py);
       status = m_tuple->addItem("TagHighEPi0pz", m_TagHighEPi0pz);
@@ -309,8 +309,9 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   }
   FindKS findKS;
   StatusCode statuscode = findKS.findKS(PionTracks_iter);
-  m_TagKSFitSuccess = findKS.GetKSFitSuccess();
+  m_TagKSFitSuccess = 0;
   if(statuscode == StatusCode::SUCCESS) {
+    m_TagKSFitSuccess = 1;
     m_TagDecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
     m_TagChi2VeeVertex = findKS.GetChi2VeeVertex();
     m_TagKSMassVeeVertex = findKS.GetKSMassVeeVertex();
