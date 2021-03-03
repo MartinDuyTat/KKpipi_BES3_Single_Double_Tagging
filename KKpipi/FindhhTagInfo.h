@@ -1,10 +1,10 @@
 // Martin Duy Tat 12th February 2021
 /**
- * FindKKTagInfo is a class for extracting all the variables of a KK tag
+ * FindhhTagInfo is a class for extracting all the variables of a \f$KK\f$ tag or a \f$\pi\pi\f$ tag
  */
 
-#ifndef FINDKKTAGINFO
-#define FINDKKTAGINFO
+#ifndef FINDHHTAGINFO
+#define FINDHHTAGINFO
 
 // Gaudi
 #include "GaudiKernel/StatusCode.h"
@@ -16,16 +16,17 @@
 #include<vector>
 #include<string>
 
-class FindKKTagInfo {
+class FindhhTagInfo {
   public: 
     /**
-     * Default constructor that initalizes all variables to zero
+     * Default constructor that initalizes all variables to zero, and specifies if it's a \f$KK\f$ or a \f$\pi\pi\f$ tag
+     * @param TagMode String that either says "KK" or "pipi"
      */
-    FindKKTagInfo();
+    FindhhTagInfo(std::string TagMode);
     /**
      * Trivial destructor
      */
-    ~FindKKTagInfo();
+    ~FindhhTagInfo();
     /**
      * Function that calculates all the tag information and saves them
      * @param DTTool_iter Iterator pointing to tag candidate
@@ -34,28 +35,28 @@ class FindKKTagInfo {
      */
     StatusCode CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool);
     /**
-     * Enumeration to label daughter particles in the order K pi
-     */
-    enum DaughterParticle {KPLUS, KMINUS};
-    /**
      * Get \f$K^+\f$ momentum component
      * @param i Component
      */
-    double GetKPlusP(int i) const;
+    double GethPlusP(int i) const;
     /**
      * Get \f$K^-\f$ momentum component
      * @param i Component
      */
-    double GetKMinusP(int i) const;
+    double GethMinusP(int i) const;
   private:
     /**
-     * \f$K^+\f$ four-momentum
+     * Tag mode, either "KK" or "pipi"
      */
-    CLHEP::HepLorentzVector m_KPlusP;
+    std::string m_TagMode;
     /**
-     * \f$K^-\f$ four-momentum
+     * \f$h^+\f$ four-momentum
      */
-    CLHEP::HepLorentzVector m_KMinusP;
+    CLHEP::HepLorentzVector m_hPlusP;
+    /**
+     * \f$h^-\f$ four-momentum
+     */
+    CLHEP::HepLorentzVector m_hMinusP;
 };
 
 #endif

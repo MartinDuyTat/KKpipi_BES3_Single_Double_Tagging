@@ -3,7 +3,7 @@
 // KKpipi
 #include "KKpipi/KKpipiVersusKKDoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
-#include "KKpipi/FindKKTagInfo.h"
+#include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -260,18 +260,18 @@ StatusCode KKpipiVersusKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_ite
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
-  FindKKTagInfo findKKTagInfo;
+  FindhhTagInfo findKKTagInfo;
   status = findKKTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  m_TagKPluspx = findKKTagInfo.GetKPlusP(0);
-  m_TagKPluspy = findKKTagInfo.GetKPlusP(1);
-  m_TagKPluspz = findKKTagInfo.GetKPlusP(2);
-  m_TagKPlusenergy = findKKTagInfo.GetKPlusP(3);
-  m_TagKMinuspx = findKKTagInfo.GetKMinusP(0);
-  m_TagKMinuspy = findKKTagInfo.GetKMinusP(1);
-  m_TagKMinuspz = findKKTagInfo.GetKMinusP(2);
-  m_TagKMinusenergy = findKKTagInfo.GetKMinusP(3);
+  m_TagKPluspx = findKKTagInfo.GethPlusP(0);
+  m_TagKPluspy = findKKTagInfo.GethPlusP(1);
+  m_TagKPluspz = findKKTagInfo.GethPlusP(2);
+  m_TagKPlusenergy = findKKTagInfo.GethPlusP(3);
+  m_TagKMinuspx = findKKTagInfo.GethMinusP(0);
+  m_TagKMinuspy = findKKTagInfo.GethMinusP(1);
+  m_TagKMinuspz = findKKTagInfo.GethMinusP(2);
+  m_TagKMinusenergy = findKKTagInfo.GethMinusP(3);
   return StatusCode::SUCCESS;
 }
