@@ -5,6 +5,7 @@
 #include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindPi0.h"
+#include "KKpipi/FindKS.h"
 #include "KKpipi/FindMCInfo.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -129,14 +130,14 @@ StatusCode KKpipiVersuspipipi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagKSDecayLengthErrorFit", m_TagDecayLengthErrorFit);
       status = m_tuple->addItem("TagKSChi2Fit", m_TagChi2Fit);
       status = m_tuple->addItem("TagKSMassFit", m_TagKSMassFit);
-      status = m_tuple->addItem("TagPiPluspx", m_TagPipx);
-      status = m_tuple->addItem("TagPiPluspy", m_TagPipy);
-      status = m_tuple->addItem("TagPiPluspz", m_TagPipz);
-      status = m_tuple->addItem("TagPiPlusenergy", m_TagPienergy);
-      status = m_tuple->addItem("TagPiMinuspx", m_TagKpx);
-      status = m_tuple->addItem("TagPiMinuspy", m_TagKpy);
-      status = m_tuple->addItem("TagPiMinuspz", m_TagKpz);
-      status = m_tuple->addItem("TagPiMinusenergy", m_TagKenergy);
+      status = m_tuple->addItem("TagPiPluspx", m_TagPiPluspx);
+      status = m_tuple->addItem("TagPiPluspy", m_TagPiPluspy);
+      status = m_tuple->addItem("TagPiPluspz", m_TagPiPluspz);
+      status = m_tuple->addItem("TagPiPlusenergy", m_TagPiPlusenergy);
+      status = m_tuple->addItem("TagPiMinuspx", m_TagPiminuspx);
+      status = m_tuple->addItem("TagPiMinuspy", m_TagPiminuspy);
+      status = m_tuple->addItem("TagPiMinuspz", m_TagPiminuspz);
+      status = m_tuple->addItem("TagPiMinusenergy", m_TagPiminusenergy);
       status = m_tuple->addItem("TagHighEPi0px", m_TagHighEPi0px);
       status = m_tuple->addItem("TagHighEPi0py", m_TagHighEPi0py);
       status = m_tuple->addItem("TagHighEPi0pz", m_TagHighEPi0pz);
@@ -286,24 +287,24 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
-  FindhhTagInfo findpipiTagInfo;
+  FindhhTagInfo findpipiTagInfo("pipi");
   status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  m_TagPiPluspx = findpipiTagInfo.GetPiPlusP(0);
-  m_TagPiPluspy = findpipiTagInfo.GetPiPlusP(1);
-  m_TagPiPluspz = findpipiTagInfo.GetPiPlusP(2);
-  m_TagPiPlusenergy = findpipiTagInfo.GetPiPlusP(3);
-  m_TagPiMinuspx = findpipiTagInfo.GetPiMinusP(0);
-  m_TagPiMinuspy = findpipiTagInfo.GetPiMinusP(1);
-  m_TagPiMinuspz = findpipiTagInfo.GetPiMinusP(2);
-  m_TagPiMinusenergy = findpipiTagInfo.GetPiMinusP(3);
+  m_TagPiPluspx = findpipiTagInfo.GethPlusP(0);
+  m_TagPiPluspy = findpipiTagInfo.GethPlusP(1);
+  m_TagPiPluspz = findpipiTagInfo.GethPlusP(2);
+  m_TagPiPlusenergy = findpipiTagInfo.GethPlusP(3);
+  m_TagPiMinuspx = findpipiTagInfo.GethMinusP(0);
+  m_TagPiMinuspy = findpipiTagInfo.GethMinusP(1);
+  m_TagPiMinuspz = findpipiTagInfo.GethMinusP(2);
+  m_TagPiMinusenergy = findpipiTagInfo.GethMinusP(3);
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_Tag_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     if(DTTool.isPion(*Track_iter)) {
-      PionTracks_iter.push_back(*Track_iter);
+      PionTracks_iter.push_back(Track_iter);
     }
   }
   FindKS findKS;
