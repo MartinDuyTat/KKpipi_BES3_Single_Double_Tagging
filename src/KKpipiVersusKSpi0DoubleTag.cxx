@@ -4,7 +4,7 @@
 #include "KKpipi/KKpipiVersusKSpi0DoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindKS.h"
-#include "KKpipi/FindPi0.h"
+#include "KKpipi/FindPi0Eta.h"
 #include "KKpipi/FindMCInfo.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -321,7 +321,7 @@ StatusCode KKpipiVersusKSpi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
   m_TagKSPiMinuspyFit = findKS.GetKSPiMinusPFit(1);
   m_TagKSPiMinuspzFit = findKS.GetKSPiMinusPFit(2);
   m_TagKSPiMinusenergyFit = findKS.GetKSPiMinusPFit(3);
-  FindPi0 findPi0;
+  FindPi0Eta findPi0;
   findPi0.findPi0(DTTool_Tag_iter, DTTool);
   m_TagHighEPi0px = findPi0.GetHighEPhotonP(0);
   m_TagHighEPi0py = findPi0.GetHighEPhotonP(1);
