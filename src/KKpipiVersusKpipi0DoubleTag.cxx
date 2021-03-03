@@ -158,7 +158,7 @@ StatusCode KKpipiVersusKpipi0DoubleTag::initialize() {
 
 StatusCode KKpipiVersusKpipi0DoubleTag::execute() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Executing KKpipi vs Kpi Double Tag Algorithm" << endreq;
+  log << MSG::INFO << "Executing KKpipi vs Kpipi0 Double Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
@@ -187,7 +187,7 @@ StatusCode KKpipiVersusKpipi0DoubleTag::execute() {
 
 StatusCode KKpipiVersusKpipi0DoubleTag::finalize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Finalizing KKpipi vs Kpi Double Tagging" << endreq;
+  log << MSG::INFO << "Finalizing KKpipi vs Kpipi0 Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 

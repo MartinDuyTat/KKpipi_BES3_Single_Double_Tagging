@@ -1,9 +1,10 @@
-// Martin Duy Tat 3rd March 2021
+// Martin Duy Tat 12th February 2021
 
 // KKpipi
-#include "KKpipi/KKpipiVersuspipiDoubleTag.h"
+#include "KKpipi/KKpipiVersuspipipi0DoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindhhTagInfo.h"
+#include "KKpipi/FindPi0.h"
 #include "KKpipi/FindMCInfo.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -35,22 +36,22 @@
 #include<vector>
 #include<string>
 
-KKpipiVersuspipiDoubleTag::KKpipiVersuspipiDoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
+KKpipiVersusKpipi0DoubleTag::KKpipiVersuspipipi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
 
-KKpipiVersuspipiDoubleTag::~KKpipiVersuspipiDoubleTag() {
+KKpipiVersusKpipi0DoubleTag::~KKpipiVersuspipipi0DoubleTag() {
 }
 
-StatusCode KKpipiVersuspipiDoubleTag::initialize() {
+StatusCode KKpipiVersuspipipi0DoubleTag::initialize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Initializing KKpipi vs pipi Double Tagging" << endreq;
+  log << MSG::INFO << "Initializing KKpipi vs pipipi0 Double Tagging" << endreq;
   StatusCode status;
-  NTuplePtr ntp(ntupleSvc(), "KKPIPI/pipiDoubleTag");
+  NTuplePtr ntp(ntupleSvc(), "KKPIPI/pipipi0DoubleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/pipiDoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->pipi events");
+    m_tuple = ntupleSvc()->book("KKPIPI/pipipi0DoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->pipipi0 events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
@@ -120,25 +121,50 @@ StatusCode KKpipiVersuspipiDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKSDecayLengthErrorFit", m_SignalDecayLengthErrorFit);
       status = m_tuple->addItem("SignalKSChi2Fit", m_SignalChi2Fit);
       status = m_tuple->addItem("SignalKSMassFit", m_SignalKSMassFit);
-      status = m_tuple->addItem("TagpiPluspx", m_TagpiPluspx);
-      status = m_tuple->addItem("TagpiPluspy", m_TagpiPluspy);
-      status = m_tuple->addItem("TagpiPluspz", m_TagpiPluspz);
-      status = m_tuple->addItem("TagpiPlusenergy", m_TagpiPlusenergy);
-      status = m_tuple->addItem("TagpiMinuspx", m_TagpiMinuspx);
-      status = m_tuple->addItem("TagpiMinuspy", m_TagpiMinuspy);
-      status = m_tuple->addItem("TagpiMinuspz", m_TagpiMinuspz);
-      status = m_tuple->addItem("TagpiMinusenergy", m_TagpiMinusenergy);
+      status = m_tuple->addItem("TagKSFitSuccess", m_TagKSFitSuccess);
+      status = m_tuple->addItem("TagKSDecayLengthVeeVertex", m_TagDecayLengthVeeVertex);
+      status = m_tuple->addItem("TagKSChi2VeeVertex", m_TagChi2VeeVertex);
+      status = m_tuple->addItem("TagKSMassVeeVertex", m_TagKSMassVeeVertex);
+      status = m_tuple->addItem("TagKSDecayLengthFit", m_TagDecayLengthFit);
+      status = m_tuple->addItem("TagKSDecayLengthErrorFit", m_TagDecayLengthErrorFit);
+      status = m_tuple->addItem("TagKSChi2Fit", m_TagChi2Fit);
+      status = m_tuple->addItem("TagKSMassFit", m_TagKSMassFit);
+      status = m_tuple->addItem("TagPiPluspx", m_TagPipx);
+      status = m_tuple->addItem("TagPiPluspy", m_TagPipy);
+      status = m_tuple->addItem("TagPiPluspz", m_TagPipz);
+      status = m_tuple->addItem("TagPiPlusenergy", m_TagPienergy);
+      status = m_tuple->addItem("TagPiMinuspx", m_TagKpx);
+      status = m_tuple->addItem("TagPiMinuspy", m_TagKpy);
+      status = m_tuple->addItem("TagPiMinuspz", m_TagKpz);
+      status = m_tuple->addItem("TagPiMinusenergy", m_TagKenergy);
+      status = m_tuple->addItem("TagHighEPi0px", m_TagHighEPi0px);
+      status = m_tuple->addItem("TagHighEPi0py", m_TagHighEPi0py);
+      status = m_tuple->addItem("TagHighEPi0pz", m_TagHighEPi0pz);
+      status = m_tuple->addItem("TagHighEPi0energy", m_TagHighEPi0energy);
+      status = m_tuple->addItem("TagLowEPi0px", m_TagLowEPi0px);
+      status = m_tuple->addItem("TagLowEPi0py", m_TagLowEPi0py);
+      status = m_tuple->addItem("TagLowEPi0pz", m_TagLowEPi0pz);
+      status = m_tuple->addItem("TagLowEPi0energy", m_TagLowEPi0energy);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpx", m_TagHighEPi0Constrainedpx);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpy", m_TagHighEPi0Constrainedpy);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpz", m_TagHighEPi0Constrainedpz);
+      status = m_tuple->addItem("TagHighEPi0Constrainedenergy", m_TagHighEPi0Constrainedenergy);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpx", m_TagLowEPi0Constrainedpx);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpy", m_TagLowEPi0Constrainedpy);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpz", m_TagLowEPi0Constrainedpz);
+      status = m_tuple->addItem("TagLowEPi0Constrainedenergy", m_TagLowEPi0Constrainedenergy);
+      status = m_tuple->addItem("TagPi0Chi2Fit", m_Pi0Chi2Fit);
     } else {
-      log << MSG::ERROR << "Cannot book NTuple for KKpipi vs pipi Double Tags" << endmsg;
+      log << MSG::ERROR << "Cannot book NTuple for KKpipi vs Kpi Double Tags" << endmsg;
       return StatusCode::FAILURE;
     }
     return StatusCode::SUCCESS;
   }
 }
 
-StatusCode KKpipiVersuspipiDoubleTag::execute() {
+StatusCode KKpipiVersusKpipi0DoubleTag::execute() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Executing KKpipi vs pipi Double Tag Algorithm" << endreq;
+  log << MSG::INFO << "Executing KKpipi vs pipipi0 Double Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
@@ -152,7 +178,7 @@ StatusCode KKpipiVersuspipiDoubleTag::execute() {
     log << MSG::DEBUG << "Cosmic and lepton veto" << endreq;
     return StatusCode::SUCCESS;
   }
-  if(DTTool.findDTag(EvtRecDTag::kD0toKKPiPi, EvtRecDTag::kD0toPiPi)) {
+  if(DTTool.findDTag(EvtRecDTag::kD0toKKPiPi, EvtRecDTag::kD0toPiPiPi0)) {
     DTagToolIterator DTTool_Signal_iter = DTTool.dtag1();
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
@@ -165,13 +191,13 @@ StatusCode KKpipiVersuspipiDoubleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersuspipiDoubleTag::finalize() {
+StatusCode KKpipiVersusKpipi0DoubleTag::finalize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Finalizing KKpipi vs pipi Double Tagging" << endreq;
+  log << MSG::INFO << "Finalizing KKpipi vs pipipi0 Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersuspipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
+StatusCode KKpipiVersusKpipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
@@ -260,18 +286,56 @@ StatusCode KKpipiVersuspipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
-  FindhhTagInfo findpipiTagInfo("pipi");
+  FindhhTagInfo findpipiTagInfo;
   status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  m_TagpiPluspx = findpipiTagInfo.GethPlusP(0);
-  m_TagpiPluspy = findpipiTagInfo.GethPlusP(1);
-  m_TagpiPluspz = findpipiTagInfo.GethPlusP(2);
-  m_TagpiPlusenergy = findpipiTagInfo.GethPlusP(3);
-  m_TagpiMinuspx = findpipiTagInfo.GethMinusP(0);
-  m_TagpiMinuspy = findpipiTagInfo.GethMinusP(1);
-  m_TagpiMinuspz = findpipiTagInfo.GethMinusP(2);
-  m_TagpiMinusenergy = findpipiTagInfo.GethMinusP(3);
+  m_TagPiPluspx = findpipiTagInfo.GetPiPlusP(0);
+  m_TagPiPluspy = findpipiTagInfo.GetPiPlusP(1);
+  m_TagPiPluspz = findpipiTagInfo.GetPiPlusP(2);
+  m_TagPiPlusenergy = findpipiTagInfo.GetPiPlusP(3);
+  m_TagPiMinuspx = findpipiTagInfo.GetPiMinusP(0);
+  m_TagPiMinuspy = findpipiTagInfo.GetPiMinusP(1);
+  m_TagPiMinuspz = findpipiTagInfo.GetPiMinusP(2);
+  m_TagPiMinusenergy = findpipiTagInfo.GetPiMinusP(3);
+  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_Tag_iter)->tracks();
+  std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
+  for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
+    if(DTTool.isPion(*Track_iter)) {
+      PionTracks_iter.push_back(*Track_iter);
+    }
+  }
+  FindKS findKS;
+  StatusCode statuscode = findKS.findKS(PionTracks_iter);
+  m_TagKSFitSuccess = findKS.GetKSFitSuccess();
+  if(statuscode == StatusCode::SUCCESS) {
+    m_TagDecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
+    m_TagChi2VeeVertex = findKS.GetChi2VeeVertex();
+    m_TagKSMassVeeVertex = findKS.GetKSMassVeeVertex();
+    m_TagDecayLengthFit = findKS.GetDecayLengthFit();
+    m_TagDecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
+    m_TagChi2Fit = findKS.GetChi2Fit();
+    m_TagKSMassFit = findKS.GetKSMassFit();
+  }
+  FindPi0 findPi0;
+  findPi0.findPi0(DTTool_Tag_iter, DTTool);
+  m_TagHighEPi0px = findPi0.GetHighEPhotonP(0);
+  m_TagHighEPi0py = findPi0.GetHighEPhotonP(1);
+  m_TagHighEPi0pz = findPi0.GetHighEPhotonP(2);
+  m_TagHighEPi0energy = findPi0.GetHighEPhotonP(3);
+  m_TagLowEPi0px = findPi0.GetLowEPhotonP(0);
+  m_TagLowEPi0py = findPi0.GetLowEPhotonP(1);
+  m_TagLowEPi0pz = findPi0.GetLowEPhotonP(2);
+  m_TagLowEPi0energy = findPi0.GetLowEPhotonP(3);
+  m_TagHighEPi0Constrainedpx = findPi0.GetHighEPhotonPConstrained(0);
+  m_TagHighEPi0Constrainedpy = findPi0.GetHighEPhotonPConstrained(1);
+  m_TagHighEPi0Constrainedpz = findPi0.GetHighEPhotonPConstrained(2);
+  m_TagHighEPi0Constrainedenergy = findPi0.GetHighEPhotonPConstrained(3);
+  m_TagLowEPi0Constrainedpx = findPi0.GetLowEPhotonPConstrained(0);
+  m_TagLowEPi0Constrainedpy = findPi0.GetLowEPhotonPConstrained(1);
+  m_TagLowEPi0Constrainedpz = findPi0.GetLowEPhotonPConstrained(2);
+  m_TagLowEPi0Constrainedenergy = findPi0.GetLowEPhotonPConstrained(3);
+  m_Pi0Chi2Fit = findPi0.GetChi2Fit();
   return StatusCode::SUCCESS;
 }

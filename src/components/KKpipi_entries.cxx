@@ -4,6 +4,7 @@
 #include "KKpipi/KKpipiVersusKpiDoubleTag.h"
 #include "KKpipi/KKpipiVersusKpipi0DoubleTag.h"
 #include "KKpipi/KKpipiVersusKKDoubleTag.h"
+#include "KKpipi/KKpipiVersuspipiDoubleTag.h"
 #include "KKpipi/KKpipiVersusKSpi0DoubleTag.h"
 
 DECLARE_ALGORITHM_FACTORY(KKpipi)
