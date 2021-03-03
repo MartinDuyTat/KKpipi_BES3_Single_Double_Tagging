@@ -103,9 +103,9 @@ StatusCode FindPi0Eta::findPi0Eta(DTagToolIterator &DTTool_iter, DTagTool &DTToo
     int i = 0;
     // Get the track ID of the tagged eta candidates
     std::vector<int> EtaTrackIDs = DTTool.etaId(DTTool_iter, m_npi0eta);
-    // Loop over all eta candidates found by EvtRecEta
-    for(EvtRecEtaCol::iterator Eta_iter = RecEtaCol->begin(); Eta_iter != RecEtaCol->end(); Eta_iter++) {
-      // Check if eta candidate from the DTagTool is the same as the candidate found by EvtRecEta
+    // Loop over all eta candidates found by EvtRecEtaToGG
+    for(EvtRecEtaToGGCol::iterator Eta_iter = RecEtaCol->begin(); Eta_iter != RecEtaCol->end(); Eta_iter++) {
+      // Check if eta candidate from the DTagTool is the same as the candidate found by EvtRecEtaToGG
       if(Eta_iter - RecEtaCol->begin() != EtaTrackIDs[i]) {
 	continue;
       }
