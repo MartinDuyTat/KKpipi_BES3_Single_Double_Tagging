@@ -11,7 +11,7 @@
 #include "KKpipi/KKpipiVersusKSetaDoubleTag.h"
 #include "KKpipi/KKpipiVersusKSpipipi0DoubleTag.h"
 #include "KKpipi/KKpipiVersusKSKKDoubleTag.h"
-#include "KKpipi/KKpipiVersusKSetaPrimepipi0DoubleTag.h"
+#include "KKpipi/KKpipiVersusKSetaPrimepipipi0DoubleTag.h"
 
 DECLARE_ALGORITHM_FACTORY(KKpipi)
 DECLARE_ALGORITHM_FACTORY(KKpipiSingleTag)
@@ -25,7 +25,7 @@ DECLARE_ALGORITHM_FACTORY(KKpipiVersusKSpi0pi0DoubleTag)
 DECLARE_ALGORITHM_FACTORY(KKpipiVersusKSetaDoubleTag)
 DECLARE_ALGORITHM_FACTORY(KKpipiVersusKSpipipi0DoubleTag)
 DECLARE_ALGORITHM_FACTORY(KKpipiVersusKSKKDoubleTag)
-DECLARE_ALGORITHM_FACTORY(KKpipiVersusKSetaPrimepipi0DoubleTag)
+DECLARE_ALGORITHM_FACTORY(KKpipiVersusKSetaPrimepipipi0DoubleTag)
 
 DECLARE_FACTORY_ENTRIES(KKpipi) {
   DECLARE_ALGORITHM(KKpipi)
