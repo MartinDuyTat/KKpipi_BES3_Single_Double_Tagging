@@ -214,3 +214,7 @@ double FindKS::GetKSPiPlusPFit(int i) const {
 double FindKS::GetKSPiMinusPFit(int i) const {
   return m_KSPiMinusPFit[i];
 }
+
+std::vector<int> GetDaughterTrackIDs() const {
+  return m_DaughterTrackIDs;
+}

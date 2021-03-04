@@ -70,6 +70,10 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KSetaTag;
     /**
+     * \f$K_S\pi\pi\pi^0\f$ tag mode
+     */
+    Algorithm *m_KSpipipi0Tag;
+    /**
      * Turn on \f$K\pi\f$ tag mode
      */
     bool m_recKpiTag;
@@ -101,6 +105,10 @@ class KKpipi: public Algorithm {
      * Turn on \f$K_S\eta\f$ tag mode
      */
     bool m_recKSetaTag;
+    /**
+     * Turn on \f$K_S\pi\pi\pi^0\f$ tag mode
+     */
+    bool m_recKSpipipi0Tag;
 };
 
 #endif
