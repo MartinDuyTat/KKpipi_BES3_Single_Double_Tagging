@@ -25,7 +25,7 @@ class FindKS {
      * @param KSTag Set to true if we're looking for an actual \f$K_S^0\f$, set to false if we're just checking whether or not a pair of $\f$\pi^+\pi^-\f$ could be a \f$K_S^0\f$ that decayed
      * @param VetoKSIDs Vector of \f$K_S^0\f$ IDs (from DTagTool) that should be skipped
      */
-    FindKS(bool KSTag, std::vector<int> VetoKSIDs = std::vector<int>());
+    FindKS(bool KSTag, const std::vector<int> &VetoKSIDs = std::vector<int>());
     /**
      * Trivial destructor
      */

@@ -63,7 +63,7 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const s
   // Loop over KS in the event (should only be one)
   for(EvtRecVeeVertexCol::iterator KS_iter = evtRecVeeVertexCol->begin(); KS_iter != evtRecVeeVertexCol->end(); KS_iter++) {
     // If the \f$K_S^0\f$ is on the veto list, skip
-    if(m_VetoKSIDs.size() != 0 && std::find(m_VetoKSIDs.begin(), m_VetoKSIDs.end(), DTTool->ksId(DTTool_iter)[0]) != m_VetoKSIDs.end()) {
+    if(m_VetoKSIDs.size() != 0 && std::find(m_VetoKSIDs.begin(), m_VetoKSIDs.end(), DTTool.ksId(DTTool_iter)[0]) != m_VetoKSIDs.end()) {
       continue;
     }
     // Check if the vertex is actually a KS
