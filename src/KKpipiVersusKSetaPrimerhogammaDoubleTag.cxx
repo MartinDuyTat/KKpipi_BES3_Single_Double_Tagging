@@ -355,10 +355,7 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
     m_TagpipiChi2Fit = findKSFromPiPi.GetChi2Fit();
     m_TagpipiKSMassFit = findKSFromPiPi.GetKSMassFit();
   }
-  m_TagHighEPi0px = findPi0.GetHighEPhotonP(0);
-  m_TagHighEPi0py = findPi0.GetHighEPhotonP(1);
-  m_TagHighEPi0pz = findPi0.GetHighEPhotonP(2);
-  m_TagHighEPi0energy = findPi0.GetHighEPhotonP(3);
+  // Get photon momentum
   SmartRefVector<EvtRecTrack> Showers = (*DTTool_Tag_iter)->showers();
   m_NumberShowers = Showers.size();
   RecEmcShower *PhotonShower = Showers[0]->emcShower();
