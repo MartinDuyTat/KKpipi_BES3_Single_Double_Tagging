@@ -28,7 +28,7 @@ StatusCode FindhhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagToo
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     // If track is on the veto list, skip
-    if(m_VetoTrackIDs.size() != 0 && std::find(m_VetoTrackIDs.begin(), m_VetoTrackIDs.end(), Track_iter->trackId()) != m_VetoTrackIDs.end()) {
+    if(m_VetoTrackIDs.size() != 0 && std::find(m_VetoTrackIDs.begin(), m_VetoTrackIDs.end(), (*Track_iter)->trackId()) != m_VetoTrackIDs.end()) {
       continue;
     }
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
