@@ -43,7 +43,7 @@ KKpipiVersusKSKKDoubleTag::KKpipiVersusKSKKDoubleTag(const std::string &name, IS
 KKpipiVersusKSKKDoubleTag::~KKpipiVersusKSKKDoubleTag() {
 }
 
-StatusCode KKpipiVersusKSpi0DoubleTag::initialize() {
+StatusCode KKpipiVersusKSKKDoubleTag::initialize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Initializing KKpipi vs KSKK Double Tagging" << endreq;
   StatusCode status;
@@ -189,7 +189,7 @@ StatusCode KKpipiVersusKSKKDoubleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKSpi0DoubleTag::finalize() {
+StatusCode KKpipiVersusKSKKDoubleTag::finalize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Finalizing KKpipi vs KSKK Double Tagging" << endreq;
   return StatusCode::SUCCESS;
