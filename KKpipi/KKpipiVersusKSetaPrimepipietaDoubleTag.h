@@ -1,12 +1,12 @@
 // Martin Duy Tat 4th March 2021
 /**
- * KKpipiVersusKSetaPrimepipipi0DoubleTag is a class for a BOSS algorithm
- * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to K_S^0\eta'(\pi^+\pi^-\pi^0)\f$ tag
+ * KKpipiVersusKSetaPrimepipietaDoubleTag is a class for a BOSS algorithm
+ * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to K_S^0\eta'(\pi^+\pi^-\eta)\f$ tag
  * It also runs a fit for the decay \f$K_S^0\to\pi^+\pi^-\f$ by refitting the primary and secondary vertex in the class FindKS, from this the flight significance is used to eliminate peaking background
  */
 
-#ifndef KKPIPIVERSUSKSETAPRIMEPIPIPI0DOUBLETAG
-#define KKPIPIVERSUSKSETAPRIMEPIPIPI0DOUBLETAG
+#ifndef KKPIPIVERSUSKSETAPRIMEPIPIETADOUBLETAG
+#define KKPIPIVERSUSKSETAPRIMEPIPIETADOUBLETAG
 
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -18,16 +18,16 @@
 // STL
 #include<string>
 
-class KKpipiVersusKSetaPrimepipipi0DoubleTag: public Algorithm {
+class KKpipiVersusKSetaPrimepipietaDoubleTag: public Algorithm {
   public: 
     /**
      * Default constructor for an algorithm where all necessary properties are declared
      */
-    KKpipiVersusKSetaPrimepipipi0DoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
+    KKpipiVersusKSetaPrimepipietaDoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
     /**
      * Trivial destructor
      */
-    ~KKpipiVersusKSetaPrimepipipi0DoubleTag();
+    ~KKpipiVersusKSetaPrimepipietaDoubleTag();
     /**
      * This function runs when algorithm is initialized
      */

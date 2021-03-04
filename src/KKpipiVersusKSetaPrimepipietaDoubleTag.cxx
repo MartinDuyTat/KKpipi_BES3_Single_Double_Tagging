@@ -1,7 +1,7 @@
 // Martin Duy Tat 4th March 2021
 
 // KKpipi
-#include "KKpipi/KKpipiVersusKSetaPrimepipipi0DoubleTag.h"
+#include "KKpipi/KKpipiVersusKSetaPrimepipietaDoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindKS.h"
@@ -37,22 +37,22 @@
 #include<vector>
 #include<string>
 
-KKpipiVersusKSetaPrimepipipi0DoubleTag::KKpipiVersusKSetaPrimepipipi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
+KKpipiVersusKSetaPrimepipietaDoubleTag::KKpipiVersusKSetaPrimepipietaDoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
 
-KKpipiVersusKSetaPrimepipipi0DoubleTag::~KKpipiVersusKSetaPrimepipipi0DoubleTag() {
+KKpipiVersusKSetaPrimepipietaDoubleTag::~KKpipiVersusKSetaPrimepipietaDoubleTag() {
 }
 
-StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::initialize() {
+StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::initialize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Initializing KKpipi vs KSetaPrime(pipipi0) Double Tagging" << endreq;
+  log << MSG::INFO << "Initializing KKpipi vs KSetaPrime(pipieta) Double Tagging" << endreq;
   StatusCode status;
-  NTuplePtr ntp(ntupleSvc(), "KKPIPI/KSetaPrimepipipi0DoubleTag");
+  NTuplePtr ntp(ntupleSvc(), "KKPIPI/KSetaPrimepipietaDoubleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/KSetaPrimepipipi0DoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->KSetaPrime(pipipi0) events");
+    m_tuple = ntupleSvc()->book("KKPIPI/KSetaPrimepipietaDoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->KSetaPrime(pipieta) events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
@@ -186,9 +186,9 @@ StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::initialize() {
   }
 }
 
-StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::execute() {
+StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::execute() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Executing KKpipi vs KSetaPrime(pipipi0) Double Tag Algorithm" << endreq;
+  log << MSG::INFO << "Executing KKpipi vs KSetaPrime(pipieta) Double Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
@@ -215,13 +215,13 @@ StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::finalize() {
+StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::finalize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Finalizing KKpipi vs KSetaPrime(pipipi0) Double Tagging" << endreq;
+  log << MSG::INFO << "Finalizing KKpipi vs KSetaPrime(pipieta) Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
+StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
