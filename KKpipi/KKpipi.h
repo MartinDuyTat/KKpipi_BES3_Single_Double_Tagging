@@ -82,6 +82,10 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KSetaPrimepipietaTag;
     /**
+     * \f$K_S\eta'(\rho\gamma)\f$ tag mode
+     */
+    Algorithm *m_KSetaPrimerhogammaTag;
+    /**
      * Turn on \f$K\pi\f$ tag mode
      */
     bool m_recKpiTag;
@@ -125,6 +129,10 @@ class KKpipi: public Algorithm {
      * Turn on \f$K_S\eta'(\pi\pi\eta)\f$ tag mode
      */
     bool m_recKSetaPrimepipietaTag;
+    /**
+     * Turn on \f$K_S\eta'(\rho\gamma)\f$ tag mode
+     */
+    bool m_recKSetaPrimerhogammaTag;
 };
 
 #endif
