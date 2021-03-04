@@ -27,6 +27,7 @@ KKpipi::KKpipi(const std::string& name, ISvcLocator* pSvcLocator): Algorithm(nam
   declareProperty("KKpipiVersusKSKKDoubleTag", m_recKSKKTag = true);
   declareProperty("KKpipiVersusKSetaPrimepipietaDoubleTag", m_recKSetaPrimepipietaTag = true);
   declareProperty("KKpipiVersusKSetaPrimerhogammaDoubleTag", m_recKSetaPrimerhogammaTag = true);
+  declareProperty("KKpipiVersusKKpipiDoubleTag", m_recKKpipiTag = true);
 }
 
 KKpipi::~KKpipi() {
@@ -110,6 +111,13 @@ StatusCode KKpipi::initialize() {
     sc = createSubAlgorithm("KKpipiVersusKSetaPrimepipietaDoubleTag", "KKpipiVersusKSetaPrimepipietaDoubleTag", m_KSetaPrimepipietaTag);
     if(sc.isFailure()) {
       log << MSG::ERROR << "Error while creating KKpipiVersusKSetaPrimepipietaDoubleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
+  }
+  if(m_recKKpipiTag) {
+    sc = createSubAlgorithm("KKpipiVersusKKpipiDoubleTag", "KKpipiVersusKKpipiDoubleTag", m_KKpipiTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating KKpipiVersusKKpipiDoubleTag" << endreq;
       return StatusCode::FAILURE;
     }
   }
