@@ -9,6 +9,8 @@
 // Gaudi
 #include "GaudiKernel/SmartRefVector.h"
 #include "GaudiKernel/StatusCode.h"
+// Boss
+#include "DTagTool/DTagTool.h"
 // Event information
 #include "EvtRecEvent/EvtRecTrack.h"
 // CLHEP
@@ -20,8 +22,10 @@ class FindKS {
   public: 
     /**
      * Default constructor, initializes everything to zero
+     * @param KSTag Set to true if we're looking for an actual \f$K_S^0\f$, set to false if we're just checking whether or not a pair of $\f$\pi^+\pi^-\f$ could be a \f$K_S^0\f$ that decayed
+     * @param VetoKSIDs Vector of \f$K_S^0\f$ IDs (from DTagTool) that should be skipped
      */
-    FindKS();
+    FindKS(bool KSTag, std::vector<int> VetoKSIDs = std::vector<int>());
     /**
      * Trivial destructor
      */
@@ -29,9 +33,10 @@ class FindKS {
     /**
      * Start looking for \f$K_S\f$ in the event
      * @param DTTool_iter DTagTool iterator pointing to the event with the tag
+     * @param DTTool DTagTool object with all the tag information
      * @param PiTrackIndex List of length 2 with track indices to the two pions in the event
      */
-    StatusCode findKS(const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter = std::vector<SmartRefVector<EvtRecTrack>::iterator>());
+    StatusCode findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter = std::vector<SmartRefVector<EvtRecTrack>::iterator>());
     /** 
      * Get decay length from VeeVertexAlg
      */
@@ -80,6 +85,10 @@ class FindKS {
      * @param i Momentum component
      */
     double GetKSPiMinusPFit(int i) const;
+    /**
+     * Get the daughter track IDs
+     */
+    std::vector<int> GetDaughterTrackIDs() const;
   private:
     /**
      * The decay length, from VeeVertexAlg
@@ -125,6 +134,19 @@ class FindKS {
      * The \f$\pi^-\f$ daughter four-momentum after vertex fit
      */
     CLHEP::HepLorentzVector m_KSPiMinusPFit;
+    /**
+     * If true, we are looking for an actual \f$K_S^0\f$ and its ID will be checked against the DTagTool::ksId, otherwise we are simply checking if a pair of \f$\pi^+\pi^-\f$ are actually \f$K_S^0\f$
+     */
+    bool m_KSTag;
+    /**
+     * List of \f$K_S^0\f$ IDs that are vetoed, if any of the \f$K_S\f$ are on this list, skip the event
+     * Use this if there are other \f$K_S^0\f$ in the event that have already been identified
+     */
+    std::vector<int> m_VetoKSIDs;
+    /**
+     * List of the track IDs of the daughter \f$\pi\f$ tracks
+     */
+    std::vector<int> m_DaughterTrackIDs;
 };
 
 #endif

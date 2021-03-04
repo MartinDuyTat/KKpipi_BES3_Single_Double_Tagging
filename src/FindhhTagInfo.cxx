@@ -14,10 +14,11 @@
 #include "MdcRecEvent/RecMdcKalTrack.h"
 // STL
 #include<vector>
+#include<algorithm>
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindhhTagInfo::FindhhTagInfo(std::string TagMode): m_TagMode(TagMode) {
+FindhhTagInfo::FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs): m_TagMode(TagMode), m_VetoTrackIDs(VetoTrackIDs) {
 }
 
 FindhhTagInfo::~FindhhTagInfo() {
@@ -26,6 +27,10 @@ FindhhTagInfo::~FindhhTagInfo() {
 StatusCode FindhhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
+    // If track is on the veto list, skip
+    if(m_VetoTrackIDs.size() != 0 && std::find(m_VetoTrackIDs.begin(), m_VetoTrackIDs.end(), Track_iter->trackId()) != m_VetoTrackIDs.end()) {
+      continue;
+    }
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(m_TagMode == "KK") {
       if(DTTool.isKaon(*Track_iter) && MDCKalTrack->charge() > 0) {

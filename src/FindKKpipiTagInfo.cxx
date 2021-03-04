@@ -77,11 +77,11 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   double Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_KSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
-    FindKS findKS;
+    FindKS findKS(false);
     std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
     PionTracks_iter.push_back(DaughterTrackIterators[PIPLUS]);
     PionTracks_iter.push_back(DaughterTrackIterators[PIMINUS]);
-    StatusCode statuscode = findKS.findKS(PionTracks_iter);
+    StatusCode statuscode = findKS.findKS(DTTool_iter, DTTool, PionTracks_iter);
     if(statuscode == StatusCode::SUCCESS) {
       m_KSFitSuccess = 1;
       m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();

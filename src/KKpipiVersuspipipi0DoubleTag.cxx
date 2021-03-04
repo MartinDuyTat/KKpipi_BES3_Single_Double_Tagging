@@ -307,8 +307,8 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
       PionTracks_iter.push_back(Track_iter);
     }
   }
-  FindKS findKS;
-  StatusCode statuscode = findKS.findKS(PionTracks_iter);
+  FindKS findKS(false);
+  StatusCode statuscode = findKS.findKS(DTTool_Tag_iter, DTTool, PionTracks_iter);
   m_TagKSFitSuccess = 0;
   if(statuscode == StatusCode::SUCCESS) {
     m_TagKSFitSuccess = 1;

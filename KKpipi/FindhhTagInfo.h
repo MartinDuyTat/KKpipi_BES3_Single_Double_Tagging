@@ -21,8 +21,9 @@ class FindhhTagInfo {
     /**
      * Default constructor that initalizes all variables to zero, and specifies if it's a \f$KK\f$ or a \f$\pi\pi\f$ tag
      * @param TagMode String that either says "KK" or "pipi"
+     * @param VetoTracks Vector of tracks that should be skipped
      */
-    FindhhTagInfo(std::string TagMode);
+    FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs);
     /**
      * Trivial destructor
      */
@@ -49,6 +50,11 @@ class FindhhTagInfo {
      * Tag mode, either "KK" or "pipi"
      */
     std::string m_TagMode;
+    /**
+     * Vector of tracks that should be skipped
+     * Use this when there are other \f$K_S\f$ or \f$\phi\f$ in the tag that are reconstructed separately
+     */
+    std::vector<int> m_VetoTrackIDs;
     /**
      * \f$h^+\f$ four-momentum
      */

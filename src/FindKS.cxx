@@ -37,13 +37,13 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKS::FindKS(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0) {
+FindKS::FindKS(bool KSTag, const std::vector<int> &VetoKSIDs): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0), m_KSTag(KSTag), m_VetoKSIDs(VetoKSIDs) {
 }
 
 FindKS::~FindKS() {
 }
 
-StatusCode FindKS::findKS(const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter) {
+StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter) {
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");
@@ -62,8 +62,16 @@ StatusCode FindKS::findKS(const std::vector<SmartRefVector<EvtRecTrack>::iterato
   // Get tracks in the event
   // Loop over KS in the event (should only be one)
   for(EvtRecVeeVertexCol::iterator KS_iter = evtRecVeeVertexCol->begin(); KS_iter != evtRecVeeVertexCol->end(); KS_iter++) {
+    // If the \f$K_S^0\f$ is on the veto list, skip
+    if(m_VetoKSIDs.size() != 0 && std::find(m_VetoKSIDs.begin(), m_VetoKSIDs.end(), DTTool->ksId(DTTool_iter)[0]) != m_VetoKSIDs.end()) {
+      continue;
+    }
     // Check if the vertex is actually a KS
     if((*KS_iter)->vertexId() != 310) {
+      continue;
+    }
+    // If we're looking for an actual \f$K_S^0\f$, check its ID against DTagTool
+    if(m_KSTag && KS_iter - evtRecVeeVertexCol->begin() != DTTool->ksId(DTTool_iter)[0]) {
       continue;
     }
     // Get KS daughter tracks
@@ -72,6 +80,8 @@ StatusCode FindKS::findKS(const std::vector<SmartRefVector<EvtRecTrack>::iterato
     // Get KS daughter track IDs
     int KSChildTrackID1 = KSChildTrack1->trackId();
     int KSChildTrackID2 = KSChildTrack2->trackId();
+    m_DaughterTrackIDs.push_back(KSChildTrackID1);
+    m_DaughterTrackIDs.push_back(KSChildTrackID2);
     // Check if KS daughter tracks are the same as the pion tracks (if pion tracks are given)
     if(PiTrack_iter.size() != 0) {
       // Get Kalman tracks and pion track IDs
