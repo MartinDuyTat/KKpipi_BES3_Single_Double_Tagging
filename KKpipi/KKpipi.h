@@ -78,6 +78,10 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KSKKTag;
     /**
+     * \f$K_S\eta'(\pi\pi\pi^0)\f$ tag mode
+     */
+    Algorithm *m_KSetaPrimepipi0Tag;
+    /**
      * Turn on \f$K\pi\f$ tag mode
      */
     bool m_recKpiTag;
@@ -117,6 +121,10 @@ class KKpipi: public Algorithm {
      * Turn on \f$K_SKK\f$ tag mode
      */
     bool m_recKSKKTag;
+    /**
+     * Turn on \f$K_S\eta'(\pi\pi\pi^0)\f$ tag mode
+     */
+    bool m_recKSetaPrimepipi0Tag;
 };
 
 #endif
