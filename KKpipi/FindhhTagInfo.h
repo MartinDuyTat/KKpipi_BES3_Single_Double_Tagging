@@ -23,7 +23,7 @@ class FindhhTagInfo {
      * @param TagMode String that either says "KK" or "pipi"
      * @param VetoTracks Vector of tracks that should be skipped
      */
-    FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs);
+    FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs = std::vector<int>());
     /**
      * Trivial destructor
      */
