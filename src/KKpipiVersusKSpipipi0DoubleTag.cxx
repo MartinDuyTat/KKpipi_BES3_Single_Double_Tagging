@@ -379,7 +379,7 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
   m_TagPiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_TagPiMinusenergy = findpipiTagInfo.GethMinusP(3);
   std::vector<int> VetoKSIDs;
-  VetoKSIDs.push_back(DTTool->ksId(DTTool_Tag_iter));
+  VetoKSIDs.push_back(DTTool.ksId(DTTool_Tag_iter));
   FindKS findKSFromPiPi(false, VetoKSIDs);
   StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool);
   m_TagpipiKSFitSuccess = 0;

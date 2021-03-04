@@ -71,7 +71,7 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const s
       continue;
     }
     // If we're looking for an actual \f$K_S^0\f$, check its ID against DTagTool
-    if(m_KSTag && KS_iter - evtRecVeeVertexCol->begin() != DTTool->ksId(DTTool_iter)[0]) {
+    if(m_KSTag && KS_iter - evtRecVeeVertexCol->begin() != DTTool.ksId(DTTool_iter)[0]) {
       continue;
     }
     // Get KS daughter tracks
