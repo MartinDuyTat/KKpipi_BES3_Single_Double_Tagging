@@ -159,7 +159,7 @@ StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagHighEEtaConstrainedenergy", m_TagHighEEtaConstrainedenergy);
       status = m_tuple->addItem("TagLowEEtaConstrainedpx", m_TagLowEEtaConstrainedpx);
       status = m_tuple->addItem("TagLowEEtaConstrainedpy", m_TagLowEEtaConstrainedpy);
-      status = m_tuple->addItem("TagLowEEtanConstrainedpz", m_TagLowEta0Constrainedpz);
+      status = m_tuple->addItem("TagLowEEtanConstrainedpz", m_TagLowEtaConstrainedpz);
       status = m_tuple->addItem("TagLowEEtaConstrainedenergy", m_TagLowEEtaConstrainedenergy);
       status = m_tuple->addItem("TagEtaChi2Fit", m_EtaChi2Fit);
       status = m_tuple->addItem("TagpipiKSFitSuccess", m_TagpipiKSFitSuccess);
@@ -343,7 +343,7 @@ StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::FillTuple(DTagToolIterator DT
   m_TagHighEEtapx = findEta.GetHighEPhotonP(0);
   m_TagHighEEtapy = findEta.GetHighEPhotonP(1);
   m_TagHighEEtapz = findEta.GetHighEPhotonP(2);
-  m_TagHigheEEtanergy = findEta.GetHighEPhotonP(3);
+  m_TagHigheEEtaenergy = findEta.GetHighEPhotonP(3);
   m_TagLowEEtapx = findEta.GetLowEPhotonP(0);
   m_TagLowEEtapy = findEta.GetLowEPhotonP(1);
   m_TagLowEEtapz = findEta.GetLowEPhotonP(2);
@@ -355,7 +355,7 @@ StatusCode KKpipiVersusKSetaPrimepipipi0DoubleTag::FillTuple(DTagToolIterator DT
   m_TagLowEEtaConstrainedpx = findEta.GetLowEPhotonPConstrained(0);
   m_TagLowEEtaConstrainedpy = findEta.GetLowEPhotonPConstrained(1);
   m_TagLowEEtaConstrainedpz = findEta.GetLowEPhotonPConstrained(2);
-  m_TagLowEEtanConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
+  m_TagLowEEtaConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
   m_EtaChi2Fit = findEta.GetChi2Fit();
   FindhhTagInfo findpipiTagInfo("pipi", findKS.GetDaughterTrackIDs());
   status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
