@@ -2,6 +2,7 @@
 
 // KKpipi
 #include "KKpipi/KKpipiVersusKSpipiDoubleTag.h"
+#include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindKSpipiTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 // Gaudi
@@ -308,6 +309,7 @@ StatusCode KKpipiVersusKSpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
+  FindKSpipiTagInfo findKSpipiTagInfo;
   status = findKSpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
@@ -319,22 +321,22 @@ StatusCode KKpipiVersusKSpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagDecayLengthErrorFit = findKSpipiTagInfo.GetDecayLengthErrorFit();
   m_TagChi2Fit = findKSpipiTagInfo.GetChi2Fit();
   m_TagKSMassFit = findKSpipiTagInfo.GetKSMassFit();
-  m_TagKSPiPluspx = findKS.GetKSPiPlusP(0);
-  m_TagKSPiPluspy = findKS.GetKSPiPlusP(1);
-  m_TagKSPiPluspz = findKS.GetKSPiPlusP(2);
-  m_TagKSPiPlusenergy = findKS.GetKSPiPlusP(3);
-  m_TagKSPiMinuspx = findKS.GetKSPiMinusP(0);
-  m_TagKSPiMinuspy = findKS.GetKSPiMinusP(1);
-  m_TagKSPiMinuspz = findKS.GetKSPiMinusP(2);
-  m_TagKSPiMinusenergy = findKS.GetKSPiMinusP(3);
-  m_TagKSPiPluspxFit = findKS.GetKSPiPlusPFit(0);
-  m_TagKSPiPluspyFit = findKS.GetKSPiPlusPFit(1);
-  m_TagKSPiPluspzFit = findKS.GetKSPiPlusPFit(2);
-  m_TagKSPiPlusenergyFit = findKS.GetKSPiPlusPFit(3);
-  m_TagKSPiMinuspxFit = findKS.GetKSPiMinusPFit(0);
-  m_TagKSPiMinuspyFit = findKS.GetKSPiMinusPFit(1);
-  m_TagKSPiMinuspzFit = findKS.GetKSPiMinusPFit(2);
-  m_TagKSPiMinusenergyFit = findKS.GetKSPiMinusPFit(3);
+  m_TagKSPiPluspx = findKSpipiTagInfo.GetKSPiPlusP(0);
+  m_TagKSPiPluspy = findKSpipiTagInfo.GetKSPiPlusP(1);
+  m_TagKSPiPluspz = findKSpipiTagInfo.GetKSPiPlusP(2);
+  m_TagKSPiPlusenergy = findKSpipiTagInfo.GetKSPiPlusP(3);
+  m_TagKSPiMinuspx = findKSpipiTagInfo.GetKSPiMinusP(0);
+  m_TagKSPiMinuspy = findKSpipiTagInfo.GetKSPiMinusP(1);
+  m_TagKSPiMinuspz = findKSpipiTagInfo.GetKSPiMinusP(2);
+  m_TagKSPiMinusenergy = findKSpipiTagInfo.GetKSPiMinusP(3);
+  m_TagKSPiPluspxFit = findKSpipiTagInfo.GetKSPiPlusPFit(0);
+  m_TagKSPiPluspyFit = findKSpipiTagInfo.GetKSPiPlusPFit(1);
+  m_TagKSPiPluspzFit = findKSpipiTagInfo.GetKSPiPlusPFit(2);
+  m_TagKSPiPlusenergyFit = findKSpipiTagInfo.GetKSPiPlusPFit(3);
+  m_TagKSPiMinuspxFit = findKSpipiTagInfo.GetKSPiMinusPFit(0);
+  m_TagKSPiMinuspyFit = findKSpipiTagInfo.GetKSPiMinusPFit(1);
+  m_TagKSPiMinuspzFit = findKSpipiTagInfo.GetKSPiMinusPFit(2);
+  m_TagKSPiMinusenergyFit = findKSpipiTagInfo.GetKSPiMinusPFit(3);
   m_TagKSpx = findKSpipiTagInfo.GetKShortP(0);
   m_TagKSpy = findKSpipiTagInfo.GetKShortP(1);
   m_TagKSpz = findKSpipiTagInfo.GetKShortP(2);
