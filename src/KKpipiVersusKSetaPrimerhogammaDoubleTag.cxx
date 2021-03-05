@@ -196,8 +196,12 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::execute() {
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-        log << MSG::FATAL << "Assigning KSetaPrimerhogamma tuple info failed" << endreq;
-	return StatusCode::FAILURE;
+      if(FillTupleStatus == StatusCode::WARNING) {
+	log << MSG::WARNING << "Vertex fit of KS failed, skipping event" << endreq;
+	return StatusCode::SUCCESS;
+      }
+      log << MSG::FATAL << "Assigning KSetaPrimerhogamma tuple info failed" << endreq;
+      return StatusCode::FAILURE;
     }
     m_tuple->write();
   }

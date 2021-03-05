@@ -210,8 +210,12 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::execute() {
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-        log << MSG::FATAL << "Assigning KSpipipi0 tuple info failed" << endreq;
-	return StatusCode::FAILURE;
+      if(FillTupleStatus == StatusCode::WARNING) {
+	log << MSG::WARNING << "Vertex fit of KS failed, skipping event" << endreq;
+	return StatusCode::SUCCESS;
+      }
+      log << MSG::FATAL << "Assigning KSpipipi0 tuple info failed" << endreq;
+      return StatusCode::FAILURE;
     }
     m_tuple->write();
   }
@@ -223,24 +227,21 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::finalize() {
   log << MSG::INFO << "Finalizing KKpipi vs KSpipipi0 Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
-#include<iostream> //remove
+
 StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
-      std::cout << "1\n";//remove
       return StatusCode::FAILURE;
     }
     IMcDecayModeSvc *IMcDecayModeService;
     StatusCode McDecayModeSVC_Status = service("McDecayModeSvc", IMcDecayModeService);
     if(McDecayModeSVC_Status.isFailure()) {
-      std::cout << "2\n";//remove
       return StatusCode::FAILURE;
     }
     FindMCInfo findMCInfo;
     StatusCode MCStatus = findMCInfo.CalculateMCInfo(MCParticleCol, IMcDecayModeService);
     if(MCStatus != StatusCode::SUCCESS) {
-      std::cout << "3\n";//remove
       return MCStatus;
     }
     m_NumberParticles = findMCInfo.GetNumberParticles();
@@ -273,7 +274,6 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
   FindKKpipiTagInfo findKKpipiTagInfo;
   StatusCode status = findKKpipiTagInfo.CalculateTagInfo(DTTool_Signal_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
-      std::cout << "4\n";//remove
     return status;
   }
   m_SignalKPluspx = findKKpipiTagInfo.GetKPlusP(0);
@@ -320,7 +320,6 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
   FindKS findKS(true);
   status = findKS.findKS(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
-    std::cout << "5\n";//remove
     return status;
   }
   m_TagDecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
@@ -368,7 +367,6 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
   FindhhTagInfo findpipiTagInfo("pipi", findKS.GetDaughterTrackIDs());
   status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
-    std::cout << "6\n";//remove
     return status;
   }
   m_TagPiPluspx = findpipiTagInfo.GethPlusP(0);

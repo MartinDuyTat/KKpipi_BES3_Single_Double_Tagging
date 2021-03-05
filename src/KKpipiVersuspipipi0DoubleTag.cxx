@@ -187,8 +187,8 @@ StatusCode KKpipiVersuspipipi0DoubleTag::execute() {
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-        log << MSG::FATAL << "Assigning pipipi0 tuple info failed" << endreq;
-	return StatusCode::FAILURE;
+      log << MSG::FATAL << "Assigning pipipi0 tuple info failed" << endreq;
+      return StatusCode::FAILURE;
     }
     m_tuple->write();
   }
