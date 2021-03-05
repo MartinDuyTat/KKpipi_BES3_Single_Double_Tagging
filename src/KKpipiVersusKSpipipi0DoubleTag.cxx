@@ -372,18 +372,22 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
   m_TagPiMinusenergy = findpipiTagInfo.GethMinusP(3);
   std::vector<int> VetoKSIDs;
   VetoKSIDs.push_back(DTTool.ksId(DTTool_Tag_iter)[0]);
-  FindKS findKSFromPiPi(false, VetoKSIDs);
-  StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool);
-  m_TagpipiKSFitSuccess = 0;
-  if(statuscode == StatusCode::SUCCESS) {
-    m_TagpipiKSFitSuccess = 1;
-    m_TagpipiDecayLengthVeeVertex = findKSFromPiPi.GetDecayLengthVeeVertex();
-    m_TagpipiChi2VeeVertex = findKSFromPiPi.GetChi2VeeVertex();
-    m_TagpipiKSMassVeeVertex = findKSFromPiPi.GetKSMassVeeVertex();
-    m_TagpipiDecayLengthFit = findKSFromPiPi.GetDecayLengthFit();
-    m_TagpipiDecayLengthErrorFit = findKSFromPiPi.GetDecayLengthErrorFit();
-    m_TagpipiChi2Fit = findKSFromPiPi.GetChi2Fit();
-    m_TagpipiKSMassFit = findKSFromPiPi.GetKSMassFit();
+  double Mpipi = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy, 2) - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx, 2) - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy, 2) - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz, 2));
+  m_KSFitSuccess = 0;
+  if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
+    FindKS findKSFromPiPi(false, VetoKSIDs);
+    StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool);
+    m_TagpipiKSFitSuccess = 0;
+    if(statuscode == StatusCode::SUCCESS) {
+      m_TagpipiKSFitSuccess = 1;
+      m_TagpipiDecayLengthVeeVertex = findKSFromPiPi.GetDecayLengthVeeVertex();
+      m_TagpipiChi2VeeVertex = findKSFromPiPi.GetChi2VeeVertex();
+      m_TagpipiKSMassVeeVertex = findKSFromPiPi.GetKSMassVeeVertex();
+      m_TagpipiDecayLengthFit = findKSFromPiPi.GetDecayLengthFit();
+      m_TagpipiDecayLengthErrorFit = findKSFromPiPi.GetDecayLengthErrorFit();
+      m_TagpipiChi2Fit = findKSFromPiPi.GetChi2Fit();
+      m_TagpipiKSMassFit = findKSFromPiPi.GetKSMassFit();
+    }
   }
   return StatusCode::SUCCESS;
 }

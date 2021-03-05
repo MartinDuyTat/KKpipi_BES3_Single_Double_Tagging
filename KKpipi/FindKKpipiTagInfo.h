@@ -86,7 +86,7 @@ class FindKKpipiTagInfo {
      */
     double GetPiMinusPKalmanFit(int i) const;
     /**
-     * Get flag equal of \f$K_S^0\f$ fit of tracks
+     * Get flag of \f$K_S^0\f$ fit success of tracks
      */
     int GetKSFitSuccess() const;
     /**

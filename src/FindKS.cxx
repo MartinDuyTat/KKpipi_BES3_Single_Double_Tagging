@@ -165,6 +165,7 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const s
       m_DecayLengthErrorFit = PrimaryVertexFit->decayLengthError();
       m_Chi2Fit = PrimaryVertexFit->chisq();
       m_KSMassFit = PrimaryVertexFit->p4par().m();
+      m_KShortPFit = PrimaryVertexFit->p4par();
       return StatusCode::SUCCESS;
     }
   }
@@ -217,4 +218,8 @@ double FindKS::GetKSPiMinusPFit(int i) const {
 
 std::vector<int> FindKS::GetDaughterTrackIDs() const {
   return m_DaughterTrackIDs;
+}
+
+CLHEP::HepLorentzVector FindKS::GetKShortPFit() const {
+  return m_KShortPFit;
 }

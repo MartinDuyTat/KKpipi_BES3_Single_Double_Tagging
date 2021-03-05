@@ -89,6 +89,10 @@ class FindKS {
      * Get the daughter track IDs
      */
     std::vector<int> GetDaughterTrackIDs() const;
+    /*
+     * Get the \f$K_S^0\f$ momentum after vertex fit
+     */
+    CLHEP::HepLorentzVector GetKShortPFit() const;
   private:
     /**
      * The decay length, from VeeVertexAlg
@@ -134,6 +138,10 @@ class FindKS {
      * The \f$\pi^-\f$ daughter four-momentum after vertex fit
      */
     CLHEP::HepLorentzVector m_KSPiMinusPFit;
+    /**
+     * The \f$K_S^0\f$ momentum after vertex fit
+     */
+    CLHEP::HepLorentzVector m_KShortPFit;
     /**
      * If true, we are looking for an actual \f$K_S^0\f$ and its ID will be checked against the DTagTool::ksId, otherwise we are simply checking if a pair of \f$\pi^+\pi^-\f$ are actually \f$K_S^0\f$
      */

@@ -7,6 +7,7 @@
 #include "KKpipi/FindPi0.h"
 #include "KKpipi/FindKS.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/ParticleMasses.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -33,6 +34,8 @@
 #include "DTagTool/DTagTool.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "McTruth/McParticle.h"
+// ROOT
+#include "TMath.h"
 // STL
 #include<vector>
 #include<string>
@@ -307,18 +310,22 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
       PionTracks_iter.push_back(Track_iter);
     }
   }
-  FindKS findKS(false);
-  StatusCode statuscode = findKS.findKS(DTTool_Tag_iter, DTTool, PionTracks_iter);
-  m_TagKSFitSuccess = 0;
-  if(statuscode == StatusCode::SUCCESS) {
-    m_TagKSFitSuccess = 1;
-    m_TagDecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
-    m_TagChi2VeeVertex = findKS.GetChi2VeeVertex();
-    m_TagKSMassVeeVertex = findKS.GetKSMassVeeVertex();
-    m_TagDecayLengthFit = findKS.GetDecayLengthFit();
-    m_TagDecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
-    m_TagChi2Fit = findKS.GetChi2Fit();
-    m_TagKSMassFit = findKS.GetKSMassFit();
+  double Mpipi = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy, 2) - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx, 2) - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy, 2) - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz, 2));
+  m_KSFitSuccess = 0;
+  if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
+    FindKS findKS(false);
+    StatusCode statuscode = findKS.findKS(DTTool_Tag_iter, DTTool, PionTracks_iter);
+    m_TagKSFitSuccess = 0;
+    if(statuscode == StatusCode::SUCCESS) {
+      m_TagKSFitSuccess = 1;
+      m_TagDecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
+      m_TagChi2VeeVertex = findKS.GetChi2VeeVertex();
+      m_TagKSMassVeeVertex = findKS.GetKSMassVeeVertex();
+      m_TagDecayLengthFit = findKS.GetDecayLengthFit();
+      m_TagDecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
+      m_TagChi2Fit = findKS.GetChi2Fit();
+      m_TagKSMassFit = findKS.GetKSMassFit();
+    }
   }
   FindPi0 findPi0;
   findPi0.findPi0(DTTool_Tag_iter, DTTool);
