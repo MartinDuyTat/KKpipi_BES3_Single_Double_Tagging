@@ -48,17 +48,17 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   m_KSPiMinusPFit = CLHEP::HepLorentzVector(findKS.GetKSPiMinusPFit(0), findKS.GetKSPiMinusPFit(1), findKS.GetKSPiMinusPFit(2), findKS.GetKSPiMinusPFit(3));
   m_KShortP = findKS.GetKShortPFit();
   std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
-  FindhhTagInfo findpipiTagInfo("pipi", KSDaughterTrackDs);
-  status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
+  FindhhTagInfo findpipiTagInfo("pipi", KSDaughterTrackIDs);
+  status = findpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
   m_PiPlusP = CLHEP::HepLorentzVector(findpipiTagInfo.GethPlusP(0), findpipiTagInfo.GethPlusP(1), findpipiTagInfo.GethPlusP(2), findpipiTagInfo.GethPlusP(3));
   m_PiMinusP = CLHEP::HepLorentzVector(findpipiTagInfo.GethMinusP(0), findpipiTagInfo.GethMinusP(1), findpipiTagInfo.GethMinusP(2), findpipiTagInfo.GethMinusP(3));
   std::vector<int> VetoKSIDs;
-  VetoKSIDs.push_back(DTTool.ksId(DTTool_Tag_iter)[0]);
+  VetoKSIDs.push_back(DTTool.ksId(DTTool_iter)[0]);
   FindKS findKSFromPiPi(false, VetoKSIDs);
-  StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool);
+  StatusCode statuscode = findKSFromPiPi.findKS(DTTool_iter, DTTool);
   m_pipiKSFitSuccess = 0;
   if(statuscode == StatusCode::SUCCESS) {
     m_pipiKSFitSuccess = 1;
@@ -76,7 +76,7 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     // If track is from KS, skip
-    if(std::find(KSDaughterTrackIDs.begin(), KSDaughterTrackIds.end(), (*Track_iter)->trackId()) != KSDaughterTrackIDs.end()) {
+    if(std::find(KSDaughterTrackIDs.begin(), KSDaughterTrackIDs.end(), (*Track_iter)->trackId()) != KSDaughterTrackIDs.end()) {
       continue;
     }
     if(DTTool.isPion(*Track_iter)) {
@@ -192,12 +192,8 @@ double FindKSpipiTagInfo::GetKalmanFitChi2() const {
   return m_KalmanFitChi2;
 }
 
-double FindKSpipiTagInfo::GetKPlusPKalmanFit(int i) const {
-  return m_KPlusPKalmanFit[i];
-}
-
-double FindKSpipiTagInfo::GetKMinusPKalmanFit(int i) const {
-  return m_KMinusPKalmanFit[i];
+double FindKSpipiTagInfo::GetKShortPKalmanFit(int i) const {
+  return m_KShortPKalmanFit[i];
 }
 
 double FindKSpipiTagInfo::GetPiPlusPKalmanFit(int i) const {

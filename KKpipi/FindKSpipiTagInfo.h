@@ -221,7 +221,7 @@ class FindKSpipiTagInfo {
     /**
      * Kalman fitted \f$K_S^0\f$ four- momentum
      */
-    CLHEP::HepLorentzVector m_KPlusPKalmanFit;
+    CLHEP::HepLorentzVector m_KShortPKalmanFit;
     /**
      * Kalman fitted \f$\pi^+\f$ four-momentum
      */
