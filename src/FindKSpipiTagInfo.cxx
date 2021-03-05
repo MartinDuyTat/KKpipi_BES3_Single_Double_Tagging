@@ -3,8 +3,10 @@
 // KKpipi
 #include "KKpipi/FindKSpipiTagInfo.h"
 #include "KKpipi/FindKS.h"
+#include "KKpipi/FindhhTagInfo.h"
 // Gaudi
 #include "GaudiKernel/SmartRefVector.h"
+#include "GaudiKernel/StatusCode.h"
 // Event information
 #include "EvtRecEvent/EvtRecTrack.h"
 // CLHEP
@@ -21,7 +23,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKSpipiTagInfo::FindKSpipiTagInfo(): m_KSFitSuccess(0), m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0), m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_pipiKSFitSuccess(0), m_pipiDecayLengthVeeVertex(0.0), m_pipiChi2VeeVertex(0.0), m_pipiKSMassVeeVertex(0.0), m_pipiDecayLengthFit(0.0), m_pipiDecayLengthErrorFit(0.0), m_pipiChi2Fit(0.0), m_pipiKSMassFit(0.0) {
+FindKSpipiTagInfo::FindKSpipiTagInfo(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0), m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_pipiKSFitSuccess(0), m_pipiDecayLengthVeeVertex(0.0), m_pipiChi2VeeVertex(0.0), m_pipiKSMassVeeVertex(0.0), m_pipiDecayLengthFit(0.0), m_pipiDecayLengthErrorFit(0.0), m_pipiChi2Fit(0.0), m_pipiKSMassFit(0.0) {
 }
 
 FindKSpipiTagInfo::~FindKSpipiTagInfo() {
@@ -29,7 +31,7 @@ FindKSpipiTagInfo::~FindKSpipiTagInfo() {
 
 StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   FindKS findKS(true);
-  status = findKS.findKS(DTTool_Tag_iter, DTTool);
+  StatusCode status = findKS.findKS(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
@@ -51,14 +53,8 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  m_PiPluspx = findpipiTagInfo.GethPlusP(0);
-  m_PiPluspy = findpipiTagInfo.GethPlusP(1);
-  m_PiPluspz = findpipiTagInfo.GethPlusP(2);
-  m_PiPlusenergy = findpipiTagInfo.GethPlusP(3);
-  m_PiMinuspx = findpipiTagInfo.GethMinusP(0);
-  m_PiMinuspy = findpipiTagInfo.GethMinusP(1);
-  m_PiMinuspz = findpipiTagInfo.GethMinusP(2);
-  m_PiMinusenergy = findpipiTagInfo.GethMinusP(3);
+  m_PiPlusP = CLHEP::HepLorentzVector(findpipiTagInfo.GethPlusP(0), findpipiTagInfo.GethPlusP(1), findpipiTagInfo.GethPlusP(2), findpipiTagInfo.GethPlusP(3));
+  m_PiMinusP = CLHEP::HepLorentzVector(findpipiTagInfo.GethMinusP(0), findpipiTagInfo.GethMinusP(1), findpipiTagInfo.GethMinusP(2), findpipiTagInfo.GethMinusP(3));
   std::vector<int> VetoKSIDs;
   VetoKSIDs.push_back(DTTool.ksId(DTTool_Tag_iter)[0]);
   FindKS findKSFromPiPi(false, VetoKSIDs);
@@ -80,7 +76,7 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     // If track is from KS, skip
-    if(std::find(KSDaughterTrackIDs.begin(), KSDaughterTrackIds.end(), Track_iter->trackId()) != KSDaughterTrackIDs.end()) {
+    if(std::find(KSDaughterTrackIDs.begin(), KSDaughterTrackIds.end(), (*Track_iter)->trackId()) != KSDaughterTrackIDs.end()) {
       continue;
     }
     if(DTTool.isPion(*Track_iter)) {
@@ -101,20 +97,19 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   KalmanFit->init();
   KalmanFit->AddTrack(PIPLUS, WTrackPIplus);
   KalmanFit->AddTrack(PIMINUS, WTrackPIminus);
-  KalmanFit->AddMissTrack(KSHORT, m_KShortPFit);
+  KalmanFit->AddMissTrack(KSHORT, m_KShortP);
   KalmanFit->AddResonance(0, MASS::D_MASS, PIPLUS, PIMINUS, KSHORT);
   m_KalmanFitSuccess = KalmanFit->Fit();
   if(m_KalmanFitSuccess) {
     m_KalmanFitChi2 = KalmanFit->chisq();
-    m_KPlusPKalmanFit = KalmanFit->pfit(KPLUS);
-    m_KMinusPKalmanFit = KalmanFit->pfit(KMINUS);
+    m_KShortPKalmanFit = KalmanFit->pfit(KSHORT);
     m_PiPlusPKalmanFit = KalmanFit->pfit(PIPLUS);
     m_PiMinusPKalmanFit = KalmanFit->pfit(PIMINUS);
   }
   double Mpipi = (m_PiPlusP + m_PiMinusP).m();
-  m_KSFitSuccess = 0;
+  m_pipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
-    FindKS findpipiKS(false);
+    FindKS pipifindpipiKS(false);
     std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
     PionTracks_iter.push_back(DaughterTrackIterators[PIPLUS]);
     PionTracks_iter.push_back(DaughterTrackIterators[PIMINUS]);
