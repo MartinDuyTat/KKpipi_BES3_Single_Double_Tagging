@@ -7,6 +7,7 @@
 #include "KKpipi/FindKS.h"
 #include "KKpipi/FindPi0Eta.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/ParticleMasses.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -33,6 +34,8 @@
 #include "DTagTool/DTagTool.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "McTruth/McParticle.h"
+// ROOT
+#include "TMath.h"
 // STL
 #include<vector>
 #include<string>
