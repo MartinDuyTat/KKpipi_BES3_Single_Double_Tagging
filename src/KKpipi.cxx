@@ -115,6 +115,13 @@ StatusCode KKpipi::initialize() {
       return StatusCode::FAILURE;
     }
   }
+  if(m_recKSetaPrimerhogammaTag) {
+    sc = createSubAlgorithm("KKpipiVersusKSetaPrimerhogammaDoubleTag", "KKpipiVersusKSetaPrimerhogammaDoubleTag", m_KSetaPrimerhogammaTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating KKpipiVersusKSetaPrimerhogammaDoubleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
+  }
   if(m_recKKpipiTag) {
     sc = createSubAlgorithm("KKpipiVersusKKpipiDoubleTag", "KKpipiVersusKKpipiDoubleTag", m_KKpipiTag);
     if(sc.isFailure()) {
