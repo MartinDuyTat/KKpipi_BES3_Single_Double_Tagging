@@ -110,7 +110,7 @@ class FindKSpipiTagInfo {
      * Get \f$K_S^0\f$ momentum component from Kalman fit
      * @param i Component
      */
-    double GetKshortPKalmanFit(int i) const;
+    double GetKShortPKalmanFit(int i) const;
     /**
      * Get \f$\pi^+\f$ momentum component from Kalman fit
      * @param i Component

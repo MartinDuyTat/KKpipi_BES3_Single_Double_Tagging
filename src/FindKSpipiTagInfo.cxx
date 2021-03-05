@@ -109,13 +109,13 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   double Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_pipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
-    FindKS pipifindpipiKS(false);
+    FindKS pipifindKS(false);
     std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
     PionTracks_iter.push_back(DaughterTrackIterators[PIPLUS]);
     PionTracks_iter.push_back(DaughterTrackIterators[PIMINUS]);
     StatusCode statuscode = pipifindKS.findKS(DTTool_iter, DTTool, PionTracks_iter);
     if(statuscode == StatusCode::SUCCESS) {
-      m_KSFitSuccess = 1;
+      m_pipiKSFitSuccess = 1;
       m_DecayLengthVeeVertex = pipifindKS.GetDecayLengthVeeVertex();
       m_Chi2VeeVertex = pipifindKS.GetChi2VeeVertex();
       m_KSMassVeeVertex = pipifindKS.GetKSMassVeeVertex();
