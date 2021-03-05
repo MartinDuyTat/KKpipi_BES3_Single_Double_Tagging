@@ -169,7 +169,7 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const s
       return StatusCode::SUCCESS;
     }
   }
-  return StatusCode::WARNING;
+  return StatusCode::RECOVERABLE;
 }
 
 double FindKS::GetDecayLengthVeeVertex() const {
