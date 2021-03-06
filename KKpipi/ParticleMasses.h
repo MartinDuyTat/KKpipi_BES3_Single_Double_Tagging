@@ -3,6 +3,9 @@
  * This is a collection of particle masses from the PDG 2020
  */
 
+#ifndef PARTICLEMASSES
+#define PARTICLEMASSES
+
 namespace MASS {
   /**
    * \f$D^0\f$ meson mass
@@ -21,3 +24,5 @@ namespace MASS {
    */
   const double PI_MASS = 0.13957039;
 }
+
+#endif
