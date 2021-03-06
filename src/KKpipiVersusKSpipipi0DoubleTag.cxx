@@ -378,8 +378,8 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
   m_TagPiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_TagPiMinusenergy = findpipiTagInfo.GethMinusP(3);
   std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTrackIters;
-  PionTrackiters.push_back(findpipiTagInfo.GetPiPlusTrackIter());
-  PionTrackiters.push_back(findpipiTagInfo.GetPiMinusTrackIter());
+  PionTrackIters.push_back(findpipiTagInfo.GetPiPlusTrackIter());
+  PionTrackIters.push_back(findpipiTagInfo.GetPiMinusTrackIter());
   double Mpipi = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy, 2) - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx, 2) - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy, 2) - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz, 2));
   m_TagpipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
