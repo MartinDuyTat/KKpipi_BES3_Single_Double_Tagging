@@ -57,8 +57,8 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   m_PiPlusP = CLHEP::HepLorentzVector(findpipiTagInfo.GethPlusP(0), findpipiTagInfo.GethPlusP(1), findpipiTagInfo.GethPlusP(2), findpipiTagInfo.GethPlusP(3));
   m_PiMinusP = CLHEP::HepLorentzVector(findpipiTagInfo.GethMinusP(0), findpipiTagInfo.GethMinusP(1), findpipiTagInfo.GethMinusP(2), findpipiTagInfo.GethMinusP(3));
   std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTrackIters;
-  PionTrackiters.push_back(findpipiTagInfo.GetPiPlusTrackIter());
-  PionTrackiters.push_back(findpipiTagInfo.GetPiMinusTrackIter());
+  PionTrackIters.push_back(findpipiTagInfo.GetPiPlusTrackIter());
+  PionTrackIters.push_back(findpipiTagInfo.GetPiMinusTrackIter());
   FindKS findKSFromPiPi(false);
   StatusCode statuscode = findKSFromPiPi.findKS(DTTool_iter, DTTool, PionTrackIters);
   m_pipiKSFitSuccess = 0;
