@@ -4,6 +4,7 @@
 #include "KKpipi/FindKSpipiTagInfo.h"
 #include "KKpipi/FindKS.h"
 #include "KKpipi/FindhhTagInfo.h"
+#include "KKpipi/ParticleMasses.h"
 // Gaudi
 #include "GaudiKernel/SmartRefVector.h"
 #include "GaudiKernel/StatusCode.h"
@@ -55,10 +56,11 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   }
   m_PiPlusP = CLHEP::HepLorentzVector(findpipiTagInfo.GethPlusP(0), findpipiTagInfo.GethPlusP(1), findpipiTagInfo.GethPlusP(2), findpipiTagInfo.GethPlusP(3));
   m_PiMinusP = CLHEP::HepLorentzVector(findpipiTagInfo.GethMinusP(0), findpipiTagInfo.GethMinusP(1), findpipiTagInfo.GethMinusP(2), findpipiTagInfo.GethMinusP(3));
-  std::vector<int> VetoKSIDs;
-  VetoKSIDs.push_back(DTTool.ksId(DTTool_iter)[0]);
-  FindKS findKSFromPiPi(false, VetoKSIDs);
-  StatusCode statuscode = findKSFromPiPi.findKS(DTTool_iter, DTTool);
+  std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTrackIters;
+  PionTrackiters.push_back(findpipiTagInfo.GetPiPlusTrackIter());
+  PionTrackiters.push_back(findpipiTagInfo.GetPiMinusTrackIter());
+  FindKS findKSFromPiPi(false);
+  StatusCode statuscode = findKSFromPiPi.findKS(DTTool_iter, DTTool, PionTrackIters);
   m_pipiKSFitSuccess = 0;
   if(statuscode == StatusCode::SUCCESS) {
     m_pipiKSFitSuccess = 1;
@@ -72,7 +74,7 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   }
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(2); // In the order pi+ pi-
-  std::vector<RecMdcKalTrack*> KalmanTracks(4); //In the order pi+ pi-
+  std::vector<RecMdcKalTrack*> KalmanTracks(2); //In the order pi+ pi-
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     // If track is from KS, skip
@@ -97,7 +99,7 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   KalmanFit->init();
   KalmanFit->AddTrack(PIPLUS, WTrackPIplus);
   KalmanFit->AddTrack(PIMINUS, WTrackPIminus);
-  KalmanFit->AddMissTrack(KSHORT, m_KShortP);
+  KalmanFit->AddMissTrack(KSHORT, MASS::KS_MASS, m_KShortP);
   KalmanFit->AddResonance(0, MASS::D_MASS, PIPLUS, PIMINUS, KSHORT);
   m_KalmanFitSuccess = KalmanFit->Fit();
   if(m_KalmanFitSuccess) {

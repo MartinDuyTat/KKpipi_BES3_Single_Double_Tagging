@@ -11,6 +11,7 @@
 #include "GaudiKernel/StatusCode.h"
 // Boss
 #include "DTagTool/DTagTool.h"
+#include "VertexFit/WTrackParameter.h"
 // Event information
 #include "EvtRecEvent/EvtRecTrack.h"
 // CLHEP
@@ -89,10 +90,14 @@ class FindKS {
      * Get the daughter track IDs
      */
     std::vector<int> GetDaughterTrackIDs() const;
-    /*
+    /**
      * Get the \f$K_S^0\f$ momentum after vertex fit
      */
     CLHEP::HepLorentzVector GetKShortPFit() const;
+    /**
+     * Get the WTrackParameter for \f$K_S^0\f$ after fit
+     */
+    WTrackParameter GetKSTrackParameter() const;
   private:
     /**
      * The decay length, from VeeVertexAlg
@@ -155,6 +160,10 @@ class FindKS {
      * List of the track IDs of the daughter \f$\pi\f$ tracks
      */
     std::vector<int> m_DaughterTrackIDs;
+    /**
+     * WTrackParameter of \f$K_S\f$ after fit
+     */
+    WTrackParameter m_KSTrackParameter;
 };
 
 #endif
