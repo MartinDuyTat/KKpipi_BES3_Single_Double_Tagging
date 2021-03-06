@@ -166,7 +166,6 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const s
       m_Chi2Fit = PrimaryVertexFit->chisq();
       m_KSMassFit = PrimaryVertexFit->p4par().m();
       m_KShortPFit = PrimaryVertexFit->p4par();
-      m_KSTrackParameter = PrimaryVertexFit->wpar();
       return StatusCode::SUCCESS;
     }
   }
@@ -223,8 +222,4 @@ std::vector<int> FindKS::GetDaughterTrackIDs() const {
 
 CLHEP::HepLorentzVector FindKS::GetKShortPFit() const {
   return m_KShortPFit;
-}
-
-WTrackParameter FindKS::GetKSTrackParameter() const {
-  return m_KSTrackParameter;
 }
