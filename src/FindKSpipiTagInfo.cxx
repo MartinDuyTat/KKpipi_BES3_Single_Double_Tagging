@@ -31,11 +31,13 @@ FindKSpipiTagInfo::~FindKSpipiTagInfo() {
 }
 
 StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
+  // Find the actual KS candidate
   FindKS findKS(true);
   StatusCode status = findKS.findKS(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
+  // Fill out the information about the KS candidate
   m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
   m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
   m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
@@ -48,8 +50,9 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   m_KSPiPlusPFit = CLHEP::HepLorentzVector(findKS.GetKSPiPlusPFit(0), findKS.GetKSPiPlusPFit(1), findKS.GetKSPiPlusPFit(2), findKS.GetKSPiPlusPFit(3));
   m_KSPiMinusPFit = CLHEP::HepLorentzVector(findKS.GetKSPiMinusPFit(0), findKS.GetKSPiMinusPFit(1), findKS.GetKSPiMinusPFit(2), findKS.GetKSPiMinusPFit(3));
   m_KShortP = findKS.GetKShortPFit();
+  // Get the track ID of the KS daughters
   std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
-  FindhhTagInfo findpipiTagInfo("pipi", KSDaughterTrackIDs);
+  /*FindhhTagInfo findpipiTagInfo("pipi", KSDaughterTrackIDs);
   status = findpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
@@ -71,16 +74,19 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     m_pipiDecayLengthErrorFit = findKSFromPiPi.GetDecayLengthErrorFit();
     m_pipiChi2Fit = findKSFromPiPi.GetChi2Fit();
     m_pipiKSMassFit = findKSFromPiPi.GetKSMassFit();
-  }
+    }*/
+  // Get all tracks
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(2); // In the order pi+ pi-
   std::vector<RecMdcKalTrack*> KalmanTracks(2); //In the order pi+ pi-
+  // Loop over all tracks
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
-    // If track is from KS, skip
+    // If track is from KS daughters, skip
     if(std::find(KSDaughterTrackIDs.begin(), KSDaughterTrackIDs.end(), (*Track_iter)->trackId()) != KSDaughterTrackIDs.end()) {
       continue;
     }
+    // Fill out track information
     if(DTTool.isPion(*Track_iter)) {
       if(MDCKalTrack->charge() == +1) {
 	DaughterTrackIterators[PIPLUS] = Track_iter;
@@ -93,6 +99,7 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
       }
     }
   }
+  // Do a Kalman kinematic fit of the tracks, and constrain the KS and D masses to their PDG values
   WTrackParameter WTrackPIplus(MASS::PI_MASS, KalmanTracks[PIPLUS]->getZHelix(), KalmanTracks[PIPLUS]->getZError());
   WTrackParameter WTrackPIminus(MASS::PI_MASS, KalmanTracks[PIMINUS]->getZHelix(), KalmanTracks[PIMINUS]->getZError());
   KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
@@ -108,6 +115,7 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     m_PiPlusPKalmanFit = KalmanFit->pfit(PIPLUS);
     m_PiMinusPKalmanFit = KalmanFit->pfit(PIMINUS);
   }
+  // Do a vertex fit of the pipi in the tag, to make sure they're not KS in disguise
   double Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_pipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
@@ -118,13 +126,13 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     StatusCode statuscode = pipifindKS.findKS(DTTool_iter, DTTool, PionTracks_iter);
     if(statuscode == StatusCode::SUCCESS) {
       m_pipiKSFitSuccess = 1;
-      m_DecayLengthVeeVertex = pipifindKS.GetDecayLengthVeeVertex();
-      m_Chi2VeeVertex = pipifindKS.GetChi2VeeVertex();
-      m_KSMassVeeVertex = pipifindKS.GetKSMassVeeVertex();
-      m_DecayLengthFit = pipifindKS.GetDecayLengthFit();
-      m_DecayLengthErrorFit = pipifindKS.GetDecayLengthErrorFit();
-      m_Chi2Fit = pipifindKS.GetChi2Fit();
-      m_KSMassFit = pipifindKS.GetKSMassFit();
+      m_pipiDecayLengthVeeVertex = pipifindKS.GetDecayLengthVeeVertex();
+      m_pipiChi2VeeVertex = pipifindKS.GetChi2VeeVertex();
+      m_pipiKSMassVeeVertex = pipifindKS.GetKSMassVeeVertex();
+      m_pipiDecayLengthFit = pipifindKS.GetDecayLengthFit();
+      m_pipiDecayLengthErrorFit = pipifindKS.GetDecayLengthErrorFit();
+      m_pipiChi2Fit = pipifindKS.GetChi2Fit();
+      m_pipiKSMassFit = pipifindKS.GetKSMassFit();
     }
   }
   return StatusCode::SUCCESS;
