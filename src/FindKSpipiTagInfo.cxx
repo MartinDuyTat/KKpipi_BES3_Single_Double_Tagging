@@ -123,7 +123,7 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     std::vector<int> PionTrackIDs;
     PionTrackIDs.push_back((*DaughterTrackIterators[PIPLUS])->trackId());
     PionTrackIDs.push_back((*DaughterTrackIterators[PIMINUS])->trackId());
-    StatusCode statuscode = pipifindKS.findKS(DTTool_iter, DTTool, PionTracksIDs);
+    StatusCode statuscode = pipifindKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
     if(statuscode == StatusCode::SUCCESS) {
       m_pipiKSFitSuccess = 1;
       m_pipiDecayLengthVeeVertex = pipifindKS.GetDecayLengthVeeVertex();
