@@ -6,6 +6,7 @@
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindKS.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/ParticleMasses.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
