@@ -34,6 +34,8 @@
 #include "DTagTool/DTagTool.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
 #include "McTruth/McParticle.h"
+// ROOT
+#include "TMath.h"
 // STL
 #include<vector>
 #include<string>
