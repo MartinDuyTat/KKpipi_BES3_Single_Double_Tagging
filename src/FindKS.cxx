@@ -43,7 +43,7 @@ FindKS::FindKS(bool KSTag, const std::vector<int> &VetoKSIDs): m_DecayLengthVeeV
 FindKS::~FindKS() {
 }
 
-StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter) {
+StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, std::vector<SmartRefVector<EvtRecTrack>::iterator> PiTrack_iter) {
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");

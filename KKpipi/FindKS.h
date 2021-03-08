@@ -36,7 +36,7 @@ class FindKS {
      * @param DTTool DTagTool object with all the tag information
      * @param PiTrackIndex List of length 2 with track indices to the two pions in the event, please use this when checking if a \f$\pi^+\pi^-\f$ pair could be a \f$K_S\f$ in disguise
      */
-    StatusCode findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, const std::vector<SmartRefVector<EvtRecTrack>::iterator> &PiTrack_iter = std::vector<SmartRefVector<EvtRecTrack>::iterator>());
+    StatusCode findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, std::vector<SmartRefVector<EvtRecTrack>::iterator> PiTrack_iter = std::vector<SmartRefVector<EvtRecTrack>::iterator>());
     /** 
      * Get decay length from VeeVertexAlg
      */
