@@ -311,9 +311,9 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
     std::vector<int> PionTrackIDs;
     for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
       if(DTTool.isPion(*Track_iter)) {
-	PionTrackIDs.push_back(Track_iter->trackId());
+	PionTrackIDs.push_back((*Track_iter)->trackId());
       }
-    }p
+    }
     StatusCode statuscode = findKS.findKS(DTTool_Tag_iter, DTTool, PionTrackIDs);
     m_TagKSFitSuccess = 0;
     if(statuscode == StatusCode::SUCCESS) {
