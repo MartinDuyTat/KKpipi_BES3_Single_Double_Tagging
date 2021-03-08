@@ -41,10 +41,10 @@ StatusCode FindhhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagToo
     } else if(m_TagMode == "pipi") {
       if(DTTool.isPion(*Track_iter) && MDCKalTrack->charge() > 0) {
 	m_hPlusP = MDCKalTrack->p4(MASS::PI_MASS);
-	m_PiPlusTrack_iter = Track_iter;
+	m_PiPlusTrack_iter = (*Track_iter)->trackId();
       } else if(DTTool.isPion(*Track_iter) && MDCKalTrack->charge() < 0) {
 	m_hMinusP = MDCKalTrack->p4(MASS::PI_MASS);
-	m_PiMinusTrack_iter = Track_iter;
+	m_PiMinusTrack_iter = (*Track_iter)->trackId();
       }
     }
   }

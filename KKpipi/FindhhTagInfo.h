@@ -74,11 +74,11 @@ class FindhhTagInfo {
     /**
      * Track iterator of a \f$\pi^+\f$, if found
      */
-    int m_PiPlusTrack_iter;
+    int m_PiPlusTrackID;
     /**
      * Track iterator of a \f$\pi^-\f$, if found
      */
-    int m_PiMinusTrack_iter;
+    int m_PiMinusTrackID;
 };
 
 #endif
