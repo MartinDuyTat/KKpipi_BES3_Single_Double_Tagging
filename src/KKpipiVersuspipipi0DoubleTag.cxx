@@ -308,13 +308,13 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_TagKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
     FindKS findKS(false);
-    std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
+    std::vector<int> PionTrackIDs;
     for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
       if(DTTool.isPion(*Track_iter)) {
-	PionTracks_iter.push_back(Track_iter);
+	PionTrackIDs.push_back(Track_iter->trackId());
       }
-    }
-    StatusCode statuscode = findKS.findKS(DTTool_Tag_iter, DTTool, PionTracks_iter);
+    }p
+    StatusCode statuscode = findKS.findKS(DTTool_Tag_iter, DTTool, PionTrackIDs);
     m_TagKSFitSuccess = 0;
     if(statuscode == StatusCode::SUCCESS) {
       m_TagKSFitSuccess = 1;

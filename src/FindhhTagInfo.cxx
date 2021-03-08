@@ -59,10 +59,10 @@ double FindhhTagInfo::GethMinusP(int i) const {
   return m_hMinusP[i];
 }
 
-SmartRefVector<EvtRecTrack>::iterator FindhhTagInfo::GetPiPlusTrackIter() const {
-  return m_PiPlusTrack_iter;
+int FindhhTagInfo::GetPiPlusTrackID() const {
+  return m_PiPlusTrackID;
 }
 
-SmartRefVector<EvtRecTrack>::iterator FindhhTagInfo::GetPiMinusTrackIter() const {
-  return m_PiMinusTrack_iter;
+int FindhhTagInfo::GetPiMinusTrackID() const {
+  return m_PiMinusTrackID;
 }

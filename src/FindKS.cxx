@@ -43,12 +43,12 @@ FindKS::FindKS(bool KSTag, const std::vector<int> &VetoKSIDs): m_DecayLengthVeeV
 FindKS::~FindKS() {
 }
 
-StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, std::vector<SmartRefVector<EvtRecTrack>::iterator> PiTrack_iter) {
+StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, std::vector<int> PiTrackID) {
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
   MsgStream log(msgSvc, "FindKS");
   // Check if event has two pions
-  if(PiTrack_iter.size() != 2 && PiTrack_iter.size() != 0) {
+  if(PiTrackID.size() != 2 && PiTrackID.size() != 0) {
     log << MSG::ERROR << "Need two pions to reconstruct KS" << endreq;
     return StatusCode::FAILURE;
   }
@@ -83,11 +83,8 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, std::ve
     m_DaughterTrackIDs.push_back(KSChildTrackID1);
     m_DaughterTrackIDs.push_back(KSChildTrackID2);
     // Check if KS daughter tracks are the same as the pion tracks (if pion tracks are given)
-    if(PiTrack_iter.size() != 0) {
-      // Get Kalman tracks and pion track IDs
-      int PiTrackID1 = (*PiTrack_iter[0])->trackId();
-      int PiTrackID2 = (*PiTrack_iter[1])->trackId();
-      if(!((KSChildTrackID1 == PiTrackID1 && KSChildTrackID2 == PiTrackID2) || (KSChildTrackID1 == PiTrackID2 && KSChildTrackID2 == PiTrackID1))) {
+    if(PiTrackID.size() == 2) {
+      if(!((KSChildTrackID1 == PiTrackID[0] && KSChildTrackID2 == PiTrackID[1]) || (KSChildTrackID1 == PiTrackID[1] && KSChildTrackID2 == PiTrackID[0]))) {
 	continue;
       }
     }

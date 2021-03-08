@@ -350,10 +350,10 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
   m_TagpipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
     FindKS findKSFromPiPi(false);
-    std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTrackIters;
-    PionTrackIters.push_back(findpipiTagInfo.GetPiPlusTrackIter());
-    PionTrackIters.push_back(findpipiTagInfo.GetPiMinusTrackIter());
-    StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool, PionTrackIters);
+    std::vector<int> PionTrackIDs;
+    PionTrackIDs.push_back(findpipiTagInfo.GetPiPlusTrackID());
+    PionTrackIDs.push_back(findpipiTagInfo.GetPiMinusTrackID());
+    StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool, PionTrackIDs);
     m_TagpipiKSFitSuccess = 0;
     if(statuscode == StatusCode::SUCCESS) {
       m_TagpipiKSFitSuccess = 1;

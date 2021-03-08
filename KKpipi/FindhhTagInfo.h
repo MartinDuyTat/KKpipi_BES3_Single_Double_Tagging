@@ -7,12 +7,9 @@
 #define FINDHHTAGINFO
 
 // Gaudi
-#include "GaudiKernel/SmartRefVector.h"
 #include "GaudiKernel/StatusCode.h"
 // BOSS
 #include "DTagTool/DTagTool.h"
-// Event information
-#include "EvtRecEvent/EvtRecTrack.h"
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
 // STL
@@ -51,11 +48,11 @@ class FindhhTagInfo {
     /**
      * Get track iterator of a \f$\pi^+\f$, if found
      */
-    SmartRefVector<EvtRecTrack>::iterator GetPiPlusTrackIter() const;
+    int GetPiPlusTrackID() const;
     /**
      * Get track iterator of a \f$\pi^-\f$, if found
      */
-    SmartRefVector<EvtRecTrack>::iterator GetPiMinusTrackIter() const;
+    int GetPiMinusTrackID() const;
   private:
     /**
      * Tag mode, either "KK" or "pipi"
@@ -77,11 +74,11 @@ class FindhhTagInfo {
     /**
      * Track iterator of a \f$\pi^+\f$, if found
      */
-    SmartRefVector<EvtRecTrack>::iterator m_PiPlusTrack_iter;
+    int m_PiPlusTrack_iter;
     /**
      * Track iterator of a \f$\pi^-\f$, if found
      */
-    SmartRefVector<EvtRecTrack>::iterator m_PiMinusTrack_iter;
+    int m_PiMinusTrack_iter;
 };
 
 #endif

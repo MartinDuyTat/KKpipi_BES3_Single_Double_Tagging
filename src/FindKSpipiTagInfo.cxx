@@ -120,9 +120,9 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   m_pipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
     FindKS pipifindKS(false);
-    std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
-    PionTracks_iter.push_back(DaughterTrackIterators[PIPLUS]);
-    PionTracks_iter.push_back(DaughterTrackIterators[PIMINUS]);
+    std::vector<int> PionTrackIDs;
+    PionTrackIDs.push_back(DaughterTrackIterators[PIPLUS]->trackId());
+    PionTrackIDs.push_back(DaughterTrackIterators[PIMINUS]->trackId());
     StatusCode statuscode = pipifindKS.findKS(DTTool_iter, DTTool, PionTracks_iter);
     if(statuscode == StatusCode::SUCCESS) {
       m_pipiKSFitSuccess = 1;
