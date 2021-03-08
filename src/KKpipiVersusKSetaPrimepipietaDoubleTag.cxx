@@ -384,7 +384,7 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DT
     std::vector<int> PionTrackIDs;
     PionTrackIDs.push_back(findpipiTagInfo.GetPiPlusTrackID());
     PionTrackIDs.push_back(findpipiTagInfo.GetPiMinusTrackID());
-    StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool, PionTrackIters);
+    StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool, PionTrackIDs);
     m_TagpipiKSFitSuccess = 0;
     if(statuscode == StatusCode::SUCCESS) {
       m_TagpipiKSFitSuccess = 1;
