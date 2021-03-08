@@ -304,16 +304,16 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_TagPiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_TagPiMinusenergy = findpipiTagInfo.GethMinusP(3);
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_Tag_iter)->tracks();
-  std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
-  for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
-    if(DTTool.isPion(*Track_iter)) {
-      PionTracks_iter.push_back(Track_iter);
-    }
-  }
   double Mpipi = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy, 2) - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx, 2) - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy, 2) - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz, 2));
   m_TagKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
     FindKS findKS(false);
+    std::vector<SmartRefVector<EvtRecTrack>::iterator> PionTracks_iter;
+    for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
+      if(DTTool.isPion(*Track_iter)) {
+	PionTracks_iter.push_back(Track_iter);
+      }
+    }
     StatusCode statuscode = findKS.findKS(DTTool_Tag_iter, DTTool, PionTracks_iter);
     m_TagKSFitSuccess = 0;
     if(statuscode == StatusCode::SUCCESS) {
