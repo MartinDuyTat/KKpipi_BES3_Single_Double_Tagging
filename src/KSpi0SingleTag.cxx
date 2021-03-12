@@ -195,8 +195,8 @@ StatusCode KSpi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTT
   m_Dpy = (*DTTool_iter)->p4().y();
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
-  FindhhTagInfo findKKTagInfo("KK");
-  StatusCode status = findKKTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
+  FindKS findKS(true);
+  status = findKS.findKS(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
