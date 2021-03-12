@@ -70,14 +70,6 @@ StatusCode KSpi0SingleTag::initialize() {
       status = m_tuple->addItem("Dpy", m_Dpy);
       status = m_tuple->addItem("Dpz", m_Dpz);
       status = m_tuple->addItem("Denergy", m_Denergy);
-      status = m_tuple->addItem("KPluspx", m_KPluspx);
-      status = m_tuple->addItem("KPluspy", m_KPluspy);
-      status = m_tuple->addItem("KPluspz", m_KPluspz);
-      status = m_tuple->addItem("KPlusenergy", m_KPlusenergy);
-      status = m_tuple->addItem("KMinuspx", m_KMinuspx);
-      status = m_tuple->addItem("KMinuspy", m_KMinuspy);
-      status = m_tuple->addItem("KMinuspz", m_KMinuspz);
-      status = m_tuple->addItem("KMinusenergy", m_KMinusenergy);
       status = m_tuple->addItem("KSDecayLengthVeeVertex", m_DecayLengthVeeVertex);
       status = m_tuple->addItem("KSChi2VeeVertex", m_Chi2VeeVertex);
       status = m_tuple->addItem("KSMassVeeVertex", m_KSMassVeeVertex);
@@ -196,7 +188,7 @@ StatusCode KSpi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTT
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
   FindKS findKS(true);
-  status = findKS.findKS(DTTool_iter, DTTool);
+  StatusCode status = findKS.findKS(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
