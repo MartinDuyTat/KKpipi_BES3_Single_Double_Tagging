@@ -1,11 +1,11 @@
 // Martin Duy Tat 12th March 2021
 /**
- * KSetaPrimepipietaSingleTag is a class for a BOSS algorithm
- * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a single \f$D\to K_S\eta'(\pi\pi\eta)f$ tag
+ * KSetaPrimerhogammaSingleTag is a class for a BOSS algorithm
+ * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a single \f$D\to K_S\eta'(\rho\gamma)f$ tag
  */
 
-#ifndef KSETAPRIMEPIPIETASINGLETAG
-#define KSETAPRIMEPIPIETASINGLETAG
+#ifndef KSETAPRIMERHOGAMMASINGLETAG
+#define KSETAPRIMERHOGAMMASINGLETAG
 
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -17,16 +17,16 @@
 // STL
 #include<string>
 
-class KSetaPrimepipietaSingleTag: public Algorithm {
+class KSetaPrimerhogammaSingleTag: public Algorithm {
   public: 
     /**
      * Default constructor for an algorithm where all necessary properties are declared
      */
-    KSetaPrimepipietaSingleTag(const std::string& name, ISvcLocator* pSvcLocator);
+    KSetaPrimerhogammaSingleTag(const std::string& name, ISvcLocator* pSvcLocator);
     /**
      * Trivial destructor
      */
-    ~KSetaPrimepipietaSingleTag();
+    ~KSetaPrimerhogammaSingleTag();
     /**
      * This function runs when algorithm is initialized
      */
@@ -221,74 +221,6 @@ class KSetaPrimepipietaSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_KSPiMinusenergyFit;
     /**
-     * High energy photon from \f$\eta\f$ unconstrained momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_HighEEtapx;
-    /**
-     * High energy photon from \f$\eta\f$ unconstrained momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_HighEEtapy;
-    /**
-     * High energy photon from \f$\eta\f$ unconstrained momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_HighEEtapz;
-    /**
-     * High energy photon from \f$\eta\f$ unconstrained energy
-     */
-    NTuple::Item<double> m_HighEEtaenergy;
-    /**
-     * Low energy photon from \f$\eta\f$ unconstrained momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_LowEEtapx;
-    /**
-     * Low energy photon from \f$\eta\f$ unconstrained momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_LowEEtapy;
-    /**
-     * Low energy photon from \f$\eta\f$ unconstrained momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_LowEEtapz;
-    /**
-     * Low energy photon from \f$\eta\f$ unconstrained energy
-     */
-    NTuple::Item<double> m_LowEEtaenergy;
-    /**
-     * High energy photon from \f$\eta\f$ constrained momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_HighEEtaConstrainedpx;
-    /**
-     * High energy photon from \f$\eta\f$ constrained momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_HighEEtaConstrainedpy;
-    /**
-     * High energy photon from \f$\eta\f$ constrained momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_HighEEtaConstrainedpz;
-    /**
-     * High energy photon from \f$\eta\f$ constrained energy
-     */
-    NTuple::Item<double> m_HighEEtaConstrainedenergy;
-    /**
-     * Low energy photon from \f$\eta\f$ constrained momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_LowEEtaConstrainedpx;
-    /**
-     * Low energy photon from \f$\eta\f$ constrained momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_LowEEtaConstrainedpy;
-    /**
-     * Low energy photon from \f$\eta\f$ constrained momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_LowEEtaConstrainedpz;
-    /**
-     * Low energy photon from \f$\eta\f$ constrained energy
-     */
-    NTuple::Item<double> m_LowEEtaConstrainedenergy;
-    /**
-     *  \f$\eta\f$ kinematic fit \f$\chi^2\f$
-     */
-    NTuple::Item<double> m_EtaChi2Fit;
-    /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of \f$\pi^+\pi^-\f$ tag tracks
      */
     NTuple::Item<int> m_pipiKSFitSuccess;
@@ -352,6 +284,26 @@ class KSetaPrimepipietaSingleTag: public Algorithm {
      * \f$\pi^-\f$ energy
      */
     NTuple::Item<double> m_PiMinusenergy;
+    /**
+     * Photon momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_Gammapx;
+    /**
+     * Photon momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_Gammapy;
+    /**
+     * Photon momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_Gammapz;
+    /**
+     * Photon energy
+     */
+    NTuple::Item<double> m_Gammaenergy;
+    /**
+     * Number of showers in the event (should be 1 for this tag mode)
+     */
+    NTuple::Item<int> m_NumberShowers;
 };
 
 #endif
