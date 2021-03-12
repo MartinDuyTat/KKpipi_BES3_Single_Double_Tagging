@@ -21,6 +21,9 @@
 #include "KKpipi/Kpipi0SingleTag.h"
 #include "KKpipi/pipipi0SingleTag.h"
 #include "KKpipi/KSpi0SingleTag.h"
+#include "KKpipi/KSpi0pi0SingleTag.h"
+#include "KKpipi/KSetaSingleTag.h"
+#include "KKpipi/KSetaPrimepipietaSingleTag.h"
 
 DECLARE_ALGORITHM_FACTORY(KKpipi)
 DECLARE_ALGORITHM_FACTORY(KKpipiSingleTag)
@@ -44,6 +47,9 @@ DECLARE_ALGORITHM_FACTORY(KpiSingleTag)
 DECLARE_ALGORITHM_FACTORY(Kpipi0SingleTag)
 DECLARE_ALGORITHM_FACTORY(pipipi0SingleTag)
 DECLARE_ALGORITHM_FACTORY(KSpi0SingleTag)
+DECLARE_ALGORITHM_FACTORY(KSpi0pi0SingleTag)
+DECLARE_ALGORITHM_FACTORY(KSetaSingleTag)
+DECLARE_ALGORITHM_FACTORY(KSetaPrimepipietaSingleTag)
 
 DECLARE_FACTORY_ENTRIES(KKpipi) {
   DECLARE_ALGORITHM(KKpipi)

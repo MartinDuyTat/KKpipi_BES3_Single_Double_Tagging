@@ -91,9 +91,17 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KSpi0pi0Tag;
     /**
+     * \f$K_S\pi^0\pi^0\f$ tag mode, single tag
+     */
+    Algorithm *m_KSpi0pi0SingleTag;
+    /**
      * \f$K_S\eta\f$ tag mode
      */
     Algorithm *m_KSetaTag;
+    /**
+     * \f$K_S\eta\f$ tag mode, single tag
+     */
+    Algorithm *m_KSetaSingleTag;
     /**
      * \f$K_S\pi\pi\pi^0\f$ tag mode
      */
@@ -106,6 +114,10 @@ class KKpipi: public Algorithm {
      * \f$K_S\eta'(\pi\pi\eta)\f$ tag mode
      */
     Algorithm *m_KSetaPrimepipietaTag;
+    /**
+     * \f$K_S\eta'(\pi\pi\eta)\f$ tag mode, single tag
+     */
+    Algorithm *m_KSetaPrimepipietaSingleTag;
     /**
      * \f$K_S\eta'(\rho\gamma)\f$ tag mode
      */
