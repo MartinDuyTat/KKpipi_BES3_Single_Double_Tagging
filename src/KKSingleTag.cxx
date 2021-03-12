@@ -105,8 +105,8 @@ StatusCode KKSingleTag::execute() {
     DTagToolIterator DTTool_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-        log << MSG::FATAL << "Assigning tuple info failed" << endreq;
-	return StatusCode::FAILURE;
+      log << MSG::FATAL << "Assigning tuple info failed" << endreq;
+      return StatusCode::FAILURE;
     }
     m_tuple->write();
   }

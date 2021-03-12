@@ -115,6 +115,10 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KKpipiTag;
     /**
+     * \f$KK\pi\pi\f$ tag mode, single tag
+     */
+    Algorithm *m_KKpipiSingleTag;
+    /**
      * \f$K_S\pi\pi\f$ tag mode
      */
     Algorithm *m_KSpipiTag;
