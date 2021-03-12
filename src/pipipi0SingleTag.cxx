@@ -3,6 +3,7 @@
 // KKpipi
 #include "KKpipi/pipipi0SingleTag.h"
 #include "KKpipi/FindhhTagInfo.h"
+#include "KKpipi/FindKS.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/FindPi0Eta.h"
 // Gaudi
@@ -27,6 +28,8 @@
 #include "EvtRecEvent/EvtRecDTag.h"
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
+// ROOT
+#include "TMath.h"
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
@@ -185,6 +188,30 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   m_PiMinuspy = findpipiTagInfo.GethMinusP(1);
   m_PiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_PiMinusenergy = findpipiTagInfo.GethMinusP(3);
+  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
+  double Mpipi = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy, 2) - TMath::Power(m_PiPluspx + m_PiMinuspx, 2) - TMath::Power(m_PiPluspy + m_PiMinuspy, 2) - TMath::Power(m_PiPluspz + m_PiMinuspz, 2));
+  m_KSFitSuccess = 0;
+  if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
+    FindKS findKS(false);
+    std::vector<int> PionTrackIDs;
+    for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
+      if(DTTool.isPion(*Track_iter)) {
+	PionTrackIDs.push_back((*Track_iter)->trackId());
+      }
+    }
+    StatusCode statuscode = findKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
+    m_KSFitSuccess = 0;
+    if(statuscode == StatusCode::SUCCESS) {
+      m_KSFitSuccess = 1;
+      m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
+      m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
+      m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
+      m_DecayLengthFit = findKS.GetDecayLengthFit();
+      m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
+      m_Chi2Fit = findKS.GetChi2Fit();
+      m_KSMassFit = findKS.GetKSMassFit();
+    }
+  }
   FindPi0Eta findPi0;
   findPi0.findPi0Eta(DTTool_iter, DTTool);
   m_HighEPi0px = findPi0.GetHighEPhotonP(0);

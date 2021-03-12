@@ -129,6 +129,38 @@ class pipipi0SingleTag: public Algorithm {
      */
     NTuple::Item<double> m_Denergy;
     /**
+     * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
+     */
+    NTuple::Item<int> m_KSFitSuccess;
+    /**
+     * The \f$K_S\f$ decay length, from VeeVertexAlg
+     */
+    NTuple::Item<double> m_DecayLengthVeeVertex;
+    /**
+     * The \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
+     */
+    NTuple::Item<double> m_Chi2VeeVertex;
+    /**
+     * The \f$K_S^0\f$ mass, from VeeVertexAlg
+     */
+    NTuple::Item<double> m_KSMassVeeVertex;
+    /**
+     * The \f$K_S^0\f$ decay length, from fit
+     */
+    NTuple::Item<double> m_DecayLengthFit;
+    /**
+     * The \f$K_S^0\f$ decay length error, from fit
+     */
+    NTuple::Item<double> m_DecayLengthErrorFit;
+    /**
+     * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
+     */
+    NTuple::Item<double> m_Chi2Fit;
+    /**
+     * The \f$K_S^0\f$ mass, from fit
+     */
+    NTuple::Item<double> m_KSMassFit;
+    /**
      * \f$\pi^+\f$ momentum along \f$x\f$
      */
     NTuple::Item<double> m_PiPluspx;

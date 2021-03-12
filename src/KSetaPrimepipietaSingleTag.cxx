@@ -28,6 +28,8 @@
 #include "EvtRecEvent/EvtRecDTag.h"
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
+// ROOT
+#include "TMath.h"
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
