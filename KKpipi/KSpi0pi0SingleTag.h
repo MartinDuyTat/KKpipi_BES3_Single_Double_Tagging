@@ -1,11 +1,11 @@
 // Martin Duy Tat 12th March 2021
 /**
- * KSpi0SingleTag is a class for a BOSS algorithm
- * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a single \f$D\to K_S^0\pi^0\f$ tag
+ * KSpi0pi0SingleTag is a class for a BOSS algorithm
+ * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a single \f$D\to K_S^0\pi^0\pi^0\f$ tag
  */
 
-#ifndef KSPI0SINGLETAG
-#define KSPI0SINGLETAG
+#ifndef KSPI0PI0SINGLETAG
+#define KSPI0PI0SINGLETAG
 
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -17,7 +17,7 @@
 // STL
 #include<string>
 
-class KSpi0SingleTag: public Algorithm {
+class KSpi0pi0SingleTag: public Algorithm {
   public: 
     /**
      * Default constructor for an algorithm where all necessary properties are declared
@@ -221,73 +221,141 @@ class KSpi0SingleTag: public Algorithm {
      */
     NTuple::Item<double> m_KSPiMinusenergyFit;
     /**
-     * High energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
+     * High energy photon from first \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_HighEPi0px;
+    NTuple::Item<double> m_HighEPi0px1;
     /**
-     * High energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
+     * High energy photon from first \f$\pi^0\f$ unconstrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_HighEPi0py;
+    NTuple::Item<double> m_HighEPi0py1;
     /**
-     * High energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
+     * High energy photon from first \f$\pi^0\f$ unconstrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_HighEPi0pz;
+    NTuple::Item<double> m_HighEPi0pz1;
     /**
-     * High energy photon from \f$\pi^0\f$ unconstrained energy
+     * High energy photon from first \f$\pi^0\f$ unconstrained energy
      */
-    NTuple::Item<double> m_HighEPi0energy;
+    NTuple::Item<double> m_HighEPi0energy1;
     /**
-     * Low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
+     * Low energy photon from first \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_LowEPi0px;
+    NTuple::Item<double> m_LowEPi0px1;
     /**
-     * Low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
+     * Low energy photon from first \f$\pi^0\f$ unconstrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_LowEPi0py;
+    NTuple::Item<double> m_LowEPi0py1;
     /**
-     * Low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
+     * Low energy photon from first \f$\pi^0\f$ unconstrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_LowEPi0pz;
+    NTuple::Item<double> m_LowEPi0pz1;
     /**
-     * Low energy photon from \f$\pi^0\f$ unconstrained energy
+     * Low energy photon from first \f$\pi^0\f$ unconstrained energy
      */
-    NTuple::Item<double> m_LowEPi0energy;
+    NTuple::Item<double> m_LowEPi0energy1;
     /**
-     * High energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
+     * High energy photon from first \f$\pi^0\f$ constrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_HighEPi0Constrainedpx;
+    NTuple::Item<double> m_HighEPi0Constrainedpx1;
     /**
-     * High energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
+     * High energy photon from first \f$\pi^0\f$ constrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_HighEPi0Constrainedpy;
+    NTuple::Item<double> m_HighEPi0Constrainedpy1;
     /**
-     * High energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
+     * High energy photon from first \f$\pi^0\f$ constrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_HighEPi0Constrainedpz;
+    NTuple::Item<double> m_HighEPi0Constrainedpz1;
     /**
-     * High energy photon from \f$\pi^0\f$ constrained energy
+     * High energy photon from first \f$\pi^0\f$ constrained energy
      */
-    NTuple::Item<double> m_HighEPi0Constrainedenergy;
+    NTuple::Item<double> m_HighEPi0Constrainedenergy1;
     /**
-     * Low energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
+     * Low energy photon from first \f$\pi^0\f$ constrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_LowEPi0Constrainedpx;
+    NTuple::Item<double> m_LowEPi0Constrainedpx1;
     /**
-     * Low energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
+     * Low energy photon from first \f$\pi^0\f$ constrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_LowEPi0Constrainedpy;
+    NTuple::Item<double> m_LowEPi0Constrainedpy1;
     /**
-     * Low energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
+     * Low energy photon from first \f$\pi^0\f$ constrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_LowEPi0Constrainedpz;
+    NTuple::Item<double> m_LowEPi0Constrainedpz1;
     /**
-     * Low energy photon from \f$\pi^0\f$ constrained energy
+     * Low energy photon from first \f$\pi^0\f$ constrained energy
      */
-    NTuple::Item<double> m_LowEPi0Constrainedenergy;
+    NTuple::Item<double> m_LowEPi0Constrainedenergy1;
     /**
-     * \f$\pi^0\f$ kinematic fit \f$\chi^2\f$
+     * First \f$\pi^0\f$ kinematic fit \f$\chi^2\f$
      */
-    NTuple::Item<double> m_Pi0Chi2Fit;
+    NTuple::Item<double> m_Pi0Chi2Fit1;
+    /**
+     * High energy photon from second \f$\pi^0\f$ unconstrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_HighEPi0px2;
+    /**
+     * High energy photon from second \f$\pi^0\f$ unconstrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_HighEPi0py2;
+    /**
+     * High energy photon from second \f$\pi^0\f$ unconstrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_HighEPi0pz2;
+    /**
+     * High energy photon from second \f$\pi^0\f$ unconstrained energy
+     */
+    NTuple::Item<double> m_HighEPi0energy2;
+    /**
+     * Low energy photon from second \f$\pi^0\f$ unconstrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_LowEPi0px2;
+    /**
+     * Low energy photon from second \f$\pi^0\f$ unconstrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_LowEPi0py2;
+    /**
+     * Low energy photon from second \f$\pi^0\f$ unconstrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_LowEPi0pz2;
+    /**
+     * Low energy photon from second \f$\pi^0\f$ unconstrained energy
+     */
+    NTuple::Item<double> m_LowEPi0energy2;
+    /**
+     * High energy photon from second \f$\pi^0\f$ constrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_HighEPi0Constrainedpx2;
+    /**
+     * High energy photon from second \f$\pi^0\f$ constrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_HighEPi0Constrainedpy2;
+    /**
+     * High energy photon from second \f$\pi^0\f$ constrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_HighEPi0Constrainedpz2;
+    /**
+     * High energy photon from second \f$\pi^0\f$ constrained energy
+     */
+    NTuple::Item<double> m_HighEPi0Constrainedenergy2;
+    /**
+     * Low energy photon from second \f$\pi^0\f$ constrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_LowEPi0Constrainedpx2;
+    /**
+     * Low energy photon from second \f$\pi^0\f$ constrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_LowEPi0Constrainedpy2;
+    /**
+     * Low energy photon from second \f$\pi^0\f$ constrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_LowEPi0Constrainedpz2;
+    /**
+     * Low energy photon from second \f$\pi^0\f$ constrained energy
+     */
+    NTuple::Item<double> m_LowEPi0Constrainedenergy2;
+    /**
+     * Second \f$\pi^0\f$ kinematic fit \f$\chi^2\f$
+     */
+    NTuple::Item<double> m_Pi0Chi2Fit2;
 };
 
 #endif
