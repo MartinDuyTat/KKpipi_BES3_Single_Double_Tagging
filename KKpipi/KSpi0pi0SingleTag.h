@@ -22,11 +22,11 @@ class KSpi0pi0SingleTag: public Algorithm {
     /**
      * Default constructor for an algorithm where all necessary properties are declared
      */
-    KSpi0SingleTag(const std::string& name, ISvcLocator* pSvcLocator);
+    KSpi0pi0SingleTag(const std::string& name, ISvcLocator* pSvcLocator);
     /**
      * Trivial destructor
      */
-    ~KSpi0SingleTag();
+    ~KSpi0pi0SingleTag();
     /**
      * This function runs when algorithm is initialized
      */
