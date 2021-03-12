@@ -190,7 +190,7 @@ StatusCode Kpipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_Kenergy = findKpiTagInfo.GetPiP(3);
   m_PiCharge = findKpiTagInfo.GetPiCharge();
   FindPi0Eta findPi0;
-  findPi0.findPi0Eta(DTTool_Tag_iter, DTTool);
+  findPi0.findPi0Eta(DTTool_iter, DTTool);
   m_HighEPi0px = findPi0.GetHighEPhotonP(0);
   m_HighEPi0py = findPi0.GetHighEPhotonP(1);
   m_HighEPi0pz = findPi0.GetHighEPhotonP(2);
