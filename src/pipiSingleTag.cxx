@@ -1,7 +1,7 @@
 // Martin Duy Tat 12th March 2021
 
 // KKpipi
-#include "KKpipi/KKSingleTag.h"
+#include "KKpipi/pipiSingleTag.h"
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 // Gaudi
@@ -34,22 +34,22 @@
 #include<vector>
 #include<string>
 
-KKSingleTag::KKSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
+pipiSingleTag::pipiSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
 
-KKSingleTag::~KKSingleTag() {
+pipiSingleTag::~pipiSingleTag() {
 }
 
-StatusCode KKSingleTag::initialize() {
+StatusCode pipiSingleTag::initialize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Initializing KK Single Tagging" << endreq;
+  log << MSG::INFO << "Initializing pipi Single Tagging" << endreq;
   StatusCode status;
   NTuplePtr ntp(ntupleSvc(), "KKPIPI/SingleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/SingleTag", CLID_ColumnWiseTuple, "Single tagged D->KK events");
+    m_tuple = ntupleSvc()->book("KKPIPI/SingleTag", CLID_ColumnWiseTuple, "Single tagged D->pipi events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
@@ -69,25 +69,25 @@ StatusCode KKSingleTag::initialize() {
       status = m_tuple->addItem("Dpy", m_Dpy);
       status = m_tuple->addItem("Dpz", m_Dpz);
       status = m_tuple->addItem("Denergy", m_Denergy);
-      status = m_tuple->addItem("KPluspx", m_KPluspx);
-      status = m_tuple->addItem("KPluspy", m_KPluspy);
-      status = m_tuple->addItem("KPluspz", m_KPluspz);
-      status = m_tuple->addItem("KPlusenergy", m_KPlusenergy);
-      status = m_tuple->addItem("KMinuspx", m_KMinuspx);
-      status = m_tuple->addItem("KMinuspy", m_KMinuspy);
-      status = m_tuple->addItem("KMinuspz", m_KMinuspz);
-      status = m_tuple->addItem("KMinusenergy", m_KMinusenergy);
+      status = m_tuple->addItem("PiPluspx", m_PiPluspx);
+      status = m_tuple->addItem("PiPluspy", m_PiPluspy);
+      status = m_tuple->addItem("PiPluspz", m_PiPluspz);
+      status = m_tuple->addItem("PiPlusenergy", m_PiPlusenergy);
+      status = m_tuple->addItem("PiMinuspx", m_PiMinuspx);
+      status = m_tuple->addItem("PiMinuspy", m_PiMinuspy);
+      status = m_tuple->addItem("PiMinuspz", m_PiMinuspz);
+      status = m_tuple->addItem("PiMinusenergy", m_PiMinusenergy);
     } else {
-      log << MSG::ERROR << "Cannot book NTuple for KK Single Tags" << endmsg;
+      log << MSG::ERROR << "Cannot book NTuple for pipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
     }
     return StatusCode::SUCCESS;
   }
 }
 
-StatusCode KKSingleTag::execute() {
+StatusCode pipiSingleTag::execute() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Executing KK Single Tag Algorithm" << endreq;
+  log << MSG::INFO << "Executing pipi Single Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
@@ -101,7 +101,7 @@ StatusCode KKSingleTag::execute() {
     log << MSG::DEBUG << "Cosmic and lepton veto" << endreq;
     return StatusCode::SUCCESS;
   }
-  if(DTTool.findSTag(EvtRecDTag::kD0toKK)) {
+  if(DTTool.findSTag(EvtRecDTag::kD0toPiPi)) {
     DTagToolIterator DTTool_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
@@ -113,13 +113,13 @@ StatusCode KKSingleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKSingleTag::finalize() {
+StatusCode pipiSingleTag::finalize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Finalizing KK Single Tagging" << endreq;
+  log << MSG::INFO << "Finalizing pipi Single Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
+StatusCode pipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
@@ -154,18 +154,18 @@ StatusCode KKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool
   m_Dpy = (*DTTool_iter)->p4().y();
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
-  FindhhTagInfo findKKTagInfo("KK");
-  StatusCode status = findKKTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
+  FindhhTagInfo findpipiTagInfo("pipi");
+  StatusCode status = findpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  m_KPluspx = findKKTagInfo.GethPlusP(0);
-  m_KPluspy = findKKTagInfo.GethPlusP(1);
-  m_KPluspz = findKKTagInfo.GethPlusP(2);
-  m_KPlusenergy = findKKTagInfo.GethPlusP(3);
-  m_KMinuspx = findKKTagInfo.GethMinusP(0);
-  m_KMinuspy = findKKTagInfo.GethMinusP(1);
-  m_KMinuspz = findKKTagInfo.GethMinusP(2);
-  m_KMinusenergy = findKKTagInfo.GethMinusP(3);
+  m_PiPluspx = findpipiTagInfo.GethPlusP(0);
+  m_PiPluspy = findpipiTagInfo.GethPlusP(1);
+  m_PiPluspz = findpipiTagInfo.GethPlusP(2);
+  m_PiPlusenergy = findpipiTagInfo.GethPlusP(3);
+  m_PiMinuspx = findpipiTagInfo.GethMinusP(0);
+  m_PiMinuspy = findpipiTagInfo.GethMinusP(1);
+  m_PiMinuspz = findpipiTagInfo.GethMinusP(2);
+  m_PiMinusenergy = findpipiTagInfo.GethMinusP(3);
   return StatusCode::SUCCESS;
 }
