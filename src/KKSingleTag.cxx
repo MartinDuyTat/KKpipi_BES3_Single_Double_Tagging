@@ -45,11 +45,11 @@ StatusCode KKSingleTag::initialize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Initializing KK Single Tagging" << endreq;
   StatusCode status;
-  NTuplePtr ntp(ntupleSvc(), "KKPIPI/SingleTag");
+  NTuplePtr ntp(ntupleSvc(), "KKPIPI/KKSingleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/SingleTag", CLID_ColumnWiseTuple, "Single tagged D->KK events");
+    m_tuple = ntupleSvc()->book("KKPIPI/KKSingleTag", CLID_ColumnWiseTuple, "Single tagged D->KK events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);

@@ -46,11 +46,11 @@ StatusCode pipipi0SingleTag::initialize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Initializing pipipi0 Single Tagging" << endreq;
   StatusCode status;
-  NTuplePtr ntp(ntupleSvc(), "KKPIPI/SingleTag");
+  NTuplePtr ntp(ntupleSvc(), "KKPIPI/pipipi0SingleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/SingleTag", CLID_ColumnWiseTuple, "Single tagged D->pipipi0 events");
+    m_tuple = ntupleSvc()->book("KKPIPI/pipipi0SingleTag", CLID_ColumnWiseTuple, "Single tagged D->pipipi0 events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
