@@ -1,8 +1,8 @@
 // Martin Duy Tat 12th March 2021
 
 // KKpipi
-#include "KKpipi/Kpipi0SingleTag.h"
-#include "KKpipi/FindKpiTagInfo.h"
+#include "KKpipi/pipipi0SingleTag.h"
+#include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/FindPi0Eta.h"
 // Gaudi
@@ -35,22 +35,22 @@
 #include<vector>
 #include<string>
 
-Kpipi0SingleTag::Kpipi0SingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
+pipipi0SingleTag::pipipi0SingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
 
-Kpipi0SingleTag::~Kpipi0SingleTag() {
+pipipi0SingleTag::~pipipi0SingleTag() {
 }
 
-StatusCode Kpipi0SingleTag::initialize() {
+StatusCode pipipi0SingleTag::initialize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Initializing Kpipi0 Single Tagging" << endreq;
+  log << MSG::INFO << "Initializing pipipi0 Single Tagging" << endreq;
   StatusCode status;
   NTuplePtr ntp(ntupleSvc(), "KKPIPI/SingleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/SingleTag", CLID_ColumnWiseTuple, "Single tagged D->Kpipi0 events");
+    m_tuple = ntupleSvc()->book("KKPIPI/SingleTag", CLID_ColumnWiseTuple, "Single tagged D->pipipi0 events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
@@ -70,16 +70,14 @@ StatusCode Kpipi0SingleTag::initialize() {
       status = m_tuple->addItem("Dpy", m_Dpy);
       status = m_tuple->addItem("Dpz", m_Dpz);
       status = m_tuple->addItem("Denergy", m_Denergy);
-      status = m_tuple->addItem("Kpx", m_Kpx);
-      status = m_tuple->addItem("Kpy", m_Kpy);
-      status = m_tuple->addItem("Kpz", m_Kpz);
-      status = m_tuple->addItem("Kenergy", m_Kenergy);
-      status = m_tuple->addItem("KCharge", m_KCharge);
-      status = m_tuple->addItem("Pipx", m_Pipx);
-      status = m_tuple->addItem("Pipy", m_Pipy);
-      status = m_tuple->addItem("Pipz", m_Pipz);
-      status = m_tuple->addItem("Pienergy", m_Pienergy);
-      status = m_tuple->addItem("PiCharge", m_PiCharge);
+      status = m_tuple->addItem("PiPluspx", m_PiPluspx);
+      status = m_tuple->addItem("PiPluspy", m_PiPluspy);
+      status = m_tuple->addItem("PiPluspz", m_PiPluspz);
+      status = m_tuple->addItem("PiPlusenergy", m_PiPlusenergy);
+      status = m_tuple->addItem("PiMinuspx", m_PiMinuspx);
+      status = m_tuple->addItem("PiMinuspy", m_PiMinuspy);
+      status = m_tuple->addItem("PiMinuspz", m_PiMinuspz);
+      status = m_tuple->addItem("PiMinusenergy", m_PiMinusenergy);
       status = m_tuple->addItem("HighEPi0px", m_HighEPi0px);
       status = m_tuple->addItem("HighEPi0py", m_HighEPi0py);
       status = m_tuple->addItem("HighEPi0pz", m_HighEPi0pz);
@@ -98,16 +96,16 @@ StatusCode Kpipi0SingleTag::initialize() {
       status = m_tuple->addItem("LowEPi0Constrainedenergy", m_LowEPi0Constrainedenergy);
       status = m_tuple->addItem("Pi0Chi2Fit", m_Pi0Chi2Fit);
     } else {
-      log << MSG::ERROR << "Cannot book NTuple for Kpipi0 Single Tags" << endmsg;
+      log << MSG::ERROR << "Cannot book NTuple for pipipi0 Single Tags" << endmsg;
       return StatusCode::FAILURE;
     }
     return StatusCode::SUCCESS;
   }
 }
 
-StatusCode Kpipi0SingleTag::execute() {
+StatusCode pipipi0SingleTag::execute() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Executing Kpipi0 Single Tag Algorithm" << endreq;
+  log << MSG::INFO << "Executing pipipi0 Single Tag Algorithm" << endreq;
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
@@ -121,7 +119,7 @@ StatusCode Kpipi0SingleTag::execute() {
     log << MSG::DEBUG << "Cosmic and lepton veto" << endreq;
     return StatusCode::SUCCESS;
   }
-  if(DTTool.findSTag(EvtRecDTag::kD0toKPiPi0)) {
+  if(DTTool.findSTag(EvtRecDTag::kD0toPiPiPi0)) {
     DTagToolIterator DTTool_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
@@ -133,13 +131,13 @@ StatusCode Kpipi0SingleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode Kpipi0SingleTag::finalize() {
+StatusCode pipipi0SingleTag::finalize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Finalizing Kpipi0 Single Tagging" << endreq;
+  log << MSG::INFO << "Finalizing pipipi0 Single Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode Kpipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
+StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
@@ -174,23 +172,21 @@ StatusCode Kpipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_Dpy = (*DTTool_iter)->p4().y();
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
-  FindKpiTagInfo findKpiTagInfo;
-  StatusCode status = findKpiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
+  FindhhTagInfo findpipiTagInfo("pipi");
+  StatusCode status = findpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  m_Kpx = findKpiTagInfo.GetKP(0);
-  m_Kpy = findKpiTagInfo.GetKP(1);
-  m_Kpz = findKpiTagInfo.GetKP(2);
-  m_Kenergy = findKpiTagInfo.GetKP(3);
-  m_KCharge = findKpiTagInfo.GetKCharge();
-  m_Kpx = findKpiTagInfo.GetPiP(0);
-  m_Kpy = findKpiTagInfo.GetPiP(1);
-  m_Kpz = findKpiTagInfo.GetPiP(2);
-  m_Kenergy = findKpiTagInfo.GetPiP(3);
-  m_PiCharge = findKpiTagInfo.GetPiCharge();
-  FindPi0Eta findPi0;
-  findPi0.findPi0Eta(DTTool_Tag_iter, DTTool);
+  m_PiPluspx = findpipiTagInfo.GethPlusP(0);
+  m_PiPluspy = findpipiTagInfo.GethPlusP(1);
+  m_PiPluspz = findpipiTagInfo.GethPlusP(2);
+  m_PiPlusenergy = findpipiTagInfo.GethPlusP(3);
+  m_PiMinuspx = findpipiTagInfo.GethMinusP(0);
+  m_PiMinuspy = findpipiTagInfo.GethMinusP(1);
+  m_PiMinuspz = findpipiTagInfo.GethMinusP(2);
+  m_PiMinusenergy = findpipiTagInfo.GethMinusP(3);
+  FindPi0 findPi0;
+  findPi0.findPi0(DTTool_iter, DTTool);
   m_HighEPi0px = findPi0.GetHighEPhotonP(0);
   m_HighEPi0py = findPi0.GetHighEPhotonP(1);
   m_HighEPi0pz = findPi0.GetHighEPhotonP(2);
