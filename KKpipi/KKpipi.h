@@ -39,14 +39,6 @@ class KKpipi: public Algorithm {
     StatusCode finalize();
   private:
     /**
-     * \f$K\pi\f$ tag mode
-     */
-    Algorithm *m_KpiTag;
-    /**
-     * \f$K\pi\f$ tag mode, single tag
-     */
-    Algorithm *m_KpiSingleTag;
-    /**
      * \f$KK\f$ tag mode
      */
     Algorithm *m_KKTag;
@@ -62,6 +54,14 @@ class KKpipi: public Algorithm {
      * \f$\pi\pi\f$ tag mode, single tag
      */
     Algorithm *m_pipiSingleTag;
+    /**
+     * \f$K\pi\f$ tag mode
+     */
+    Algorithm *m_KpiTag;
+    /**
+     * \f$K\pi\f$ tag mode, single tag
+     */
+    Algorithm *m_KpiSingleTag;
     /**
      * \f$K\pi\pi^0\f$ tag mode
      */
@@ -103,14 +103,6 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KSetaSingleTag;
     /**
-     * \f$K_S\pi\pi\pi^0\f$ tag mode
-     */
-    Algorithm *m_KSpipipi0Tag;
-    /**
-     * \f$K_SKK\f$ tag mode
-     */
-    Algorithm *m_KSKKTag;
-    /**
      * \f$K_S\eta'(\pi\pi\eta)\f$ tag mode
      */
     Algorithm *m_KSetaPrimepipietaTag;
@@ -123,6 +115,34 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KSetaPrimerhogammaTag;
     /**
+     * \f$K_S\eta'(\rho\gamma)\f$ tag mode, single tag
+     */
+    Algorithm *m_KSetaPrimerhogammaSingleTag;
+    /**
+     * \f$K_S\pi\pi\pi^0\f$ tag mode
+     */
+    Algorithm *m_KSpipipi0Tag;
+    /**
+     * \f$K_S\pi\pi\pi^0\f$ tag mode, single tag
+     */
+    Algorithm *m_KSpipipi0SingleTag;
+    /**
+     * \f$K_SKK\f$ tag mode
+     */
+    Algorithm *m_KSKKTag;
+    /**
+     * \f$K_SKK\f$ tag mode, single tag
+     */
+    Algorithm *m_KSKKSingleTag;
+    /**
+     * \f$K_S\pi\pi\f$ tag mode
+     */
+    Algorithm *m_KSpipiTag;
+    /**
+     * \f$K_S\pi\pi\f$ tag mode, single tag
+     */
+    Algorithm *m_KSpipiSingleTag;
+    /**
      * \f$KK\pi\pi\f$ tag mode
      */
     Algorithm *m_KKpipiTag;
@@ -130,10 +150,6 @@ class KKpipi: public Algorithm {
      * \f$KK\pi\pi\f$ tag mode, single tag
      */
     Algorithm *m_KKpipiSingleTag;
-    /**
-     * \f$K_S\pi\pi\f$ tag mode
-     */
-    Algorithm *m_KSpipiTag;
     /**
      * Turn on \f$K\pi\f$ tag mode
      */
