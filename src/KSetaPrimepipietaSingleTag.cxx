@@ -272,8 +272,8 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
     FindKS findKSFromPiPi(false);
     std::vector<int> PionTrackIDs;
-    PionTrackIDs.push_back(findpipiTagInfo.GetPiPlusTrackID());
-    PionTrackIDs.push_back(findpipiTagInfo.GetPiMinusTrackID());
+    PionTrackIDs.push_back(findpipiInfo.GetPiPlusTrackID());
+    PionTrackIDs.push_back(findpipiInfo.GetPiMinusTrackID());
     StatusCode statuscode = findKSFromPiPi.findKS(DTTool_iter, DTTool, PionTrackIDs);
     m_pipiKSFitSuccess = 0;
     if(statuscode == StatusCode::SUCCESS) {
