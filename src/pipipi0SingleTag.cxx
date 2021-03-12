@@ -186,7 +186,7 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   m_PiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_PiMinusenergy = findpipiTagInfo.GethMinusP(3);
   FindPi0Eta findPi0;
-  findPi0.findPi0(DTTool_iter, DTTool);
+  findPi0.findPi0Eta(DTTool_iter, DTTool);
   m_HighEPi0px = findPi0.GetHighEPhotonP(0);
   m_HighEPi0py = findPi0.GetHighEPhotonP(1);
   m_HighEPi0pz = findPi0.GetHighEPhotonP(2);
