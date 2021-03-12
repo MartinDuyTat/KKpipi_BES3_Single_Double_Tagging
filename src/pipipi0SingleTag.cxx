@@ -82,6 +82,14 @@ StatusCode pipipi0SingleTag::initialize() {
       status = m_tuple->addItem("PiMinuspy", m_PiMinuspy);
       status = m_tuple->addItem("PiMinuspz", m_PiMinuspz);
       status = m_tuple->addItem("PiMinusenergy", m_PiMinusenergy);
+      status = m_tuple->addItem("KSFitSuccess", m_KSFitSuccess);
+      status = m_tuple->addItem("KSDecayLengthVeeVertex", m_DecayLengthVeeVertex);
+      status = m_tuple->addItem("KSChi2VeeVertex", m_Chi2VeeVertex);
+      status = m_tuple->addItem("KSMassVeeVertex", m_KSMassVeeVertex);
+      status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
+      status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
+      status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
+      status = m_tuple->addItem("KSMassFit", m_KSMassFit);
       status = m_tuple->addItem("HighEPi0px", m_HighEPi0px);
       status = m_tuple->addItem("HighEPi0py", m_HighEPi0py);
       status = m_tuple->addItem("HighEPi0pz", m_HighEPi0pz);
