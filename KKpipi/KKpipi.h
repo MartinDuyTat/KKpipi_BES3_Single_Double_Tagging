@@ -2,6 +2,7 @@
 /**
  * KKpipi is a BOSS algorithm
  * It runs a double tag analysis on the signal mode \f$D\to K^+K^-\pi^+\pi^-\f$
+ * It runs a single tag analysis on the modes selected for double tag analysis
  */
 
 #ifndef KKPIPI
@@ -42,25 +43,49 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KpiTag;
     /**
+     * \f$K\pi\f$ tag mode, single tag
+     */
+    Algorithm *m_KpiSingleTag;
+    /**
      * \f$KK\f$ tag mode
      */
     Algorithm *m_KKTag;
     /**
-     * \f$KK\f$ tag mode
+     * \f$KK\f$ tag mode, single tag
+     */
+    Algorithm *m_KKSingleTag;
+    /**
+     * \f$\pi\pi\f$ tag mode
      */
     Algorithm *m_pipiTag;
+    /**
+     * \f$\pi\pi\f$ tag mode, single tag
+     */
+    Algorithm *m_pipiSingleTag;
     /**
      * \f$K\pi\pi^0\f$ tag mode
      */
     Algorithm *m_Kpipi0Tag;
     /**
+     * \f$K\pi\pi^0\f$ tag mode, single tag
+     */
+    Algorithm *m_Kpipi0SingleTag;
+    /**
      * \f$\pi\pi\pi^0\f$ tag mode
      */
     Algorithm *m_pipipi0Tag;
     /**
+     * \f$\pi\pi\pi^0\f$ tag mode, single tag
+     */
+    Algorithm *m_pipipi0SingleTag;
+    /**
      * \f$K_S\pi^0\f$ tag mode
      */
     Algorithm *m_KSpi0Tag;
+    /**
+     * \f$K_S\pi^0\f$ tag mode, single tag
+     */
+    Algorithm *m_KSpi0SingleTag;
     /**
      * \f$K_S\pi^0\pi^0\f$ tag mode
      */

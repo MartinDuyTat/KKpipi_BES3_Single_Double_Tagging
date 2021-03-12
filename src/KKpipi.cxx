@@ -44,11 +44,21 @@ StatusCode KKpipi::initialize() {
       log << MSG::ERROR << "Error while creating KKpipiVersusKpiDoubleTag" << endreq;
       return StatusCode::FAILURE;
     }
+    sc = createSubAlgorithm("KpiSingleTag", "KpiSingleTag", m_KpiSingleTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating KpiSingleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
   }
   if(m_recKKTag) {
     sc = createSubAlgorithm("KKpipiVersusKKDoubleTag", "KKpipiVersusKKDoubleTag", m_KKTag);
     if(sc.isFailure()) {
       log << MSG::ERROR << "Error while creating KKpipiVersusKKDoubleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
+    sc = createSubAlgorithm("KKSingleTag", "KKSingleTag", m_KKSingleTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating KKSingleTag" << endreq;
       return StatusCode::FAILURE;
     }
   }
@@ -58,11 +68,21 @@ StatusCode KKpipi::initialize() {
       log << MSG::ERROR << "Error while creating KKpipiVersuspipiDoubleTag" << endreq;
       return StatusCode::FAILURE;
     }
+    sc = createSubAlgorithm("pipiSingleTag", "pipiSingleTag", m_pipiSingleTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating pipiSingleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
   }
   if(m_recKpipi0Tag) {
     sc = createSubAlgorithm("KKpipiVersusKpipi0DoubleTag", "KKpipiVersusKpipi0DoubleTag", m_Kpipi0Tag);
     if(sc.isFailure()) {
       log << MSG::ERROR << "Error while creating KKpipiVersusKpipi0DoubleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
+    sc = createSubAlgorithm("Kpipi0SingleTag", "Kpipi0SingleTag", m_Kpipi0SingleTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating Kpipi0SingleTag" << endreq;
       return StatusCode::FAILURE;
     }
   }
@@ -72,11 +92,21 @@ StatusCode KKpipi::initialize() {
       log << MSG::ERROR << "Error while creating KKpipiVersuspipipi0DoubleTag" << endreq;
       return StatusCode::FAILURE;
     }
+    sc = createSubAlgorithm("pipipi0SingleTag", "pipipi0SingleTag", m_pipipi0SingleTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating pipipi0SingleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
   }
   if(m_recKSpi0Tag) {
     sc = createSubAlgorithm("KKpipiVersusKSpi0DoubleTag", "KKpipiVersusKSpi0DoubleTag", m_KSpi0Tag);
     if(sc.isFailure()) {
       log << MSG::ERROR << "Error while creating KKpipiVersusKSpi0DoubleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
+    sc = createSubAlgorithm("KSpi0SingleTag", "KSpi0SingleTag", m_KSpi0SingleTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating KSpi0SingleTag" << endreq;
       return StatusCode::FAILURE;
     }
   }
