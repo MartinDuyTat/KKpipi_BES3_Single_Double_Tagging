@@ -184,10 +184,10 @@ StatusCode Kpipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_Kpz = findKpiTagInfo.GetKP(2);
   m_Kenergy = findKpiTagInfo.GetKP(3);
   m_KCharge = findKpiTagInfo.GetKCharge();
-  m_Kpx = findKpiTagInfo.GetPiP(0);
-  m_Kpy = findKpiTagInfo.GetPiP(1);
-  m_Kpz = findKpiTagInfo.GetPiP(2);
-  m_Kenergy = findKpiTagInfo.GetPiP(3);
+  m_Pipx = findKpiTagInfo.GetPiP(0);
+  m_Pipy = findKpiTagInfo.GetPiP(1);
+  m_Pipz = findKpiTagInfo.GetPiP(2);
+  m_Pienergy = findKpiTagInfo.GetPiP(3);
   m_PiCharge = findKpiTagInfo.GetPiCharge();
   FindPi0Eta findPi0;
   findPi0.findPi0Eta(DTTool_iter, DTTool);

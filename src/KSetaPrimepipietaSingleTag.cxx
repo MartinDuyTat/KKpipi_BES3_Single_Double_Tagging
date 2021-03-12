@@ -6,6 +6,7 @@
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindPi0Eta.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/ParticleMasses.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -253,7 +254,7 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
   m_LowEEtaConstrainedpz = findEta.GetLowEPhotonPConstrained(2);
   m_LowEEtaConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
   m_EtaChi2Fit = findEta.GetChi2Fit();
-  FindhhTagInfo findpipiTagInfo("pipi", findKS.GetDaughterTrackIDs());
+  FindhhTagInfo findpipiInfo("pipi", findKS.GetDaughterTrackIDs());
   status = findpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
