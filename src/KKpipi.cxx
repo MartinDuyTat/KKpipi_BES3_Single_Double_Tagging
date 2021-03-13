@@ -15,20 +15,20 @@
 #include<string>
 
 KKpipi::KKpipi(const std::string& name, ISvcLocator* pSvcLocator): Algorithm(name, pSvcLocator) {
-  declareProperty("KKpipiVersusKpiDoubleTag", m_recKpiTag = true);
   declareProperty("KKpipiVersusKKDoubleTag", m_recKKTag = true);
   declareProperty("KKpipiVersuspipiDoubleTag", m_recpipiTag = true);
+  declareProperty("KKpipiVersusKpiDoubleTag", m_recKpiTag = true);
   declareProperty("KKpipiVersusKpipi0DoubleTag", m_recKpipi0Tag = true);
   declareProperty("KKpipiVersuspipipi0DoubleTag", m_recpipipi0Tag = true);
   declareProperty("KKpipiVersusKSpi0DoubleTag", m_recKSpi0Tag = true);
   declareProperty("KKpipiVersusKSpi0pi0DoubleTag", m_recKSpi0pi0Tag = true);
   declareProperty("KKpipiVersusKSetaDoubleTag", m_recKSetaTag = true);
-  declareProperty("KKpipiVersusKSpipipi0DoubleTag", m_recKSpipipi0Tag = true);
-  declareProperty("KKpipiVersusKSKKDoubleTag", m_recKSKKTag = true);
   declareProperty("KKpipiVersusKSetaPrimepipietaDoubleTag", m_recKSetaPrimepipietaTag = true);
   declareProperty("KKpipiVersusKSetaPrimerhogammaDoubleTag", m_recKSetaPrimerhogammaTag = true);
-  declareProperty("KKpipiVersusKKpipiDoubleTag", m_recKKpipiTag = true);
+  declareProperty("KKpipiVersusKSpipipi0DoubleTag", m_recKSpipipi0Tag = true);
+  declareProperty("KKpipiVersusKSKKDoubleTag", m_recKSKKTag = true);
   declareProperty("KKpipiVersusKSpipiDoubleTag", m_recKSpipiTag = true);
+  declareProperty("KKpipiVersusKKpipiDoubleTag", m_recKKpipiTag = true);
 }
 
 KKpipi::~KKpipi() {
