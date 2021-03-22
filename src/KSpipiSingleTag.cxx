@@ -260,6 +260,7 @@ StatusCode KSpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_PiMinuspxKalmanFit = findKSpipiTagInfo.GetPiMinusPKalmanFit(0);
   m_PiMinuspyKalmanFit = findKSpipiTagInfo.GetPiMinusPKalmanFit(1);
   m_PiMinuspzKalmanFit = findKSpipiTagInfo.GetPiMinusPKalmanFit(2);
+  m_PiMinusenergyKalmanFit = findKSpipiTagInfo.GetPiMinusPKalmanFit(3);
   m_pipiKSFitSuccess = findKSpipiTagInfo.GetpipiKSFitSuccess();
   m_pipiDecayLengthVeeVertex = findKSpipiTagInfo.GetpipiDecayLengthVeeVertex();
   m_pipiChi2VeeVertex = findKSpipiTagInfo.GetpipiChi2VeeVertex();
