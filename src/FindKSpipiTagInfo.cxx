@@ -85,7 +85,7 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   KSKalmanFit->init();
   KSKalmanFit->AddTrack(PIPLUS, WTrackKSPIplus);
   KSKalmanFit->AddTrack(PIMINUS, WTrackKSPIminus);
-  KalmanFit->AddResonance(0, MASS::KS_MASS, PIPLUS, PIMINUS);
+  KSKalmanFit->AddResonance(0, MASS::KS_MASS, PIPLUS, PIMINUS);
   bool KSKalmanFitSuccess = KSKalmanFit->Fit();
   // Do a Kalman kinematic fit of the D daughter tracks, and constrain the KS and D masses to their PDG values
   if(KSKalmanFitSuccess) {
