@@ -56,11 +56,13 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(2); // In the order pi+ pi-
   std::vector<RecMdcKalTrack*> KalmanTracks(2); //In the order pi+ pi-
+  std::vector<RecMdcKalTrack*> KSDaughterKalmanTracks;
   // Loop over all tracks
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     // If track is from KS daughters, skip
     if(std::find(KSDaughterTrackIDs.begin(), KSDaughterTrackIDs.end(), (*Track_iter)->trackId()) != KSDaughterTrackIDs.end()) {
+      KSDaughterKalmanTracks.push_back(MDCKalTrack);
       continue;
     }
     // Fill out track information
@@ -76,21 +78,34 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
       }
     }
   }
-  // Do a Kalman kinematic fit of the tracks, and constrain the KS and D masses to their PDG values
-  WTrackParameter WTrackPIplus(MASS::PI_MASS, KalmanTracks[PIPLUS]->getZHelix(), KalmanTracks[PIPLUS]->getZError());
-  WTrackParameter WTrackPIminus(MASS::PI_MASS, KalmanTracks[PIMINUS]->getZHelix(), KalmanTracks[PIMINUS]->getZError());
-  KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
-  KalmanFit->init();
-  KalmanFit->AddTrack(PIPLUS, WTrackPIplus);
-  KalmanFit->AddTrack(PIMINUS, WTrackPIminus);
-  KalmanFit->AddTrack(KSHORT, findKS.GetWTrackParameter());
-  KalmanFit->AddResonance(0, MASS::D_MASS, PIPLUS, PIMINUS, KSHORT);
-  m_KalmanFitSuccess = KalmanFit->Fit();
-  if(m_KalmanFitSuccess) {
-    m_KalmanFitChi2 = KalmanFit->chisq();
-    m_KShortPKalmanFit = KalmanFit->pfit(KSHORT);
-    m_PiPlusPKalmanFit = KalmanFit->pfit(PIPLUS);
-    m_PiMinusPKalmanFit = KalmanFit->pfit(PIMINUS);
+  // Do a Kalman kinematic fit of the KS daughter tracks, and constrain the KS mass to its PDG value
+  WTrackParameter WTrackKSPIplus(MASS::PI_MASS, KSDaughterKalmanTracks[PIPLUS]->getZHelix(), KSDaughterKalmanTracks[PIPLUS]->getZError());
+  WTrackParameter WTrackKSPIminus(MASS::PI_MASS, KSDaughterKalmanTracks[PIMINUS]->getZHelix(), KSDaughterKalmanTracks[PIMINUS]->getZError());
+  KalmanKinematicFit *KSKalmanFit = KalmanKinematicFit::instance();
+  KSKalmanFit->init();
+  KSKalmanFit->AddTrack(PIPLUS, WTrackKSPIplus);
+  KSKalmanFit->AddTrack(PIMINUS, WTrackKSPIminus);
+  KalmanFit->AddResonance(0, MASS::KS_MASS, PIPLUS, PIMINUS);
+  bool KSKalmanFitSuccess = KSKalmanFit->Fit();
+  // Do a Kalman kinematic fit of the D daughter tracks, and constrain the KS and D masses to their PDG values
+  if(KSKalmanFitSuccess) {
+    KSKalmanFit->BuildVirtualParticle(0);
+    WTrackParameter WTrackKS = KSKalmanFit->wVirtualTrack(0);
+    WTrackParameter WTrackPIplus(MASS::PI_MASS, KalmanTracks[PIPLUS]->getZHelix(), KalmanTracks[PIPLUS]->getZError());
+    WTrackParameter WTrackPIminus(MASS::PI_MASS, KalmanTracks[PIMINUS]->getZHelix(), KalmanTracks[PIMINUS]->getZError());
+    KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
+    KalmanFit->init();
+    KalmanFit->AddTrack(PIPLUS, WTrackPIplus);
+    KalmanFit->AddTrack(PIMINUS, WTrackPIminus);
+    KalmanFit->AddTrack(KSHORT, WTrackKS);
+    KalmanFit->AddResonance(0, MASS::D_MASS, PIPLUS, PIMINUS, KSHORT);
+    m_KalmanFitSuccess = KalmanFit->Fit();
+    if(m_KalmanFitSuccess) {
+      m_KalmanFitChi2 = KalmanFit->chisq();
+      m_KShortPKalmanFit = KalmanFit->pfit(KSHORT);
+      m_PiPlusPKalmanFit = KalmanFit->pfit(PIPLUS);
+      m_PiMinusPKalmanFit = KalmanFit->pfit(PIMINUS);
+    }
   }
   // Do a vertex fit of the pipi in the tag, to make sure they're not KS in disguise
   double Mpipi = (m_PiPlusP + m_PiMinusP).m();
