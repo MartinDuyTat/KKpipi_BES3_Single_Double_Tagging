@@ -1,7 +1,7 @@
 // Martin Duy Tat 23rd March 2021
 
 // KKpipi
-#include "PIDTruth.h"
+#include "KKpipi/PIDTruth.h"
 // Gaudi
 #include "GaudiKernel/Algorithm.h"
 #include "GaudiKernel/SmartDataPtr.h"
