@@ -104,7 +104,7 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   return StatusCode::SUCCESS;
 }
 
-std::vector<int> GetDaughterTrackID() const {
+std::vector<int> FindKKpipiTagInfo::GetDaughterTrackID() const {
   return m_DaughterTrackID;
 }
 
