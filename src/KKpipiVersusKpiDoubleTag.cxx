@@ -137,6 +137,10 @@ StatusCode KKpipiVersusKpiDoubleTag::initialize() {
       status = m_tuple->addItem("TagKpz", m_TagKpz);
       status = m_tuple->addItem("TagKenergy", m_TagKenergy);
       status = m_tuple->addItem("TagKCharge", m_TagKCharge);
+      status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
+      status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
+      status = m_tuple->addItem("TagKTrueID", m_TagKTrueID);
+      status = m_tuple->addItem("TagPiTrueID", m_TagPiTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs Kpi Double Tags" << endmsg;
       return StatusCode::FAILURE;

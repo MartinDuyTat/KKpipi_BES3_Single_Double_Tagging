@@ -168,6 +168,10 @@ StatusCode KKpipiVersusKSetaDoubleTag::initialize() {
       status = m_tuple->addItem("TagLowEEtaConstrainedpz", m_TagLowEEtaConstrainedpz);
       status = m_tuple->addItem("TagLowEEtaConstrainedenergy", m_TagLowEEtaConstrainedenergy);
       status = m_tuple->addItem("TagEtaChi2Fit", m_EtaChi2Fit);
+      status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
+      status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
+      status = m_tuple->addItem("TagKSPiPlusTrueID", m_TagKSPiPlusTrueID);
+      status = m_tuple->addItem("TagKSPiMinusTrueID", m_TagKSPiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KSeta Double Tags" << endmsg;
       return StatusCode::FAILURE;

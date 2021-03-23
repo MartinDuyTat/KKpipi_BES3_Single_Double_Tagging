@@ -159,6 +159,12 @@ StatusCode KKpipiVersusKSKKDoubleTag::initialize() {
       status = m_tuple->addItem("TagKMinuspy", m_TagKMinuspy);
       status = m_tuple->addItem("TagKMinuspz", m_TagKMinuspz);
       status = m_tuple->addItem("TagKMinusenergy", m_TagKMinusenergy);
+      status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
+      status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
+      status = m_tuple->addItem("TagKSPiPlusTrueID", m_TagKSPiPlusTrueID);
+      status = m_tuple->addItem("TagKSPiMinusTrueID", m_TagKSPiMinusTrueID);
+      status = m_tuple->addItem("TagKPlusTrueID", m_TagKPlusTrueID);
+      status = m_tuple->addItem("TagKMinusTrueID", m_TagKMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KSKK Double Tags" << endmsg;
       return StatusCode::FAILURE;

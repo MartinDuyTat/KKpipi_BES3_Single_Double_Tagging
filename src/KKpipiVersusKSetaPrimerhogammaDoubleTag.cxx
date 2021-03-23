@@ -175,6 +175,12 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::initialize() {
       status = m_tuple->addItem("TagGammapz", m_TagGammapz);
       status = m_tuple->addItem("TagGammaenergy", m_TagGammaenergy);
       status = m_tuple->addItem("TagNumberShowers", m_NumberShowers);
+      status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
+      status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
+      status = m_tuple->addItem("TagKSPiPlusTrueID", m_TagKSPiPlusTrueID);
+      status = m_tuple->addItem("TagKSPiMinusTrueID", m_TagKSPiMinusTrueID);
+      status = m_tuple->addItem("TagEtaPPiPlusTrueID", m_TagEtaPPiPlusTrueID);
+      status = m_tuple->addItem("TagEtaPPiMinusTrueID", m_TagEtaPPiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KSetaPrime(rhogamma) Double Tags" << endmsg;
       return StatusCode::FAILURE;
