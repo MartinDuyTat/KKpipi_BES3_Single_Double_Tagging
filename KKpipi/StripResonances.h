@@ -5,6 +5,8 @@
  * One can also add an optional list of resonances to not remove in the constructor
  */
 
+#include <vector>
+
 #ifndef STRIPRESONANCES
 #define STRIPRESONANCES
 
