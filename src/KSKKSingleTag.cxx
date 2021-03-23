@@ -57,6 +57,9 @@ StatusCode KSKKSingleTag::initialize() {
       status = m_tuple->addItem("NumberOfParticles", m_NumberParticles, 0, 100);
       status = m_tuple->addIndexedItem("ParticleIDs", m_NumberParticles, m_pdgID);
       status = m_tuple->addIndexedItem("MotherIndex", m_NumberParticles, m_MotherIndex);
+      status = m_tuple->addItem("NumberOfParticlesStripped", m_NumberParticlesStripped, 0, 100);
+      status = m_tuple->addIndexedItem("ParticleIDsStripped", m_NumberParticlesStripped, m_pdgIDStripped);
+      status = m_tuple->addIndexedItem("MotherIndexStripped", m_NumberParticlesStripped, m_MotherIndexStripped);
       status = m_tuple->addItem("MCmode", m_MCmode);
       status = m_tuple->addIndexedItem("True_Px", m_NumberParticles, m_TruePx);
       status = m_tuple->addIndexedItem("True_Py", m_NumberParticles, m_TruePy);
@@ -173,6 +176,11 @@ StatusCode KSKKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
       m_TruePy[i] = findMCInfo.GetTruePy(i);
       m_TruePz[i] = findMCInfo.GetTruePz(i);
       m_TrueEnergy[i] = findMCInfo.GetTrueEnergy(i);
+    }
+    m_NumberParticlesStripped = findMCInfo.GetNumberParticlesStripped();
+    for(int i = 0; i < m_NumberParticlesStripped; i++) {
+      m_pdgIDStripped[i] = findMCInfo.GetpdgIDStripped(i);
+      m_MotherIndexStripped[i] = findMCInfo.GetMotherIndexStripped(i);
     }
   }
   m_DMass = (*DTTool_iter)->mass();

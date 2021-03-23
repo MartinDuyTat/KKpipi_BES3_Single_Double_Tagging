@@ -77,6 +77,18 @@ class pipiSingleTag: public Algorithm {
      */
     NTuple::Array<int> m_MotherIndex;
     /**
+     * Number of particles in the decay chain without resonances
+     */
+    NTuple::Item<int> m_NumberParticlesStripped;
+    /**
+     * Array of particle IDs of all particles in the decay chain without resonances
+     */
+    NTuple::Array<int> m_pdgIDStripped;
+    /**
+     * Array of indices referring to the particle mother without resonances
+     */
+    NTuple::Array<int> m_MotherIndexStripped;
+    /**
      * Generator label of the decay mode
      */
     NTuple::Item<int> m_MCmode;

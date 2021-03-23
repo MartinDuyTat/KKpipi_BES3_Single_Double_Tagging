@@ -244,7 +244,9 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_DecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_Chi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_KSMassFit = findKKpipiTagInfo.GetKSMassFit();
-  PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), this);
-  m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), this);
+    m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+  }
   return StatusCode::SUCCESS;
 }
