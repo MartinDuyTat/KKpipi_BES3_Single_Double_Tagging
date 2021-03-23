@@ -4,6 +4,7 @@
 #include "KKpipi/KKpipiVersusKKpipiDoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/PIDTruth.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -305,6 +306,17 @@ StatusCode KKpipiVersusKKpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), this);
+    m_SignalIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[4] = {321, -321, 211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
+    m_SignalPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_SignalKPlusTrueID = ReconstructedPID[0];
+    m_SignalKMinusTrueID = ReconstructedPID[1];
+    m_SignalPiPlusTrueID = ReconstructedPID[2];
+    m_SignalPiMinusTrueID = ReconstructedPID[3];
+  }
   // Do the same on the tag side
   status = findKKpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
@@ -351,5 +363,16 @@ StatusCode KKpipiVersusKKpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_TagChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_TagKSMassFit = findKKpipiTagInfo.GetKSMassFit();
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), this);
+    m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[4] = {321, -321, 211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
+    m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_TagKPlusTrueID = ReconstructedPID[0];
+    m_TagKMinusTrueID = ReconstructedPID[1];
+    m_TagPiPlusTrueID = ReconstructedPID[2];
+    m_TagPiMinusTrueID = ReconstructedPID[3];
+  }
   return StatusCode::SUCCESS;
 }
