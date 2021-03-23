@@ -1,7 +1,7 @@
 // Martin Duy Tat 23rd March 2021
 
 // KKpipi
-#include "StripResonances.h"
+#include "KKpipi/StripResonances.h"
 // STL
 #include <vector>
 #include <algorithm>
@@ -20,7 +20,7 @@ int StripResonances::FindResonanceIndex(const std::vector<int> &pidID) const {
   return -1;
 }
 
-void RemoveResonance(int ResonanceIndex, std::vector<int> &pidID, std::vector<int> &MotherIndex) const {
+void StripResonances::RemoveResonance(int ResonanceIndex, std::vector<int> &pidID, std::vector<int> &MotherIndex) const {
   int Mother = MotherIndex[ResonanceIndex];
   for(unsigned int i = 0; i < pidID.size(); i++) {
     if(MotherIndex[i] == ResonanceIndex) {
@@ -33,7 +33,7 @@ void RemoveResonance(int ResonanceIndex, std::vector<int> &pidID, std::vector<in
   MotherIndex.erase(MotherIndex.begin() + ResonanceIndex);
 }
 
-void RemoveIntermediateResonances(std::vector<int> &pidID, std::vector<int> &MotherIndex) const {
+void StripResonances::RemoveIntermediateResonances(std::vector<int> &pidID, std::vector<int> &MotherIndex) const {
   int ResonanceIndex = FindResonanceIndex(pidID);
   while(ResonanceIndex != -1) {
     RemoveResonance(pidID, MotherIndex);
