@@ -32,6 +32,12 @@ class PIDTruth {
      * Function that checks if all the particles originate from the same \f$D\f$ meson
      */
     bool SameDMother() const;
+    /**
+     * Function that determines the true PID of the particles of interest
+     * @param ParticleID Input vector of true PIDs, the function will replace these with the MC truth
+     * @return Returns true if the reconstructed PIDs match perfectly with the MC truth
+     */
+    bool FindTrueID(std::vector<int> &ParticleID);
   private:
     /**
      * Vector with track IDs of reconstructed daughters

@@ -121,3 +121,16 @@ bool PIDTruth::SameDMother() const {
   // Return true of all daughters originate from D0, or if all daughters originate from D0bar, otherwise return false
   return isD0Mother || isD0barMother;
 }
+
+bool PIDTruth::FindTrueID(std::vector<int> &ParticleID) {
+  std::vector<int> TrueID;
+  bool PIDMatch = true;
+  for(unsigned int i = 0; i < m_TrackID.size(); i++) {
+    TrueID.push_back(MCTKPIDCHG(m_TrackID[i], -1, 0, 0));
+    if(PIDMatch && ParticleID[i] != TrueID[i]) {
+      PIDMatch = false;
+    }
+  }
+  std::swap(ParticleID, TrueID);
+  return PIDMatch;
+}
