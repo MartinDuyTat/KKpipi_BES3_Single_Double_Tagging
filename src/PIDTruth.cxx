@@ -98,7 +98,7 @@ int PIDTruth::MCTKPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
 
 bool PIDTruth::SameDMother() const {
   std::vector<int> IsD0Mother, IsD0barMother;
-  for(std::vector<int>::iterator iter = m_TrackID.begin(); iter != m_TrackID.end(); iter++) {
+  for(std::vector<int>::const_iterator iter = m_TrackID.begin(); iter != m_TrackID.end(); iter++) {
     // Check if every track ID is a daughter originating from D0 or D0bar
     IsD0Mother.push_back(MCTKPIDCHG(*iter, 0, 0, 421));
     IsD0barMother.push_back(MCTKPIDCHG(*iter, 0, 0, -421));
