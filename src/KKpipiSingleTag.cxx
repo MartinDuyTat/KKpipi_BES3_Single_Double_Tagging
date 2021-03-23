@@ -111,6 +111,7 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
       status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
       status = m_tuple->addItem("KSMassFit", m_KSMassFit);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -234,5 +235,7 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_DecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_Chi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_KSMassFit = findKKpipiTagInfo.GetKSMassFit();
+  PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), this);
+  m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
   return StatusCode::SUCCESS;
 }
