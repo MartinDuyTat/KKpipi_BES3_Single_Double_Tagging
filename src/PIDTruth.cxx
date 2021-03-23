@@ -11,12 +11,11 @@
 #include "EvtRecEvent/EvtRecTrack.h"
 #include "McTruth/McParticle.h"
 #include "MdcRecEvent/RecMdcKalTrack.h"
-#include 
 // STL
 #include <vector>
 #include <algorithm>
 
-PIDTruth::PIDTruth(const std::vector<int> &TrackID, const Algorithm *algorithm): m_TrackID(Track_ID), m_algorithm(algorithm) {
+PIDTruth::PIDTruth(const std::vector<int> &TrackID, const Algorithm *algorithm): m_TrackID(TrackID), m_algorithm(algorithm) {
 }
 
 int PIDTruth::MCTKPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
@@ -99,15 +98,26 @@ int PIDTruth::MCTKPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
 
 bool PIDTruth::SameDMother() const {
   std::vector<int> IsD0Mother, IsD0barMother;
-  for(auto TrackID : m_TrackID) {
-    IsD0Mother.push_back(MCTKPIDCHG(TrackID, 0, 0, 421));
-    IsD0barMother.push_back(MCTKPIDCHG(TrackID, 0, 0, -421));
+  for(std::vector<int>::iterator iter = m_TrackID.begin(); iter != m_TrackID.end(); iter++) {
+    // Check if every track ID is a daughter originating from D0 or D0bar
+    IsD0Mother.push_back(MCTKPIDCHG(*iter, 0, 0, 421));
+    IsD0barMother.push_back(MCTKPIDCHG(*iter, 0, 0, -421));
   }
-  if(std::all_of(IsD0Mother.begin(), IsD0Mother.end(), [](int i) {return i == 1})) {
-    return true;
-  } else if (std::all_of(IsD0barMother.begin(), IsD0barMother.end(), [](int i) {return i == 1})) {
-    return true;
-  } else {
-    return false;
+  bool isD0Mother = true, isD0barMother = true;
+  // If any daughter doesn't originate from D0, set isD0Mother to false
+  for(std::vector<int>::iterator iter = IsD0Mother.begin(); iter != IsD0Mother.end(); iter++) {
+    if(*iter != 1) {
+      isD0Mother = false;
+      break;
+    }
   }
+  // If any daughter doesn't originate from D0bar, set isD0barMother to false
+  for(std::vector<int>::iterator iter = IsD0barMother.begin(); iter != IsD0barMother.end(); iter++) {
+    if(*iter != 1) {
+      isD0barMother = false;
+      break;
+    }
+  }
+  // Return true of all daughters originate from D0, or if all daughters originate from D0bar, otherwise return false
+  return isD0Mother || isD0barMother;
 }
