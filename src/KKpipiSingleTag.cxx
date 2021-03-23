@@ -116,6 +116,11 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
       status = m_tuple->addItem("KSMassFit", m_KSMassFit);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KPlusTrueID", m_KPlusTrueID);
+      status = m_tuple->addItem("KMinusTrueID", m_KMinusTrueID);
+      status = m_tuple->addItem("PiPlusTrueID", m_PiPlusTrueID);
+      status = m_tuple->addItem("PiMinusTrueID", m_PiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -247,6 +252,13 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[4] = {321, -321, 211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
+    m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_KPlusTrueID = ReconstructedPID[0];
+    m_KMinusTrueID = ReconstructedPID[1];
+    m_PiPlusTrueID = ReconstructedPID[2];
+    m_PiMinusTrueID = ReconstructedPID[3];
   }
   return StatusCode::SUCCESS;
 }
