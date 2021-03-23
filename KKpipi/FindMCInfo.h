@@ -44,6 +44,20 @@ class FindMCInfo {
      */
     int GetMotherIndex(int i);
     /**
+     * Get the number of particles without resonances
+     */
+    int GetNumberParticlesStripped();
+    /**
+     * Get PDG ID without resonances
+     * @param i Vector component
+     */
+    int GetpdgIDStripped(int i);
+    /**
+     * Get mother index without resonances
+     * @param i Vector component
+     */
+    int GetMotherIndexStripped(int i);
+    /**
      * Get MC mode label
      */
     int GetMCmode();
@@ -82,6 +96,18 @@ class FindMCInfo {
      * For example, an index 0 means that ```m_pdgID[0]``` is the mother
      */
     std::vector<int> m_MotherIndex;
+    /**
+     * Number of particles in the decay chain without resonances
+     */
+    int m_NumberParticlesStripped;
+    /**
+     * Array of particle IDs of all particles in the decay chain without resonances
+     */
+    std::vector<int> m_pdgIDStripped;
+    /**
+     * Vector of indices referring to the particle mother without resonances
+     */
+    std::vector<int> m_MotherIndexStripped;
     /**
      * Generator label of the decay mode
      */

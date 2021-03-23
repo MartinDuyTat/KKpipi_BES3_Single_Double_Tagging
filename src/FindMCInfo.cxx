@@ -2,6 +2,7 @@
 
 // KKpipi
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/StripResonances.h"
 // Gaudi
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
@@ -42,6 +43,11 @@ StatusCode FindMCInfo::CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCPart
     m_TruePz.push_back(TruePz[i]);
     m_TrueEnergy.push_back(TrueEnergy[i]);
   }
+  StripResonances stripResonances;
+  m_pdgIDStripped = m_pdgID;
+  m_MotherIndexStripped = m_MotherIndex;
+  stripResonances.RemoveIntermediateResonances(m_pdgIDStripped, m_MotherIndexStripped);
+  m_NumberParticlesStripped = m_pidgIDStripped.size();
   return StatusCode::SUCCESS;
 }
 
