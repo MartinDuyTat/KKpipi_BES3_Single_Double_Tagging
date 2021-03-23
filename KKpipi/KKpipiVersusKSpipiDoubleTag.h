@@ -583,6 +583,30 @@ class KKpipiVersusKSpipiDoubleTag: public Algorithm {
      * The tag \f$K_S^0\f$ mass, from fit
      */
     NTuple::Item<double> m_TagpipiKSMassFit;
+    /**
+     * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_TagIsSameDMother;
+    /**
+     * Equal to 1 if the tag daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_TagPIDTrue;
+    /**
+     * The tag \f$\pi^+\f$ from \f$K_S^0\f$ true PID
+     */
+    NTuple::Item<int> m_TagKSPiPlusTrueID;
+    /**
+     * The tag \f$\pi^-\f$ from \f$K_S^0\f$ true PID
+     */
+    NTuple::Item<int> m_TagKSPiMinusTrueID;
+    /**
+     * The tag \f$\pi^+\f$ true PID
+     */
+    NTuple::Item<int> m_TagPiPlusTrueID;
+    /**
+     * The tag \f$\pi^-\f$ true PID
+     */
+    NTuple::Item<int> m_TagPiMinusTrueID;
 };
 
 #endif

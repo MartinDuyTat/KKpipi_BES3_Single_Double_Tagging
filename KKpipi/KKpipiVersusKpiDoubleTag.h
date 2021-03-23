@@ -394,6 +394,22 @@ class KKpipiVersusKpiDoubleTag: public Algorithm {
      * Tag \f$K\f$ charge
      */
     NTuple::Item<double> m_TagKCharge;
+    /**
+     * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_TagIsSameDMother;
+    /**
+     * Equal to 1 if the tag daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_TagPIDTrue;
+    /**
+     * The tag \f$K\f$ true PID
+     */
+    NTuple::Item<int> m_TagKTrueID;
+    /**
+     * The tag \f$\pi\f$ true PID
+     */
+    NTuple::Item<int> m_TagPiTrueID;
 };
 
 #endif

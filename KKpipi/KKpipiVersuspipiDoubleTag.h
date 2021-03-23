@@ -386,6 +386,22 @@ class KKpipiVersuspipiDoubleTag: public Algorithm {
      * Tag \f$\pi^-\f$ energy
      */
     NTuple::Item<double> m_TagpiMinusenergy;
+    /**
+     * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_TagIsSameDMother;
+    /**
+     * Equal to 1 if the tag daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_TagPIDTrue;
+    /**
+     * The tag \f$\pi^+\f$ true PID
+     */
+    NTuple::Item<int> m_TagPiPlusTrueID;
+    /**
+     * The tag \f$\pi^-\f$ true PID
+     */
+    NTuple::Item<int> m_TagPiMinusTrueID;
 };
 
 #endif
