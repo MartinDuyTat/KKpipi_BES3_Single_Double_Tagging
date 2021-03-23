@@ -119,6 +119,12 @@ StatusCode KKpipiVersusKKpipiDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKSDecayLengthErrorFit", m_SignalDecayLengthErrorFit);
       status = m_tuple->addItem("SignalKSChi2Fit", m_SignalChi2Fit);
       status = m_tuple->addItem("SignalKSMassFit", m_SignalKSMassFit);
+      status = m_tuple->addItem("SignalIsSameDMother", m_SignalIsSameDMother);
+      status = m_tuple->addItem("SignalPIDTrue", m_SignalPIDTrue);
+      status = m_tuple->addItem("SignalKPlusTrueID", m_SignalKPlusTrueID);
+      status = m_tuple->addItem("SignalKMinusTrueID", m_SignalKMinusTrueID);
+      status = m_tuple->addItem("SignalPiPlusTrueID", m_SignalPiPlusTrueID);
+      status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
       status = m_tuple->addItem("TagPiPluspx", m_TagPiPluspx);
       status = m_tuple->addItem("TagPiPluspy", m_TagPiPluspy);
       status = m_tuple->addItem("TagPiPluspz", m_TagPiPluspz);
@@ -161,6 +167,12 @@ StatusCode KKpipiVersusKKpipiDoubleTag::initialize() {
       status = m_tuple->addItem("TagKSDecayLengthErrorFit", m_TagDecayLengthErrorFit);
       status = m_tuple->addItem("TagKSChi2Fit", m_TagChi2Fit);
       status = m_tuple->addItem("TagKSMassFit", m_TagKSMassFit);
+      status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
+      status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
+      status = m_tuple->addItem("TagKPlusTrueID", m_TagKPlusTrueID);
+      status = m_tuple->addItem("TagKMinusTrueID", m_TagKMinusTrueID);
+      status = m_tuple->addItem("TagPiPlusTrueID", m_TagPiPlusTrueID);
+      status = m_tuple->addItem("TagPiMinusTrueID", m_TagPiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KKpipi Double Tags" << endmsg;
       return StatusCode::FAILURE;

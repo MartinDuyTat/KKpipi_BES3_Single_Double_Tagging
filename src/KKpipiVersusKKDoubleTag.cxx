@@ -120,6 +120,12 @@ StatusCode KKpipiVersusKKDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKSDecayLengthErrorFit", m_SignalDecayLengthErrorFit);
       status = m_tuple->addItem("SignalKSChi2Fit", m_SignalChi2Fit);
       status = m_tuple->addItem("SignalKSMassFit", m_SignalKSMassFit);
+      status = m_tuple->addItem("SignalIsSameDMother", m_SignalIsSameDMother);
+      status = m_tuple->addItem("SignalPIDTrue", m_SignalPIDTrue);
+      status = m_tuple->addItem("SignalKPlusTrueID", m_SignalKPlusTrueID);
+      status = m_tuple->addItem("SignalKMinusTrueID", m_SignalKMinusTrueID);
+      status = m_tuple->addItem("SignalPiPlusTrueID", m_SignalPiPlusTrueID);
+      status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
       status = m_tuple->addItem("TagKPluspx", m_TagKPluspx);
       status = m_tuple->addItem("TagKPluspy", m_TagKPluspy);
       status = m_tuple->addItem("TagKPluspz", m_TagKPluspz);
@@ -260,6 +266,17 @@ StatusCode KKpipiVersusKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_ite
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), this);
+    m_SignalIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[4] = {321, -321, 211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
+    m_SignalPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_SignalKPlusTrueID = ReconstructedPID[0];
+    m_SignalKMinusTrueID = ReconstructedPID[1];
+    m_SignalPiPlusTrueID = ReconstructedPID[2];
+    m_SignalPiMinusTrueID = ReconstructedPID[3];
+  }
   FindhhTagInfo findKKTagInfo("KK");
   status = findKKTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {

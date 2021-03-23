@@ -331,6 +331,30 @@ class KKpipiVersusKKpipiDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_SignalKSMassFit;
     /**
+     * Equal to 1 if the signal daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_SignalIsSameDMother;
+    /**
+     * Equal to 1 if the signal daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_SignalPIDTrue;
+    /**
+     * The signal \f$K^+\f$ true PID
+     */
+    NTuple::Item<int> m_SignalKPlusTrueID;
+    /**
+     * The signal \f$K^-\f$ true PID
+     */
+    NTuple::Item<int> m_SignalKMinusTrueID;
+    /**
+     * The signal \f$\pi^+\f$ true PID
+     */
+    NTuple::Item<int> m_SignalPiPlusTrueID;
+    /**
+     * The signal \f$\pi^-\f$ true PID
+     */
+    NTuple::Item<int> m_SignalPiMinusTrueID;
+    /**
      * Tag \f$\pi^+\f$ momentum along \f$x\f$
      */
     NTuple::Item<double> m_TagPiPluspx;
@@ -498,6 +522,30 @@ class KKpipiVersusKKpipiDoubleTag: public Algorithm {
      * The tag \f$K_S^0\f$ mass, from fit
      */
     NTuple::Item<double> m_TagKSMassFit;
+    /**
+     * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_TagIsSameDMother;
+    /**
+     * Equal to 1 if the tag daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_TagPIDTrue;
+    /**
+     * The tag \f$K^+\f$ true PID
+     */
+    NTuple::Item<int> m_TagKPlusTrueID;
+    /**
+     * The tag \f$K^-\f$ true PID
+     */
+    NTuple::Item<int> m_TagKMinusTrueID;
+    /**
+     * The tag \f$\pi^+\f$ true PID
+     */
+    NTuple::Item<int> m_TagPiPlusTrueID;
+    /**
+     * The tag \f$\pi^-\f$ true PID
+     */
+    NTuple::Item<int> m_TagPiMinusTrueID;
 };
 
 #endif

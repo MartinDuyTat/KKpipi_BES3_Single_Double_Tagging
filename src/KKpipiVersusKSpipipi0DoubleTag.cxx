@@ -125,6 +125,12 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::initialize() {
       status = m_tuple->addItem("SignalKSDecayLengthErrorFit", m_SignalDecayLengthErrorFit);
       status = m_tuple->addItem("SignalKSChi2Fit", m_SignalChi2Fit);
       status = m_tuple->addItem("SignalKSMassFit", m_SignalKSMassFit);
+      status = m_tuple->addItem("SignalIsSameDMother", m_SignalIsSameDMother);
+      status = m_tuple->addItem("SignalPIDTrue", m_SignalPIDTrue);
+      status = m_tuple->addItem("SignalKPlusTrueID", m_SignalKPlusTrueID);
+      status = m_tuple->addItem("SignalKMinusTrueID", m_SignalKMinusTrueID);
+      status = m_tuple->addItem("SignalPiPlusTrueID", m_SignalPiPlusTrueID);
+      status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
       status = m_tuple->addItem("TagKSDecayLengthVeeVertex", m_TagDecayLengthVeeVertex);
       status = m_tuple->addItem("TagKSChi2VeeVertex", m_TagChi2VeeVertex);
       status = m_tuple->addItem("TagKSMassVeeVertex", m_TagKSMassVeeVertex);

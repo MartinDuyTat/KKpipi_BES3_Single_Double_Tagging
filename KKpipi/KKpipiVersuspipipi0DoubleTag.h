@@ -331,6 +331,30 @@ class KKpipiVersuspipipi0DoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_SignalKSMassFit;
     /**
+     * Equal to 1 if the signal daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_SignalIsSameDMother;
+    /**
+     * Equal to 1 if the signal daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_SignalPIDTrue;
+    /**
+     * The signal \f$K^+\f$ true PID
+     */
+    NTuple::Item<int> m_SignalKPlusTrueID;
+    /**
+     * The signal \f$K^-\f$ true PID
+     */
+    NTuple::Item<int> m_SignalKMinusTrueID;
+    /**
+     * The signal \f$\pi^+\f$ true PID
+     */
+    NTuple::Item<int> m_SignalPiPlusTrueID;
+    /**
+     * The signal \f$\pi^-\f$ true PID
+     */
+    NTuple::Item<int> m_SignalPiMinusTrueID;
+    /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tag tracks
      */
     NTuple::Item<int> m_TagKSFitSuccess;
