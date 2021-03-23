@@ -2,18 +2,21 @@
 
 // KKpipi
 #include "KKpipi/StripResonances.h"
+// ROOT
+#include "TMath.h"
 // STL
 #include <vector>
 #include <algorithm>
 
 StripResonances::StripResonances(const std::vector<int> &KeepList) {
-  m_KeepList = std::vector<int>{30443, 421, 130, 310, 321, 111, 211, 11, 12, 13, 14, 22, 2212};
+  int FinalParticles[13] = {30443, 421, 130, 310, 321, 111, 211, 11, 12, 13, 14, 22, 2212};
+  m_KeepList = std::vector<int>(FinalParticles, FinalParticles + 13);
   m_KeepList.insert(m_KeepList.end(), KeepList.begin(), KeepList.end());
 }
 
 int StripResonances::FindResonanceIndex(const std::vector<int> &pidID) const {
   for(unsigned int i = 0; i < pidID.size(); i++) {
-    if(std::find(m_KeepList.begin(), m_KeepList.end(), pidID[i] == m_KeepList.end())) {
+    if(std::find(m_KeepList.begin(), m_KeepList.end(), pidID[i]) == m_KeepList.end() && std::find(m_KeepList.begin(), m_KeepList.end(), -pidID[i]) == m_KeepList.end()) {
       return i;
     }
   }
@@ -36,7 +39,7 @@ void StripResonances::RemoveResonance(int ResonanceIndex, std::vector<int> &pidI
 void StripResonances::RemoveIntermediateResonances(std::vector<int> &pidID, std::vector<int> &MotherIndex) const {
   int ResonanceIndex = FindResonanceIndex(pidID);
   while(ResonanceIndex != -1) {
-    RemoveResonance(pidID, MotherIndex);
+    RemoveResonance(ResonanceIndex, pidID, MotherIndex);
     ResonanceIndex = FindResonanceIndex(pidID);
   }
 }
