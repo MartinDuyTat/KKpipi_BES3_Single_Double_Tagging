@@ -47,7 +47,7 @@ StatusCode FindMCInfo::CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCPart
   m_pdgIDStripped = m_pdgID;
   m_MotherIndexStripped = m_MotherIndex;
   stripResonances.RemoveIntermediateResonances(m_pdgIDStripped, m_MotherIndexStripped);
-  m_NumberParticlesStripped = m_pidgIDStripped.size();
+  m_NumberParticlesStripped = m_pdgIDStripped.size();
   return StatusCode::SUCCESS;
 }
 
@@ -61,6 +61,18 @@ int FindMCInfo::GetpdgID(int i) {
 
 int FindMCInfo::GetMotherIndex(int i) {
   return m_MotherIndex[i];
+}
+
+int FindMCInfo::GetNumberParticlesStripped() {
+  return m_NumberParticlesStripped;
+}
+
+int FindMCInfo::GetpdgIDStripped(int i) {
+  return m_pdgIDStripped[i];
+}
+
+int FindMCInfo::GetMotherIndexStripped(int i) {
+  return m_MotherIndexStripped[i];
 }
 
 int FindMCInfo::GetMCmode() {
