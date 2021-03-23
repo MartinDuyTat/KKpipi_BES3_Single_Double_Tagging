@@ -38,6 +38,10 @@ class FindKKpipiTagInfo {
      */
     enum DaughterParticle {KPLUS, KMINUS, PIPLUS, PIMINUS};
     /**
+     * Get the daughter track IDs
+     */
+    std::vector<int> GetDaughterTrackID() const;
+    /**
      * Get \f$K^+\f$ momentum component
      * @param i Component
      */
@@ -118,6 +122,10 @@ class FindKKpipiTagInfo {
      */
     double GetKSMassFit() const;
   private:
+    /**
+     * Daughter track IDs
+     */
+    std::vector<int> m_DaughterTrackID;
     /**
      * \f$K^+\f$ four-momentum
      */

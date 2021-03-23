@@ -21,7 +21,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKKpipiTagInfo::FindKKpipiTagInfo(): m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_KSFitSuccess(0), m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0) {
+FindKKpipiTagInfo::FindKKpipiTagInfo(): m_DaughterTrackID(std::vector<int>(4)), m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_KSFitSuccess(0), m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0) {
 }
 
 FindKKpipiTagInfo::~FindKKpipiTagInfo() {
@@ -31,6 +31,7 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(4); // In the order K+ K- pi+ pi-
   std::vector<RecMdcKalTrack*> KalmanTracks(4); //In the order K+ K- pi+ pi-
+  // Go through all tracks and find the daughter tracks
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(DTTool.isKaon(*Track_iter)) {
@@ -38,23 +39,28 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
 	DaughterTrackIterators[KPLUS] = Track_iter;
 	KalmanTracks[KPLUS] = MDCKalTrack;
 	m_KPlusP = MDCKalTrack->p4(MASS::K_MASS);
+	m_DaughterTrackID[KPLUS] = (*Track_iter)->trackId();
       } else if (MDCKalTrack->charge() == -1) {
 	DaughterTrackIterators[KMINUS] = Track_iter;
 	KalmanTracks[KMINUS] = MDCKalTrack;
 	m_KMinusP = MDCKalTrack->p4(MASS::K_MASS);
+	m_DaughterTrackID[KMINUS] = (*Track_iter)->trackId();
       }
     } else if(DTTool.isPion(*Track_iter)) {
       if(MDCKalTrack->charge() == +1) {
 	DaughterTrackIterators[PIPLUS] = Track_iter;
 	KalmanTracks[PIPLUS] = MDCKalTrack;
 	m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
+	m_DaughterTrackID[PIPLUS] = (*Track_iter)->trackId();
       } else if(MDCKalTrack->charge() == -1) {
 	DaughterTrackIterators[PIMINUS] = Track_iter;
 	KalmanTracks[PIMINUS] = MDCKalTrack;
 	m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
+	m_DaughterTrackID[PIMINUS] = (*Track_iter)->trackId();
       }
     }
   }
+  // Prepare tracks for a Kalman kinematic fit
   WTrackParameter WTrackKplus(MASS::K_MASS, KalmanTracks[KPLUS]->getZHelix(), KalmanTracks[KPLUS]->getZError());
   WTrackParameter WTrackKminus(MASS::K_MASS, KalmanTracks[KMINUS]->getZHelix(), KalmanTracks[KMINUS]->getZError());
   WTrackParameter WTrackPIplus(MASS::PI_MASS, KalmanTracks[PIPLUS]->getZHelix(), KalmanTracks[PIPLUS]->getZError());
@@ -65,6 +71,7 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   KalmanFit->AddTrack(KMINUS, WTrackKminus);
   KalmanFit->AddTrack(PIPLUS, WTrackPIplus);
   KalmanFit->AddTrack(PIMINUS, WTrackPIminus);
+  // Do a Kalman kinematic fit where the \f$D\f$ mass is constrained
   KalmanFit->AddResonance(0, MASS::D_MASS, KPLUS, KMINUS, PIPLUS, PIMINUS);
   m_KalmanFitSuccess = KalmanFit->Fit();
   if(m_KalmanFitSuccess) {
@@ -76,6 +83,7 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   }
   double Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_KSFitSuccess = 0;
+  // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
     FindKS findKS(false);
     std::vector<int> PionTrackIDs;
