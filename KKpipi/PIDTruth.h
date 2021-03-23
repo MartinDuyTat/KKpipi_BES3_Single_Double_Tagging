@@ -41,6 +41,6 @@ class PIDTruth {
      * Pointer to the Algorithm object that created this class, need this to access the MC info!
      */
     const Algorithm *m_algorithm;
-}
+};
 
 #endif
