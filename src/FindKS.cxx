@@ -130,8 +130,9 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, std::ve
     m_KSPiMinusPFit = SecondaryVertexFit->wTrackInfit(1).p();
     // Swap pions if charges are the other way around
     if(KSChildKalmanTrack1->charge() < 0) {
-      swap(m_KSPiPlusP, m_KSPiMinusP);
-      swap(m_KSPiPlusPFit, m_KSPiMinusPFit);
+      std::swap(m_KSPiPlusP, m_KSPiMinusP);
+      std::swap(m_KSPiPlusPFit, m_KSPiMinusPFit);
+      std::swap(m_DaughterTrackIDs[0], m_DaughterTrackIDs[1]);
     }
     // Get VertexDbSvc, which determines the average beam position for each run
     IVertexDbSvc *VertexService;
