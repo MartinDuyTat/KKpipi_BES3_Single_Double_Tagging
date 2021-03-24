@@ -187,7 +187,7 @@ StatusCode KpiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTToo
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKpiTagInfo.GetDaughterTrackID(), this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[2] = {321*m_TagKCharge, 211*m_TagPiCharge};
+    int SomeArray[2] = {321*m_KCharge, 211*m_PiCharge};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_KTrueID = ReconstructedPID[0];

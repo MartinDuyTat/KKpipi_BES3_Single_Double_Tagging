@@ -5,6 +5,7 @@
 #include "KKpipi/FindKS.h"
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/PIDTruth.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"

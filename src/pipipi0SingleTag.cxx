@@ -5,6 +5,7 @@
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindKS.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/PIDTruth.h"
 #include "KKpipi/FindPi0Eta.h"
 #include "KKpipi/ParticleMasses.h"
 // Gaudi

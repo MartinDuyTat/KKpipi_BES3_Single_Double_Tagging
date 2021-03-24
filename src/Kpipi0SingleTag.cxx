@@ -4,6 +4,7 @@
 #include "KKpipi/Kpipi0SingleTag.h"
 #include "KKpipi/FindKpiTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/PIDTruth.h"
 #include "KKpipi/FindPi0Eta.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
