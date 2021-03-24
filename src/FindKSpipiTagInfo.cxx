@@ -134,6 +134,10 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   return StatusCode::SUCCESS;
 }
 
+std::vector<int> FindKSpipiTagInfo::GetDaughterTrackID() const {
+  return m_DaughterTrackID;
+}
+
 double FindKSpipiTagInfo::GetDecayLengthVeeVertex() const {
   return m_DecayLengthVeeVertex;
 }

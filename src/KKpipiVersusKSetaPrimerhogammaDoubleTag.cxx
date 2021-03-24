@@ -401,5 +401,19 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
   m_TagGammapy = GammaEnergy*TMath::Sin(GammaTheta)*TMath::Sin(GammaPhi);
   m_TagGammapz = GammaEnergy*TMath::Cos(GammaTheta);
   m_TagGammaenergy = GammaEnergy;
+  if(m_RunNumber < 0) {
+    std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
+    std::vector<int> EtaPDaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();
+    DaughterTrackIDs.insert(DaughterTrackIDs.end(), EtaPDaughterTrackIDs.begin(), EtaPDaughterTrackIDs.end());
+    PIDTruth PID_Truth(DaughterTrackIDs, this);
+    m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[4] = {211, -211, 211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_TagKSPiPlusTrueID = ReconstructedPID[0];
+    m_TagKSPiMinusTrueID = ReconstructedPID[1];
+    m_TagEtaPPiPlusTrueID = ReconstructedPID[2];
+    m_TagEtaPPiMinusTrueID = ReconstructedPID[3];
+  }
   return StatusCode::SUCCESS;
 }
