@@ -246,7 +246,7 @@ StatusCode KSKKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
     PIDTruth PID_Truth(DaughterTrackIDs, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {321, -321, 211, -211};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_KPlusTrueID = ReconstructedPID[0];
     m_KMinusTrueID = ReconstructedPID[1];

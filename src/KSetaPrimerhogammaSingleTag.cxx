@@ -292,7 +292,7 @@ StatusCode KSetaPrimerhogammaSingleTag::FillTuple(DTagToolIterator DTTool_iter, 
     PIDTruth PID_Truth(DaughterTrackIDs, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {211, -211, 211, -211};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_KSPiPlusTrueID = ReconstructedPID[0];
     m_KSPiMinusTrueID = ReconstructedPID[1];
