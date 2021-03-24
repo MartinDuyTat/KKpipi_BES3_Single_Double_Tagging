@@ -134,6 +134,12 @@ StatusCode KSetaPrimepipietaSingleTag::initialize() {
       status = m_tuple->addItem("PiMinuspy", m_PiMinuspy);
       status = m_tuple->addItem("PiMinuspz", m_PiMinuspz);
       status = m_tuple->addItem("PiMinusenergy", m_PiMinusenergy);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
+      status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
+      status = m_tuple->addItem("EtaPPiPlusTrueID", m_EtaPPiPlusTrueID);
+      status = m_tuple->addItem("EtaPPiMinusTrueID", m_EtaPPiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSetaPrime(pipieta) Single Tags" << endmsg;
       return StatusCode::FAILURE;

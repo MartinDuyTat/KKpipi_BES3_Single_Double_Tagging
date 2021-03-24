@@ -114,6 +114,10 @@ StatusCode KSetaSingleTag::initialize() {
       status = m_tuple->addItem("LowEEtaConstrainedpz", m_LowEEtaConstrainedpz);
       status = m_tuple->addItem("LowEEtaConstrainedenergy", m_LowEEtaConstrainedenergy);
       status = m_tuple->addItem("EtaChi2Fit", m_EtaChi2Fit);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
+      status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSeta Single Tags" << endmsg;
       return StatusCode::FAILURE;

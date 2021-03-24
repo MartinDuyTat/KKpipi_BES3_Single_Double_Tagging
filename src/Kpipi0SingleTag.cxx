@@ -101,6 +101,10 @@ StatusCode Kpipi0SingleTag::initialize() {
       status = m_tuple->addItem("LowEPi0Constrainedpz", m_LowEPi0Constrainedpz);
       status = m_tuple->addItem("LowEPi0Constrainedenergy", m_LowEPi0Constrainedenergy);
       status = m_tuple->addItem("Pi0Chi2Fit", m_Pi0Chi2Fit);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KTrueID", m_KTrueID);
+      status = m_tuple->addItem("PiTrueID", m_PiTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for Kpipi0 Single Tags" << endmsg;
       return StatusCode::FAILURE;

@@ -131,6 +131,10 @@ StatusCode KSpi0pi0SingleTag::initialize() {
       status = m_tuple->addItem("LowEPi0Constrainedpz2", m_LowEPi0Constrainedpz2);
       status = m_tuple->addItem("LowEPi0Constrainedenergy2", m_LowEPi0Constrainedenergy2);
       status = m_tuple->addItem("Pi0Chi2Fit2", m_Pi0Chi2Fit2);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
+      status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSpi0pi0 Single Tags" << endmsg;
       return StatusCode::FAILURE;

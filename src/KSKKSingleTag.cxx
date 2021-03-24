@@ -106,6 +106,12 @@ StatusCode KSKKSingleTag::initialize() {
       status = m_tuple->addItem("KMinuspy", m_KMinuspy);
       status = m_tuple->addItem("KMinuspz", m_KMinuspz);
       status = m_tuple->addItem("KMinusenergy", m_KMinusenergy);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
+      status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
+      status = m_tuple->addItem("KPlusTrueID", m_KPlusTrueID);
+      status = m_tuple->addItem("KMinusTrueID", m_KMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSKK Single Tags" << endmsg;
       return StatusCode::FAILURE;

@@ -87,6 +87,10 @@ StatusCode KpiSingleTag::initialize() {
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KTrueID", m_KTrueID);
       status = m_tuple->addItem("PiTrueID", m_PiTrueID);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KTrueID", m_KTrueID);
+      status = m_tuple->addItem("PiTrueID", m_PiTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for Kpi Single Tags" << endmsg;
       return StatusCode::FAILURE;

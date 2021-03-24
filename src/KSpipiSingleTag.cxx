@@ -130,6 +130,12 @@ StatusCode KSpipiSingleTag::initialize() {
       status = m_tuple->addItem("pipiKSDecayLengthErrorFit", m_pipiDecayLengthErrorFit);
       status = m_tuple->addItem("pipiKSChi2Fit", m_pipiChi2Fit);
       status = m_tuple->addItem("pipiKSMassFit", m_pipiKSMassFit);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
+      status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
+      status = m_tuple->addItem("PiPlusTrueID", m_PiPlusTrueID);
+      status = m_tuple->addItem("PiMinusTrueID", m_PiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSpipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
