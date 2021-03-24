@@ -241,7 +241,7 @@ StatusCode KSKKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
   m_KMinusenergy = findKKTagInfo.GethMinusP(3);
   if(m_RunNumber < 0) {
     std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
-    std::vector<int> DaughterTrackIDs = findKKInfo.GetDaughterTrackID();
+    std::vector<int> DaughterTrackIDs = findKKTagInfo.GetDaughterTrackID();
     DaughterTrackIDs.insert(DaughterTrackIDs.end(), KSDaughterTrackIDs.begin(), KSDaughterTrackIDs.end());
     PIDTruth PID_Truth(DaughterTrackIDs, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;

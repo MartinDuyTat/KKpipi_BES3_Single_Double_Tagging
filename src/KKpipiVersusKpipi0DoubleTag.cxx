@@ -336,5 +336,14 @@ StatusCode KKpipiVersusKpipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagLowEPi0Constrainedpz = findPi0.GetLowEPhotonPConstrained(2);
   m_TagLowEPi0Constrainedenergy = findPi0.GetLowEPhotonPConstrained(3);
   m_Pi0Chi2Fit = findPi0.GetChi2Fit();
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKpiTagInfo.GetDaughterTrackID(), this);
+    m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[2] = {321*m_TagKCharge, 211*m_TagPiCharge};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_TagKTrueID = ReconstructedPID[0];
+    m_TagPiTrueID = ReconstructedPID[1];
+  }
   return StatusCode::SUCCESS;
 }
