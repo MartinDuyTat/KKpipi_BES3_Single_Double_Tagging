@@ -4,6 +4,7 @@
 #include "KKpipi/pipiSingleTag.h"
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
+#include "KKpipi/PIDTruth.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -80,6 +81,10 @@ StatusCode pipiSingleTag::initialize() {
       status = m_tuple->addItem("PiMinuspy", m_PiMinuspy);
       status = m_tuple->addItem("PiMinuspz", m_PiMinuspz);
       status = m_tuple->addItem("PiMinusenergy", m_PiMinusenergy);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("PiPlusTrueID", m_PiPlusTrueID);
+      status = m_tuple->addItem("PiMinusTrueID", m_PiMinusTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for pipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -175,5 +180,14 @@ StatusCode pipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
   m_PiMinuspy = findpipiTagInfo.GethMinusP(1);
   m_PiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_PiMinusenergy = findpipiTagInfo.GethMinusP(3);
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findpipiTagInfo.GetDaughterTrackID(), this);
+    m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[2] = {211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_PiPlusTrueID = ReconstructedPID[0];
+    m_PiMinusTrueID = ReconstructedPID[1];
+  }
   return StatusCode::SUCCESS;
 }

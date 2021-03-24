@@ -18,7 +18,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindhhTagInfo::FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs): m_DaughterTrackID(std::vector<int>(2), m_TagMode(TagMode), m_VetoTrackIDs(VetoTrackIDs) {
+FindhhTagInfo::FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs): m_DaughterTrackID(std::vector<int>(2)), m_TagMode(TagMode), m_VetoTrackIDs(VetoTrackIDs) {
 }
 
 FindhhTagInfo::~FindhhTagInfo() {
