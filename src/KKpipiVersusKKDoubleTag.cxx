@@ -303,8 +303,6 @@ StatusCode KKpipiVersusKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_ite
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_TagKPlusTrueID = ReconstructedPID[0];
     m_TagKMinusTrueID = ReconstructedPID[1];
-    m_TagPiPlusTrueID = ReconstructedPID[2];
-    m_TagPiMinusTrueID = ReconstructedPID[3];
   }
   return StatusCode::SUCCESS;
 }
