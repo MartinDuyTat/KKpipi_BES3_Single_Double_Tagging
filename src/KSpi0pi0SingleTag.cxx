@@ -285,5 +285,14 @@ StatusCode KSpi0pi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &
   m_LowEPi0Constrainedpz2 = findPi0.GetLowEPhotonPConstrained(2, 1);
   m_LowEPi0Constrainedenergy2 = findPi0.GetLowEPhotonPConstrained(3, 1);
   m_Pi0Chi2Fit2 = findPi0.GetChi2Fit(1);
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKS.GetDaughterTrackIDs(), this);
+    m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[2] = {211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_KSPiPlusTrueID = ReconstructedPID[0];
+    m_KSPiMinusTrueID = ReconstructedPID[1];
+  }
   return StatusCode::SUCCESS;
 }

@@ -251,5 +251,14 @@ StatusCode KSetaSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTT
   m_LowEEtaConstrainedpz = findEta.GetLowEPhotonPConstrained(2);
   m_LowEEtaConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
   m_EtaChi2Fit = findEta.GetChi2Fit();
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKS.GetDaughterTrackIDs(), this);
+    m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[2] = {211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_KSPiPlusTrueID = ReconstructedPID[0];
+    m_KSPiMinusTrueID = ReconstructedPID[1];
+  }
   return StatusCode::SUCCESS;
 }
