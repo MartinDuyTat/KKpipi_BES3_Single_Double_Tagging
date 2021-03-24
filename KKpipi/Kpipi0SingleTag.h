@@ -248,6 +248,22 @@ class Kpipi0SingleTag: public Algorithm {
      * \f$\pi^0\f$ kinematic fit \f$\chi^2\f$
      */
     NTuple::Item<double> m_Pi0Chi2Fit;
+    /**
+     * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_IsSameDMother;
+    /**
+     * Equal to 1 if the daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_PIDTrue;
+    /**
+     * The \f$K\f$ true PID
+     */
+    NTuple::Item<int> m_KTrueID;
+    /**
+     * The \f$\pi\f$ true PID
+     */
+    NTuple::Item<int> m_PiTrueID;
 };
 
 #endif

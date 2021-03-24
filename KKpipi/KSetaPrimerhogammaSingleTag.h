@@ -316,6 +316,30 @@ class KSetaPrimerhogammaSingleTag: public Algorithm {
      * Number of showers in the event (should be 1 for this tag mode)
      */
     NTuple::Item<int> m_NumberShowers;
+    /**
+     * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_IsSameDMother;
+    /**
+     * Equal to 1 if the daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_PIDTrue;
+    /**
+     * The \f$\pi^+\f$ from \f$K_S^0\f$ true PID
+     */
+    NTuple::Item<int> m_KSPiPlusTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$K_S^0\f$ true PID
+     */
+    NTuple::Item<int> m_KSPiMinusTrueID;
+    /**
+     * The \f$\pi^+\f$ from \f$\eta'\f$ true PID
+     */
+    NTuple::Item<int> m_EtaPPiPlusTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$\eta'\f$ true PID
+     */
+    NTuple::Item<int> m_EtaPPiMinusTrueID;
 };
 
 #endif

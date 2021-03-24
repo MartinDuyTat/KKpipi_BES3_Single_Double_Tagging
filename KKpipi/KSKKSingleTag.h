@@ -264,6 +264,30 @@ class KSKKSingleTag: public Algorithm {
      * \f$K^-\f$ energy
      */
     NTuple::Item<double> m_KMinusenergy;
+    /**
+     * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_IsSameDMother;
+    /**
+     * Equal to 1 if the daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_PIDTrue;
+    /**
+     * The \f$\pi^+\f$ from \f$K_S^0\f$ true PID
+     */
+    NTuple::Item<int> m_KSPiPlusTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$K_S^0\f$ true PID
+     */
+    NTuple::Item<int> m_KSPiMinusTrueID;
+    /**
+     * The \f$K^+\f$ true PID
+     */
+    NTuple::Item<int> m_KPlusTrueID;
+    /**
+     * The \f$K^-\f$ true PID
+     */
+    NTuple::Item<int> m_KMinusTrueID;
 };
 
 #endif
