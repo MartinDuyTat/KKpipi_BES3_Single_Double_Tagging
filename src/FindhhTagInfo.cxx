@@ -18,7 +18,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindhhTagInfo::FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs): m_TagMode(TagMode), m_VetoTrackIDs(VetoTrackIDs) {
+FindhhTagInfo::FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs): m_DaughterTrackID(std::vector<int>(2), m_TagMode(TagMode), m_VetoTrackIDs(VetoTrackIDs) {
 }
 
 FindhhTagInfo::~FindhhTagInfo() {
@@ -35,20 +35,28 @@ StatusCode FindhhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagToo
     if(m_TagMode == "KK") {
       if(DTTool.isKaon(*Track_iter) && MDCKalTrack->charge() > 0) {
 	m_hPlusP = MDCKalTrack->p4(MASS::K_MASS);
+	m_DaughterTrackID[0] = (*Track_iter)->trackId();
       } else if(DTTool.isKaon(*Track_iter) && MDCKalTrack->charge() < 0) {
 	m_hMinusP = MDCKalTrack->p4(MASS::K_MASS);
+	m_DaughterTrackID[1] = (*Track_iter)->trackId();
       }
     } else if(m_TagMode == "pipi") {
       if(DTTool.isPion(*Track_iter) && MDCKalTrack->charge() > 0) {
 	m_hPlusP = MDCKalTrack->p4(MASS::PI_MASS);
 	m_PiPlusTrackID = (*Track_iter)->trackId();
+	m_DaughterTrackID[0] = (*Track_iter)->trackId();
       } else if(DTTool.isPion(*Track_iter) && MDCKalTrack->charge() < 0) {
 	m_hMinusP = MDCKalTrack->p4(MASS::PI_MASS);
 	m_PiMinusTrackID = (*Track_iter)->trackId();
+	m_DaughterTrackID[1] = (*Track_iter)->trackId();
       }
     }
   }
   return StatusCode::SUCCESS;
+}
+
+std::vector<int> FindhhTagInfo::GetDaughterTrackID() const {
+  return m_DaughterTrackID;
 }
 
 double FindhhTagInfo::GethPlusP(int i) const {
