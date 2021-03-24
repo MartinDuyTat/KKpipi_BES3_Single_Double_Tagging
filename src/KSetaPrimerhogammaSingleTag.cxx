@@ -285,5 +285,19 @@ StatusCode KSetaPrimerhogammaSingleTag::FillTuple(DTagToolIterator DTTool_iter, 
   m_Gammapy = GammaEnergy*TMath::Sin(GammaTheta)*TMath::Sin(GammaPhi);
   m_Gammapz = GammaEnergy*TMath::Cos(GammaTheta);
   m_Gammaenergy = GammaEnergy;
+  if(m_RunNumber < 0) {
+    std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
+    std::vector<int> EtaPDaughterTrackIDs = findpipiInfo.GetDaughterTrackID();
+    DaughterTrackIDs.insert(DaughterTrackIDs.end(), EtaPDaughterTrackIDs.begin(), EtaPDaughterTrackIDs.end());
+    PIDTruth PID_Truth(DaughterTrackIDs, this);
+    m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[4] = {211, -211, 211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_KSPiPlusTrueID = ReconstructedPID[0];
+    m_KSPiMinusTrueID = ReconstructedPID[1];
+    m_EtaPPiPlusTrueID = ReconstructedPID[2];
+    m_EtaPPiMinusTrueID = ReconstructedPID[3];
+  }
   return StatusCode::SUCCESS;
 }

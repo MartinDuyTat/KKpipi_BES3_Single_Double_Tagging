@@ -284,5 +284,16 @@ StatusCode KSpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_pipiDecayLengthErrorFit = findKSpipiTagInfo.GetpipiDecayLengthErrorFit();
   m_pipiChi2Fit = findKSpipiTagInfo.GetpipiChi2Fit();
   m_pipiKSMassFit = findKSpipiTagInfo.GetpipiKSMassFit();
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKSpipiTagInfo.GetDaughterTrackID(), this);
+    m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[4] = {211, -211, 211, -211};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_KSPiPlusTrueID = ReconstructedPID[0];
+    m_KSPiMinusTrueID = ReconstructedPID[1];
+    m_PiPlusTrueID = ReconstructedPID[2];
+    m_PiMinusTrueID = ReconstructedPID[3];
+  }
   return StatusCode::SUCCESS;
 }

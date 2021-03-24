@@ -36,6 +36,10 @@ class FindKSpipiTagInfo {
      */
     StatusCode CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool);
     /**
+     * Get the daughter track IDs, in the order (pi+ pi-)KS pi+ pi-
+     */
+    std::vector<int> GetDaughterTrackID() const;
+    /**
      * Enumeration to label daughter particles in the order K+ K- pi+ pi-
      */
     enum DaughterParticle {PIPLUS, PIMINUS, KSHORT};
@@ -154,6 +158,10 @@ class FindKSpipiTagInfo {
      */
     double GetpipiKSMassFit() const;
   private:
+    /**
+     * Daughter track IDs, in the order (pi+ pi-)KS pi+ pi-
+     */
+    std::vector<int> m_DaughterTrackID;
     /**
      * The \f$K_S\f$ decay length, from VeeVertexAlg
      */

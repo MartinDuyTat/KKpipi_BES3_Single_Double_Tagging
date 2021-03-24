@@ -24,7 +24,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKSpipiTagInfo::FindKSpipiTagInfo(): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0), m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_pipiKSFitSuccess(0), m_pipiDecayLengthVeeVertex(0.0), m_pipiChi2VeeVertex(0.0), m_pipiKSMassVeeVertex(0.0), m_pipiDecayLengthFit(0.0), m_pipiDecayLengthErrorFit(0.0), m_pipiChi2Fit(0.0), m_pipiKSMassFit(0.0) {
+FindKSpipiTagInfo::FindKSpipiTagInfo(): m_DaughterTrackID(std::vector<int>(4)), m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0), m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_pipiKSFitSuccess(0), m_pipiDecayLengthVeeVertex(0.0), m_pipiChi2VeeVertex(0.0), m_pipiKSMassVeeVertex(0.0), m_pipiDecayLengthFit(0.0), m_pipiDecayLengthErrorFit(0.0), m_pipiChi2Fit(0.0), m_pipiKSMassFit(0.0) {
 }
 
 FindKSpipiTagInfo::~FindKSpipiTagInfo() {
@@ -52,6 +52,8 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   m_KShortP = findKS.GetKShortPFit();
   // Get the track ID of the KS daughters
   std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
+  m_DaughterTrackID[0] = KSDaughterTrackIDs[0];
+  m_DaughterTrackID[1] = KSDaughterTrackIDs[1];
   // Get all tracks
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   std::vector<SmartRefVector<EvtRecTrack>::iterator> DaughterTrackIterators(2); // In the order pi+ pi-
@@ -71,10 +73,12 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
 	DaughterTrackIterators[PIPLUS] = Track_iter;
 	KalmanTracks[PIPLUS] = MDCKalTrack;
 	m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
+	m_DaughterTrackID[2] = (*Track_iter)->trackId();
       } else if(MDCKalTrack->charge() == -1) {
 	DaughterTrackIterators[PIMINUS] = Track_iter;
 	KalmanTracks[PIMINUS] = MDCKalTrack;
 	m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
+	m_DaughterTrackID[3] = (*Track_iter)->trackId();
       }
     }
   }
