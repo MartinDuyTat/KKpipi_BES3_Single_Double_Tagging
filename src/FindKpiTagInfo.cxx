@@ -17,7 +17,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKpiTagInfo::FindKpiTagInfo(): m_KCharge(0), m_PiCharge(0) {
+FindKpiTagInfo::FindKpiTagInfo(): m_DaughterTrackID(std::vector<int>(2)), m_KCharge(0), m_PiCharge(0) {
 }
 
 FindKpiTagInfo::~FindKpiTagInfo() {
@@ -30,12 +30,19 @@ StatusCode FindKpiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTo
     if(DTTool.isKaon(*Track_iter)) {
       m_KP = MDCKalTrack->p4(MASS::K_MASS);
       m_KCharge = MDCKalTrack->charge();
+      m_DaughterTrackID[0] = (*Track_iter)->trackId();
+      
     } else if(DTTool.isPion(*Track_iter)) {
       m_PiP = MDCKalTrack->p4(MASS::PI_MASS);
       m_PiCharge = MDCKalTrack->charge();
+      m_DaughterTrackID[1] = (*Track_iter)->trackId();
     }
   }
   return StatusCode::SUCCESS;
+}
+
+std::vector<int> FindKpiTagInfo::GetDaughterTrackID() const {
+  return m_DaughterTrackID;
 }
 
 double FindKpiTagInfo::GetKP(int i) const {

@@ -34,6 +34,10 @@ class FindKpiTagInfo {
      */
     StatusCode CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool);
     /**
+     * Get the daughter track IDs
+     */
+    std::vector<int> GetDaughterTrackID() const;
+    /**
      * Get \f$K\f$ momentum component
      * @param i Component
      */
@@ -52,6 +56,10 @@ class FindKpiTagInfo {
      */
     int GetPiCharge() const;
   private:
+    /**
+     * Daughter track IDs
+     */
+    std::vector<int> m_DaughterTrackID;
     /**
      * \f$K\f$ four-momentum
      */

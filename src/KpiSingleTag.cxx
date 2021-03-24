@@ -82,6 +82,10 @@ StatusCode KpiSingleTag::initialize() {
       status = m_tuple->addItem("Pipz", m_Pipz);
       status = m_tuple->addItem("Pienergy", m_Pienergy);
       status = m_tuple->addItem("PiCharge", m_PiCharge);
+      status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("PIDTrue", m_PIDTrue);
+      status = m_tuple->addItem("KTrueID", m_KTrueID);
+      status = m_tuple->addItem("PiTrueID", m_PiTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for Kpi Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -179,5 +183,14 @@ StatusCode KpiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTToo
   m_Pipz = findKpiTagInfo.GetPiP(2);
   m_Pienergy = findKpiTagInfo.GetPiP(3);
   m_PiCharge = findKpiTagInfo.GetPiCharge();
+  if(m_RunNumber < 0) {
+    PIDTruth PID_Truth(findKpiTagInfo.GetDaughterTrackID(), this);
+    m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[2] = {321*m_TagKCharge, 211*m_TagPiCharge};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
+    m_KTrueID = ReconstructedPID[0];
+    m_PiTrueID = ReconstructedPID[1];
+  }
   return StatusCode::SUCCESS;
 }
