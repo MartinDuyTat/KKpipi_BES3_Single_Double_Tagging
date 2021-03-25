@@ -1,21 +1,20 @@
 #include "GaudiKernel/DeclareFactoryEntries.h"
 #include "KKpipi/KKpipi.h"
-#include "KKpipi/KKpipiSingleTag.h"
-#include "KKpipi/KKpipiVersusKpiDoubleTag.h"
-#include "KKpipi/KKpipiVersusKpipi0DoubleTag.h"
 #include "KKpipi/KKpipiVersusKKDoubleTag.h"
 #include "KKpipi/KKpipiVersuspipiDoubleTag.h"
+#include "KKpipi/KKpipiVersusKpiDoubleTag.h"
+#include "KKpipi/KKpipiVersusKpipi0DoubleTag.h"
 #include "KKpipi/KKpipiVersuspipipi0DoubleTag.h"
 #include "KKpipi/KKpipiVersusKSpi0DoubleTag.h"
 #include "KKpipi/KKpipiVersusKSpi0pi0DoubleTag.h"
 #include "KKpipi/KKpipiVersusKSetaDoubleTag.h"
-#include "KKpipi/KKpipiVersusKSpipipi0DoubleTag.h"
-#include "KKpipi/KKpipiVersusKSKKDoubleTag.h"
 #include "KKpipi/KKpipiVersusKSetaPrimepipietaDoubleTag.h"
 #include "KKpipi/KKpipiVersusKSetaPrimerhogammaDoubleTag.h"
+#include "KKpipi/KKpipiVersusKSpipipi0DoubleTag.h"
+#include "KKpipi/KKpipiVersusKSKKDoubleTag.h"
+#include "KKpipi/KKpipiVersusKSpipiDoubleTag.h"
 #include "KKpipi/KKpipiVersusKKpipiDoubleTag.h"
 #include "KKpipi/KKpipiVersusKpipipiDoubleTag.h"
-#include "KKpipi/KKpipiVersusKSpipiDoubleTag.h"
 #include "KKpipi/KKSingleTag.h"
 #include "KKpipi/pipiSingleTag.h"
 #include "KKpipi/KpiSingleTag.h"
@@ -29,6 +28,8 @@
 #include "KKpipi/KSpipipi0SingleTag.h"
 #include "KKpipi/KSKKSingleTag.h"
 #include "KKpipi/KSpipiSingleTag.h"
+#include "KKpipi/KKpipiSingleTag.h"
+#include "KKpipi/KpipipiSingleTag.h"
 
 DECLARE_ALGORITHM_FACTORY(KKpipi)
 DECLARE_ALGORITHM_FACTORY(KKpipiVersusKKDoubleTag)
@@ -60,6 +61,7 @@ DECLARE_ALGORITHM_FACTORY(KSpipipi0SingleTag)
 DECLARE_ALGORITHM_FACTORY(KSKKSingleTag)
 DECLARE_ALGORITHM_FACTORY(KSpipiSingleTag)
 DECLARE_ALGORITHM_FACTORY(KKpipiSingleTag)
+DECLARE_ALGORITHM_FACTORY(KpipipiSingleTag)
 
 DECLARE_FACTORY_ENTRIES(KKpipi) {
   DECLARE_ALGORITHM(KKpipi)
