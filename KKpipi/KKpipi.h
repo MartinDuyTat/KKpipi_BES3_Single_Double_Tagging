@@ -151,6 +151,14 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KKpipiSingleTag;
     /**
+     * \f$K\pi\pi\pi\f$ tag mode
+     */
+    Algorithm *m_KpipipiTag;
+    /**
+     * \f$K\pi\pi\pi\f$ tag mode, single tag
+     */
+    Algorithm *m_KpipipiSingleTag;
+    /**
      * Turn on \f$K\pi\f$ tag mode
      */
     bool m_recKpiTag;
@@ -206,6 +214,10 @@ class KKpipi: public Algorithm {
      * Turn on \f$K_S\pi\pi\f$ tag mode
      */
     bool m_recKSpipiTag;
+    /**
+     * Turn on \f$K\pi\pi\pi\f$ tag mode
+     */
+    bool m_recKpipipiTag;
 };
 
 #endif
