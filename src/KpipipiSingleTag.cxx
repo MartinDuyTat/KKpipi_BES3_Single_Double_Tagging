@@ -111,10 +111,10 @@ StatusCode KpipipiSingleTag::initialize() {
       status = m_tuple->addItem("13KSMassFit", m_13KSMassFit);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
-      status = m_tuple->addItem("KTrueID", m_KPlusTrueID);
-      status = m_tuple->addItem("Pi1TrueID", m_KMinusTrueID);
-      status = m_tuple->addItem("Pi2TrueID", m_PiPlusTrueID);
-      status = m_tuple->addItem("Pi3TrueID", m_PiMinusTrueID);
+      status = m_tuple->addItem("KTrueID", m_KTrueID);
+      status = m_tuple->addItem("Pi1TrueID", m_Pi1TrueID);
+      status = m_tuple->addItem("Pi2TrueID", m_Pi2TrueID);
+      status = m_tuple->addItem("Pi3TrueID", m_Pi3TrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for Kpipipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -219,9 +219,9 @@ StatusCode KpipipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   m_Pi3pz = findKpipipiTagInfo.GetPi3P(2);
   m_Pi3energy = findKpipipiTagInfo.GetPi3P(3);
   m_KCharge = findKpipipiTagInfo.GetKCharge();
-  m_Pi1Charge = findPi1pipipiTagInfo.GetPi1Charge();
-  m_Pi2Charge = findPi1pipipiTagInfo.GetPi2Charge();
-  m_Pi3Charge = findPi1pipipiTagInfo.GetPi3Charge();
+  m_Pi1Charge = findKpipipiTagInfo.GetPi1Charge();
+  m_Pi2Charge = findKpipipiTagInfo.GetPi2Charge();
+  m_Pi3Charge = findKpipipiTagInfo.GetPi3Charge();
   m_12KSFitSuccess = findKpipipiTagInfo.GetKSFitSuccess12();
   m_12DecayLengthVeeVertex = findKpipipiTagInfo.GetDecayLengthVeeVertex12();
   m_12Chi2VeeVertex = findKpipipiTagInfo.GetChi2VeeVertex12();
