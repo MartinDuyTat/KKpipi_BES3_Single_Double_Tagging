@@ -321,7 +321,7 @@ StatusCode KKpipiVersusKpipipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signa
     m_SignalPiMinusTrueID = ReconstructedPID[3];
   }
   // Do the same on the tag side
-  FindKpipipiTagInfo = findKpipipiTagInfo;
+  FindKpipipiTagInfo findKpipipiTagInfo;
   status = findKpipipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
@@ -340,12 +340,12 @@ StatusCode KKpipiVersusKpipipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_TagPi2py = findKpipipiTagInfo.GetPi2P(1);
   m_TagPi2pz = findKpipipiTagInfo.GetPi2P(2);
   m_TagPi2energy = findKpipipiTagInfo.GetPi2P(3);
-  m_TagPiCharge = findKpipipiTagInfo.GetPi2Charge();
+  m_TagPi2Charge = findKpipipiTagInfo.GetPi2Charge();
   m_TagPi3px = findKpipipiTagInfo.GetPi3P(0);
   m_TagPi3py = findKpipipiTagInfo.GetPi3P(1);
   m_TagPi3pz = findKpipipiTagInfo.GetPi3P(2);
   m_TagPi3energy = findKpipipiTagInfo.GetPi3P(3);
-  m_TagPiCharge = findKpipipiTagInfo.GetPi3Charge();
+  m_TagPi3Charge = findKpipipiTagInfo.GetPi3Charge();
   m_Tag12KSFitSuccess = findKpipipiTagInfo.GetKSFitSuccess12();
   m_Tag12DecayLengthVeeVertex = findKpipipiTagInfo.GetDecayLengthVeeVertex12();
   m_Tag12Chi2VeeVertex = findKpipipiTagInfo.GetChi2VeeVertex12();
