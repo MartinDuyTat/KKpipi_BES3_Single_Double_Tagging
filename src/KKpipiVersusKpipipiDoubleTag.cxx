@@ -2,6 +2,7 @@
 
 // KKpipi
 #include "KKpipi/KKpipiVersusKpipipiDoubleTag.h"
+#include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindKpipipiTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/PIDTruth.h"
@@ -334,7 +335,7 @@ StatusCode KKpipiVersusKpipipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_TagPi1py = findKpipipiTagInfo.GetPi1P(1);
   m_TagPi1pz = findKpipipiTagInfo.GetPi1P(2);
   m_TagPi1energy = findKpipipiTagInfo.GetPi1P(3);
-  m_TagPiCharge = findKpipipiTagInfo.GetPi1Charge();
+  m_TagPi1Charge = findKpipipiTagInfo.GetPi1Charge();
   m_TagPi2px = findKpipipiTagInfo.GetPi2P(0);
   m_TagPi2py = findKpipipiTagInfo.GetPi2P(1);
   m_TagPi2pz = findKpipipiTagInfo.GetPi2P(2);
@@ -367,10 +368,10 @@ StatusCode KKpipiVersusKpipipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signa
     int SomeArray[4] = {321*m_TagKCharge, 211*m_TagPi1Charge, 211*m_TagPi2Charge, 211*m_TagPi3Charge};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
-    m_TagKPlusTrueID = ReconstructedPID[0];
-    m_TagKMinusTrueID = ReconstructedPID[1];
-    m_TagPiPlusTrueID = ReconstructedPID[2];
-    m_TagPiMinusTrueID = ReconstructedPID[3];
+    m_TagKTrueID = ReconstructedPID[0];
+    m_TagPi1TrueID = ReconstructedPID[1];
+    m_TagPi2TrueID = ReconstructedPID[2];
+    m_TagPi3TrueID = ReconstructedPID[3];
   }
   return StatusCode::SUCCESS;
 }
