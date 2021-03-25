@@ -208,19 +208,19 @@ class KpipipiSingleTag: public Algorithm {
     /**
      * \f$K\f$ charge
      */
-    NTuple::item<int> m_KCharge;
+    NTuple::Item<int> m_KCharge;
     /**
      * \f$\pi\f$ charge
      */
-    NTuple::item<int> m_Pi1Charge;
+    NTuple::Item<int> m_Pi1Charge;
     /**
      * \f$\pi\f$ charge
      */
-    NTuple::item<int> m_Pi2Charge;
+    NTuple::Item<int> m_Pi2Charge;
     /**
      * \f$\pi\f$ charge
      */
-    NTuple::item<int> m_Pi3Charge;
+    NTuple::Item<int> m_Pi3Charge;
     /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
      */
