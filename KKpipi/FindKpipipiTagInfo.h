@@ -110,6 +110,10 @@ class FindKpipipiTagInfo {
      */
     double GetKSMassFit12() const;
     /**
+     * Get flag of \f$K_S^0\f$ fit success of tracks
+     */
+    int GetKSFitSuccess13() const;
+    /**
      * Get the \f$K_S\f$ decay length, from VeeVertexAlg
      */
     double GetDecayLengthVeeVertex13() const;
