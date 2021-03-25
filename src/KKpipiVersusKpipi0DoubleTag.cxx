@@ -231,6 +231,11 @@ StatusCode KKpipiVersusKpipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal
       m_TruePz[i] = findMCInfo.GetTruePz(i);
       m_TrueEnergy[i] = findMCInfo.GetTrueEnergy(i);
     }
+    m_NumberParticlesStripped = findMCInfo.GetNumberParticlesStripped();
+    for(int i = 0; i < m_NumberParticlesStripped; i++) {
+      m_pdgIDStripped[i] = findMCInfo.GetpdgIDStripped(i);
+      m_MotherIndexStripped[i] = findMCInfo.GetMotherIndexStripped(i);
+    }
   }
   m_SignalDMass = (*DTTool_Signal_iter)->mass();
   m_SignalMBC = (*DTTool_Signal_iter)->mBC();
