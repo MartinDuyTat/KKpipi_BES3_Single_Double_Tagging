@@ -58,6 +58,9 @@ StatusCode KKpipiVersusKSpipiDoubleTag::initialize() {
       status = m_tuple->addItem("NumberOfParticles", m_NumberParticles, 0, 100);
       status = m_tuple->addIndexedItem("ParticleIDs", m_NumberParticles, m_pdgID);
       status = m_tuple->addIndexedItem("MotherIndex", m_NumberParticles, m_MotherIndex);
+      status = m_tuple->addItem("NumberOfParticlesStripped", m_NumberParticlesStripped, 0, 100);
+      status = m_tuple->addIndexedItem("ParticleIDsStripped", m_NumberParticlesStripped, m_pdgIDStripped);
+      status = m_tuple->addIndexedItem("MotherIndexStripped", m_NumberParticlesStripped, m_MotherIndexStripped);
       status = m_tuple->addItem("MCmode", m_MCmode);
       status = m_tuple->addIndexedItem("True_Px", m_NumberParticles, m_TruePx);
       status = m_tuple->addIndexedItem("True_Py", m_NumberParticles, m_TruePy);
