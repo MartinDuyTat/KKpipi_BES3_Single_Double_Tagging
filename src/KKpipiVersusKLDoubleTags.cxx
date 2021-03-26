@@ -415,14 +415,14 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
 void KKpipiVersusKLDoubleTags::FillMissingMassEnergy() {
   double Pi0Energy = 0.0, Pi0Px = 0.0, Pi0Py = 0.0, Pi0Pz = 0.0;
   for(int j = 0; j < m_TagNumberPi0; j++) {
-    Pi0Energy += m_TagPi0HighEPhotonenergy[j] + TagPi0LowEPhotonenergy[j];
+    Pi0Energy += m_TagPi0HighEPhotonenergy[j] + m_TagPi0LowEPhotonenergy[j];
     Pi0Px += m_TagPi0HighEPhotonpx[j] + m_TagPi0LowEPhotonpx[j];
     Pi0Py += m_TagPi0HighEPhotonpy[j] + m_TagPi0LowEPhotonpy[j];
     Pi0Pz += m_TagPi0HighEPhotonpz[j] + m_TagPi0LowEPhotonpz[j];
   }
   double EtaEnergy = 0.0, EtaPx = 0.0, EtaPy = 0.0, EtaPz = 0.0;
   for(int j = 0; j < m_TagNumberEta; j++) {
-    EtaEnergy += m_TagEtaHighEPhotonenergy[j] + TagEtaLowEPhotonenergy[j];
+    EtaEnergy += m_TagEtaHighEPhotonenergy[j] + m_TagEtaLowEPhotonenergy[j];
     EtaPx += m_TagEtaHighEPhotonpx[j] + m_TagEtaLowEPhotonpx[j];
     EtaPy += m_TagEtaHighEPhotonpy[j] + m_TagEtaLowEPhotonpy[j];
     EtaPz += m_TagEtaHighEPhotonpz[j] + m_TagEtaLowEPhotonpz[j];
