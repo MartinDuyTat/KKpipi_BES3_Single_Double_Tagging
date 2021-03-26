@@ -2,6 +2,8 @@
 
 // KKpipi
 #include "KKpipi/KKpipiUtilities.h"
+// ROOT
+#include "TMath.h"
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
 

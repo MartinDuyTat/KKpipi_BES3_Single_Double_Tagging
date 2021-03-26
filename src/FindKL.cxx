@@ -62,8 +62,8 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     log << MSG::ERROR << "EvtRecPi0Col not found" << endreq;
   }
   // Prepare eta service
-  SmartDataPtr<EvtRecEtaToGGCol> evtRecEtaToGG(EventDataService, "/Event/EvtRec/EvtRecEtaToGGCol");
-  if(!evtRecEtaToGG) {
+  SmartDataPtr<EvtRecEtaToGGCol> evtRecEtaToGGCol(EventDataService, "/Event/EvtRec/EvtRecEtaToGGCol");
+  if(!evtRecEtaToGGCol) {
     log << MSG::ERROR << "EvtRecEtaToGGCol not found" << endreq;
   }
   // Get tracks on the other side of the reconstructed D meson
@@ -78,10 +78,10 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     if(DTTool.isPion(*Track_iter)) {
       RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
       MDCKalTrack->setPidType(RecMdcKalTrack::pion);
-      if(MDCKalTrack->charge() = +1) {
+      if(MDCKalTrack->charge() == +1) {
 	NumberPiPlusTracks++;
 	m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
-      } else if(MDCKalTrack->charge() = -1) {
+      } else if(MDCKalTrack->charge() == -1) {
 	NumberPiMinusTracks++;
 	m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
       }
@@ -178,7 +178,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   // Get showers on the other side of the reconstructed D meson
   SmartRefVector<EvtRecTrack> OtherShowers = (*DTTool_iter)->otherShowers();
   // Loop over all showers to find photons
-  for(SmartRefVector<EvtRecTrack>::iterator Shower_iter = OtherShowers->begin(); Shower_iter != OtherShowers.end(); Shower_iter++) {
+  for(SmartRefVector<EvtRecTrack>::iterator Shower_iter = OtherShowers.begin(); Shower_iter != OtherShowers.end(); Shower_iter++) {
     // Check if shower is valid
     if(!(*Shower_iter)->isEmcShowerValid()) {
       continue;
@@ -204,7 +204,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     double Angle = 2*TMath::Pi();
     // Loop over all charged tracks
     for(int j = 0; j < evtRecEvent->totalCharged(); j++) {
-      EvtRecTrackIterator Track_iter = EvtRecTrackCol.begin() + j;
+      EvtRecTrackIterator Track_iter = evtRecTrackCol.begin() + j;
       // Check if track is valid
       if(!(*Track_iter)->isExtTrackValid()) {
 	continue;

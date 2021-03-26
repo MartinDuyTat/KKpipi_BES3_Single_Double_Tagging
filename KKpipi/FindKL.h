@@ -38,7 +38,7 @@ class FindKL {
     /**
      * Flag that is 1 if a \f$\pi^\pi^-\f$ pair is found
      */
-    int FoundPionPair;
+    int m_FoundPionPair;
     /**
      * The \f$\pi^+\f$ four-momentum vector on the other side
      */
