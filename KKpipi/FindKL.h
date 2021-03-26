@@ -98,7 +98,7 @@ class FindKL {
     /**
      * Vector of all single photon energy
      */
-    std::vector<double> m_PhotonEnergy
+    std::vector<double> m_PhotonEnergy;
     /**
      * Vector of all single photon angular separation from the nearest track
      */

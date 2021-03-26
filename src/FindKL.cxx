@@ -1,8 +1,9 @@
 // Martin Duy Tat 25th March 2021, based on code by Yu Zhang
 
-// Header file
+// KKpipi file
 #include "KKpipi/FindKL.h"
 #include "KKpipi/ParticleMasses.h"
+#include "KKpipi/KKpipiUtilities.h"
 // Gaudi
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
@@ -51,8 +52,8 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     log << MSG::ERROR << "EvtRecEvent not found" << endreq;
   }
   // Prepare event tracks service
-  SmartDataPtr<EvtRecTracCol> evtRecTrkCol(EventDataService, "/Event/EvtRec/EvtRecTrackCol");
-  if(!evtRecTrkCol) {
+  SmartDataPtr<EvtRecTrackCol> evtRecTrackCol(EventDataService, "/Event/EvtRec/EvtRecTrackCol");
+  if(!evtRecTrackCol) {
     log << MSG::ERROR << "EvtRecTrackCol not found" << endreq;
   }
   // Prepare pi0 service
@@ -77,10 +78,10 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     if(DTTool.isPion(*Track_iter)) {
       RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
       MDCKalTrack->setPidType(RecMdcKalTrack::pion);
-      if(MDCKalTrack->charge = +1) {
+      if(MDCKalTrack->charge() = +1) {
 	NumberPiPlusTracks++;
 	m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
-      } else if(MDCKalTrack->charge = -1) {
+      } else if(MDCKalTrack->charge() = -1) {
 	NumberPiMinusTracks++;
 	m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
       }
@@ -94,7 +95,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
       return StatusCode::FAILURE;
     }
   } else {
-    return Statuscode::FAILURE;
+    return StatusCode::FAILURE;
   }
   // Check if there are any showers already present on the reconstructed side
   bool ShowersUsed;
@@ -113,7 +114,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     ShowersUsed = true;
   }
   // Look for pi0
-  for(EvtRecPi0Col::iterator Pi0_iter = RecPi0Col->begin(); Pi0_iter != RecPi0Col->end(); Pi0_iter++) {
+  for(EvtRecPi0Col::iterator Pi0_iter = evtRecPi0Col->begin(); Pi0_iter != evtRecPi0Col->end(); Pi0_iter++) {
     // Get photon tracks...?
     EvtRecTrack *HighEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Pi0_iter)->hiEnGamma());
     EvtRecTrack *LowEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Pi0_iter)->loEnGamma());
@@ -146,7 +147,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     return StatusCode::FAILURE;
   }
   // Look for eta
-  for(EvtRecEtaToGGCol::iterator Eta_iter = RecEtaToGGCol->begin(); Eta_iter != RecEtaToGGCol->end(); Eta_iter++) {
+  for(EvtRecEtaToGGCol::iterator Eta_iter = evtRecEtaToGGCol->begin(); Eta_iter != evtRecEtaToGGCol->end(); Eta_iter++) {
     // Get photon tracks...?
     EvtRecTrack *HighEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Eta_iter)->hiEnGamma());
     EvtRecTrack *LowEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Eta_iter)->loEnGamma());
@@ -169,15 +170,15 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_EtaHighEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi()));
     m_EtaLowEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi()));
     // Get kinematically constrained four-momenta of photons
-    m_EtaHighEPhotonPConstrained.push_back((*Pi0_iter)->hiPfit());
-    m_EtaLowEPhotonPConstrained.push_back((*Pi0_iter)->loPfit());
-    m_EtaChi2Fit.push_back((*Pi0_iter)->chisq());
+    m_EtaHighEPhotonPConstrained.push_back((*Eta_iter)->hiPfit());
+    m_EtaLowEPhotonPConstrained.push_back((*Eta_iter)->loPfit());
+    m_EtaChi2Fit.push_back((*Eta_iter)->chisq());
     m_NumberEta++;
   }
   // Get showers on the other side of the reconstructed D meson
   SmartRefVector<EvtRecTrack> OtherShowers = (*DTTool_iter)->otherShowers();
   // Loop over all showers to find photons
-  for(SmartRefVector<EvtRecTrack::iterator Shower_iter = OtherShowers->begin(); Shower_iter != OtherShowers.end(); Shower_iter++) {
+  for(SmartRefVector<EvtRecTrack>::iterator Shower_iter = OtherShowers->begin(); Shower_iter != OtherShowers.end(); Shower_iter++) {
     // Check if shower is valid
     if(!(*Shower_iter)->isEmcShowerValid()) {
       continue;
@@ -187,7 +188,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     if(EMCShower->module() == 1 && EMCShower->energy() < 0.025) {
       // Shower in the barrel must have energy larger than 25 MeV
       continue;
-    } else if(EMCShower->module() != 1 && EMCShower->energy < 0.050) {
+    } else if(EMCShower->module() != 1 && EMCShower->energy() < 0.050) {
       // Shower in endcap must have energy larger than 50 MeV
       continue;
     }
@@ -202,8 +203,8 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     double Phi = 2*TMath::Pi();
     double Angle = 2*TMath::Pi();
     // Loop over all charged tracks
-    for(int j = 0; j < EvtRecEvent->totalCharged(); j++) {
-      EvtRecTrackIterator Track_iter = EvtRecTrkCol.begin() + j;
+    for(int j = 0; j < evtRecEvent->totalCharged(); j++) {
+      EvtRecTrackIterator Track_iter = EvtRecTrackCol.begin() + j;
       // Check if track is valid
       if(!(*Track_iter)->isExtTrackValid()) {
 	continue;
@@ -211,7 +212,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
       // Get track extrapolated to the EMC
       RecExtTrack *ExternalTrack = (*Track_iter)->extTrack();
       // Check if external track is valid
-      if(ExternalTrack->emcVolumeNumber == -1) {
+      if(ExternalTrack->emcVolumeNumber() == -1) {
 	continue;
       }
       // Get position of external track
@@ -229,7 +230,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
       }
     }
     if(Angle == 2*TMath::Pi()) {
-      log << MSG::FAILURE << "No charged tracks found when looking for photons";
+      log << MSG::ERROR << "No charged tracks found when looking for photons";
     }
     m_PhotonEnergy.push_back(EMCShower->energy());
     m_PhotonAngleSeparation.push_back(Angle);
@@ -237,4 +238,5 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_PhotonPhiSeparation.push_back(Phi);
     m_NumberGamma++;
   }
+  return StatusCode::SUCCESS;
 }
