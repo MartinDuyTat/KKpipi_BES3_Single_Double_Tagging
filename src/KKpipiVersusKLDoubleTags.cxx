@@ -125,11 +125,11 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addItem("TagFoundPionPair", m_TagFoundPionPair);
       status = m_tuple->addItem("TagPiPluspx", m_TagPiPluspx);
       status = m_tuple->addItem("TagPiPluspy", m_TagPiPluspy);
-      status = m_tuple->addItem("TagPiPlusp", m_TagPiPluspz);
+      status = m_tuple->addItem("TagPiPluspz", m_TagPiPluspz);
       status = m_tuple->addItem("TagPiPlusenergy", m_TagPiPlusenergy);
       status = m_tuple->addItem("TagPiMinuspx", m_TagPiMinuspx);
       status = m_tuple->addItem("TagPiMinuspy", m_TagPiMinuspy);
-      status = m_tuple->addItem("TagPiMinusp", m_TagPiMinuspz);
+      status = m_tuple->addItem("TagPiMinuspz", m_TagPiMinuspz);
       status = m_tuple->addItem("TagPiMinusenergy", m_TagPiMinusenergy);
       status = m_tuple->addItem("TagNumberPi0", m_TagNumberPi0);
       status = m_tuple->addIndexedItem("TagPi0HighEPhotonpx", m_TagNumberPi0, m_TagPi0HighEPhotonpx);
