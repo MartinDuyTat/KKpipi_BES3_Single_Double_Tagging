@@ -249,7 +249,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_PhotonAngleSeparation.push_back(Angle);
     m_PhotonThetaSeparation.push_back(Theta);
     m_PhotonPhiSeparation.push_back(Phi);
-    m_PhotonTrackID.push_back(OtherShowers[j]->trackId());
+    m_PhotonTrackID.push_back((*Shower_iter)->trackId());
     m_NumberGamma++;
   }
   return StatusCode::SUCCESS;

@@ -453,7 +453,7 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
     /**
      * Tag array of low energy photon from \f$\pi^0\f$ track ID
      */
-    NTuple::Array<double> m_TagPi0HighEPhotonTrackID;
+    NTuple::Array<double> m_TagPi0LowEPhotonTrackID;
     /**
      * Number of \f$\eta\f$ found
      */
@@ -533,7 +533,7 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
     /**
      * Tag array of low energy photon from \f$\eta\f$ track ID
      */
-    NTuple::Array<double> m_TagEtaHighEPhotonTrackID;
+    NTuple::Array<double> m_TagEtaLowEPhotonTrackID;
     /**
      * Number of single photons found
      */

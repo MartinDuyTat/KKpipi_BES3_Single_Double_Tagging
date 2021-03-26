@@ -415,22 +415,22 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
 void KKpipiVersusKLDoubleTags::FillMissingMassEnergy() {
   double Pi0Energy = 0.0, Pi0Px = 0.0, Pi0Py = 0.0, Pi0Pz = 0.0;
   for(int j = 0; j < m_TagNumberPi0; j++) {
-    EtaEnergy += m_TagEtaHighEPhotonenergy[j] + TagEtaLowEPhotonenergy[j];
-    Pi0Px += m_TagPi0HighEPhotonpx[j] + TagPi0LowEPhotonpx[j];
-    Pi0Py += m_TagPi0HighEPhotonpy[j] + TagPi0LowEPhotonpy[j];
-    Pi0Pz += m_TagPi0HighEPhotonpz[j] + TagPi0LowEPhotonpz[j];
+    Pi0Energy += m_TagPi0HighEPhotonenergy[j] + TagPi0LowEPhotonenergy[j];
+    Pi0Px += m_TagPi0HighEPhotonpx[j] + m_TagPi0LowEPhotonpx[j];
+    Pi0Py += m_TagPi0HighEPhotonpy[j] + m_TagPi0LowEPhotonpy[j];
+    Pi0Pz += m_TagPi0HighEPhotonpz[j] + m_TagPi0LowEPhotonpz[j];
   }
   double EtaEnergy = 0.0, EtaPx = 0.0, EtaPy = 0.0, EtaPz = 0.0;
   for(int j = 0; j < m_TagNumberEta; j++) {
     EtaEnergy += m_TagEtaHighEPhotonenergy[j] + TagEtaLowEPhotonenergy[j];
-    EtaPx += m_TagEtaHighEPhotonpx[j] + TagEtaLowEPhotonpx[j];
-    EtaPy += m_TagEtaHighEPhotonpy[j] + TagEtaLowEPhotonpy[j];
-    EtaPz += m_TagEtaHighEPhotonpz[j] + TagEtaLowEPhotonpz[j];
+    EtaPx += m_TagEtaHighEPhotonpx[j] + m_TagEtaLowEPhotonpx[j];
+    EtaPy += m_TagEtaHighEPhotonpy[j] + m_TagEtaLowEPhotonpy[j];
+    EtaPz += m_TagEtaHighEPhotonpz[j] + m_TagEtaLowEPhotonpz[j];
   }
   double EMiss = m_SignalBeamE - Pi0Energy - EtaEnergy;
-  double PxMiss = -m_signalDpx - Pi0Px - EtaPx;
-  double PyMiss = -m_signalDpy - Pi0Py - EtaPy;
-  double PzMiss = -m_signalDpz - Pi0Pz - EtaPz;
+  double PxMiss = -m_SignalDpx - Pi0Px - EtaPx;
+  double PyMiss = -m_SignalDpy - Pi0Py - EtaPy;
+  double PzMiss = -m_SignalDpz - Pi0Pz - EtaPz;
   if(m_TagFoundPionPair == 1) {
     EMiss -= m_TagPiPlusenergy + m_TagPiMinusenergy;
     PxMiss -= m_TagPiPluspx + m_TagPiMinuspx;
