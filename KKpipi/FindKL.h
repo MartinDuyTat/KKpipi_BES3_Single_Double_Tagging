@@ -67,13 +67,13 @@ class FindKL {
      */
     double GetPi0Chi2Fit(int j) const;
     /**
-     * Get the ith component of the jth high energy photon track ID from \f$\pi^0\f$
+     * Get the jth high energy photon track ID from \f$\pi^0\f$
      */
-    int GetPi0HighEPhotonTrackID(int i, int j) const;
+    int GetPi0HighEPhotonTrackID(int j) const;
     /**
-     * Get the ith component of the jth low energy photon track ID from \f$\pi^0\f$
+     * Get the jth low energy photon track ID from \f$\pi^0\f$
      */
-    int GetPi0LowEPhotonTrackID(int i, int j) const;
+    int GetPi0LowEPhotonTrackID(int j) const;
     /**
      * Get number of \f$\pi^0\f$ found
      */
@@ -99,13 +99,13 @@ class FindKL {
      */
     double GetEtaChi2Fit(int j) const;
     /**
-     * Get the ith component of the jth high energy photon track ID from \f$\eta\f$
+     * Get the jth high energy photon track ID from \f$\eta\f$
      */
-    int GetEtaHighEPhotonTrackID(int i, int j) const;
+    int GetEtaHighEPhotonTrackID(int j) const;
     /**
-     * Get the ith component of the jth low energy photon track ID from \f$\eta\f$
+     * Get the jth low energy photon track ID from \f$\eta\f$
      */
-    int GetEtaLowEPhotonTrackID(int i, int j) const;
+    int GetEtaLowEPhotonTrackID(int j) const;
     /**
      * Get number of \f$\eta\f$ found
      */

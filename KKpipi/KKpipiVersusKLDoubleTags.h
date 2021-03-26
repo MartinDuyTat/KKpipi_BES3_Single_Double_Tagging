@@ -447,6 +447,14 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      */
     NTuple::Array<double> m_TagPi0Chi2Fit;
     /**
+     * Tag array of high energy photon from \f$\pi^0\f$ track ID
+     */
+    NTuple::Array<double> m_TagPi0HighEPhotonTrackID;
+    /**
+     * Tag array of low energy photon from \f$\pi^0\f$ track ID
+     */
+    NTuple::Array<double> m_TagPi0HighEPhotonTrackID;
+    /**
      * Number of \f$\eta\f$ found
      */
     NTuple::Item<int> m_TagNumberEta;
@@ -519,6 +527,14 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      */
     NTuple::Array<double> m_TagEtaChi2Fit;
     /**
+     * Tag array of high energy photon from \f$\eta\f$ track ID
+     */
+    NTuple::Array<double> m_TagEtaHighEPhotonTrackID;
+    /**
+     * Tag array of low energy photon from \f$\eta\f$ track ID
+     */
+    NTuple::Array<double> m_TagEtaHighEPhotonTrackID;
+    /**
      * Number of single photons found
      */
     NTuple::Item<int> m_TagNumberGamma;
@@ -538,6 +554,10 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      * Array of single photon azimuthal angle separation to nearest track
      */
     NTuple::Array<double> m_TagPhotonPhiSeparation;
+    /**
+     * Tag array of single photon track ID
+     */
+    NTuple::Array<double> m_TagPhotonTrackID;
     /**
      * Missing energy on the tag side
      */

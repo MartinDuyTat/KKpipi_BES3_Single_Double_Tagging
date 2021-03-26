@@ -287,12 +287,12 @@ double FindKL::GetPi0Chi2Fit(int j) const {
   return m_Pi0Chi2Fit[j];
 }
 
-int FindKL::GetPi0HighEPhotonTrackID(int i, int j) const{
-  return m_Pi0HighEPhotonTrackID[j][i];
+int FindKL::GetPi0HighEPhotonTrackID(int j) const{
+  return m_Pi0HighEPhotonTrackID[j];
 }
 
-int FindKL::GetPi0LowEPhotonTrackID(int i, int j) const{
-  return m_Pi0LowEPhotonTrackID[j][i];
+int FindKL::GetPi0LowEPhotonTrackID(int j) const{
+  return m_Pi0LowEPhotonTrackID[j];
 }
 
 int FindKL::GetNumberPi0() const {
@@ -319,12 +319,12 @@ double FindKL::GetEtaChi2Fit(int j) const {
   return m_EtaChi2Fit[j];
 }
 
-int FindKL::GetEtaHighEPhotonTrackID(int i, int j) const{
-  return m_EtaHighEPhotonTrackID[j][i];
+int FindKL::GetEtaHighEPhotonTrackID(int j) const{
+  return m_EtaHighEPhotonTrackID[j];
 }
 
-int FindKL::GetEtaLowEPhotonTrackID(int i, int j) const{
-  return m_EtaLowEPhotonTrackID[j][i];
+int FindKL::GetEtaLowEPhotonTrackID(int j) const{
+  return m_EtaLowEPhotonTrackID[j];
 }
 
 int FindKL::GetNumberEta() const {
