@@ -47,6 +47,74 @@ class FindKL {
      * The \f$\pi^-\f$ four-momentum vector on the other side
      */
     CLHEP::HepLorentzVector m_PiMinusP;
+    /**
+     * Vector of all high energy photon four-momentum from \f$\pi^0\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_Pi0HighEPhotonP;
+    /**
+     * Vector of all low energy photon four-momentum from \f$\pi^0\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_Pi0LowEPhotonP;
+    /**
+     * Vector of all high energy photon constrained four-momentum from \f$\pi^0\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_Pi0HighEPhotonPConstrained;
+    /**
+     * Vector of all low energy photon constrained four-momentum from \f$\pi^0\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_Pi0LowEPhotonPConstrained;
+    /**
+     * Vector of all \f$\chi^2\f$ from the kinematic fit of \f$\pi^0\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_Pi0Chi2Fit;
+    /**
+     * Number of \f$\pi^0\f$ found
+     */
+    int m_NumberPi0;
+    /**
+     * Vector of all high energy photon four-momentum from \f$\eta\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_EtaHighEPhotonP;
+    /**
+     * Vector of all low energy photon four-momentum from \f$\eta\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_EtaLowEPhotonP;
+    /**
+     * Vector of all high energy photon constrained four-momentum from \f$\eta\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_EtaHighEPhotonPConstrained;
+    /**
+     * Vector of all low energy photon constrained four-momentum from \f$\eta\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_EtaLowEPhotonPConstrained;
+    /**
+     * Vector of all \f$\chi^2\f$ from the kinematic fit of \f$\eta\f$
+     */
+    std::vector<CLHEP::HepLorentzVector> m_EtaChi2Fit;
+    /**
+     * Number of \f$\eta\f$ found
+     */
+    int m_NumberEta;
+    /**
+     * Vector of all single photon energy
+     */
+    std::vector<double> m_PhotonEnergy
+    /**
+     * Vector of all single photon angular separation from the nearest track
+     */
+    std::vector<double> m_PhotonAngleSeparation;
+    /**
+     * Vector of all single photon polar angle separation from the nearest track
+     */
+    std::vector<double> m_PhotonThetaSeparation;
+    /**
+     * Vector of all single photon azimuthal angle separation from the nearest track
+     */
+    std::vector<double> m_PhotonPhiSeparation;
+    /**
+     * Number of \f$\gamma\f$ found
+     */
+    int m_NumberGamma;
 };
 
 #endif

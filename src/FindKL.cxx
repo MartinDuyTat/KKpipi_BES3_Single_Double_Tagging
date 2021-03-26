@@ -19,26 +19,19 @@
 #include "EvtRecEvent/EvtRecDTag.h"
 #include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecTrack.h"
-#include "EvtRecEvent/EvtRecVeeVertex.h"
+#include "ExtEvent/RecExtTrack.h"
 // CLHEP
-#include "CLHEP/Geometry/Point3D.h"
-#include "CLHEP/Matrix/SymMatrix.h"
 #include "CLHEP/Vector/LorentzVector.h"
+#include "CLHEP/Vector/ThreeVector.h"
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "MdcRecEvent/RecMdcKalTrack.h"
-#include "VertexFit/IVertexDbSvc.h"
-#include "VertexFit/VertexFit.h"
-#include "VertexFit/VertexParameter.h"
-#include "VertexFit/SecondVertexFit.h"
-#include "VertexFit/WTrackParameter.h"
 // STL
-#include<algorithm>
-#include<vector>
-// Particle masses
-#include "KKpipi/ParticleMasses.h"
+#include <cmath>
+// ROOT
+#include "TMath.h"
 
-FindKL::FindKL(): FoundPionPair(0) {
+FindKL::FindKL(): m_FoundPionPair(0), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0) {
 }
 
 FindKL::~FindKL() {
@@ -102,5 +95,146 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     }
   } else {
     return Statuscode::FAILURE;
+  }
+  // Check if there are any showers already present on the reconstructed side
+  bool ShowersUsed;
+  SmartRefVector<EvtRecTrack> Showers = (*DTTool_iter)->showers();
+  if(Showers.size() == 0) {
+    // If no showers, it's probably a Kpi, KKpipi or Kpipipi tag on the reconstructed side
+    ShowersUsed = false;
+  } else if(Showers.size() > 2) {
+    // There shouldn't be more than 2 showers or just 1 shower
+    return StatusCode::FAILURE;
+  } else if(Showers.size() == 1) {
+    log << MSG::ERROR << "Found a single shower when looking for KL" << endreq;
+    return StatusCode::FAILURE;
+  } else {
+    // If 2 showers, it's probably a Kpipi0 tag on the reconstructed side
+    ShowersUsed = true;
+  }
+  // Look for pi0
+  for(EvtRecPi0Col::iterator Pi0_iter = RecPi0Col->begin(); Pi0_iter != RecPi0Col->end(); Pi0_iter++) {
+    // Get photon tracks...?
+    EvtRecTrack *HighEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Pi0_iter)->hiEnGamma());
+    EvtRecTrack *LowEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Pi0_iter)->loEnGamma());
+    // Get EM shower four-momenta of photons
+    RecEmcShower *HighEPhotonShower = HighEnergyPhotonTrack->emcShower();
+    RecEmcShower *LowEPhotonShower = LowEnergyPhotonTrack->emcShower();
+    // Get photon track ID
+    int HighEnergyPhotonTrackID = HighEnergyPhotonTrack->trackId();
+    int LowEnergyPhotonTrackID = LowEnergyPhotonTrack->trackId();
+    // If reconstructed side constains a shower, make sure this is not the same shower
+    if(ShowersUsed) {
+      if(HighEnergyPhotonTrackID == Showers[0]->trackId() || HighEnergyPhotonTrackID == Showers[1]->trackId()) {
+	continue;
+      }
+      if(LowEnergyPhotonTrackID == Showers[0]->trackId() || LowEnergyPhotonTrackID == Showers[1]->trackId()) {
+	continue;
+      }
+    }
+    // Get photon momenta
+    m_Pi0HighEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi()));
+    m_Pi0LowEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi()));
+    // Get kinematically constrained four-momenta of photons
+    m_Pi0HighEPhotonPConstrained.push_back((*Pi0_iter)->hiPfit());
+    m_Pi0LowEPhotonPConstrained.push_back((*Pi0_iter)->loPfit());
+    m_Pi0Chi2Fit.push_back((*Pi0_iter)->chisq());
+    m_NumberPi0++;
+  }
+  // If there are no pi0, reject event
+  if(m_NumberPi0 == 0) {
+    return StatusCode::FAILURE;
+  }
+  // Look for eta
+  for(EvtRecEtaToGGCol::iterator Eta_iter = RecEtaToGGCol->begin(); Eta_iter != RecEtaToGGCol->end(); Eta_iter++) {
+    // Get photon tracks...?
+    EvtRecTrack *HighEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Eta_iter)->hiEnGamma());
+    EvtRecTrack *LowEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Eta_iter)->loEnGamma());
+    // Get EM shower four-momenta of photons
+    RecEmcShower *HighEPhotonShower = HighEnergyPhotonTrack->emcShower();
+    RecEmcShower *LowEPhotonShower = LowEnergyPhotonTrack->emcShower();
+    // Get photon track ID
+    int HighEnergyPhotonTrackID = HighEnergyPhotonTrack->trackId();
+    int LowEnergyPhotonTrackID = LowEnergyPhotonTrack->trackId();
+    // If reconstructed side constains a shower, make sure this is not the same shower
+    if(ShowersUsed) {
+      if(HighEnergyPhotonTrackID == Showers[0]->trackId() || HighEnergyPhotonTrackID == Showers[1]->trackId()) {
+	continue;
+      }
+      if(LowEnergyPhotonTrackID == Showers[0]->trackId() || LowEnergyPhotonTrackID == Showers[1]->trackId()) {
+	continue;
+      }
+    }
+    // Get photon momenta
+    m_EtaHighEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi()));
+    m_EtaLowEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi()));
+    // Get kinematically constrained four-momenta of photons
+    m_EtaHighEPhotonPConstrained.push_back((*Pi0_iter)->hiPfit());
+    m_EtaLowEPhotonPConstrained.push_back((*Pi0_iter)->loPfit());
+    m_EtaChi2Fit.push_back((*Pi0_iter)->chisq());
+    m_NumberEta++;
+  }
+  // Get showers on the other side of the reconstructed D meson
+  SmartRefVector<EvtRecTrack> OtherShowers = (*DTTool_iter)->otherShowers();
+  // Loop over all showers to find photons
+  for(SmartRefVector<EvtRecTrack::iterator Shower_iter = OtherShowers->begin(); Shower_iter != OtherShowers.end(); Shower_iter++) {
+    // Check if shower is valid
+    if(!(*Shower_iter)->isEmcShowerValid()) {
+      continue;
+    }
+    // Get reconstructed EMC shower
+    RecEmcShower *EMCShower = (*Shower_iter)->emcShower();
+    if(EMCShower->module() == 1 && EMCShower->energy() < 0.025) {
+      // Shower in the barrel must have energy larger than 25 MeV
+      continue;
+    } else if(EMCShower->module() != 1 && EMCShower->energy < 0.050) {
+      // Shower in endcap must have energy larger than 50 MeV
+      continue;
+    }
+    if(EMCShower->time() < 0 || EMCShower->time() > 14) {
+      // EMC shower time requirement 0 <= T <= 14 (in units of 50 ns)
+      continue;
+    }
+    // Get EMC position of shower
+    CLHEP::Hep3Vector EMCPosition(EMCShower->x(), EMCShower->y(), EMCShower->z());
+    // Initialize angles to their maximum
+    double Theta = 2*TMath::Pi();
+    double Phi = 2*TMath::Pi();
+    double Angle = 2*TMath::Pi();
+    // Loop over all charged tracks
+    for(int j = 0; j < EvtRecEvent->totalCharged(); j++) {
+      EvtRecTrackIterator Track_iter = EvtRecTrkCol.begin() + j;
+      // Check if track is valid
+      if(!(*Track_iter)->isExtTrackValid()) {
+	continue;
+      }
+      // Get track extrapolated to the EMC
+      RecExtTrack *ExternalTrack = (*Track_iter)->extTrack();
+      // Check if external track is valid
+      if(ExternalTrack->emcVolumeNumber == -1) {
+	continue;
+      }
+      // Get position of external track
+      CLHEP::Hep3Vector ExternalPosition = ExternalTrack->emcPosition();
+      // Find angle between track and shower
+      double DeltaAngle = ExternalPosition.angle(EMCPosition);
+      // Find polar angle between track and shower
+      double DeltaTheta = ExternalPosition.theta() - EMCPosition.theta();
+      // Find azimuthal angle between track and shower
+      double DeltaPhi = ExternalPosition.deltaPhi(EMCPosition);
+      if(DeltaAngle < Angle) {
+	Theta = DeltaTheta;
+	Phi = DeltaPhi;
+	Angle = DeltaAngle;
+      }
+    }
+    if(Angle == 2*TMath::Pi()) {
+      log << MSG::FAILURE << "No charged tracks found when looking for photons";
+    }
+    m_PhotonEnergy.push_back(EMCShower->energy());
+    m_PhotonAngleSeparation.push_back(Angle);
+    m_PhotonThetaSeparation.push_back(Theta);
+    m_PhotonPhiSeparation.push_back(Phi);
+    m_NumberGamma++;
   }
 }
