@@ -26,6 +26,8 @@
 #include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecTrack.h"
 #include "EvtRecEvent/EvtRecDTag.h"
+// ROOT
+#include "TMath.h"
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
 // Boss
@@ -172,6 +174,8 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addIndexedItem("TagPhotonAngleSeparation", m_TagNumberGamma, m_TagPhotonAngleSeparation);
       status = m_tuple->addIndexedItem("TagPhotonThetaSeparation", m_TagNumberGamma, m_TagPhotonThetaSeparation);
       status = m_tuple->addIndexedItem("TagPhotonPhiSeparation", m_TagNumberGamma, m_TagPhotonPhiSeparation);
+      status = m_tuple->addItem("TagMissingEnergy", m_TagMissingEnergy);
+      status = m_tuple->addItem("TagMissingMass", m_TagMissingMass);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagPiPlusTrueID", m_TagPiPlusTrueID);
@@ -385,6 +389,7 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
     m_TagPhotonThetaSeparation[j] = findKL.GetPhotonThetaSeparation(j);
     m_TagPhotonPhiSeparation[j] = findKL.GetPhotonPhiSeparation(j);
   }
+  FillMissingMassEnergy();
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKL.GetDaughterTrackID(), this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
@@ -395,4 +400,33 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
     m_TagPiMinusTrueID = ReconstructedPID[1];
   }
   return StatusCode::SUCCESS;
+}
+
+void KKpipiVersusKLDoubleTags::FillMissingMassEnergy() {
+  double Pi0Energy = 0.0, Pi0Px = 0.0, Pi0Py = 0.0, Pi0Pz = 0.0;
+  for(int j = 0; j < m_TagNumberPi0; j++) {
+    EtaEnergy += m_TagEtaHighEPhotonenergy[j] + TagEtaLowEPhotonenergy[j];
+    Pi0Px += m_TagPi0HighEPhotonpx[j] + TagPi0LowEPhotonpx[j];
+    Pi0Py += m_TagPi0HighEPhotonpy[j] + TagPi0LowEPhotonpy[j];
+    Pi0Pz += m_TagPi0HighEPhotonpz[j] + TagPi0LowEPhotonpz[j];
+  }
+  double EtaEnergy = 0.0, EtaPx = 0.0, EtaPy = 0.0, EtaPz = 0.0;
+  for(int j = 0; j < m_TagNumberEta; j++) {
+    EtaEnergy += m_TagEtaHighEPhotonenergy[j] + TagEtaLowEPhotonenergy[j];
+    EtaPx += m_TagEtaHighEPhotonpx[j] + TagEtaLowEPhotonpx[j];
+    EtaPy += m_TagEtaHighEPhotonpy[j] + TagEtaLowEPhotonpy[j];
+    EtaPz += m_TagEtaHighEPhotonpz[j] + TagEtaLowEPhotonpz[j];
+  }
+  double EMiss = m_SignalBeamE - Pi0Energy - EtaEnergy;
+  double PxMiss = -m_signalDpx - Pi0Px - EtaPx;
+  double PyMiss = -m_signalDpy - Pi0Py - EtaPy;
+  double PzMiss = -m_signalDpz - Pi0Pz - EtaPz;
+  if(m_TagFoundPionPair == 1) {
+    EMiss -= m_TagPiPlusenergy + m_TagPiMinusenergy;
+    PxMiss -= m_TagPiPluspx + m_TagPiMinuspx;
+    PyMiss -= m_TagPiPluspy + m_TagPiMinuspy;
+    PzMiss -= m_TagPiPluspz + m_TagPiMinuspz;
+  }
+  m_TagMissingEnergy = EMiss;
+  m_TagMissingMass = TMath::Sqrt(EMiss*EMiss - PxMiss*PxMiss - PyMiss*PyMiss - PzMiss*PzMiss);
 }

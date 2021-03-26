@@ -47,6 +47,10 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      * @param DTTool DTagTool object with all the event information
      */
     StatusCode FillTuple(DTagToolIterator DTTool_Signal_iter, DTagTool &DTTool);
+    /**
+     * Helper function that fills out the missing energy and and missing mass, after everything else has been filled
+     */
+    void FillMissingMassEnergy();
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later
@@ -534,6 +538,14 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      * Array of single photon azimuthal angle separation to nearest track
      */
     NTuple::Array<double> m_TagPhotonPhiSeparation;
+    /**
+     * Missing energy on the tag side
+     */
+    NTuple::Item<double> m_TagMissingEnergy;
+    /**
+     * Missing mass on the tag side
+     */
+    NTuple::Item<double> m_TagMissingMass;
     /**
      * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
      */
