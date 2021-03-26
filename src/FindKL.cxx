@@ -33,7 +33,7 @@
 // ROOT
 #include "TMath.h"
 
-FindKL::FindKL(): m_FoundPionPair(0), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0), m_DaughterTrackIDs(std::vector<int>(2)) {
+FindKL::FindKL(): m_FoundPionPair(0), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0), m_DaughterTrackID(std::vector<int>(2)) {
 }
 
 FindKL::~FindKL() {
@@ -273,7 +273,7 @@ double FindKL::GetPi0LowEPhotonPConstrained(int i, int j) const{
 }
 
 double FindKL::GetPi0Chi2Fit(int j) const {
-  return m_Pi0chi2Fit[j];
+  return m_Pi0Chi2Fit[j];
 }
 
 int FindKL::GetNumberPi0() const {
@@ -297,7 +297,7 @@ double FindKL::GetEtaLowEPhotonPConstrained(int i, int j) const{
 }
 
 double FindKL::GetEtaChi2Fit(int j) const {
-  return m_Etachi2Fit[j];
+  return m_EtaChi2Fit[j];
 }
 
 int FindKL::GetNumberEta() const {

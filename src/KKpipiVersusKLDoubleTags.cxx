@@ -211,7 +211,7 @@ StatusCode KKpipiVersusKLDoubleTags::execute() {
   if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
     DTagToolIterator DTTool_Signal_iter = DTTool.dtag1();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool);
-    if(FillTuplestatus == StatusCode::RECOVERABLE) {
+    if(FillTupleStatus == StatusCode::RECOVERABLE) {
       return StatusCode::SUCCESS;
     } else if(FillTupleStatus == StatusCode::FAILURE) {
       log << MSG::FATAL << "Assigning KL tuple info failed" << endreq;
@@ -273,18 +273,10 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
   m_SignalMBC = (*DTTool_Signal_iter)->mBC();
   m_SignalDeltaE = (*DTTool_Signal_iter)->deltaE();
   m_SignalBeamE = (*DTTool_Signal_iter)->beamE();
-  m_TagDMass = (*DTTool_Tag_iter)->mass();
-  m_TagMBC = (*DTTool_Tag_iter)->mBC();
-  m_TagDeltaE = (*DTTool_Tag_iter)->deltaE();
-  m_TagBeamE = (*DTTool_Tag_iter)->beamE();
   m_SignalDpx = (*DTTool_Signal_iter)->p4().x();
   m_SignalDpy = (*DTTool_Signal_iter)->p4().y();
   m_SignalDpz = (*DTTool_Signal_iter)->p4().z();
   m_SignalDenergy = (*DTTool_Signal_iter)->p4().t();
-  m_TagDpx = (*DTTool_Tag_iter)->p4().x();
-  m_TagDpy = (*DTTool_Tag_iter)->p4().y();
-  m_TagDpz = (*DTTool_Tag_iter)->p4().z();
-  m_TagDenergy = (*DTTool_Tag_iter)->p4().t();
   FindKKpipiTagInfo findKKpipiTagInfo;
   StatusCode status = findKKpipiTagInfo.CalculateTagInfo(DTTool_Signal_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
@@ -343,63 +335,63 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
     m_SignalPiMinusTrueID = ReconstructedPID[3];
   }
   // Save information about tag side
-  m_FoundPionPair = findKL.GetFoundPionPair();
-  if(m_FoundPionPair == 1) {
-    m_PiPluspx = findKL.GetPiPlusP(0);
-    m_PiPluspy = findKL.GetPiPlusP(1);
-    m_PiPluspz = findKL.GetPiPlusP(2);
-    m_PiPlusenergy = findKL.GetPiPlusP(3);
-    m_PiMinuspx = findKL.GetPiMinusP(0);
-    m_PiMinuspy = findKL.GetPiMinusP(1);
-    m_PiMinuspz = findKL.GetPiMinusP(2);
-    m_PiMinusenergy = findKL.GetPiMinusP(3);
+  m_TagFoundPionPair = findKL.GetFoundPionPair();
+  if(m_TagFoundPionPair == 1) {
+    m_TagPiPluspx = findKL.GetPiPlusP(0);
+    m_TagPiPluspy = findKL.GetPiPlusP(1);
+    m_TagPiPluspz = findKL.GetPiPlusP(2);
+    m_TagPiPlusenergy = findKL.GetPiPlusP(3);
+    m_TagPiMinuspx = findKL.GetPiMinusP(0);
+    m_TagPiMinuspy = findKL.GetPiMinusP(1);
+    m_TagPiMinuspz = findKL.GetPiMinusP(2);
+    m_TagPiMinusenergy = findKL.GetPiMinusP(3);
   }
-  m_NumberPi0 = findKL.GetNumberPi0();
-  for(int j = 0; j < m_NumberPi0; j++) {
-    m_Pi0HighEPhotonpx[j] = findKL.GetPi0HighEPhotonP(0, j);
-    m_Pi0HighEPhotonpy[j] = findKL.GetPi0HighEPhotonP(1, j);
-    m_Pi0HighEPhotonpz[j] = findKL.GetPi0HighEPhotonP(2, j);
-    m_Pi0HighEPhotonenergy[j] = findKL.GetPi0HighEPhotonP(3, j);
-    m_Pi0LowEPhotonpx[j] = findKL.GetPi0LowEPhotonP(0, j);
-    m_Pi0LowEPhotonpy[j] = findKL.GetPi0LowEPhotonP(1, j);
-    m_Pi0LowEPhotonpz[j] = findKL.GetPi0LowEPhotonP(2, j);
-    m_Pi0LowEPhotonenergy[j] = findKL.GetPi0LowEPhotonP(3, j);
-    m_Pi0HighEPhotonpxConstrained[j] = findKL.GetPi0HighEPhotonPConstrained(0, j);
-    m_Pi0HighEPhotonpyConstrained[j] = findKL.GetPi0HighEPhotonPConstrained(1, j);
-    m_Pi0HighEPhotonpzConstrained[j] = findKL.GetPi0HighEPhotonPConstrained(2, j);
-    m_Pi0HighEPhotonenergyConstrained[j] = findKL.GetPi0HighEPhotonPConstrained(3, j);
-    m_Pi0LowEPhotonpxConstrained[j] = findKL.GetPi0LowEPhotonPConstrained(0, j);
-    m_Pi0LowEPhotonpyConstrained[j] = findKL.GetPi0LowEPhotonPConstrained(1, j);
-    m_Pi0LowEPhotonpzConstrained[j] = findKL.GetPi0LowEPhotonPConstrained(2, j);
-    m_Pi0LowEPhotonenergyConstrained[j] = findKL.GetPi0LowEPhotonPConstrained(3, j);
-    m_Pi0Chi2Fit[j] = findKL.GetPi0Chi2Fit(j);
+  m_TagNumberPi0 = findKL.GetNumberPi0();
+  for(int j = 0; j < m_TagNumberPi0; j++) {
+    m_TagPi0HighEPhotonpx[j] = findKL.GetPi0HighEPhotonP(0, j);
+    m_TagPi0HighEPhotonpy[j] = findKL.GetPi0HighEPhotonP(1, j);
+    m_TagPi0HighEPhotonpz[j] = findKL.GetPi0HighEPhotonP(2, j);
+    m_TagPi0HighEPhotonenergy[j] = findKL.GetPi0HighEPhotonP(3, j);
+    m_TagPi0LowEPhotonpx[j] = findKL.GetPi0LowEPhotonP(0, j);
+    m_TagPi0LowEPhotonpy[j] = findKL.GetPi0LowEPhotonP(1, j);
+    m_TagPi0LowEPhotonpz[j] = findKL.GetPi0LowEPhotonP(2, j);
+    m_TagPi0LowEPhotonenergy[j] = findKL.GetPi0LowEPhotonP(3, j);
+    m_TagPi0HighEPhotonpxConstrained[j] = findKL.GetPi0HighEPhotonPConstrained(0, j);
+    m_TagPi0HighEPhotonpyConstrained[j] = findKL.GetPi0HighEPhotonPConstrained(1, j);
+    m_TagPi0HighEPhotonpzConstrained[j] = findKL.GetPi0HighEPhotonPConstrained(2, j);
+    m_TagPi0HighEPhotonenergyConstrained[j] = findKL.GetPi0HighEPhotonPConstrained(3, j);
+    m_TagPi0LowEPhotonpxConstrained[j] = findKL.GetPi0LowEPhotonPConstrained(0, j);
+    m_TagPi0LowEPhotonpyConstrained[j] = findKL.GetPi0LowEPhotonPConstrained(1, j);
+    m_TagPi0LowEPhotonpzConstrained[j] = findKL.GetPi0LowEPhotonPConstrained(2, j);
+    m_TagPi0LowEPhotonenergyConstrained[j] = findKL.GetPi0LowEPhotonPConstrained(3, j);
+    m_TagPi0Chi2Fit[j] = findKL.GetPi0Chi2Fit(j);
   }
-  m_NumberEta = findKL.GetNumberEta();
-  for(int j = 0; j < m_NumberEta; j++) {
-    m_EtaHighEPhotonpx[j] = findKL.GetEtaHighEPhotonP(0, j);
-    m_EtaHighEPhotonpy[j] = findKL.GetEtaHighEPhotonP(1, j);
-    m_EtaHighEPhotonpz[j] = findKL.GetEtaHighEPhotonP(2, j);
-    m_EtaHighEPhotonenergy[j] = findKL.GetEtaHighEPhotonP(3, j);
-    m_EtaLowEPhotonpx[j] = findKL.GetEtaLowEPhotonP(0, j);
-    m_EtaLowEPhotonpy[j] = findKL.GetEtaLowEPhotonP(1, j);
-    m_EtaLowEPhotonpz[j] = findKL.GetEtaLowEPhotonP(2, j);
-    m_EtaLowEPhotonenergy[j] = findKL.GetEtaLowEPhotonP(3, j);
-    m_EtaHighEPhotonpxConstrained[j] = findKL.GetEtaHighEPhotonPConstrained(0, j);
-    m_EtaHighEPhotonpyConstrained[j] = findKL.GetEtaHighEPhotonPConstrained(1, j);
-    m_EtaHighEPhotonpzConstrained[j] = findKL.GetEtaHighEPhotonPConstrained(2, j);
-    m_EtaHighEPhotonenergyConstrained[j] = findKL.GetEtaHighEPhotonPConstrained(3, j);
-    m_EtaLowEPhotonpxConstrained[j] = findKL.GetEtaLowEPhotonPConstrained(0, j);
-    m_EtaLowEPhotonpyConstrained[j] = findKL.GetEtaLowEPhotonPConstrained(1, j);
-    m_EtaLowEPhotonpzConstrained[j] = findKL.GetEtaLowEPhotonPConstrained(2, j);
-    m_EtaLowEPhotonenergyConstrained[j] = findKL.GetEtaLowEPhotonPConstrained(3, j);
-    m_EtaChi2Fit[j] = findKL.GetEtaChi2Fit(j);
+  m_TagNumberEta = findKL.GetNumberEta();
+  for(int j = 0; j < m_TagNumberEta; j++) {
+    m_TagEtaHighEPhotonpx[j] = findKL.GetEtaHighEPhotonP(0, j);
+    m_TagEtaHighEPhotonpy[j] = findKL.GetEtaHighEPhotonP(1, j);
+    m_TagEtaHighEPhotonpz[j] = findKL.GetEtaHighEPhotonP(2, j);
+    m_TagEtaHighEPhotonenergy[j] = findKL.GetEtaHighEPhotonP(3, j);
+    m_TagEtaLowEPhotonpx[j] = findKL.GetEtaLowEPhotonP(0, j);
+    m_TagEtaLowEPhotonpy[j] = findKL.GetEtaLowEPhotonP(1, j);
+    m_TagEtaLowEPhotonpz[j] = findKL.GetEtaLowEPhotonP(2, j);
+    m_TagEtaLowEPhotonenergy[j] = findKL.GetEtaLowEPhotonP(3, j);
+    m_TagEtaHighEPhotonpxConstrained[j] = findKL.GetEtaHighEPhotonPConstrained(0, j);
+    m_TagEtaHighEPhotonpyConstrained[j] = findKL.GetEtaHighEPhotonPConstrained(1, j);
+    m_TagEtaHighEPhotonpzConstrained[j] = findKL.GetEtaHighEPhotonPConstrained(2, j);
+    m_TagEtaHighEPhotonenergyConstrained[j] = findKL.GetEtaHighEPhotonPConstrained(3, j);
+    m_TagEtaLowEPhotonpxConstrained[j] = findKL.GetEtaLowEPhotonPConstrained(0, j);
+    m_TagEtaLowEPhotonpyConstrained[j] = findKL.GetEtaLowEPhotonPConstrained(1, j);
+    m_TagEtaLowEPhotonpzConstrained[j] = findKL.GetEtaLowEPhotonPConstrained(2, j);
+    m_TagEtaLowEPhotonenergyConstrained[j] = findKL.GetEtaLowEPhotonPConstrained(3, j);
+    m_TagEtaChi2Fit[j] = findKL.GetEtaChi2Fit(j);
   }
-  m_NumberGamma = findKL.GetNumberGamma();
-  for(int j = 0; j < m_NumberGamma; j++) {
-    m_PhotonEnergy[j] = findKLGetPhotonEnergy(j);
-    m_PhotonAngleSeparation[j] = findKLGetPhotonAngleSeparation(j);
-    m_PhotonThetaSeparation[j] = findKLGetPhotonThetaSeparation(j);
-    m_PhotonPhiSeparation[j] = findKLGetPhotonPhiSeparation(j);
+  m_TagNumberGamma = findKL.GetNumberGamma();
+  for(int j = 0; j < m_TagNumberGamma; j++) {
+    m_TagPhotonEnergy[j] = findKLGetPhotonEnergy(j);
+    m_TagPhotonAngleSeparation[j] = findKLGetPhotonAngleSeparation(j);
+    m_TagPhotonThetaSeparation[j] = findKLGetPhotonThetaSeparation(j);
+    m_TagPhotonPhiSeparation[j] = findKLGetPhotonPhiSeparation(j);
   }
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKL.GetDaughterTrackID(), this);

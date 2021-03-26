@@ -127,22 +127,6 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      */
     NTuple::Item<double> m_SignalBeamE;
     /**
-     * Invariant mass of tag \f$D\f$ meson
-     */
-    NTuple::Item<double> m_TagDMass;
-    /**
-     * Beam constrained mass of tag
-     */
-    NTuple::Item<double> m_TagMBC;
-    /**
-     * \f$E_D - E_{\text{beam}}\f$ of tag
-     */
-    NTuple::Item<double> m_TagDeltaE;
-    /**
-     * Beam energy of tag
-     */
-    NTuple::Item<double> m_TagBeamE;
-    /**
      * Signal \f$D\f$ momentum along \f$x\f$
      */
     NTuple::Item<double> m_SignalDpx;
@@ -158,22 +142,6 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      * Signal \f$D\f$ energy
      */
     NTuple::Item<double> m_SignalDenergy;
-    /**
-     * Tag \f$D\f$ momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_TagDpx;
-    /**
-     * Tag \f$D\f$ momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_TagDpy;
-    /**
-     * Tag \f$D\f$ momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_TagDpz;
-    /**
-     * Tag \f$D\f$ energy
-     */
-    NTuple::Item<double> m_TagDenergy;
     /**
      * Signal \f$\pi^+\f$ momentum along \f$x\f$
      */
@@ -549,7 +517,7 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
     /**
      * Number of single photons found
      */
-    NTuple::Array<double> m_TagNumberGamma;
+    NTuple::Item<int> m_TagNumberGamma;
     /**
      * Array of single photon energies
      */
