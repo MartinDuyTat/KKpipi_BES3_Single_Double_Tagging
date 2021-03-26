@@ -70,18 +70,10 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addItem("SignalMBC", m_SignalMBC);
       status = m_tuple->addItem("SignalDeltaE", m_SignalDeltaE);
       status = m_tuple->addItem("SignalBeamE", m_SignalBeamE);
-      status = m_tuple->addItem("TagDMass", m_TagDMass);
-      status = m_tuple->addItem("TagMBC", m_TagMBC);
-      status = m_tuple->addItem("TagDeltaE", m_TagDeltaE);
-      status = m_tuple->addItem("TagBeamE", m_TagBeamE);
       status = m_tuple->addItem("SignalDpx", m_SignalDpx);
       status = m_tuple->addItem("SignalDpy", m_SignalDpy);
       status = m_tuple->addItem("SignalDpz", m_SignalDpz);
       status = m_tuple->addItem("SignalDenergy", m_SignalDenergy);
-      status = m_tuple->addItem("TagDpx", m_TagDpx);
-      status = m_tuple->addItem("TagDpy", m_TagDpy);
-      status = m_tuple->addItem("TagDpz", m_TagDpz);
-      status = m_tuple->addItem("TagDenergy", m_TagDenergy);
       status = m_tuple->addItem("SignalPiPluspx", m_SignalPiPluspx);
       status = m_tuple->addItem("SignalPiPluspy", m_SignalPiPluspy);
       status = m_tuple->addItem("SignalPiPluspz", m_SignalPiPluspz);
@@ -232,7 +224,7 @@ StatusCode KKpipiVersusKLDoubleTags::finalize() {
 StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagTool &DTTool) {
   // First check if there are any KL candidates, otherwise no point in saving all the other stuff
   FindKL findKL;
-  StatusCode FoundKL = findKL(DTTool_Signal_iter, DTTool);
+  StatusCode FoundKL = findKL.findKL(DTTool_Signal_iter, DTTool);
   if(FoundKL == StatusCode::FAILURE) {
     return StatusCode::RECOVERABLE;
   }
@@ -388,10 +380,10 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
   }
   m_TagNumberGamma = findKL.GetNumberGamma();
   for(int j = 0; j < m_TagNumberGamma; j++) {
-    m_TagPhotonEnergy[j] = findKLGetPhotonEnergy(j);
-    m_TagPhotonAngleSeparation[j] = findKLGetPhotonAngleSeparation(j);
-    m_TagPhotonThetaSeparation[j] = findKLGetPhotonThetaSeparation(j);
-    m_TagPhotonPhiSeparation[j] = findKLGetPhotonPhiSeparation(j);
+    m_TagPhotonEnergy[j] = findKL.GetPhotonEnergy(j);
+    m_TagPhotonAngleSeparation[j] = findKL.GetPhotonAngleSeparation(j);
+    m_TagPhotonThetaSeparation[j] = findKL.GetPhotonThetaSeparation(j);
+    m_TagPhotonPhiSeparation[j] = findKL.GetPhotonPhiSeparation(j);
   }
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKL.GetDaughterTrackID(), this);
