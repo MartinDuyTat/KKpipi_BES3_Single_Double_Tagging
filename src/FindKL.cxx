@@ -240,3 +240,83 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   }
   return StatusCode::SUCCESS;
 }
+
+int FindKL::GetFoundPionPair() const {
+  return m_FoundPionPair;
+}
+
+double FindKL::GetPiPlusP(int i) const {
+  return m_PiPlusP[i];
+}
+
+double FindKL::GetPiMinusP(int i) const {
+  return m_PiMinusP[i];
+}
+
+double FindKL::GetPi0HighEPhotonP(int i, int j) const{
+  return m_Pi0HighEPhotonP[j][i];
+}
+
+double FindKL::GetPi0LowEPhotonP(int i, int j) const{
+  return m_Pi0LowEPhotonP[j][i];
+}
+
+double FindKL::GetPi0HighEPhotonPConstrained(int i, int j) const{
+  return m_Pi0HighEPhotonPConstrained[j][i];
+}
+
+double FindKL::GetPi0LowEPhotonPConstrained(int i, int j) const{
+  return m_Pi0LowEPhotonPConstrained[j][i];
+}
+
+double GetPi0Chi2Fit(int j) const {
+  return m_Pi0chi2Fit[j];
+}
+
+int GetNumberPi0() const {
+  return m_NumberPi0;
+}
+
+double FindKL::GetEtaHighEPhotonP(int i, int j) const{
+  return m_EtaHighEPhotonP[j][i];
+}
+
+double FindKL::GetEtaLowEPhotonP(int i, int j) const{
+  return m_EtaLowEPhotonP[j][i];
+}
+
+double FindKL::GetEtaHighEPhotonPConstrained(int i, int j) const{
+  return m_EtaHighEPhotonPConstrained[j][i];
+}
+
+double FindKL::GetEtaLowEPhotonPConstrained(int i, int j) const{
+  return m_EtaLowEPhotonPConstrained[j][i];
+}
+
+double GetEtaChi2Fit(int j) const {
+  return m_Etachi2Fit[j];
+}
+
+int GetNumberEta() const {
+  return m_NumberEta;
+}
+
+double FindKL::GetPhotonEnergy(int j) const {
+  return m_PhotonEnergy[j];
+}
+
+double FindKL::GetPhotonAngleSeparation(int j) const {
+  return m_PhotonAngleSeparation[j];
+}
+
+double FindKL::GetPhotonThetaSeparation(int j) const {
+  return m_PhotonThetaSeparation[j];
+}
+
+double FindKL::GetPhotonPhiSeparation(int j) const {
+  return m_PhotonPhiSeparation[j];
+}
+
+int FindKL::GetNumberGamma() const {
+  return m_NumberGamma;
+}

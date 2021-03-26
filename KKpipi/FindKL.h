@@ -34,6 +34,86 @@ class FindKL {
      * @param DTTool DTagTool object with all the tag information
      */
     StatusCode findKL(DTagToolIterator DTTool_iter, DTagTool DTTool);
+    /**
+     * Get flag that is 1 if a \f$\pi^\pi^-\f$ pair is found
+     */
+    int GetFoundPionPair() const;
+    /**
+     * Get the ith component of the \f$\pi^+\f$ four-momentum vector on the other side
+     */
+    double GetPiPlusP(int i) const;
+    /**
+     * Get the ith component of the \f$\pi^-\f$ four-momentum vector on the other side
+     */
+    dobule GetPiMinusP(int i) const;
+    /**
+     * Get the ith component of the jth high energy photon four-momentum from \f$\pi^0\f$
+     */
+    double GetPi0HighEPhotonP(int i, int j) const;
+    /**
+     * Get the ith component of the jth low energy photon four-momentum from \f$\pi^0\f$
+     */
+    double GetPi0LowEPhotonP(int i, int j) const;
+    /**
+     * Get the ith component of the jth high energy constrained photon four-momentum from \f$\pi^0\f$
+     */
+    double GetPi0HighEPhotonPConstrained(int i, int j) const;
+    /**
+     * Get the ith component of the jth low energy constrained photon four-momentum from \f$\pi^0\f$
+     */
+    double GetPi0LowEPhotonPConstrained(int i, int j) const;
+    /**
+     * Get the \f$\chi^2\f$ from the kinematic fit of the jth \f$\pi^0\f$
+     */
+    double GetPi0Chi2Fit(int j) const;
+    /**
+     * Get number of \f$\pi^0\f$ found
+     */
+    int GetNumberPi0() const;
+    /**
+     * Get the ith component of the jth high energy photon four-momentum from \f$\eta\f$
+     */
+    double GetEtaHighEPhotonP(int i, int j) const;
+    /**
+     * Get the ith component of the jth low energy photon four-momentum from \f$\eta\f$
+     */
+    double GetEtaLowEPhotonP(int i, int j) const;
+    /**
+     * Get the ith component of the jth high energy constrained photon four-momentum from \f$\eta\f$
+     */
+    double GetEtaHighEPhotonPConstrained(int i, int j) const;
+    /**
+     * Get the ith component of the jth low energy constrained photon four-momentum from \f$\eta\f$
+     */
+    double GetEtaLowEPhotonPConstrained(int i, int j) const;
+    /**
+     * Get the \f$\chi^2\f$ from the kinematic fit of the jth \f$\eta\f$
+     */
+    double GetEtaChi2Fit(int j) const;
+    /**
+     * Get number of \f$\eta\f$ found
+     */
+    int GetNumberEta() const;
+    /**
+     * Get jth single photon energy
+     */
+    double GetPhotonEnergy(int j) const;
+    /**
+     * Get jth single photon angular separation from the nearest track
+     */
+    double GetPhotonAngleSeparation(int j) const;
+    /**
+     * Get jth single photon polar angle separation from the nearest track
+     */
+    double GetPhotonThetaSeparation(int j) const;
+    /**
+     * Get jth single photon azimuthal angle separation from the nearest track
+     */
+    double GetPhotonPhiSeparation(int j) const;
+    /**
+     * Get number of \f$\gamma\f$ found
+     */
+    int GetNumberGamma() const;
   private:
     /**
      * Flag that is 1 if a \f$\pi^\pi^-\f$ pair is found
