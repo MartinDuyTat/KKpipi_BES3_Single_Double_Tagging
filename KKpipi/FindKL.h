@@ -150,7 +150,7 @@ class FindKL {
     /**
      * Vector of all \f$\chi^2\f$ from the kinematic fit of \f$\pi^0\f$
      */
-    std::vector<CLHEP::HepLorentzVector> m_Pi0Chi2Fit;
+    std::vector<double> m_Pi0Chi2Fit;
     /**
      * Number of \f$\pi^0\f$ found
      */
@@ -174,7 +174,7 @@ class FindKL {
     /**
      * Vector of all \f$\chi^2\f$ from the kinematic fit of \f$\eta\f$
      */
-    std::vector<CLHEP::HepLorentzVector> m_EtaChi2Fit;
+    std::vector<double> m_EtaChi2Fit;
     /**
      * Number of \f$\eta\f$ found
      */
