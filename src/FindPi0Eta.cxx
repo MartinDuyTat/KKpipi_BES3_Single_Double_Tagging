@@ -1,7 +1,8 @@
 // Martin Duy Tat 12th February 2021, based on code by Yu Zhang
 
-// Header file
+// KKpipi file
 #include "KKpipi/FindPi0Eta.h"
+#include "KKpipi/KKpipiUtilities.h"
 // Gaudi
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
@@ -51,13 +52,6 @@ FindPi0Eta::FindPi0Eta(int npi0eta, std::string Particle): m_Chi2Fit(0.0), m_npi
 FindPi0Eta::~FindPi0Eta() {
 }
 
-CLHEP::HepLorentzVector FindPi0Eta::GetPhoton4Vector(double Energy, double Theta, double Phi) const {
-  double Px = Energy*TMath::Sin(Theta)*TMath::Cos(Phi);
-  double Py = Energy*TMath::Sin(Theta)*TMath::Sin(Phi);
-  double Pz = Energy*TMath::Cos(Theta);
-  return CLHEP::HepLorentzVector(Px, Py, Pz, Energy);
-}
-
 StatusCode FindPi0Eta::findPi0Eta(DTagToolIterator &DTTool_iter, DTagTool &DTTool) {
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
@@ -88,8 +82,8 @@ StatusCode FindPi0Eta::findPi0Eta(DTagToolIterator &DTTool_iter, DTagTool &DTToo
       // Get EM shower four-momenta of photons
       RecEmcShower *HighEPhotonShower = const_cast<EvtRecTrack*>((*Pi0_iter)->hiEnGamma())->emcShower();
       RecEmcShower *LowEPhotonShower = const_cast<EvtRecTrack*>((*Pi0_iter)->loEnGamma())->emcShower();
-      m_HighEPhotonP[i] = GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi());
-      m_LowEPhotonP[i] = GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi());
+      m_HighEPhotonP[i] = KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi());
+      m_LowEPhotonP[i] = KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi());
       // Get kinematically constrained four-momenta of photons
       m_HighEPhotonPConstrained[i] = (*Pi0_iter)->hiPfit();
       m_LowEPhotonPConstrained[i] = (*Pi0_iter)->loPfit();
@@ -112,8 +106,8 @@ StatusCode FindPi0Eta::findPi0Eta(DTagToolIterator &DTTool_iter, DTagTool &DTToo
       // Get EM shower four-momenta of photons
       RecEmcShower *HighEPhotonShower = const_cast<EvtRecTrack*>((*Eta_iter)->hiEnGamma())->emcShower();
       RecEmcShower *LowEPhotonShower = const_cast<EvtRecTrack*>((*Eta_iter)->loEnGamma())->emcShower();
-      m_HighEPhotonP[i] = GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi());
-      m_LowEPhotonP[i] = GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi());
+      m_HighEPhotonP[i] = KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi());
+      m_LowEPhotonP[i] = KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi());
       // Get kinematically constrained four-momenta of photons
       m_HighEPhotonPConstrained[i] = (*Eta_iter)->hiPfit();
       m_LowEPhotonPConstrained[i] = (*Eta_iter)->loPfit();

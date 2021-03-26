@@ -29,13 +29,6 @@ class FindPi0Eta {
      */
     ~FindPi0Eta();
     /**
-     * Helper function to get four-momentum from shower information
-     * @param Energy Energy of photon
-     * @param Theta Polar angle of photon
-     * @param Phi Azimuthal angle of photon
-     */
-    CLHEP::HepLorentzVector GetPhoton4Vector(double Energy, double Theta, double Phi) const;
-    /**
      * Start looking for \f$\pi^0\f$ in the event
      * @param DTTool_iter DTagTool iterator pointing to the event with the tag
      * @param PiTrackIndex List of length 2 with track indices to the two pions in the event
