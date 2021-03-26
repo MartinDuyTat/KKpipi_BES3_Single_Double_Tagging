@@ -76,17 +76,23 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     if(!(*Track_iter)->isMdcTrackValid() || !(*Track_iter)->isMdcKalTrackValid()) {
       continue;
     }
-    if(DTTool.isPion(*Track_iter)) {
-      RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
-      MDCKalTrack->setPidType(RecMdcKalTrack::pion);
-      if(MDCKalTrack->charge() == +1) {
-	NumberPiPlusTracks++;
-	m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
-	m_DaughterTrackID[0] = (*Track_iter)->trackId();
-      } else if(MDCKalTrack->charge() == -1) {
-	NumberPiMinusTracks++;
-	m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
-	m_DaughterTrackID[1] = (*Track_iter)->trackId();
+    if(DTTool.isGoodTrack(*Track_iter)) {
+      if(DTTool.isPion(*Track_iter)) {
+	RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
+	MDCKalTrack->setPidType(RecMdcKalTrack::pion);
+	if(MDCKalTrack->charge() == +1) {
+	  NumberPiPlusTracks++;
+	  m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
+	  m_DaughterTrackID[0] = (*Track_iter)->trackId();
+	} else if(MDCKalTrack->charge() == -1) {
+	  NumberPiMinusTracks++;
+	  m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
+	  m_DaughterTrackID[1] = (*Track_iter)->trackId();
+	} else {
+	  return StatusCode::FAILURE;
+	}
+      } else {
+	return StatusCode::FAILURE;
       }
     }
   }
