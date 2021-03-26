@@ -67,6 +67,14 @@ class FindKL {
      */
     double GetPi0Chi2Fit(int j) const;
     /**
+     * Get the ith component of the jth high energy photon track ID from \f$\pi^0\f$
+     */
+    int GetPi0HighEPhotonTrackID(int i, int j) const;
+    /**
+     * Get the ith component of the jth low energy photon track ID from \f$\pi^0\f$
+     */
+    int GetPi0LowEPhotonTrackID(int i, int j) const;
+    /**
      * Get number of \f$\pi^0\f$ found
      */
     int GetNumberPi0() const;
@@ -91,6 +99,14 @@ class FindKL {
      */
     double GetEtaChi2Fit(int j) const;
     /**
+     * Get the ith component of the jth high energy photon track ID from \f$\eta\f$
+     */
+    int GetEtaHighEPhotonTrackID(int i, int j) const;
+    /**
+     * Get the ith component of the jth low energy photon track ID from \f$\eta\f$
+     */
+    int GetEtaLowEPhotonTrackID(int i, int j) const;
+    /**
      * Get number of \f$\eta\f$ found
      */
     int GetNumberEta() const;
@@ -110,6 +126,10 @@ class FindKL {
      * Get jth single photon azimuthal angle separation from the nearest track
      */
     double GetPhotonPhiSeparation(int j) const;
+    /**
+     * Get jth single photon track ID
+     */
+    int GetPhotonTrackID(int j) const;
     /**
      * Get number of \f$\gamma\f$ found
      */
@@ -152,6 +172,14 @@ class FindKL {
      */
     std::vector<double> m_Pi0Chi2Fit;
     /**
+     * Vector of all high energy photon track ID from \f$\pi^0\f$
+     */
+    std::vector<int> m_Pi0HighEPhotonTrackID;
+    /**
+     * Vector of all low energy photon trackID from \f$\pi^0\f$
+     */
+    std::vector<int> m_Pi0LowEPhotonTrackID;
+    /**
      * Number of \f$\pi^0\f$ found
      */
     int m_NumberPi0;
@@ -176,6 +204,14 @@ class FindKL {
      */
     std::vector<double> m_EtaChi2Fit;
     /**
+     * Vector of all high energy photon track ID from \f$\eta\f$
+     */
+    std::vector<int> m_EtaHighEPhotonTrackID;
+    /**
+     * Vector of all low energy photon trackID from \f$\eta\f$
+     */
+    std::vector<int> m_EtaLowEPhotonTrackID;
+    /**
      * Number of \f$\eta\f$ found
      */
     int m_NumberEta;
@@ -195,6 +231,10 @@ class FindKL {
      * Vector of all single photon azimuthal angle separation from the nearest track
      */
     std::vector<double> m_PhotonPhiSeparation;
+    /**
+     * Vector of all single photon trackID
+     */
+    std::vector<int> m_PhotonTrackID;
     /**
      * Number of \f$\gamma\f$ found
      */

@@ -149,6 +149,8 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_Pi0HighEPhotonPConstrained.push_back((*Pi0_iter)->hiPfit());
     m_Pi0LowEPhotonPConstrained.push_back((*Pi0_iter)->loPfit());
     m_Pi0Chi2Fit.push_back((*Pi0_iter)->chisq());
+    m_Pi0HighEPhotonTrackID.push_back(HighEnergyPhotonTrack->trackId());
+    m_Pi0LowEPhotonTrackID.push_back(LowEnergyPhotonTrack->trackId());
     m_NumberPi0++;
   }
   // If there are no pi0, reject event
@@ -182,6 +184,8 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_EtaHighEPhotonPConstrained.push_back((*Eta_iter)->hiPfit());
     m_EtaLowEPhotonPConstrained.push_back((*Eta_iter)->loPfit());
     m_EtaChi2Fit.push_back((*Eta_iter)->chisq());
+    m_EtaHighEPhotonTrackID.push_back(HighEnergyPhotonTrack->trackId());
+    m_EtaLowEPhotonTrackID.push_back(LowEnergyPhotonTrack->trackId());
     m_NumberEta++;
   }
   // Get showers on the other side of the reconstructed D meson
@@ -245,6 +249,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_PhotonAngleSeparation.push_back(Angle);
     m_PhotonThetaSeparation.push_back(Theta);
     m_PhotonPhiSeparation.push_back(Phi);
+    m_PhotonTrackID.push_back(OtherShowers[j]->trackId());
     m_NumberGamma++;
   }
   return StatusCode::SUCCESS;
@@ -282,6 +287,14 @@ double FindKL::GetPi0Chi2Fit(int j) const {
   return m_Pi0Chi2Fit[j];
 }
 
+int FindKL::GetPi0HighEPhotonTrackID(int i, int j) const{
+  return m_Pi0HighEPhotonTrackID[j][i];
+}
+
+int FindKL::GetPi0LowEPhotonTrackID(int i, int j) const{
+  return m_Pi0LowEPhotonTrackID[j][i];
+}
+
 int FindKL::GetNumberPi0() const {
   return m_NumberPi0;
 }
@@ -306,6 +319,14 @@ double FindKL::GetEtaChi2Fit(int j) const {
   return m_EtaChi2Fit[j];
 }
 
+int FindKL::GetEtaHighEPhotonTrackID(int i, int j) const{
+  return m_EtaHighEPhotonTrackID[j][i];
+}
+
+int FindKL::GetEtaLowEPhotonTrackID(int i, int j) const{
+  return m_EtaLowEPhotonTrackID[j][i];
+}
+
 int FindKL::GetNumberEta() const {
   return m_NumberEta;
 }
@@ -324,6 +345,10 @@ double FindKL::GetPhotonThetaSeparation(int j) const {
 
 double FindKL::GetPhotonPhiSeparation(int j) const {
   return m_PhotonPhiSeparation[j];
+}
+
+int FindKL::GetPhotonTrackID(int j) const {
+  return m_PhotonTrackID[j];
 }
 
 int FindKL::GetNumberGamma() const {
