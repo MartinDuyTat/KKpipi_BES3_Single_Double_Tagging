@@ -159,6 +159,10 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KpipipiSingleTag;
     /**
+     * \f$K_L\f$ tag modes
+     */
+    Algorithm *m_KLTags;
+    /**
      * Turn on \f$K\pi\f$ tag mode
      */
     bool m_recKpiTag;
@@ -218,6 +222,10 @@ class KKpipi: public Algorithm {
      * Turn on \f$K\pi\pi\pi\f$ tag mode
      */
     bool m_recKpipipiTag;
+    /**
+     * Turn on \f$K_L\f$ tag modes
+     */
+    bool m_recKLTags;
 };
 
 #endif
