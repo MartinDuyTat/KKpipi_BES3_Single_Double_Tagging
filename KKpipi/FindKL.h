@@ -45,7 +45,7 @@ class FindKL {
     /**
      * Get the ith component of the \f$\pi^-\f$ four-momentum vector on the other side
      */
-    dobule GetPiMinusP(int i) const;
+    double GetPiMinusP(int i) const;
     /**
      * Get the ith component of the jth high energy photon four-momentum from \f$\pi^0\f$
      */
@@ -114,6 +114,10 @@ class FindKL {
      * Get number of \f$\gamma\f$ found
      */
     int GetNumberGamma() const;
+    /**
+     * Get vector of track IDs of \f$\pi^+\pi^-\f$ pair
+     */
+    std::vector<int> GetDaughterTrackID() const;
   private:
     /**
      * Flag that is 1 if a \f$\pi^\pi^-\f$ pair is found
@@ -195,6 +199,10 @@ class FindKL {
      * Number of \f$\gamma\f$ found
      */
     int m_NumberGamma;
+    /**
+     * Vector of \f$\pi^+\pi^-\f$ daughter track IDs, in the order \f$\pi^+\f$ \f$\pi^-\f$
+     */
+    std::vector<int> m_DaughterTrackID;
 };
 
 #endif

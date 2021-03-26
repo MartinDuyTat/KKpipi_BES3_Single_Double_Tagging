@@ -29,10 +29,11 @@
 #include "MdcRecEvent/RecMdcKalTrack.h"
 // STL
 #include <cmath>
+#include <vector>
 // ROOT
 #include "TMath.h"
 
-FindKL::FindKL(): m_FoundPionPair(0), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0) {
+FindKL::FindKL(): m_FoundPionPair(0), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0), m_DaughterTrackIDs(std::vector<int>(2)) {
 }
 
 FindKL::~FindKL() {
@@ -81,9 +82,11 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
       if(MDCKalTrack->charge() == +1) {
 	NumberPiPlusTracks++;
 	m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
+	m_DaughterTrackID[0] = (*Track_iter)->trackId();
       } else if(MDCKalTrack->charge() == -1) {
 	NumberPiMinusTracks++;
 	m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
+	m_DaughterTrackID[1] = (*Track_iter)->trackId();
       }
     }
   }
@@ -269,11 +272,11 @@ double FindKL::GetPi0LowEPhotonPConstrained(int i, int j) const{
   return m_Pi0LowEPhotonPConstrained[j][i];
 }
 
-double GetPi0Chi2Fit(int j) const {
+double FindKL::GetPi0Chi2Fit(int j) const {
   return m_Pi0chi2Fit[j];
 }
 
-int GetNumberPi0() const {
+int FindKL::GetNumberPi0() const {
   return m_NumberPi0;
 }
 
@@ -293,11 +296,11 @@ double FindKL::GetEtaLowEPhotonPConstrained(int i, int j) const{
   return m_EtaLowEPhotonPConstrained[j][i];
 }
 
-double GetEtaChi2Fit(int j) const {
+double FindKL::GetEtaChi2Fit(int j) const {
   return m_Etachi2Fit[j];
 }
 
-int GetNumberEta() const {
+int FindKL::GetNumberEta() const {
   return m_NumberEta;
 }
 
@@ -319,4 +322,8 @@ double FindKL::GetPhotonPhiSeparation(int j) const {
 
 int FindKL::GetNumberGamma() const {
   return m_NumberGamma;
+}
+
+std::vector<int> FindKL::GetDaughterTrackID() const {
+  return m_DaughterTrackID;
 }
