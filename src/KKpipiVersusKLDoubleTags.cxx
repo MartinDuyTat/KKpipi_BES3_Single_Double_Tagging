@@ -131,7 +131,7 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addItem("TagPiMinuspy", m_TagPiMinuspy);
       status = m_tuple->addItem("TagPiMinuspz", m_TagPiMinuspz);
       status = m_tuple->addItem("TagPiMinusenergy", m_TagPiMinusenergy);
-      status = m_tuple->addItem("TagNumberPi0", m_TagNumberPi0);
+      status = m_tuple->addItem("TagNumberPi0", m_TagNumberPi0, 0, 20);
       status = m_tuple->addIndexedItem("TagPi0HighEPhotonpx", m_TagNumberPi0, m_TagPi0HighEPhotonpx);
       status = m_tuple->addIndexedItem("TagPi0HighEPhotonpy", m_TagNumberPi0, m_TagPi0HighEPhotonpy);
       status = m_tuple->addIndexedItem("TagPi0HighEPhotonpz", m_TagNumberPi0, m_TagPi0HighEPhotonpz);
@@ -149,7 +149,7 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addIndexedItem("TagPi0LowEPhotonpzConstrained", m_TagNumberPi0, m_TagPi0LowEPhotonpzConstrained);
       status = m_tuple->addIndexedItem("TagPi0LowEPhotonenergyConstrained", m_TagNumberPi0, m_TagPi0LowEPhotonenergyConstrained);
       status = m_tuple->addIndexedItem("TagPi0Chi2Fit", m_TagNumberPi0, m_TagPi0Chi2Fit);
-      status = m_tuple->addItem("TagNumberEta", m_TagNumberEta);
+      status = m_tuple->addItem("TagNumberEta", m_TagNumberEta, 0, 20);
       status = m_tuple->addIndexedItem("TagEtaHighEPhotonpx", m_TagNumberEta, m_TagEtaHighEPhotonpx);
       status = m_tuple->addIndexedItem("TagEtaHighEPhotonpy", m_TagNumberEta, m_TagEtaHighEPhotonpy);
       status = m_tuple->addIndexedItem("TagEtaHighEPhotonpz", m_TagNumberEta, m_TagEtaHighEPhotonpz);
@@ -167,7 +167,7 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addIndexedItem("TagEtaLowEPhotonpzConstrained", m_TagNumberEta, m_TagEtaLowEPhotonpzConstrained);
       status = m_tuple->addIndexedItem("TagEtaLowEPhotonenergyConstrained", m_TagNumberEta, m_TagEtaLowEPhotonenergyConstrained);
       status = m_tuple->addIndexedItem("TagEtaChi2Fit", m_TagNumberEta, m_TagEtaChi2Fit);
-      status = m_tuple->addItem("TagNumberGamma", m_TagNumberGamma);
+      status = m_tuple->addItem("TagNumberGamma", m_TagNumberGamma, 0, 100);
       status = m_tuple->addIndexedItem("TagPhotonEnergy", m_TagNumberGamma, m_TagPhotonEnergy);
       status = m_tuple->addIndexedItem("TagPhotonAngleSeparation", m_TagNumberGamma, m_TagPhotonAngleSeparation);
       status = m_tuple->addIndexedItem("TagPhotonThetaSeparation", m_TagNumberGamma, m_TagPhotonThetaSeparation);
@@ -201,7 +201,7 @@ StatusCode KKpipiVersusKLDoubleTags::execute() {
     return StatusCode::SUCCESS;
   }
   if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
-    DTagToolIterator DTTool_Signal_iter = DTTool.dtag1();
+    DTagToolIterator DTTool_Signal_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool);
     if(FillTupleStatus == StatusCode::RECOVERABLE) {
       return StatusCode::SUCCESS;

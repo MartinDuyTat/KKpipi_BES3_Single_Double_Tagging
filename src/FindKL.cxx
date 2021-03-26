@@ -93,7 +93,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   // If no pions are found, or a pi+ pi- pair is found, keep going, otherwise reject event
   if(NumberPiPlusTracks == NumberPiMinusTracks) {
     if(NumberPiPlusTracks == 1) {
-      m_FoundPionPair == 1;
+      m_FoundPionPair = 1;
     } else if (NumberPiPlusTracks != 0) {
       return StatusCode::FAILURE;
     }
