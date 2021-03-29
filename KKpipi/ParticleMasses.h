@@ -23,6 +23,10 @@ namespace MASS {
    * \f$\pi^+\f$ meson mass
    */
   const double PI_MASS = 0.13957039;
+  /**
+   * \f$e^-\f$ lepton mass
+   */
+  const double ELECTRON_MASS = 0.000548579909070
 }
 
 #endif
