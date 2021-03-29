@@ -180,7 +180,7 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addIndexedItem("TagPhotonPhiSeparation", m_TagNumberGamma, m_TagPhotonPhiSeparation);
       status = m_tuple->addIndexedItem("TagPhotonTrackID", m_TagNumberPi0, m_TagPhotonTrackID);
       status = m_tuple->addItem("TagMissingEnergy", m_TagMissingEnergy);
-      status = m_tuple->addItem("TagMissingMass", m_TagMissingMass);
+      status = m_tuple->addItem("TagMissingMass2", m_TagMissingMass2);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagPiPlusTrueID", m_TagPiPlusTrueID);
@@ -438,5 +438,5 @@ void KKpipiVersusKLDoubleTags::FillMissingMassEnergy() {
     PzMiss -= m_TagPiPluspz + m_TagPiMinuspz;
   }
   m_TagMissingEnergy = EMiss;
-  m_TagMissingMass = TMath::Sqrt(EMiss*EMiss - PxMiss*PxMiss - PyMiss*PyMiss - PzMiss*PzMiss);
+  m_TagMissingMass2 = EMiss*EMiss - PxMiss*PxMiss - PyMiss*PyMiss - PzMiss*PzMiss;
 }

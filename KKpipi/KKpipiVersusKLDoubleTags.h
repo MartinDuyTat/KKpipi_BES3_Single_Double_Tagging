@@ -563,9 +563,9 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      */
     NTuple::Item<double> m_TagMissingEnergy;
     /**
-     * Missing mass on the tag side
+     * Missing mass squared on the tag side
      */
-    NTuple::Item<double> m_TagMissingMass;
+    NTuple::Item<double> m_TagMissingMass2;
     /**
      * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
      */
