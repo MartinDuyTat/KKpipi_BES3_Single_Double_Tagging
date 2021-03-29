@@ -5,6 +5,7 @@
 // Gaudi
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
+#include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/SmartDataPtr.h"
 // Event information
 #include "EvtRecEvent/EvtRecEvent.h"
@@ -27,6 +28,10 @@ bool KKpipiUtilities::GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPos
   Theta = 2*TMath::Pi();
   Phi = 2*TMath::Pi();
   Angle = 2*TMath::Pi();
+  // Prepare message service
+  IMessageSvc *msgSvc;
+  Gaudi::svcLocator()->service("MessageSvc", msgSvc);
+  MsgStream log(msgSvc, "GetPhotonAngularSeparation");
   // Prepare event data service
   IDataProviderSvc *EventDataService = nullptr;
   Gaudi::svcLocator()->service("EventDataSvc", EventDataService);
