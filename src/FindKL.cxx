@@ -212,38 +212,11 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     // Get EMC position of shower
     CLHEP::Hep3Vector EMCPosition(EMCShower->x(), EMCShower->y(), EMCShower->z());
     // Initialize angles to their maximum
-    double Theta = 2*TMath::Pi();
-    double Phi = 2*TMath::Pi();
-    double Angle = 2*TMath::Pi();
-    // Loop over all charged tracks
-    for(int j = 0; j < evtRecEvent->totalCharged(); j++) {
-      EvtRecTrackIterator Track_iter = evtRecTrackCol->begin() + j;
-      // Check if track is valid
-      if(!(*Track_iter)->isExtTrackValid()) {
-	continue;
-      }
-      // Get track extrapolated to the EMC
-      RecExtTrack *ExternalTrack = (*Track_iter)->extTrack();
-      // Check if external track is valid
-      if(ExternalTrack->emcVolumeNumber() == -1) {
-	continue;
-      }
-      // Get position of external track
-      CLHEP::Hep3Vector ExternalPosition = ExternalTrack->emcPosition();
-      // Find angle between track and shower
-      double DeltaAngle = ExternalPosition.angle(EMCPosition);
-      // Find polar angle between track and shower
-      double DeltaTheta = ExternalPosition.theta() - EMCPosition.theta();
-      // Find azimuthal angle between track and shower
-      double DeltaPhi = ExternalPosition.deltaPhi(EMCPosition);
-      if(DeltaAngle < Angle) {
-	Theta = DeltaTheta;
-	Phi = DeltaPhi;
-	Angle = DeltaAngle;
-      }
-    }
-    if(Angle == 2*TMath::Pi()) {
-      log << MSG::ERROR << "No charged tracks found when looking for photons";
+    double Theta;
+    double Phi;
+    double Angle;
+    if(!GetPhotonAngularSeparation(EMCPosition, evtRecTrackCol->begin(), evtRecEvent->totalCharged(), Angle, Theta, Phi)) {
+      continue;
     }
     m_PhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(EMCShower->energy(), EMCShower->theta(), EMCShower->phi()));
     m_PhotonAngleSeparation.push_back(Angle);
