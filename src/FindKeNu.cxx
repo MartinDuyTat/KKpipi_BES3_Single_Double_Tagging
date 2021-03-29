@@ -2,7 +2,8 @@
 
 // KKpipi file
 #include "KKpipi/FindKeNu.h"
-#include "KKpipi/ParticlesMasses.h"
+#include "KKpipi/KKpipiUtilities.h"
+#include "KKpipi/ParticleMasses.h"
 // Gaudi
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
@@ -61,7 +62,7 @@ StatusCode FindKeNu::findKeNu(DTagToolIterator DTTool_iter, DTagTool DTTool) {
 	m_DaughterTrackID[1] = (*Track_iter)->trackId();
 	NumberElectronTracks++;
       } else if(DTTool.isKaon(*Track_iter)) {
-	MDCKalTrack->setPidtype(RecMdcKalTrack::kaon);
+	MDCKalTrack->setPidType(RecMdcKalTrack::kaon);
 	m_KaonP = MDCKalTrack->p4(MASS::K_MASS);
 	m_KaonCharge = MDCKalTrack->charge();
 	m_DaughterTrackID[0] = (*Track_iter)->trackId();
@@ -115,11 +116,11 @@ StatusCode FindKeNu::findKeNu(DTagToolIterator DTTool_iter, DTagTool DTTool) {
       m_FSRP += PhotonLeptonAngle;
     } else {
       // If not, save shower four-momentum for later background study
-      m_ExtraShowerEnergy.push_back(ShowerP);
+      m_ExtraShowerEnergy.push_back(ShowerP.e());
       m_NumberGamma++;
     }
   }
-  m_MissP = KKpipiUtilities::GetMissingMomentum(DTTool_iter->p4(), m_ElectronP + m_KaonP, DTTool_iter->beamE());
+  m_MissP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), m_ElectronP + m_KaonP, (*DTTool_iter)->beamE());
   m_UMiss = m_MissP.e() - m_MissP.vect().mag();
   return StatusCode::SUCCESS;
 }

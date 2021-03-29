@@ -91,5 +91,5 @@ CLHEP::HepLorentzVector KKpipiUtilities::GetMissingMomentum(CLHEP::HepLorentzVec
   double DMomentum = TMath::Sqrt(BeamE*BeamE - MASS::D_MASS*MASS::D_MASS);
   CLHEP::HepLorentzVector P_Dconstrained(DMomentum*P_Dunit, BeamE);
   // Use conservation of four-momentum to find missing four-momentum
-  return CLHEP::HepLorentzVector(0.0, 0.0, 0.0, MASS::JSPI_MASS) - P_Dconstrained - P_X;
+  return CLHEP::HepLorentzVector(0.0, 0.0, 0.0, MASS::JPSI_MASS) - P_Dconstrained - P_X;
 }
