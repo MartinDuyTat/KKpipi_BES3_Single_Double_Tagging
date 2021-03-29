@@ -543,6 +543,18 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      */
     NTuple::Array<double> m_TagPhotonEnergy;
     /**
+     * Array of single photon momenta along \f$x\f$
+     */
+    NTuple::Array<double> m_TagPhotonPx;
+    /**
+     * Array of single photon momenta along \f$y\f$
+     */
+    NTuple::Array<double> m_TagPhotonPy;
+    /**
+     * Array of single photon momenta along \f$z\f$
+     */
+    NTuple::Array<double> m_TagPhotonPz;
+    /**
      * Array of single photon angular separation to nearest track
      */
     NTuple::Array<double> m_TagPhotonAngleSeparation;

@@ -111,9 +111,9 @@ class FindKL {
      */
     int GetNumberEta() const;
     /**
-     * Get jth single photon energy
+     * Get ith component of jth single photon four momentum
      */
-    double GetPhotonEnergy(int j) const;
+    double GetPhotonP(int i, int j) const;
     /**
      * Get jth single photon angular separation from the nearest track
      */
@@ -216,9 +216,9 @@ class FindKL {
      */
     int m_NumberEta;
     /**
-     * Vector of all single photon energy
+     * Vector of all single photon four-momentum
      */
-    std::vector<double> m_PhotonEnergy;
+    std::vector<CLHEP::HepLorentzVector> m_PhotonP;
     /**
      * Vector of all single photon angular separation from the nearest track
      */

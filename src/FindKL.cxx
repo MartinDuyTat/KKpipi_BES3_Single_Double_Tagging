@@ -245,7 +245,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     if(Angle == 2*TMath::Pi()) {
       log << MSG::ERROR << "No charged tracks found when looking for photons";
     }
-    m_PhotonEnergy.push_back(EMCShower->energy());
+    m_PhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(EMCShower->energy(), EMCShower->theta(), EMCShower->phi()));
     m_PhotonAngleSeparation.push_back(Angle);
     m_PhotonThetaSeparation.push_back(Theta);
     m_PhotonPhiSeparation.push_back(Phi);
@@ -331,8 +331,8 @@ int FindKL::GetNumberEta() const {
   return m_NumberEta;
 }
 
-double FindKL::GetPhotonEnergy(int j) const {
-  return m_PhotonEnergy[j];
+double FindKL::GetPhotonP(int i, int j) const {
+  return m_PhotonP[j][i];
 }
 
 double FindKL::GetPhotonAngleSeparation(int j) const {
