@@ -411,11 +411,11 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
   CLHEP::Hep3Vector EMCPosition(PhotonShower->x(), PhotonShower->y(), PhotonShower->z());
   // Find separation to nearest charged track
   double Angle, Theta, Phi;
-  GetPhotonAngularSeparation(EMCPosition, Angle, Theta, Phi);
+  KKpipiUtilities::GetPhotonAngularSeparation(EMCPosition, Angle, Theta, Phi);
   m_TagPhotonAngleSeparation = Angle;
   m_TagPhotonThetaSeparation = Theta;
   m_TagPhotonPhiSeparation = Phi;
-  CLHEP::HepLorentzVector PhotonP = GetPhoton4Vector(PhotonShower->energy(), PhotonShower->theta(), PhotonShower->phi());
+  CLHEP::HepLorentzVector PhotonP = KKpipiUtilities::GetPhoton4Vector(PhotonShower->energy(), PhotonShower->theta(), PhotonShower->phi());
   m_TagGammapx = PhotonP[0];
   m_TagGammapy = PhotonP[1];
   m_TagGammapz = PhotonP[2]
