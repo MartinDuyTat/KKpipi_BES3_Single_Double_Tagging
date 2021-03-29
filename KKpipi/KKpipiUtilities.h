@@ -23,14 +23,12 @@ namespace KKpipiUtilities {
   /**
    * Helper function to calculate the angular separation between the EMC shower and the nearest charged track
    * @param EMCPosition Position of the EMC shower
-   * @param TrackIter Iterator of the first charged track
-   * @param TotalCharged Total number of charged tracks
    * @param Angle Output, the angular separation between the shower and the nearest charged track
    * @param Theta Output, the polar angle separation between the shower and the nearest charged track
    * @param Phi Output, the azimuthal angle separation between the shower and the nearest charged track
    * @return Returns true if the calculation was successful
    */
-  bool GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPosition, EvtRecTrackIterator Track_iter_begin, int TotalCharged, double &Angle, double &Theta, double &Phi);
+  bool GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPosition, double &Angle, double &Theta, double &Phi);
 }
 
 #endif

@@ -47,16 +47,6 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   // Prepare event data service
   IDataProviderSvc *EventDataService = nullptr;
   Gaudi::svcLocator()->service("EventDataSvc", EventDataService);
-  // Prepare reconstructed event service
-  SmartDataPtr<EvtRecEvent> evtRecEvent(EventDataService, EventModel::EvtRec::EvtRecEvent);
-  if(!evtRecEvent) {
-    log << MSG::ERROR << "EvtRecEvent not found" << endreq;
-  }
-  // Prepare event tracks service
-  SmartDataPtr<EvtRecTrackCol> evtRecTrackCol(EventDataService, "/Event/EvtRec/EvtRecTrackCol");
-  if(!evtRecTrackCol) {
-    log << MSG::ERROR << "EvtRecTrackCol not found" << endreq;
-  }
   // Prepare pi0 service
   SmartDataPtr<EvtRecPi0Col> evtRecPi0Col(EventDataService, "/Event/EvtRec/EvtRecPi0Col");
   if(!evtRecPi0Col) {
@@ -215,7 +205,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     double Theta;
     double Phi;
     double Angle;
-    if(!KKpipiUtilities::GetPhotonAngularSeparation(EMCPosition, evtRecTrackCol->begin(), evtRecEvent->totalCharged(), Angle, Theta, Phi)) {
+    if(!KKpipiUtilities::GetPhotonAngularSeparation(EMCPosition, Angle, Theta, Phi)) {
       continue;
     }
     m_PhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(EMCShower->energy(), EMCShower->theta(), EMCShower->phi()));

@@ -2,7 +2,12 @@
 
 // KKpipi
 #include "KKpipi/KKpipiUtilities.h"
+// Gaudi
+#include "GaudiKernel/IDataProviderSvc.h"
+#include "GaudiKernel/ISvcLocator.h"
+#include "GaudiKernel/SmartDataPtr.h"
 // Event information
+#include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecTrack.h"
 #include "ExtEvent/RecExtTrack.h"
 // ROOT
@@ -18,13 +23,26 @@ CLHEP::HepLorentzVector KKpipiUtilities::GetPhoton4Vector(double Energy, double 
   return CLHEP::HepLorentzVector(Px, Py, Pz, Energy);
 }
 
-bool KKpipiUtilities::GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPosition, EvtRecTrackIterator Track_iter_begin, int TotalCharged, double &Angle, double &Theta, double &Phi) {
+bool KKpipiUtilities::GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPosition, double &Angle, double &Theta, double &Phi) {
   Theta = 2*TMath::Pi();
   Phi = 2*TMath::Pi();
   Angle = 2*TMath::Pi();
+  // Prepare event data service
+  IDataProviderSvc *EventDataService = nullptr;
+  Gaudi::svcLocator()->service("EventDataSvc", EventDataService);
+  // Prepare reconstructed event service
+  SmartDataPtr<EvtRecEvent> evtRecEvent(EventDataService, EventModel::EvtRec::EvtRecEvent);
+  if(!evtRecEvent) {
+    log << MSG::ERROR << "EvtRecEvent not found" << endreq;
+  }
+  // Prepare event tracks service
+  SmartDataPtr<EvtRecTrackCol> evtRecTrackCol(EventDataService, "/Event/EvtRec/EvtRecTrackCol");
+  if(!evtRecTrackCol) {
+    log << MSG::ERROR << "EvtRecTrackCol not found" << endreq;
+  }
   // Loop over all charged tracks
-  for(int j = 0; j < TotalCharged; j++) {
-    EvtRecTrackIterator Track_iter = Track_iter_begin + j;
+  for(int j = 0; j < evtRecEvent->totalCharged(); j++) {
+    EvtRecTrackIterator Track_iter = evtRecTrackCol->begin() + j;
     // Check if track is valid
     if(!(*Track_iter)->isExtTrackValid()) {
       continue;
