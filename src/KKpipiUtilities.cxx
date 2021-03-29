@@ -18,10 +18,10 @@ CLHEP::HepLorentzVector KKpipiUtilities::GetPhoton4Vector(double Energy, double 
   return CLHEP::HepLorentzVector(Px, Py, Pz, Energy);
 }
 
-bool GetPhotonAnglularSeparation(const CLHEP::Hep3Vector &EMCPosition, EvtRecTrackIterator Track_iter_begin, int TotalCharged, double &Angle, double &Theta, double &Phi) {
-  double Theta = 2*TMath::Pi();
-  double Phi = 2*TMath::Pi();
-  double Angle = 2*TMath::Pi();
+bool KKpipiUtilities::GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPosition, EvtRecTrackIterator Track_iter_begin, int TotalCharged, double &Angle, double &Theta, double &Phi) {
+  Theta = 2*TMath::Pi();
+  Phi = 2*TMath::Pi();
+  Angle = 2*TMath::Pi();
   // Loop over all charged tracks
   for(int j = 0; j < TotalCharged; j++) {
     EvtRecTrackIterator Track_iter = Track_iter_begin + j;

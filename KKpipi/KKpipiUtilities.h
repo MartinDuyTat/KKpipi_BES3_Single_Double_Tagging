@@ -30,7 +30,7 @@ namespace KKpipiUtilities {
    * @param Phi Output, the azimuthal angle separation between the shower and the nearest charged track
    * @return Returns true if the calculation was successful
    */
-  bool GetPhotonAnglularSeparation(const CLHEP::Hep3Vector &EMCPosition, EvtRecTrackIterator Track_iter_begin, int TotalCharged, double &Angle, double &Theta, double &Phi);
+  bool GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPosition, EvtRecTrackIterator Track_iter_begin, int TotalCharged, double &Angle, double &Theta, double &Phi);
 }
 
 #endif
