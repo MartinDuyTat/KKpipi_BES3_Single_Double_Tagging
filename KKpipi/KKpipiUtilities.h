@@ -29,6 +29,15 @@ namespace KKpipiUtilities {
    * @return Returns true if the calculation was successful
    */
   bool GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPosition, double &Angle, double &Theta, double &Phi);
+  /**
+   * Function that calculates the missing momentum
+   * The \f$D\f$ momentum is calculated more accurately using the beam energy and the \f$D\f$ mass
+   * @param P_D Four-momentum of the reconstructed \f$D\f$ meson
+   * @param P_X Four-momentum of all reconstructed particles on the other side
+   * @param BeamE Beam energy
+   * @return The missing momentum
+   */
+  CLHEP::HepLorentzVector GetMissingMomentum(CLHEP::HepLorentzVector P_D, CLHEP::HepLorentzVector P_X, double BeamE);
 }
 
 #endif

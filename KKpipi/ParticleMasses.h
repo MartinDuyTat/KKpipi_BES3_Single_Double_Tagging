@@ -26,7 +26,11 @@ namespace MASS {
   /**
    * \f$e^-\f$ lepton mass
    */
-  const double ELECTRON_MASS = 0.000548579909070
+  const double ELECTRON_MASS = 0.000548579909070;
+  /**
+   * \f$J\psi\f$ meson mass
+   */
+  const double JPSI_MASS = 3.7737;
 }
 
 #endif

@@ -2,6 +2,7 @@
 
 // KKpipi
 #include "KKpipi/KKpipiUtilities.h"
+#include "KKpipi/ParticleMasses.h"
 // Gaudi
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
@@ -77,4 +78,18 @@ bool KKpipiUtilities::GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPos
   } else {
     return true;
   }
+}
+
+CLHEP::HepLorentzVector KKpipiUtilities::GetMissingMomentum(CLHEP::HepLorentzVector P_D, CLHEP::HepLorentzVector P_X, double BeamE) {
+  // Need to boost because the beams have a crossing angle of 11 mrad
+  CLHEP::Hep3Vector CrossingAngle(-0.011, 0.0, 0.0);
+  P_D.boost(CrossingAngle);
+  P_X.boost(CrossingAngle);
+  // Get the direction unit vector of the D meson three-momentum
+  CLHEP::Hep3Vector P_Dunit = P_D.vect().unit();
+  // Get the constrained magnitude of the D meson momentum
+  double DMomentum = TMath::Sqrt(BeamE*BeamE - MASS::D_MASS*MASS::D_MASS);
+  CLHEP::HepLorentzVector P_Dconstrained(DMomentum*P_Dunit, BeamE);
+  // Use conservation of four-momentum to find missing four-momentum
+  return CLHEP::HepLorentzVector(0.0, 0.0, 0.0, MASS::JSPI_MASS) - P_Dconstrained - P_X;
 }
