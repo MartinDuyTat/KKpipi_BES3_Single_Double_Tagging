@@ -215,7 +215,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     double Theta;
     double Phi;
     double Angle;
-    if(!GetPhotonAngularSeparation(EMCPosition, evtRecTrackCol->begin(), evtRecEvent->totalCharged(), Angle, Theta, Phi)) {
+    if(!KKpipiUtilities::GetPhotonAngularSeparation(EMCPosition, evtRecTrackCol->begin(), evtRecEvent->totalCharged(), Angle, Theta, Phi)) {
       continue;
     }
     m_PhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(EMCShower->energy(), EMCShower->theta(), EMCShower->phi()));

@@ -396,10 +396,10 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
   }
   m_TagNumberGamma = findKL.GetNumberGamma();
   for(int j = 0; j < m_TagNumberGamma; j++) {
-    m_TagPhotonPx[j] = findKL.GetPhotonEnergy(0, j);
-    m_TagPhotonPy[j] = findKL.GetPhotonEnergy(1, j);
-    m_TagPhotonPz[j] = findKL.GetPhotonEnergy(2, j);
-    m_TagPhotonEnergy[j] = findKL.GetPhotonEnergy(3, j);
+    m_TagPhotonPx[j] = findKL.GetPhotonP(0, j);
+    m_TagPhotonPy[j] = findKL.GetPhotonP(1, j);
+    m_TagPhotonPz[j] = findKL.GetPhotonP(2, j);
+    m_TagPhotonEnergy[j] = findKL.GetPhotonP(3, j);
     m_TagPhotonAngleSeparation[j] = findKL.GetPhotonAngleSeparation(j);
     m_TagPhotonThetaSeparation[j] = findKL.GetPhotonThetaSeparation(j);
     m_TagPhotonPhiSeparation[j] = findKL.GetPhotonPhiSeparation(j);
