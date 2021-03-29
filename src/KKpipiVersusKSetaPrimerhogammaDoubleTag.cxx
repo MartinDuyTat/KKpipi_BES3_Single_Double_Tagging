@@ -418,8 +418,8 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
   CLHEP::HepLorentzVector PhotonP = KKpipiUtilities::GetPhoton4Vector(PhotonShower->energy(), PhotonShower->theta(), PhotonShower->phi());
   m_TagGammapx = PhotonP[0];
   m_TagGammapy = PhotonP[1];
-  m_TagGammapz = PhotonP[2]
-  m_TagGammaenergy = Photon[3];
+  m_TagGammapz = PhotonP[2];
+  m_TagGammaenergy = PhotonP[3];
   if(m_RunNumber < 0) {
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> EtaPDaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();
