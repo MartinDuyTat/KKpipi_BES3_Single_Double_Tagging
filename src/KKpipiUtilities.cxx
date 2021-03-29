@@ -3,8 +3,8 @@
 // KKpipi
 #include "KKpipi/KKpipiUtilities.h"
 // Gaudi
+#include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/IDataProviderSvc.h"
-#include "GaudiKernel/ISvcLocator.h"
 #include "GaudiKernel/SmartDataPtr.h"
 // Event information
 #include "EvtRecEvent/EvtRecEvent.h"

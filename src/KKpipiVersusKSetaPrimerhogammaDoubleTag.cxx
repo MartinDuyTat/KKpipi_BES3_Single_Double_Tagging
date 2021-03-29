@@ -8,6 +8,7 @@
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/PIDTruth.h"
 #include "KKpipi/ParticleMasses.h"
+#include "KKpipi/KKpipiUtilities.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -30,6 +31,7 @@
 #include "EvtRecEvent/EvtRecDTag.h"
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
+#include "CLHEP/Vector/ThreeVector.h"
 // Boss
 #include "DTagTool/DTagTool.h"
 #include "McDecayModeSvc/McDecayModeSvc.h"
@@ -177,6 +179,9 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::initialize() {
       status = m_tuple->addItem("TagGammapy", m_TagGammapy);
       status = m_tuple->addItem("TagGammapz", m_TagGammapz);
       status = m_tuple->addItem("TagGammaenergy", m_TagGammaenergy);
+      status = m_tuple->addItem("TagPhotonAngleSeparation", m_TagPhotonAngleSeparation);
+      status = m_tuple->addItem("TagPhotonThetaSeparation", m_TagPhotonThetaSeparation);
+      status = m_tuple->addItem("TagPhotonPhiSeparation", m_TagPhotonPhiSeparation);
       status = m_tuple->addItem("TagNumberShowers", m_NumberShowers);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
@@ -402,13 +407,19 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
   SmartRefVector<EvtRecTrack> Showers = (*DTTool_Tag_iter)->showers();
   m_NumberShowers = Showers.size();
   RecEmcShower *PhotonShower = Showers[0]->emcShower();
-  double GammaEnergy = PhotonShower->energy();
-  double GammaTheta = PhotonShower->theta();
-  double GammaPhi = PhotonShower->phi();
-  m_TagGammapx = GammaEnergy*TMath::Sin(GammaTheta)*TMath::Cos(GammaPhi);
-  m_TagGammapy = GammaEnergy*TMath::Sin(GammaTheta)*TMath::Sin(GammaPhi);
-  m_TagGammapz = GammaEnergy*TMath::Cos(GammaTheta);
-  m_TagGammaenergy = GammaEnergy;
+  // Get EMC position of shower
+  CLHEP::Hep3Vector EMCPosition(PhotonShower->x(), PhotonShower->y(), PhotonShower->z());
+  // Find separation to nearest charged track
+  double Angle, Theta, Phi;
+  GetPhotonAngularSeparation(EMCPosition, Angle, Theta, Phi);
+  m_TagPhotonAngleSeparation = Angle;
+  m_TagPhotonThetaSeparation = Theta;
+  m_TagPhotonPhiSeparation = Phi;
+  CLHEP::HepLorentzVector PhotonP = GetPhoton4Vector(PhotonShower->energy(), PhotonShower->theta(), PhotonShower->phi());
+  m_TagGammapx = PhotonP[0];
+  m_TagGammapy = PhotonP[1];
+  m_TagGammapz = PhotonP[2]
+  m_TagGammaenergy = Photon[3];
   if(m_RunNumber < 0) {
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> EtaPDaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();

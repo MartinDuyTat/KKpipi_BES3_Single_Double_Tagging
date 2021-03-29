@@ -539,6 +539,18 @@ class KKpipiVersusKSetaPrimerhogammaDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagGammaenergy;
     /**
+     * Photon angular separation to nearest track
+     */
+    NTuple::Item<double> m_TagPhotonAngleSeparation;
+    /**
+     * Photon polar angle separation to nearest track
+     */
+    NTuple::Item<double> m_TagPhotonThetaSeparation;
+    /**
+     * Photon azimuthal angle separation to nearest track
+     */
+    NTuple::Item<double> m_TagPhotonPhiSeparation;
+    /**
      * Number of showers in the event (should be 1 for this tag mode)
      */
     NTuple::Item<int> m_NumberShowers;
