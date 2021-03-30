@@ -174,7 +174,7 @@ StatusCode KKpipiVersusKeNuDoubleTag::execute() {
   if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
     DTagToolIterator DTTool_Signal_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool);
-    if(FillTupleStatus == Statuscode::RECOVERABLE) {
+    if(FillTupleStatus == StatusCode::RECOVERABLE) {
       return StatusCode::SUCCESS;
     } else if(FillTupleStatus != StatusCode::SUCCESS) {
       log << MSG::FATAL << "Assigning KeNu tuple info failed" << endreq;
@@ -196,7 +196,7 @@ StatusCode KKpipiVersusKeNuDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   FindKeNuTagInfo findKeNuTagInfo;
   StatusCode KeNuStatus = findKeNuTagInfo.findKeNuTagInfo(DTTool_Signal_iter, DTTool);
   if(KeNuStatus == StatusCode::FAILURE) {
-    return Statuscode::RECOVERABLE;
+    return StatusCode::RECOVERABLE;
   }
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
