@@ -47,7 +47,7 @@ StatusCode KKpipiVersusKeNuDoubleTag::initialize() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Initializing KKpipi vs KeNu Double Tagging" << endreq;
   StatusCode status;
-  NTuplePtr ntp(ntupleSvc(), "KKPIPI/KKDoubleTag");
+  NTuplePtr ntp(ntupleSvc(), "KKPIPI/KeNuDoubleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
@@ -174,7 +174,9 @@ StatusCode KKpipiVersusKeNuDoubleTag::execute() {
   if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
     DTagToolIterator DTTool_Signal_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool);
-    if(FillTupleStatus != StatusCode::SUCCESS) {
+    if(FillTupleStatus == Statuscode::RECOVERABLE) {
+      return StatusCode::SUCCESS;
+    } else if(FillTupleStatus != StatusCode::SUCCESS) {
       log << MSG::FATAL << "Assigning KeNu tuple info failed" << endreq;
       return StatusCode::FAILURE;
     }
@@ -190,6 +192,12 @@ StatusCode KKpipiVersusKeNuDoubleTag::finalize() {
 }
 
 StatusCode KKpipiVersusKeNuDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagTool &DTTool) {
+  // First check if there are any KeNu candidates, otherwise no point in saving all the other stuff
+  FindKeNuTagInfo findKeNuTagInfo;
+  StatusCode KeNuStatus = findKeNuTagInfo.findKeNuTagInfo(DTTool_Signal_iter, DTTool);
+  if(KeNuStatus == StatusCode::FAILURE) {
+    return Statuscode::RECOVERABLE;
+  }
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
@@ -286,8 +294,6 @@ StatusCode KKpipiVersusKeNuDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
     m_SignalPiPlusTrueID = ReconstructedPID[2];
     m_SignalPiMinusTrueID = ReconstructedPID[3];
   }
-  FindKeNuTagInfo findKeNuTagInfo;
-  StatusCode KeNuStatus = findKeNuTagInfo.findKeNuTagInfo(DTTool_Signal_iter, DTTool);
   m_TagKpx = findKeNuTagInfo.GetKaonP(0);
   m_TagKpy = findKeNuTagInfo.GetKaonP(1);
   m_TagKpz = findKeNuTagInfo.GetKaonP(2);

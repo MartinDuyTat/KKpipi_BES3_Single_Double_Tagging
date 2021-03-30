@@ -39,7 +39,7 @@ FindKeNuTagInfo::FindKeNuTagInfo(): m_ElectronCharge(0), m_KaonCharge(0), m_UMis
 FindKeNuTagInfo::~FindKeNuTagInfo() {
 }
 
-StatusCode FindKeNuTagInfo::findKeNu(DTagToolIterator DTTool_iter, DTagTool DTTool) {
+StatusCode FindKeNuTagInfo::findKeNuTagInfo(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   // Prepare message service
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
