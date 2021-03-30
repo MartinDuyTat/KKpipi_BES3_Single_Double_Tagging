@@ -120,6 +120,7 @@ StatusCode FindKeNuTagInfo::findKeNuTagInfo(DTagToolIterator DTTool_iter, DTagTo
       m_NumberGamma++;
     }
   }
+  m_ElectronP += m_FSRP;
   m_MissP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), m_ElectronP + m_KaonP, (*DTTool_iter)->beamE());
   m_UMiss = m_MissP.e() - m_MissP.vect().mag();
   return StatusCode::SUCCESS;
