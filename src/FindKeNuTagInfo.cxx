@@ -113,7 +113,7 @@ StatusCode FindKeNuTagInfo::findKeNuTagInfo(DTagToolIterator DTTool_iter, DTagTo
     double PhotonLeptonAngle = m_ElectronP.vect().theta(ShowerP.vect());
     if(PhotonLeptonAngle < 5.0*TMath::Pi()/180.0) {
       // If photon and lepton are less than 5 degrees apart, this must be FSR
-      m_FSRP += PhotonLeptonAngle;
+      m_FSRP += ShowerP;
     } else {
       // If not, save shower four-momentum for later background study
       m_ExtraShowerEnergy.push_back(ShowerP.e());
