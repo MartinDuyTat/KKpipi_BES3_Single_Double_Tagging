@@ -3,7 +3,7 @@
 // KKpipi
 #include "KKpipi/KKpipiVersusKeNuDoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
-#include "KKpipi/FindKeNu.h"
+#include "KKpipi/FindKeNuTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/PIDTruth.h"
 // Gaudi
@@ -286,33 +286,33 @@ StatusCode KKpipiVersusKeNuDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
     m_SignalPiPlusTrueID = ReconstructedPID[2];
     m_SignalPiMinusTrueID = ReconstructedPID[3];
   }
-  FindKeNu findKeNu;
-  StatusCode KeNuStatus = findKeNu.findKeNu(DTTool_Signal_iter, DTTool);
-  m_TagKpx = findKeNu.GetKaonP(0);
-  m_TagKpy = findKeNu.GetKaonP(1);
-  m_TagKpz = findKeNu.GetKaonP(2);
-  m_TagKenergy = findKeNu.GetKaonP(3);
-  m_TagKCharge = findKeNu.GetKaonCharge();
-  m_TagElectronpx = findKeNu.GetElectronP(0);
-  m_TagElectronpy = findKeNu.GetElectronP(1);
-  m_TagElectronpz = findKeNu.GetElectronP(2);
-  m_TagElectronenergy = findKeNu.GetElectronP(3);
-  m_TagElectronCharge = findKeNu.GetElectronCharge();
-  m_TagFSRpx = findKeNu.GetFSRP(0);
-  m_TagFSRpy = findKeNu.GetFSRP(1);
-  m_TagFSRpz = findKeNu.GetFSRP(2);
-  m_TagFSRenergy = findKeNu.GetFSRP(3);
-  m_TagMissingpx = findKeNu.GetMissP(0);
-  m_TagMissingpy = findKeNu.GetMissP(1);
-  m_TagMissingpz = findKeNu.GetMissP(2);
-  m_TagMissenergy = findKeNu.GetMissP(3);
-  m_TagUMiss = findKeNu.GetUMiss();
-  m_TagNumberGamma = findKeNu.GetNumberGamma();
+  FindKeNuTagInfo findKeNuTagInfo;
+  StatusCode KeNuStatus = findKeNuTagInfo.findKeNuTagInfo(DTTool_Signal_iter, DTTool);
+  m_TagKpx = findKeNuTagInfo.GetKaonP(0);
+  m_TagKpy = findKeNuTagInfo.GetKaonP(1);
+  m_TagKpz = findKeNuTagInfo.GetKaonP(2);
+  m_TagKenergy = findKeNuTagInfo.GetKaonP(3);
+  m_TagKCharge = findKeNuTagInfo.GetKaonCharge();
+  m_TagElectronpx = findKeNuTagInfo.GetElectronP(0);
+  m_TagElectronpy = findKeNuTagInfo.GetElectronP(1);
+  m_TagElectronpz = findKeNuTagInfo.GetElectronP(2);
+  m_TagElectronenergy = findKeNuTagInfo.GetElectronP(3);
+  m_TagElectronCharge = findKeNuTagInfo.GetElectronCharge();
+  m_TagFSRpx = findKeNuTagInfo.GetFSRP(0);
+  m_TagFSRpy = findKeNuTagInfo.GetFSRP(1);
+  m_TagFSRpz = findKeNuTagInfo.GetFSRP(2);
+  m_TagFSRenergy = findKeNuTagInfo.GetFSRP(3);
+  m_TagMissingpx = findKeNuTagInfo.GetMissP(0);
+  m_TagMissingpy = findKeNuTagInfo.GetMissP(1);
+  m_TagMissingpz = findKeNuTagInfo.GetMissP(2);
+  m_TagMissenergy = findKeNuTagInfo.GetMissP(3);
+  m_TagUMiss = findKeNuTagInfo.GetUMiss();
+  m_TagNumberGamma = findKeNuTagInfo.GetNumberGamma();
   for(int j = 0; j < m_TagNumberGamma; j++) {
-    m_TagExtraShowerEnergy[j] = findKeNu.GetExtraShowerEnergy(j);
+    m_TagExtraShowerEnergy[j] = findKeNuTagInfo.GetExtraShowerEnergy(j);
   }
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKeNu.GetDaughterTrackID(), this);
+    PIDTruth PID_Truth(findKeNuTagInfo.GetDaughterTrackID(), this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[2] = {321*m_TagKCharge, -11*m_TagElectronCharge};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);

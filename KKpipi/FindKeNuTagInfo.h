@@ -1,11 +1,11 @@
 // Martin Duy Tat 25th March 2021, based on code by Yu Zhang
 /**
- * FindKeNu is class for finding \f$Ke\nu\f$ tag info
+ * FindKeNuTagInfo is class for finding \f$Ke\nu\f$ tag info
  * It reconstructs the electron and kaon on the other side of the signal and looks for missing energy and mass
  */
 
-#ifndef FINDKENU
-#define FINDKENU
+#ifndef FINDKENUTAGINFO
+#define FINDKENUTAGINFO
 // Gaudi
 #include "GaudiKernel/SmartRefVector.h"
 #include "GaudiKernel/StatusCode.h"
@@ -18,22 +18,22 @@
 // STL
 #include<vector>
 
-class FindKeNu {
+class FindKeNuTagInfo {
   public: 
     /**
      * Default constructor, initializes everything to zero
      */
-    FindKeNu();
+    FindKeNuTagInfo();
     /**
      * Trivial destructor
      */
-    ~FindKeNu();
+    ~FindKeNuTagInfo();
     /**
      * Start looking for \f$Ke\nu\f$ in the event
      * @param DTTool_iter DTagTool iterator pointing to the event with the tag
      * @param DTTool DTagTool object with all the tag information
      */
-    StatusCode findKeNu(DTagToolIterator DTTool_iter, DTagTool DTTool);
+    StatusCode findKeNuTagInfo(DTagToolIterator DTTool_iter, DTagTool DTTool);
     /**
      * Get the ith component of \f$e^\pm\f$ four-momentum, including FSR
      */

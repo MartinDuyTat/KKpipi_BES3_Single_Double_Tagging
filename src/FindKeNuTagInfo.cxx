@@ -1,7 +1,7 @@
 // Martin Duy Tat 25th March 2021, based on code by Yu Zhang
 
 // KKpipi file
-#include "KKpipi/FindKeNu.h"
+#include "KKpipi/FindKeNuTagInfo.h"
 #include "KKpipi/KKpipiUtilities.h"
 #include "KKpipi/ParticleMasses.h"
 // Gaudi
@@ -33,17 +33,17 @@
 // ROOT
 #include "TMath.h"
 
-FindKeNu::FindKeNu(): m_ElectronCharge(0), m_KaonCharge(0), m_UMiss(0.0), m_ExtraShowerEnergy(0.0), m_NumberGamma(0), m_DaughterTrackID(std::vector<int>(2)) {
+FindKeNuTagInfo::FindKeNuTagInfo(): m_ElectronCharge(0), m_KaonCharge(0), m_UMiss(0.0), m_ExtraShowerEnergy(0.0), m_NumberGamma(0), m_DaughterTrackID(std::vector<int>(2)) {
 }
 
-FindKeNu::~FindKeNu() {
+FindKeNuTagInfo::~FindKeNuTagInfo() {
 }
 
-StatusCode FindKeNu::findKeNu(DTagToolIterator DTTool_iter, DTagTool DTTool) {
+StatusCode FindKeNuTagInfo::findKeNu(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   // Prepare message service
   IMessageSvc *msgSvc;
   Gaudi::svcLocator()->service("MessageSvc", msgSvc);
-  MsgStream log(msgSvc, "FindKeNu");
+  MsgStream log(msgSvc, "FindKeNuTagInfo");
   // Get tracks on the other side of the reconstructed D meson
   SmartRefVector<EvtRecTrack> OtherTracks = (*DTTool_iter)->otherTracks();
   // Loop over all tracks on the other side to find pi+ pi-
@@ -125,42 +125,42 @@ StatusCode FindKeNu::findKeNu(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   return StatusCode::SUCCESS;
 }
 
-double FindKeNu::GetElectronP(int i) const {
+double FindKeNuTagInfo::GetElectronP(int i) const {
   return m_ElectronP[i];
 }
 
-int FindKeNu::GetElectronCharge() const {
+int FindKeNuTagInfo::GetElectronCharge() const {
   return m_ElectronCharge;
 }
 
-double FindKeNu::GetFSRP(int i) const {
+double FindKeNuTagInfo::GetFSRP(int i) const {
   return m_FSRP[i];
 }
 
-double FindKeNu::GetKaonP(int i) const {
+double FindKeNuTagInfo::GetKaonP(int i) const {
   return m_KaonP[i];
 }
 
-int FindKeNu::GetKaonCharge() const {
+int FindKeNuTagInfo::GetKaonCharge() const {
   return m_KaonCharge;
 }
 
-double FindKeNu::GetMissP(int i) const {
+double FindKeNuTagInfo::GetMissP(int i) const {
   return m_MissP[i];
 }
 
-double FindKeNu::GetUMiss() const {
+double FindKeNuTagInfo::GetUMiss() const {
   return m_UMiss;
 }
 
-double FindKeNu::GetExtraShowerEnergy(int j) const {
+double FindKeNuTagInfo::GetExtraShowerEnergy(int j) const {
   return m_ExtraShowerEnergy[j];
 }
 
-int FindKeNu::GetNumberGamma() const {
+int FindKeNuTagInfo::GetNumberGamma() const {
   return m_NumberGamma;
 }
 
-std::vector<int> FindKeNu::GetDaughterTrackID() const {
+std::vector<int> FindKeNuTagInfo::GetDaughterTrackID() const {
   return m_DaughterTrackID;
 }
