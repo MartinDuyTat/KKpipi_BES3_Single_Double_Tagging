@@ -12,7 +12,11 @@ This repository contains the BOSS 6.6.4.p02 packages for a D->KKpipi analysis an
 * KSeta
 * KSetaPrime(pipieta)
 * KSetaPrime(rhogamma)
-* KSpipipi0
-* KSKK
+* KSpipipi0(eta, omega)
+* KSphi(KK)
 * KSpipi
 * KKpipi
+* KLpi0
+* KLpi0pi0
+* KLomega(pipipi0)
+* KLeta

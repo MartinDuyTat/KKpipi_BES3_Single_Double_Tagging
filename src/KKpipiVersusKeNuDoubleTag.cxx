@@ -2,6 +2,7 @@
 
 // KKpipi
 #include "KKpipi/KKpipiVersusKeNuDoubleTag.h"
+#include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindKeNu.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/PIDTruth.h"
@@ -69,18 +70,10 @@ StatusCode KKpipiVersusKeNuDoubleTag::initialize() {
       status = m_tuple->addItem("SignalMBC", m_SignalMBC);
       status = m_tuple->addItem("SignalDeltaE", m_SignalDeltaE);
       status = m_tuple->addItem("SignalBeamE", m_SignalBeamE);
-      status = m_tuple->addItem("TagDMass", m_TagDMass);
-      status = m_tuple->addItem("TagMBC", m_TagMBC);
-      status = m_tuple->addItem("TagDeltaE", m_TagDeltaE);
-      status = m_tuple->addItem("TagBeamE", m_TagBeamE);
       status = m_tuple->addItem("SignalDpx", m_SignalDpx);
       status = m_tuple->addItem("SignalDpy", m_SignalDpy);
       status = m_tuple->addItem("SignalDpz", m_SignalDpz);
       status = m_tuple->addItem("SignalDenergy", m_SignalDenergy);
-      status = m_tuple->addItem("TagDpx", m_TagDpx);
-      status = m_tuple->addItem("TagDpy", m_TagDpy);
-      status = m_tuple->addItem("TagDpz", m_TagDpz);
-      status = m_tuple->addItem("TagDenergy", m_TagDenergy);
       status = m_tuple->addItem("SignalPiPluspx", m_SignalPiPluspx);
       status = m_tuple->addItem("SignalPiPluspy", m_SignalPiPluspy);
       status = m_tuple->addItem("SignalPiPluspz", m_SignalPiPluspz);
@@ -143,7 +136,6 @@ StatusCode KKpipiVersusKeNuDoubleTag::initialize() {
       status = m_tuple->addItem("TagFSRpy", m_TagFSRpy);
       status = m_tuple->addItem("TagFSRpz", m_TagFSRpz);
       status = m_tuple->addItem("TagFSRenergy", m_TagFSRenergy);
-      status = m_tuple->addItem("TagFSRCharge", m_TagFSRCharge);
       status = m_tuple->addItem("TagMissingpx", m_TagMissingpx);
       status = m_tuple->addItem("TagMissingpy", m_TagMissingpy);
       status = m_tuple->addItem("TagMissingpz", m_TagMissingpz);
@@ -180,7 +172,7 @@ StatusCode KKpipiVersusKeNuDoubleTag::execute() {
     return StatusCode::SUCCESS;
   }
   if(DTTool.findSTag(EvtRecDTag::kD0toKKPiPi)) {
-    DTagToolIterator DTTool_Signal_iter = DTTool.stag1();
+    DTagToolIterator DTTool_Signal_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
       log << MSG::FATAL << "Assigning KeNu tuple info failed" << endreq;
@@ -233,18 +225,10 @@ StatusCode KKpipiVersusKeNuDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_SignalMBC = (*DTTool_Signal_iter)->mBC();
   m_SignalDeltaE = (*DTTool_Signal_iter)->deltaE();
   m_SignalBeamE = (*DTTool_Signal_iter)->beamE();
-  m_TagDMass = (*DTTool_Tag_iter)->mass();
-  m_TagMBC = (*DTTool_Tag_iter)->mBC();
-  m_TagDeltaE = (*DTTool_Tag_iter)->deltaE();
-  m_TagBeamE = (*DTTool_Tag_iter)->beamE();
   m_SignalDpx = (*DTTool_Signal_iter)->p4().x();
   m_SignalDpy = (*DTTool_Signal_iter)->p4().y();
   m_SignalDpz = (*DTTool_Signal_iter)->p4().z();
   m_SignalDenergy = (*DTTool_Signal_iter)->p4().t();
-  m_TagDpx = (*DTTool_Tag_iter)->p4().x();
-  m_TagDpy = (*DTTool_Tag_iter)->p4().y();
-  m_TagDpz = (*DTTool_Tag_iter)->p4().z();
-  m_TagDenergy = (*DTTool_Tag_iter)->p4().t();
   FindKKpipiTagInfo findKKpipiTagInfo;
   StatusCode status = findKKpipiTagInfo.CalculateTagInfo(DTTool_Signal_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
@@ -318,9 +302,9 @@ StatusCode KKpipiVersusKeNuDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_TagFSRpy = findKeNu.GetFSRP(1);
   m_TagFSRpz = findKeNu.GetFSRP(2);
   m_TagFSRenergy = findKeNu.GetFSRP(3);
-  m_TagMisspx = findKeNu.GetMissP(0);
-  m_TagMisspy = findKeNu.GetMissP(1);
-  m_TagMisspz = findKeNu.GetMissP(2);
+  m_TagMissingpx = findKeNu.GetMissP(0);
+  m_TagMissingpy = findKeNu.GetMissP(1);
+  m_TagMissingpz = findKeNu.GetMissP(2);
   m_TagMissenergy = findKeNu.GetMissP(3);
   m_TagUMiss = findKeNu.GetUMiss();
   m_TagNumberGamma = findKeNu.GetNumberGamma();
