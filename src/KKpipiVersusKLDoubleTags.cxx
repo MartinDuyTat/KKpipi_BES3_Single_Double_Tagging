@@ -181,7 +181,7 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addIndexedItem("TagPhotonAngleSeparation", m_TagNumberGamma, m_TagPhotonAngleSeparation);
       status = m_tuple->addIndexedItem("TagPhotonThetaSeparation", m_TagNumberGamma, m_TagPhotonThetaSeparation);
       status = m_tuple->addIndexedItem("TagPhotonPhiSeparation", m_TagNumberGamma, m_TagPhotonPhiSeparation);
-      status = m_tuple->addIndexedItem("TagPhotonTrackID", m_TagNumberPi0, m_TagPhotonTrackID);
+      status = m_tuple->addIndexedItem("TagPhotonTrackID", m_TagNumberGamma, m_TagPhotonTrackID);
       status = m_tuple->addItem("TagMissingEnergy", m_TagMissingEnergy);
       status = m_tuple->addItem("TagMissingMass2", m_TagMissingMass2);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
