@@ -406,7 +406,7 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
     m_TagPhotonTrackID[j] = findKL.GetPhotonTrackID(j);
   }
   FillMissingMassEnergy();
-  if(m_RunNumber < 0) {
+  if(m_RunNumber < 0 && m_TagFoundPionPair == 1) {
     PIDTruth PID_Truth(findKL.GetDaughterTrackID(), this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[2] = {211, -211};
