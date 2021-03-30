@@ -142,7 +142,7 @@ StatusCode KKpipiVersusKeNuDoubleTag::initialize() {
       status = m_tuple->addItem("TagMissingenergy", m_TagMissingenergy);
       status = m_tuple->addItem("TagUMiss", m_TagUMiss);
       status = m_tuple->addItem("TagNumberGamma", m_TagNumberGamma, 0, 100);
-      status = m_tuple->addIndexedItem("TagExtraShowerEnergy", m_TagNumberGamma, TagExtraShowerEnergy);
+      status = m_tuple->addIndexedItem("TagExtraShowerEnergy", m_TagNumberGamma, m_TagExtraShowerEnergy);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagKTrueID", m_TagKTrueID);
@@ -305,7 +305,7 @@ StatusCode KKpipiVersusKeNuDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_TagMissingpx = findKeNuTagInfo.GetMissP(0);
   m_TagMissingpy = findKeNuTagInfo.GetMissP(1);
   m_TagMissingpz = findKeNuTagInfo.GetMissP(2);
-  m_TagMissenergy = findKeNuTagInfo.GetMissP(3);
+  m_TagMissingenergy = findKeNuTagInfo.GetMissP(3);
   m_TagUMiss = findKeNuTagInfo.GetUMiss();
   m_TagNumberGamma = findKeNuTagInfo.GetNumberGamma();
   for(int j = 0; j < m_TagNumberGamma; j++) {
