@@ -51,7 +51,7 @@ StatusCode KKpipiVersusKeNuDoubleTag::initialize() {
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/KKDoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->KeNu events");
+    m_tuple = ntupleSvc()->book("KKPIPI/KeNuDoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->KeNu events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
@@ -176,11 +176,12 @@ StatusCode KKpipiVersusKeNuDoubleTag::execute() {
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool);
     if(FillTupleStatus == StatusCode::RECOVERABLE) {
       return StatusCode::SUCCESS;
-    } else if(FillTupleStatus != StatusCode::SUCCESS) {
+    } else if(FillTupleStatus == StatusCode::FAILURE) {
       log << MSG::FATAL << "Assigning KeNu tuple info failed" << endreq;
       return StatusCode::FAILURE;
+    } else {
+      m_tuple->write();
     }
-    m_tuple->write();
   }
   return StatusCode::SUCCESS;
 }
