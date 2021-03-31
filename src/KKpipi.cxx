@@ -229,9 +229,9 @@ StatusCode KKpipi::initialize() {
     }
   }
   if(m_recKeNuTag) {
-    sc = createSubAlgorithm("KKpipiVersusKeNuDoubleTags", "KKpipiVersusKeNuDoubleTags", m_KeNuTag);
+    sc = createSubAlgorithm("KKpipiVersusKeNuDoubleTag", "KKpipiVersusKeNuDoubleTag", m_KeNuTag);
     if(sc.isFailure()) {
-      log << MSG::ERROR << "Error while creating KKpipiVersusKeNuDoubleTags" << endreq;
+      log << MSG::ERROR << "Error while creating KKpipiVersusKeNuDoubleTag" << endreq;
       return StatusCode::FAILURE;
     }
   }
