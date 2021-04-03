@@ -16,6 +16,8 @@ This repository contains the BOSS 6.6.4.p02 packages for a D->KKpipi analysis an
 * KSphi(KK)
 * KSpipi
 * KKpipi
+* KeNu
+* Kpipipi
 * KLpi0
 * KLpi0pi0
 * KLomega(pipipi0)
