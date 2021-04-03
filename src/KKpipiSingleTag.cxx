@@ -241,6 +241,7 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_PiMinuspxKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(0);
   m_PiMinuspyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(1);
   m_PiMinuspzKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(2);
+  m_PiMinusenergyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(3);
   m_KSFitSuccess = findKKpipiTagInfo.GetKSFitSuccess();
   m_DecayLengthVeeVertex = findKKpipiTagInfo.GetDecayLengthVeeVertex();
   m_Chi2VeeVertex = findKKpipiTagInfo.GetChi2VeeVertex();

@@ -363,6 +363,7 @@ StatusCode KKpipiVersusKKpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagPiMinuspxKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(0);
   m_TagPiMinuspyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(1);
   m_TagPiMinuspzKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(2);
+  m_TagPiMinusenergyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(3);
   m_TagKSFitSuccess = findKKpipiTagInfo.GetKSFitSuccess();
   m_TagDecayLengthVeeVertex = findKKpipiTagInfo.GetDecayLengthVeeVertex();
   m_TagChi2VeeVertex = findKKpipiTagInfo.GetChi2VeeVertex();
