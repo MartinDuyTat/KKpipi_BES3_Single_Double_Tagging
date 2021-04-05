@@ -90,6 +90,10 @@ class FindKKpipiTagInfo {
      */
     double GetPiMinusPKalmanFit(int i) const;
     /**
+     * Get the \f$\pi^+\pi^-\f$ invariant mass
+     */
+    double GetMpipi() const;
+    /**
      * Get flag of \f$K_S^0\f$ fit success of tracks
      */
     int GetKSFitSuccess() const;
@@ -166,6 +170,10 @@ class FindKKpipiTagInfo {
      * Kalman fitted \f$\pi^-\f$ four-momentum
      */
     CLHEP::HepLorentzVector m_PiMinusPKalmanFit;
+    /**
+     * \f$\pi^+\pi^-\f$ invariant mass
+     */
+    double m_Mpipi;
     /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
      */

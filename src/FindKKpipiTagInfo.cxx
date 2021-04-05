@@ -81,10 +81,10 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     m_PiPlusPKalmanFit = KalmanFit->pfit(PIPLUS);
     m_PiMinusPKalmanFit = KalmanFit->pfit(PIMINUS);
   }
-  double Mpipi = (m_PiPlusP + m_PiMinusP).m();
+  m_Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_KSFitSuccess = 0;
   // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
-  if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
+  if(TMath::Abs(m_Mpipi - MASS::KS_MASS) < 0.020) {
     FindKS findKS(false);
     std::vector<int> PionTrackIDs;
     PionTrackIDs.push_back((*DaughterTrackIterators[PIPLUS])->trackId());
@@ -146,6 +146,10 @@ double FindKKpipiTagInfo::GetPiPlusPKalmanFit(int i) const {
 
 double FindKKpipiTagInfo::GetPiMinusPKalmanFit(int i) const {
   return m_PiMinusPKalmanFit[i];
+}
+
+double FindKKpipiTagInfo::GetMpipi() const {
+  return m_Mpipi;
 }
 
 int FindKKpipiTagInfo::GetKSFitSuccess() const {

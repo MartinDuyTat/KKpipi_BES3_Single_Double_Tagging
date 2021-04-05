@@ -107,6 +107,7 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KMinuspyKalmanFit", m_KMinuspyKalmanFit);
       status = m_tuple->addItem("KMinuspzKalmanFit", m_KMinuspzKalmanFit);
       status = m_tuple->addItem("KMinusenergyKalmanFit", m_KMinusenergyKalmanFit);
+      status = m_tuple->addItem("Mpipi", m_Mpipi);
       status = m_tuple->addItem("KSFitSuccess", m_KSFitSuccess);
       status = m_tuple->addItem("KSDecayLengthVeeVertex", m_DecayLengthVeeVertex);
       status = m_tuple->addItem("KSChi2VeeVertex", m_Chi2VeeVertex);
@@ -242,6 +243,7 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_PiMinuspyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(1);
   m_PiMinuspzKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(2);
   m_PiMinusenergyKalmanFit = findKKpipiTagInfo.GetPiMinusPKalmanFit(3);
+  m_Mpipi = findKKpipiTagInfo.GetMpipi();
   m_KSFitSuccess = findKKpipiTagInfo.GetKSFitSuccess();
   m_DecayLengthVeeVertex = findKKpipiTagInfo.GetDecayLengthVeeVertex();
   m_Chi2VeeVertex = findKKpipiTagInfo.GetChi2VeeVertex();
