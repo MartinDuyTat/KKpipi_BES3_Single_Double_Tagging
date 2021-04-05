@@ -122,6 +122,9 @@ StatusCode KSetaPrimerhogammaSingleTag::initialize() {
       status = m_tuple->addItem("Gammapz", m_Gammapz);
       status = m_tuple->addItem("Gammaenergy", m_Gammaenergy);
       status = m_tuple->addItem("Mpipigamma", m_Mpipigamma);
+      status = m_tuple->addItem("PhotonAngleSeparation", m_PhotonAngleSeparation);
+      status = m_tuple->addItem("PhotonThetaSeparation", m_PhotonThetaSeparation);
+      status = m_tuple->addItem("PhotonPhiSeparation", m_PhotonPhiSeparation);
       status = m_tuple->addItem("NumberShowers", m_NumberShowers);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
