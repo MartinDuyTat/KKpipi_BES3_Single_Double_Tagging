@@ -183,9 +183,6 @@ StatusCode KKpipiVersuspipipi0DoubleTag::initialize() {
 StatusCode KKpipiVersuspipipi0DoubleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing KKpipi vs pipipi0 Double Tag Algorithm" << endreq;
-  SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
-  m_RunNumber = eventHeader->runNumber();
-  m_EventNumber = eventHeader->eventNumber();
   DTagTool DTTool;
   DTTool.setPID(true);
   if(DTTool.isDTagListEmpty()) {
@@ -197,6 +194,9 @@ StatusCode KKpipiVersuspipipi0DoubleTag::execute() {
     return StatusCode::SUCCESS;
   }
   if(DTTool.findDTag(EvtRecDTag::kD0toKKPiPi, EvtRecDTag::kD0toPiPiPi0)) {
+    SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
+    m_RunNumber = eventHeader->runNumber();
+    m_EventNumber = eventHeader->eventNumber();
     DTagToolIterator DTTool_Signal_iter = DTTool.dtag1();
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
