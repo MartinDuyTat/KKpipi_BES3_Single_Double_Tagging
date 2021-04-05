@@ -163,6 +163,7 @@ StatusCode KKpipiVersusKSKKDoubleTag::initialize() {
       status = m_tuple->addItem("TagKMinuspy", m_TagKMinuspy);
       status = m_tuple->addItem("TagKMinuspz", m_TagKMinuspz);
       status = m_tuple->addItem("TagKMinusenergy", m_TagKMinusenergy);
+      status = m_tuple->addItem("TagMKK", m_TagMKK);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagKSPiPlusTrueID", m_TagKSPiPlusTrueID);
@@ -364,6 +365,7 @@ StatusCode KKpipiVersusKSKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_TagKMinuspy = findKKTagInfo.GethMinusP(1);
   m_TagKMinuspz = findKKTagInfo.GethMinusP(2);
   m_TagKMinusenergy = findKKTagInfo.GethMinusP(3);
+  m_TagMKK = findKKTagInfo.GetMhh();
   if(m_RunNumber < 0) {
     std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> DaughterTrackIDs = findKKTagInfo.GetDaughterTrackID();

@@ -40,15 +40,19 @@ class FindhhTagInfo {
      */
     std::vector<int> GetDaughterTrackID() const;
     /**
-     * Get \f$K^+\f$ momentum component
+     * Get \f$h^+\f$ momentum component
      * @param i Component
      */
     double GethPlusP(int i) const;
     /**
-     * Get \f$K^-\f$ momentum component
+     * Get \f$h^-\f$ momentum component
      * @param i Component
      */
     double GethMinusP(int i) const;
+    /**
+     * Get the \f$hh\f$ invariant mass
+     */
+    double GetMhh() const;
     /**
      * Get track iterator of a \f$\pi^+\f$, if found
      */

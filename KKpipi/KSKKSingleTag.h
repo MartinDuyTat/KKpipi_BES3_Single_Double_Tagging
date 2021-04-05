@@ -265,6 +265,10 @@ class KSKKSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_KMinusenergy;
     /**
+     * \f$KK\f$ invariant mass
+     */
+    NTuple::Item<double> m_MKK;
+    /**
      * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_IsSameDMother;

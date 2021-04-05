@@ -67,6 +67,10 @@ double FindhhTagInfo::GethMinusP(int i) const {
   return m_hMinusP[i];
 }
 
+double FindhhTagInfo::GetMhh() const {
+  return (m_hPlusP + m_hMinusP).m();
+}
+
 int FindhhTagInfo::GetPiPlusTrackID() const {
   return m_PiPlusTrackID;
 }

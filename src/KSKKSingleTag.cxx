@@ -106,6 +106,7 @@ StatusCode KSKKSingleTag::initialize() {
       status = m_tuple->addItem("KMinuspy", m_KMinuspy);
       status = m_tuple->addItem("KMinuspz", m_KMinuspz);
       status = m_tuple->addItem("KMinusenergy", m_KMinusenergy);
+      status = m_tuple->addItem("MKK", m_MKK);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
@@ -239,6 +240,7 @@ StatusCode KSKKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
   m_KMinuspy = findKKTagInfo.GethMinusP(1);
   m_KMinuspz = findKKTagInfo.GethMinusP(2);
   m_KMinusenergy = findKKTagInfo.GethMinusP(3);
+  m_MKK = findKKTagInfo.GetMhh();
   if(m_RunNumber < 0) {
     std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> DaughterTrackIDs = findKKTagInfo.GetDaughterTrackID();
