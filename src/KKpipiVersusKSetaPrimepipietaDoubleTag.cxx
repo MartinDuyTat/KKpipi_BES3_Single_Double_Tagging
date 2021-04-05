@@ -176,7 +176,8 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::initialize() {
       status = m_tuple->addItem("TagLowEEtaConstrainedpy", m_TagLowEEtaConstrainedpy);
       status = m_tuple->addItem("TagLowEEtaConstrainedpz", m_TagLowEEtaConstrainedpz);
       status = m_tuple->addItem("TagLowEEtaConstrainedenergy", m_TagLowEEtaConstrainedenergy);
-      status = m_tuple->addItem("TagEtaChi2Fit", m_EtaChi2Fit);
+      status = m_tuple->addItem("TagEtaChi2Fit", m_TagEtaChi2Fit);
+      status = m_tuple->addItem("TagMpipieta", m_TagMpipieta);
       status = m_tuple->addItem("TagpipiKSFitSuccess", m_TagpipiKSFitSuccess);
       status = m_tuple->addItem("TagpipiKSDecayLengthVeeVertex", m_TagpipiDecayLengthVeeVertex);
       status = m_tuple->addItem("TagpipiKSChi2VeeVertex", m_TagpipiChi2VeeVertex);
@@ -400,7 +401,7 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DT
   m_TagLowEEtaConstrainedpy = findEta.GetLowEPhotonPConstrained(1);
   m_TagLowEEtaConstrainedpz = findEta.GetLowEPhotonPConstrained(2);
   m_TagLowEEtaConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
-  m_EtaChi2Fit = findEta.GetChi2Fit();
+  m_TagEtaChi2Fit = findEta.GetChi2Fit();
   FindhhTagInfo findpipiTagInfo("pipi", findKS.GetDaughterTrackIDs());
   status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
@@ -414,6 +415,10 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DT
   m_TagPiMinuspy = findpipiTagInfo.GethMinusP(1);
   m_TagPiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_TagPiMinusenergy = findpipiTagInfo.GethMinusP(3);
+  m_TagMpipieta = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy + m_TagHighEEtaConstrainedenergy + m_TagLowEEtaConstrainedenergy, 2)
+                            - TMath::Power(m_TagPiPluspx + PiMinuspx + m_TagHighEEtaConstrainedpx + m_TagLowEEtaConstrainedpx, 2)
+                            - TMath::Power(m_TagPiPluspy + PiMinuspy + m_TagHighEEtaConstrainedpy + m_TagLowEEtaConstrainedpy, 2)
+           	            - TMath::Power(m_TagPiPluspz + PiMinuspz + m_TagHighEEtaConstrainedpz + m_TagLowEEtaConstrainedpz, 2));
   double Mpipi = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy, 2) - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx, 2) - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy, 2) - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz, 2));
   m_TagpipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {

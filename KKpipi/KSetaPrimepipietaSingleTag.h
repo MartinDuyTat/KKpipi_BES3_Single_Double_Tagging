@@ -305,6 +305,10 @@ class KSetaPrimepipietaSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_EtaChi2Fit;
     /**
+     * \f$\pi\pi\eta\f$ invariant mass
+     */
+    NTuple::Item<double> m_Mpipieta;
+    /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of \f$\pi^+\pi^-\f$ tag tracks
      */
     NTuple::Item<int> m_pipiKSFitSuccess;

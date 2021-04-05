@@ -533,7 +533,11 @@ class KKpipiVersusKSetaPrimepipietaDoubleTag: public Algorithm {
     /**
      * Tag \f$\eta\f$ kinematic fit \f$\chi^2\f$
      */
-    NTuple::Item<double> m_EtaChi2Fit;
+    NTuple::Item<double> m_TagEtaChi2Fit;
+    /**
+     * The tag \f$\pi\pi\eta\f$ invariant mass
+     */
+    NTuple::Item<double> m_TagMpipieta;
     /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of \f$\pi^+\pi^-\f$ tag tracks
      */

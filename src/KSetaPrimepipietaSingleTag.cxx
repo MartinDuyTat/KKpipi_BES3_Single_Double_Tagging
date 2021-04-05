@@ -119,6 +119,7 @@ StatusCode KSetaPrimepipietaSingleTag::initialize() {
       status = m_tuple->addItem("LowEEtaConstrainedpz", m_LowEEtaConstrainedpz);
       status = m_tuple->addItem("LowEEtaConstrainedenergy", m_LowEEtaConstrainedenergy);
       status = m_tuple->addItem("EtaChi2Fit", m_EtaChi2Fit);
+      status = m_tuple->addItem("Mpipieta", m_Mpipieta);
       status = m_tuple->addItem("pipiKSFitSuccess", m_pipiKSFitSuccess);
       status = m_tuple->addItem("pipiKSDecayLengthVeeVertex", m_pipiDecayLengthVeeVertex);
       status = m_tuple->addItem("pipiKSChi2VeeVertex", m_pipiChi2VeeVertex);
@@ -288,6 +289,10 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
   m_PiMinuspy = findpipiInfo.GethMinusP(1);
   m_PiMinuspz = findpipiInfo.GethMinusP(2);
   m_PiMinusenergy = findpipiInfo.GethMinusP(3);
+  m_Mpipieta = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy + m_HighEEtaConstrainedenergy + m_LowEEtaConstrainedenergy, 2)
+                         - TMath::Power(m_PiPluspx + PiMinuspx + m_HighEEtaConstrainedpx + m_LowEEtaConstrainedpx, 2)
+                         - TMath::Power(m_PiPluspy + PiMinuspy + m_HighEEtaConstrainedpy + m_LowEEtaConstrainedpy, 2)
+           	         - TMath::Power(m_PiPluspz + PiMinuspz + m_HighEEtaConstrainedpz + m_LowEEtaConstrainedpz, 2));
   double Mpipi = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy, 2) - TMath::Power(m_PiPluspx + m_PiMinuspx, 2) - TMath::Power(m_PiPluspy + m_PiMinuspy, 2) - TMath::Power(m_PiPluspz + m_PiMinuspz, 2));
   m_pipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
