@@ -151,9 +151,6 @@ StatusCode KSetaPrimepipietaSingleTag::initialize() {
 StatusCode KSetaPrimepipietaSingleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing KSetaPrime(pipieta) Single Tag Algorithm" << endreq;
-  SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
-  m_RunNumber = eventHeader->runNumber();
-  m_EventNumber = eventHeader->eventNumber();
   DTagTool DTTool;
   DTTool.setPID(true);
   if(DTTool.isDTagListEmpty()) {
@@ -165,6 +162,9 @@ StatusCode KSetaPrimepipietaSingleTag::execute() {
     return StatusCode::SUCCESS;
   }
   if(DTTool.findSTag(EvtRecDTag::kD0toKsEPPiPiEta)) {
+    SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
+    m_RunNumber = eventHeader->runNumber();
+    m_EventNumber = eventHeader->eventNumber();
     DTagToolIterator DTTool_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {

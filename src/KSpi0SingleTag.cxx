@@ -129,9 +129,6 @@ StatusCode KSpi0SingleTag::initialize() {
 StatusCode KSpi0SingleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing KSpi0 Single Tag Algorithm" << endreq;
-  SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
-  m_RunNumber = eventHeader->runNumber();
-  m_EventNumber = eventHeader->eventNumber();
   DTagTool DTTool;
   DTTool.setPID(true);
   if(DTTool.isDTagListEmpty()) {
@@ -143,6 +140,9 @@ StatusCode KSpi0SingleTag::execute() {
     return StatusCode::SUCCESS;
   }
   if(DTTool.findSTag(EvtRecDTag::kD0toKsPi0)) {
+    SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
+    m_RunNumber = eventHeader->runNumber();
+    m_EventNumber = eventHeader->eventNumber();
     DTagToolIterator DTTool_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
