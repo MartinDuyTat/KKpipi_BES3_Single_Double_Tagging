@@ -317,6 +317,18 @@ class KSetaPrimerhogammaSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_Mpipigamma;
     /**
+     * Photon angular separation to nearest track
+     */
+    NTuple::Item<double> m_PhotonAngleSeparation;
+    /**
+     * Photon polar angle separation to nearest track
+     */
+    NTuple::Item<double> m_PhotonThetaSeparation;
+    /**
+     * Photon azimuthal angle separation to nearest track
+     */
+    NTuple::Item<double> m_PhotonPhiSeparation;
+    /**
      * Number of showers in the event (should be 1 for this tag mode)
      */
     NTuple::Item<int> m_NumberShowers;

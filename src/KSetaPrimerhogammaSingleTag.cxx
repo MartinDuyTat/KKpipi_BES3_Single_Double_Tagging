@@ -7,6 +7,7 @@
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/PIDTruth.h"
 #include "KKpipi/ParticleMasses.h"
+#include "KKpipi/KKpipiUtilities.h"
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
 #include "GaudiKernel/Bootstrap.h"
@@ -278,13 +279,19 @@ StatusCode KSetaPrimerhogammaSingleTag::FillTuple(DTagToolIterator DTTool_iter, 
   SmartRefVector<EvtRecTrack> Showers = (*DTTool_iter)->showers();
   m_NumberShowers = Showers.size();
   RecEmcShower *PhotonShower = Showers[0]->emcShower();
-  double GammaEnergy = PhotonShower->energy();
-  double GammaTheta = PhotonShower->theta();
-  double GammaPhi = PhotonShower->phi();
-  m_Gammapx = GammaEnergy*TMath::Sin(GammaTheta)*TMath::Cos(GammaPhi);
-  m_Gammapy = GammaEnergy*TMath::Sin(GammaTheta)*TMath::Sin(GammaPhi);
-  m_Gammapz = GammaEnergy*TMath::Cos(GammaTheta);
-  m_Gammaenergy = GammaEnergy;
+  // Get EMC position of shower
+  CLHEP::Hep3Vector EMCPosition(PhotonShower->x(), PhotonShower->y(), PhotonShower->z());
+  // Find separation to nearest charged track
+  double Angle, Theta, Phi;
+  KKpipiUtilities::GetPhotonAngularSeparation(EMCPosition, Angle, Theta, Phi);
+  m_PhotonAngleSeparation = Angle;
+  m_PhotonThetaSeparation = Theta;
+  m_PhotonPhiSeparation = Phi;
+  CLHEP::HepLorentzVector PhotonP = KKpipiUtilities::GetPhoton4Vector(PhotonShower->energy(), PhotonShower->theta(), PhotonShower->phi());
+  m_Gammapx = PhotonP[0];
+  m_Gammapy = PhotonP[1];
+  m_Gammapz = PhotonP[2];
+  m_Gammaenergy = PhotonP[3];
   m_Mpipigamma = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy + m_Gammaenergy, 2)
                            - TMath::Power(m_PiPluspx + m_PiMinuspx + m_Gammapx, 2)
                            - TMath::Power(m_PiPluspy + m_PiMinuspy + m_Gammapy, 2)
