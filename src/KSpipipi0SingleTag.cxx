@@ -290,9 +290,9 @@ StatusCode KSpipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool 
   m_PiMinuspz = findpipiInfo.GethMinusP(2);
   m_PiMinusenergy = findpipiInfo.GethMinusP(3);
   m_Mpipipi0 = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy + m_HighEPi0Constrainedenergy + m_LowEPi0Constrainedenergy, 2)
-                         - TMath::Power(m_PiPluspx + PiMinuspx + m_HighEPi0Constrainedpx + m_LowEPi0Constrainedpx, 2)
-                         - TMath::Power(m_PiPluspy + PiMinuspy + m_HighEPi0Constrainedpy + m_LowEPi0Constrainedpy, 2)
-           	         - TMath::Power(m_PiPluspz + PiMinuspz + m_HighEPi0Constrainedpz + m_LowEPi0Constrainedpz, 2));
+                         - TMath::Power(m_PiPluspx + m_PiMinuspx + m_HighEPi0Constrainedpx + m_LowEPi0Constrainedpx, 2)
+                         - TMath::Power(m_PiPluspy + m_PiMinuspy + m_HighEPi0Constrainedpy + m_LowEPi0Constrainedpy, 2)
+           	         - TMath::Power(m_PiPluspz + m_PiMinuspz + m_HighEPi0Constrainedpz + m_LowEPi0Constrainedpz, 2));
   double Mpipi = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy, 2) - TMath::Power(m_PiPluspx + m_PiMinuspx, 2) - TMath::Power(m_PiPluspy + m_PiMinuspy, 2) - TMath::Power(m_PiPluspz + m_PiMinuspz, 2));
   m_pipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {

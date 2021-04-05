@@ -416,9 +416,9 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DT
   m_TagPiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_TagPiMinusenergy = findpipiTagInfo.GethMinusP(3);
   m_TagMpipieta = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy + m_TagHighEEtaConstrainedenergy + m_TagLowEEtaConstrainedenergy, 2)
-                            - TMath::Power(m_TagPiPluspx + PiMinuspx + m_TagHighEEtaConstrainedpx + m_TagLowEEtaConstrainedpx, 2)
-                            - TMath::Power(m_TagPiPluspy + PiMinuspy + m_TagHighEEtaConstrainedpy + m_TagLowEEtaConstrainedpy, 2)
-           	            - TMath::Power(m_TagPiPluspz + PiMinuspz + m_TagHighEEtaConstrainedpz + m_TagLowEEtaConstrainedpz, 2));
+                            - TMath::Power(m_TagPiPluspx + m_PiMinuspx + m_TagHighEEtaConstrainedpx + m_TagLowEEtaConstrainedpx, 2)
+                            - TMath::Power(m_TagPiPluspy + m_PiMinuspy + m_TagHighEEtaConstrainedpy + m_TagLowEEtaConstrainedpy, 2)
+           	            - TMath::Power(m_TagPiPluspz + m_PiMinuspz + m_TagHighEEtaConstrainedpz + m_TagLowEEtaConstrainedpz, 2));
   double Mpipi = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy, 2) - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx, 2) - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy, 2) - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz, 2));
   m_TagpipiKSFitSuccess = 0;
   if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
