@@ -262,7 +262,6 @@ StatusCode KSetaPrimerhogammaSingleTag::FillTuple(DTagToolIterator DTTool_iter, 
     PionTrackIDs.push_back(findpipiInfo.GetPiPlusTrackID());
     PionTrackIDs.push_back(findpipiInfo.GetPiMinusTrackID());
     StatusCode statuscode = findKSFromPiPi.findKS(DTTool_iter, DTTool, PionTrackIDs);
-    m_pipiKSFitSuccess = 0;
     if(statuscode == StatusCode::SUCCESS) {
       m_pipiKSFitSuccess = 1;
       m_pipiDecayLengthVeeVertex = findKSFromPiPi.GetDecayLengthVeeVertex();
