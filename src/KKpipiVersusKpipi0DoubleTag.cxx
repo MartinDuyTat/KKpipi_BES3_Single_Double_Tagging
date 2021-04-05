@@ -339,7 +339,7 @@ StatusCode KKpipiVersusKpipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagLowEPi0py = findPi0.GetLowEPhotonP(1);
   m_TagLowEPi0pz = findPi0.GetLowEPhotonP(2);
   m_TagLowEPi0energy = findPi0.GetLowEPhotonP(3);
-  m_Taggammagamma = findPi0.GetMgammagamma();
+  m_TagMgammagamma = findPi0.GetMgammagamma();
   m_TagHighEPi0Constrainedpx = findPi0.GetHighEPhotonPConstrained(0);
   m_TagHighEPi0Constrainedpy = findPi0.GetHighEPhotonPConstrained(1);
   m_TagHighEPi0Constrainedpz = findPi0.GetHighEPhotonPConstrained(2);
