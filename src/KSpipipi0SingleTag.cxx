@@ -200,7 +200,7 @@ StatusCode KSpipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool 
       return StatusCode::FAILURE;
     }
     FindMCInfo findMCInfo;
-    StatusCode MCStatus = findMCInfo.CalculateMCInfo(MCParticleCol, IMcDecayModeService);
+    StatusCode MCStatus = findMCInfo.CalculateMCInfo(MCParticleCol, IMcDecayModeService, 223);
     if(MCStatus != StatusCode::SUCCESS) {
       return MCStatus;
     }

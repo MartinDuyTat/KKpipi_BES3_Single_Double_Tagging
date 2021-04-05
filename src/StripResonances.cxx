@@ -9,8 +9,8 @@
 #include <algorithm>
 
 StripResonances::StripResonances(const std::vector<int> &KeepList) {
-  int FinalParticles[13] = {30443, 421, 130, 310, 321, 111, 211, 11, 12, 13, 14, 22, 2212};
-  m_KeepList = std::vector<int>(FinalParticles, FinalParticles + 13);
+  int FinalParticles[13] = {30443, 421, 130, 310, 321, 111, 221, 331, 211, 11, 12, 13, 14, 22, 2212};
+  m_KeepList = std::vector<int>(FinalParticles, FinalParticles + 15);
   m_KeepList.insert(m_KeepList.end(), KeepList.begin(), KeepList.end());
 }
 

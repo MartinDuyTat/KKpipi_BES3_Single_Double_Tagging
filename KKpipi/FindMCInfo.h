@@ -27,8 +27,9 @@ class FindMCInfo {
     ~FindMCInfo();
     /**
      * Helper function to calculate the MC truth information
+     * @param KeepID ID of a particular resonance to keep in the MC truth list
      */
-    StatusCode CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCParticleCol, IMcDecayModeSvc *IMcDecayModeService);
+    StatusCode CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCParticleCol, IMcDecayModeSvc *IMcDecayModeService, int KeepID = 0);
     /**
      * Get the number of particles
      */

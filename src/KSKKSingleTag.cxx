@@ -171,7 +171,7 @@ StatusCode KSKKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
       return StatusCode::FAILURE;
     }
     FindMCInfo findMCInfo;
-    StatusCode MCStatus = findMCInfo.CalculateMCInfo(MCParticleCol, IMcDecayModeService);
+    StatusCode MCStatus = findMCInfo.CalculateMCInfo(MCParticleCol, IMcDecayModeService, 333);
     if(MCStatus != StatusCode::SUCCESS) {
       return MCStatus;
     }

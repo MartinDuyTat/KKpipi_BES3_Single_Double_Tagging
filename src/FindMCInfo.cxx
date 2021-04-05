@@ -22,7 +22,7 @@ FindMCInfo::FindMCInfo(): m_NumberParticles(0), m_MCmode(0) {
 FindMCInfo::~FindMCInfo() {
 }
 
-StatusCode FindMCInfo::CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCParticleCol, IMcDecayModeSvc *IMcDecayModeService) {
+StatusCode FindMCInfo::CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCParticleCol, IMcDecayModeSvc *IMcDecayModeService, int KeepID) {
   std::vector<int> pdgID, MotherIndex;
   std::vector<double> TruePx, TruePy, TruePz, TrueEnergy;
   for(Event::McParticleCol::iterator MCParticleCol_iter = MCParticleCol->begin(); MCParticleCol_iter != MCParticleCol->end(); MCParticleCol_iter++) {
@@ -44,6 +44,11 @@ StatusCode FindMCInfo::CalculateMCInfo(SmartDataPtr<Event::McParticleCol> MCPart
     m_TrueEnergy.push_back(TrueEnergy[i]);
   }
   StripResonances stripResonances;
+  if(KeepID != 0) {
+    std::vector<int> IDToKeep;
+    IDToKeep.push_back(KeepID);
+    stripResonances = StripResonances(IDToKeep);
+  }
   m_pdgIDStripped = m_pdgID;
   m_MotherIndexStripped = m_MotherIndex;
   stripResonances.RemoveIntermediateResonances(m_pdgIDStripped, m_MotherIndexStripped);
