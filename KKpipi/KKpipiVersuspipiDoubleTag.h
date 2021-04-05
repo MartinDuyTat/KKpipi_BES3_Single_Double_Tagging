@@ -311,6 +311,10 @@ class KKpipiVersuspipiDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_SignalKMinusenergyKalmanFit;
     /**
+     * Signal \f$\pi^+\pi^-\f$ invariant mass
+     */
+    NTuple::Item<double> m_SignalMpipi;
+    /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of signal tracks
      */
     NTuple::Item<int> m_SignalKSFitSuccess;
