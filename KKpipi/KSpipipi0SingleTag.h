@@ -369,6 +369,10 @@ class KSpipipi0SingleTag: public Algorithm {
      */
     NTuple::Item<double> m_PiMinusenergy;
     /**
+     * \f$\pi\pi\pi^0\f$ invariant mass
+     */
+    NTuple::Item<double> m_Mpipipi0;
+    /**
      * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_IsSameDMother;

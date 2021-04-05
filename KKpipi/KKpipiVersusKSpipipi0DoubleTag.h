@@ -599,6 +599,10 @@ class KKpipiVersusKSpipipi0DoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagPiMinusenergy;
     /**
+     * The tag \f$\pi\pi\pi^0\f$ invariant mass
+     */
+    NTuple::Item<double> m_TagMpipipi0;
+    /**
      * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_TagIsSameDMother;
