@@ -4,7 +4,7 @@
 #include "KKpipi/KKpipiVersuspipipi0DoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindhhTagInfo.h"
-#include "KKpipi/FindPi0.h"
+#include "KKpipi/FindPi0Eta.h"
 #include "KKpipi/FindKS.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/ParticleMasses.h"
@@ -361,7 +361,7 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
       m_TagKSMassFit = findKS.GetKSMassFit();
     }
   }
-  FindPi0 findPi0;
+  FindPi0Eta findPi0;
   findPi0.findPi0(DTTool_Tag_iter, DTTool);
   m_TagHighEPi0px = findPi0.GetHighEPhotonP(0);
   m_TagHighEPi0py = findPi0.GetHighEPhotonP(1);
@@ -371,7 +371,7 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_TagLowEPi0py = findPi0.GetLowEPhotonP(1);
   m_TagLowEPi0pz = findPi0.GetLowEPhotonP(2);
   m_TagLowEPi0energy = findPi0.GetLowEPhotonP(3);
-  m_Taggammagamma = findPi0.GetMgammagamma();
+  m_TagMgammagamma = findPi0.GetMgammagamma();
   m_TagHighEPi0Constrainedpx = findPi0.GetHighEPhotonPConstrained(0);
   m_TagHighEPi0Constrainedpy = findPi0.GetHighEPhotonPConstrained(1);
   m_TagHighEPi0Constrainedpz = findPi0.GetHighEPhotonPConstrained(2);

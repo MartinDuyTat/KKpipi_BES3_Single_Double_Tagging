@@ -213,7 +213,7 @@ StatusCode Kpipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_LowEPi0py = findPi0.GetLowEPhotonP(1);
   m_LowEPi0pz = findPi0.GetLowEPhotonP(2);
   m_LowEPi0energy = findPi0.GetLowEPhotonP(3);
-  m_gammagamma = findPi0.GetMgammagamma();
+  m_Mgammagamma = findPi0.GetMgammagamma();
   m_HighEPi0Constrainedpx = findPi0.GetHighEPhotonPConstrained(0);
   m_HighEPi0Constrainedpy = findPi0.GetHighEPhotonPConstrained(1);
   m_HighEPi0Constrainedpz = findPi0.GetHighEPhotonPConstrained(2);
