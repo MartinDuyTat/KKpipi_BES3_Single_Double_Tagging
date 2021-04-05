@@ -313,6 +313,10 @@ class KSetaPrimerhogammaSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_Gammaenergy;
     /**
+     * \f$\pi\pi\gamma\f$ invariant mass
+     */
+    NTuple::Item<double> m_Mpipigamma;
+    /**
      * Number of showers in the event (should be 1 for this tag mode)
      */
     NTuple::Item<int> m_NumberShowers;

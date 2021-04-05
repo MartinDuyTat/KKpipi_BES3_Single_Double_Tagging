@@ -543,6 +543,10 @@ class KKpipiVersusKSetaPrimerhogammaDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagGammaenergy;
     /**
+     * \f$\pi\pi\gamma\f$ invariant mass
+     */
+    NTuple::Item<double> m_TagMpipigamma;
+    /**
      * Photon angular separation to nearest track
      */
     NTuple::Item<double> m_TagPhotonAngleSeparation;

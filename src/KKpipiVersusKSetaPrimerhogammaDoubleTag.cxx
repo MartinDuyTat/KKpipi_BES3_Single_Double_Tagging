@@ -180,6 +180,7 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::initialize() {
       status = m_tuple->addItem("TagGammapy", m_TagGammapy);
       status = m_tuple->addItem("TagGammapz", m_TagGammapz);
       status = m_tuple->addItem("TagGammaenergy", m_TagGammaenergy);
+      status = m_tuple->addItem("TagMpipigamma", m_TagMpipigamma);
       status = m_tuple->addItem("TagPhotonAngleSeparation", m_TagPhotonAngleSeparation);
       status = m_tuple->addItem("TagPhotonThetaSeparation", m_TagPhotonThetaSeparation);
       status = m_tuple->addItem("TagPhotonPhiSeparation", m_TagPhotonPhiSeparation);
@@ -422,6 +423,10 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
   m_TagGammapy = PhotonP[1];
   m_TagGammapz = PhotonP[2];
   m_TagGammaenergy = PhotonP[3];
+  m_TagMpipigamma = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy + m_TagGammaenergy, 2)
+                              - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx + m_TagGammapx, 2)
+                              - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy + m_TagGammapy, 2)
+                              - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz + m_TagGammapz, 2));
   if(m_RunNumber < 0) {
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> EtaPDaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();

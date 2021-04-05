@@ -120,6 +120,7 @@ StatusCode KSetaPrimerhogammaSingleTag::initialize() {
       status = m_tuple->addItem("Gammapy", m_Gammapy);
       status = m_tuple->addItem("Gammapz", m_Gammapz);
       status = m_tuple->addItem("Gammaenergy", m_Gammaenergy);
+      status = m_tuple->addItem("Mpipigamma", m_Mpipigamma);
       status = m_tuple->addItem("NumberShowers", m_NumberShowers);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
@@ -284,6 +285,10 @@ StatusCode KSetaPrimerhogammaSingleTag::FillTuple(DTagToolIterator DTTool_iter, 
   m_Gammapy = GammaEnergy*TMath::Sin(GammaTheta)*TMath::Sin(GammaPhi);
   m_Gammapz = GammaEnergy*TMath::Cos(GammaTheta);
   m_Gammaenergy = GammaEnergy;
+  m_Mpipigamma = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy + m_Gammaenergy, 2)
+                           - TMath::Power(m_PiPluspx + m_PiMinuspx + m_Gammapx, 2)
+                           - TMath::Power(m_PiPluspy + m_PiMinuspy + m_Gammapy, 2)
+                           - TMath::Power(m_PiPluspz + m_PiMinuspz + m_Gammapz, 2));
   if(m_RunNumber < 0) {
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> EtaPDaughterTrackIDs = findpipiInfo.GetDaughterTrackID();
