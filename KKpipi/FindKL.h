@@ -55,6 +55,10 @@ class FindKL {
      */
     double GetPi0LowEPhotonP(int i, int j) const;
     /**
+     * Get the \f$\gamma\gamma\f$ invariant mass of the jth \f$\pi^0\f$
+     */
+    double GetPi0Mgammagamma(int j) const;
+    /**
      * Get the ith component of the jth high energy constrained photon four-momentum from \f$\pi^0\f$
      */
     double GetPi0HighEPhotonPConstrained(int i, int j) const;
@@ -86,6 +90,10 @@ class FindKL {
      * Get the ith component of the jth low energy photon four-momentum from \f$\eta\f$
      */
     double GetEtaLowEPhotonP(int i, int j) const;
+    /**
+     * Get the \f$\gamma\gamma\f$ invariant mass of the jth \f$\eta\f$
+     */
+    double GetEtaMgammagamma(int j) const;
     /**
      * Get the ith component of the jth high energy constrained photon four-momentum from \f$\eta\f$
      */

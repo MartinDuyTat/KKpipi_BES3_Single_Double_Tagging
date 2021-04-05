@@ -238,6 +238,10 @@ double FindKL::GetPi0LowEPhotonP(int i, int j) const{
   return m_Pi0LowEPhotonP[j][i];
 }
 
+double FindKL::GetPi0Mgammagamma(int j) const {
+  return (m_Pi0HighEPhoton[j] + m_Pi0LowEPhoton[j]).m();
+}
+
 double FindKL::GetPi0HighEPhotonPConstrained(int i, int j) const{
   return m_Pi0HighEPhotonPConstrained[j][i];
 }
@@ -268,6 +272,10 @@ double FindKL::GetEtaHighEPhotonP(int i, int j) const{
 
 double FindKL::GetEtaLowEPhotonP(int i, int j) const{
   return m_EtaLowEPhotonP[j][i];
+}
+
+double FindKL::GetEtaMgammagamma(int j) const {
+  return (m_EtaHighEPhotonP[j] + m_EtaLowEPhoton[j]).m();
 }
 
 double FindKL::GetEtaHighEPhotonPConstrained(int i, int j) const{
