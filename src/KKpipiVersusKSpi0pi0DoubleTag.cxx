@@ -181,7 +181,7 @@ StatusCode KKpipiVersusKSpi0pi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagLowEPi0py2", m_TagLowEPi0py2);
       status = m_tuple->addItem("TagLowEPi0pz2", m_TagLowEPi0pz2);
       status = m_tuple->addItem("TagLowEPi0energy2", m_TagLowEPi0energy2);
-      status = m_tuple->addItem("TagMgammagamma1", m_TagMgammagamma1);
+      status = m_tuple->addItem("TagMgammagamma2", m_TagMgammagamma2);
       status = m_tuple->addItem("TagHighEPi0Constrainedpx2", m_TagHighEPi0Constrainedpx2);
       status = m_tuple->addItem("TagHighEPi0Constrainedpy2", m_TagHighEPi0Constrainedpy2);
       status = m_tuple->addItem("TagHighEPi0Constrainedpz2", m_TagHighEPi0Constrainedpz2);
