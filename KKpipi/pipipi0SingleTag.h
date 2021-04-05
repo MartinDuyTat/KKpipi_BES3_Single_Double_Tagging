@@ -237,6 +237,10 @@ class pipipi0SingleTag: public Algorithm {
      */
     NTuple::Item<double> m_LowEPi0energy;
     /**
+     * The \f$\gamma\gamma\f$ invariant mass
+     */
+    NTuple::Item<double> m_Mgammagamma;
+    /**
      * High energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
      */
     NTuple::Item<double> m_HighEPi0Constrainedpx;

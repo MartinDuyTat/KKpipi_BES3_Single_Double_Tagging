@@ -160,6 +160,7 @@ StatusCode KKpipiVersuspipipi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagLowEPi0py", m_TagLowEPi0py);
       status = m_tuple->addItem("TagLowEPi0pz", m_TagLowEPi0pz);
       status = m_tuple->addItem("TagLowEPi0energy", m_TagLowEPi0energy);
+      status = m_tuple->addItem("TagMgammagamma", m_TagMgammagamma);
       status = m_tuple->addItem("TagHighEPi0Constrainedpx", m_TagHighEPi0Constrainedpx);
       status = m_tuple->addItem("TagHighEPi0Constrainedpy", m_TagHighEPi0Constrainedpy);
       status = m_tuple->addItem("TagHighEPi0Constrainedpz", m_TagHighEPi0Constrainedpz);
@@ -370,6 +371,7 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_TagLowEPi0py = findPi0.GetLowEPhotonP(1);
   m_TagLowEPi0pz = findPi0.GetLowEPhotonP(2);
   m_TagLowEPi0energy = findPi0.GetLowEPhotonP(3);
+  m_Taggammagamma = findPi0.GetMgammagamma();
   m_TagHighEPi0Constrainedpx = findPi0.GetHighEPhotonPConstrained(0);
   m_TagHighEPi0Constrainedpy = findPi0.GetHighEPhotonPConstrained(1);
   m_TagHighEPi0Constrainedpz = findPi0.GetHighEPhotonPConstrained(2);

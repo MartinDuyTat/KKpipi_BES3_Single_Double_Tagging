@@ -130,6 +130,10 @@ double FindPi0Eta::GetLowEPhotonP(int i, int pi0eta_index) const {
   return m_LowEPhotonP[pi0eta_index][i];
 }
 
+double FindPi0Eta::GetMgammagamma(int pi0eta_index) const {
+  return (m_HighEPhotonP[pi0eta_index] + m_LowEPhotonP[pi0eta_index]).m();
+}
+
 double FindPi0Eta::GetHighEPhotonPConstrained(int i, int pi0eta_index) const {
   return m_HighEPhotonPConstrained[pi0eta_index][i];
 }

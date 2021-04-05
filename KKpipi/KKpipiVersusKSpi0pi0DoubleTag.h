@@ -495,6 +495,10 @@ class KKpipiVersusKSpi0pi0DoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagLowEPi0energy1;
     /**
+     * The tag \f$\gamma\gamma\f$ invariant mass
+     */
+    NTuple::Item<double> m_TagMgammagamma1;
+    /**
      * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
      */
     NTuple::Item<double> m_TagHighEPi0Constrainedpx1;
@@ -562,6 +566,10 @@ class KKpipiVersusKSpi0pi0DoubleTag: public Algorithm {
      * Tag low energy photon from \f$\pi^0\f$ unconstrained energy
      */
     NTuple::Item<double> m_TagLowEPi0energy2;
+    /**
+     * The tag \f$\gamma\gamma\f$ invariant mass
+     */
+    NTuple::Item<double> m_TagMgammagamma2;
     /**
      * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
      */

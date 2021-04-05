@@ -495,6 +495,10 @@ class KKpipiVersusKSetaPrimepipietaDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagLowEEtaenergy;
     /**
+     * The tag \f$\gamma\gamma\f$ invariant mass
+     */
+    NTuple::Item<double> m_TagMgammagamma;
+    /**
      * Tag high energy photon from \f$\eta\f$ constrained momentum along \f$x\f$
      */
     NTuple::Item<double> m_TagHighEEtaConstrainedpx;

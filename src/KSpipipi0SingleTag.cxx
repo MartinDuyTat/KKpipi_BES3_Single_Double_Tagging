@@ -109,6 +109,7 @@ StatusCode KSpipipi0SingleTag::initialize() {
       status = m_tuple->addItem("LowEPi0py", m_LowEPi0py);
       status = m_tuple->addItem("LowEPi0pz", m_LowEPi0pz);
       status = m_tuple->addItem("LowEPi0energy", m_LowEPi0energy);
+      status = m_tuple->addItem("Mgammagamma", m_Mgammagamma);
       status = m_tuple->addItem("HighEPi0Constrainedpx", m_HighEPi0Constrainedpx);
       status = m_tuple->addItem("HighEPi0Constrainedpy", m_HighEPi0Constrainedpy);
       status = m_tuple->addItem("HighEPi0Constrainedpz", m_HighEPi0Constrainedpz);
@@ -264,6 +265,7 @@ StatusCode KSpipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool 
   m_LowEPi0py = findPi0.GetLowEPhotonP(1);
   m_LowEPi0pz = findPi0.GetLowEPhotonP(2);
   m_LowEPi0energy = findPi0.GetLowEPhotonP(3);
+  m_Mgammagamma = findPi0.GetMgammagamma();
   m_HighEPi0Constrainedpx = findPi0.GetHighEPhotonPConstrained(0);
   m_HighEPi0Constrainedpy = findPi0.GetHighEPhotonPConstrained(1);
   m_HighEPi0Constrainedpz = findPi0.GetHighEPhotonPConstrained(2);

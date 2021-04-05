@@ -109,6 +109,7 @@ StatusCode KSetaPrimepipietaSingleTag::initialize() {
       status = m_tuple->addItem("LowEEtapy", m_LowEEtapy);
       status = m_tuple->addItem("LowEEtapz", m_LowEEtapz);
       status = m_tuple->addItem("LowEEtaenergy", m_LowEEtaenergy);
+      status = m_tuple->addItem("Mgammagamma", m_Mgammagamma);
       status = m_tuple->addItem("HighEEtaConstrainedpx", m_HighEEtaConstrainedpx);
       status = m_tuple->addItem("HighEEtaConstrainedpy", m_HighEEtaConstrainedpy);
       status = m_tuple->addItem("HighEEtaConstrainedpz", m_HighEEtaConstrainedpz);
@@ -264,6 +265,7 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
   m_LowEEtapy = findEta.GetLowEPhotonP(1);
   m_LowEEtapz = findEta.GetLowEPhotonP(2);
   m_LowEEtaenergy = findEta.GetLowEPhotonP(3);
+  m_Mgammagamma = findEta.GetMgammagamma();
   m_HighEEtaConstrainedpx = findEta.GetHighEPhotonPConstrained(0);
   m_HighEEtaConstrainedpy = findEta.GetHighEPhotonPConstrained(1);
   m_HighEEtaConstrainedpz = findEta.GetHighEPhotonPConstrained(2);

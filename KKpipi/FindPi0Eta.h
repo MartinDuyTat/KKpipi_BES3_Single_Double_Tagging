@@ -46,6 +46,11 @@ class FindPi0Eta {
      * @param pi0_index 0 for first \f$\pi^0\f$, 1 for second \f$\pi^0\f$...
      */
     double GetLowEPhotonP(int i, int pi0eta_index = 0) const;
+    /**
+     * Get the \f$\gamma\gamma\f$ invariant mass
+     * @param pi0_index 0 for first \f$\pi^0\f$, 1 for second \f$\pi^0\f$...
+     */
+    double GetMgammagamma(int pi0eta_index = 0) const;
     /** 
      * Get the high energy photon kinematically constrained four-momentum
      * @param i Momentum component

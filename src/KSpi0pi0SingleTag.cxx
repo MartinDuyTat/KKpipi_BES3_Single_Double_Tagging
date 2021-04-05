@@ -105,6 +105,7 @@ StatusCode KSpi0pi0SingleTag::initialize() {
       status = m_tuple->addItem("LowEPi0py1", m_LowEPi0py1);
       status = m_tuple->addItem("LowEPi0pz1", m_LowEPi0pz1);
       status = m_tuple->addItem("LowEPi0energy1", m_LowEPi0energy1);
+      status = m_tuple->addItem("Mgammagamma1", m_Mgammagamma1);
       status = m_tuple->addItem("HighEPi0Constrainedpx1", m_HighEPi0Constrainedpx1);
       status = m_tuple->addItem("HighEPi0Constrainedpy1", m_HighEPi0Constrainedpy1);
       status = m_tuple->addItem("HighEPi0Constrainedpz1", m_HighEPi0Constrainedpz1);
@@ -122,6 +123,7 @@ StatusCode KSpi0pi0SingleTag::initialize() {
       status = m_tuple->addItem("LowEPi0py2", m_LowEPi0py2);
       status = m_tuple->addItem("LowEPi0pz2", m_LowEPi0pz2);
       status = m_tuple->addItem("LowEPi0energy2", m_LowEPi0energy2);
+      status = m_tuple->addItem("Mgammagamma2", m_Mgammagamma2);
       status = m_tuple->addItem("HighEPi0Constrainedpx2", m_HighEPi0Constrainedpx2);
       status = m_tuple->addItem("HighEPi0Constrainedpy2", m_HighEPi0Constrainedpy2);
       status = m_tuple->addItem("HighEPi0Constrainedpz2", m_HighEPi0Constrainedpz2);
@@ -259,6 +261,7 @@ StatusCode KSpi0pi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &
   m_LowEPi0py1 = findPi0.GetLowEPhotonP(1, 0);
   m_LowEPi0pz1 = findPi0.GetLowEPhotonP(2, 0);
   m_LowEPi0energy1 = findPi0.GetLowEPhotonP(3, 0);
+  m_Mgammagamma1 = findPi0.GetMgammagamma(0);
   m_HighEPi0Constrainedpx1 = findPi0.GetHighEPhotonPConstrained(0, 0);
   m_HighEPi0Constrainedpy1 = findPi0.GetHighEPhotonPConstrained(1, 0);
   m_HighEPi0Constrainedpz1 = findPi0.GetHighEPhotonPConstrained(2, 0);
@@ -276,6 +279,7 @@ StatusCode KSpi0pi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &
   m_LowEPi0py2 = findPi0.GetLowEPhotonP(1, 1);
   m_LowEPi0pz2 = findPi0.GetLowEPhotonP(2, 1);
   m_LowEPi0energy2 = findPi0.GetLowEPhotonP(3, 1);
+  m_Mgammagamma2 = findPi0.GetMgammagamma(1);
   m_HighEPi0Constrainedpx2 = findPi0.GetHighEPhotonPConstrained(0, 1);
   m_HighEPi0Constrainedpy2 = findPi0.GetHighEPhotonPConstrained(1, 1);
   m_HighEPi0Constrainedpz2 = findPi0.GetHighEPhotonPConstrained(2, 1);

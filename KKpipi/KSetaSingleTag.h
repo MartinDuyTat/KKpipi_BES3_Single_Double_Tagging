@@ -265,6 +265,10 @@ class KSetaSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_LowEEtaenergy;
     /**
+     * The \f$\gamma\gamma\f$ invariant mass
+     */
+    NTuple::Item<double> m_Mgammagamma;
+    /**
      * High energy photon from \f$\eta\f$ constrained momentum along \f$x\f$
      */
     NTuple::Item<double> m_HighEEtaConstrainedpx;
