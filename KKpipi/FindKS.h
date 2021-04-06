@@ -77,16 +77,6 @@ class FindKS {
      */
     double GetKSPiMinusP(int i) const;
     /**
-     * Get the \f$\pi^+\f$ daughter four-momentum after vertex fit
-     * @param i Momentum component
-     */
-    double GetKSPiPlusPFit(int i) const;
-    /**
-     * Get the \f$\pi^-\f$ daughter four-momentum after vertex fit
-     * @param i Momentum component
-     */
-    double GetKSPiMinusPFit(int i) const;
-    /**
      * Get the daughter track IDs
      */
     std::vector<int> GetDaughterTrackIDs() const;
@@ -135,14 +125,6 @@ class FindKS {
      * The \f$\pi^-\f$ daughter four-momentum from the MDC track
      */
     CLHEP::HepLorentzVector m_KSPiMinusP;
-    /**
-     * The \f$\pi^+\f$ daughter four-momentum after vertex fit
-     */
-    CLHEP::HepLorentzVector m_KSPiPlusPFit;
-    /**
-     * The \f$\pi^-\f$ daughter four-momentum after vertex fit
-     */
-    CLHEP::HepLorentzVector m_KSPiMinusPFit;
     /**
      * The \f$K_S^0\f$ momentum after vertex fit
      */

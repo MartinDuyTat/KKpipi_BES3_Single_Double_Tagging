@@ -431,38 +431,6 @@ class KKpipiVersusKSpipipi0DoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagKSPiMinusenergy;
     /**
-     * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
-     */
-    NTuple::Item<double> m_TagKSPiPluspxFit;
-    /**
-     * The \f$\pi^+\f$ daughter momentum along \f$y\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiPluspyFit;
-    /**
-     * The \f$\pi^+\f$ daughter momentum along \f$z\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiPluspzFit;
-    /**
-     * The \f$\pi^+\f$ daughter energy after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiPlusenergyFit;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$x\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiMinuspxFit;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$y\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiMinuspyFit;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$z\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiMinuspzFit;
-    /**
-     * The \f$\pi^-\f$ daughter energy after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiMinusenergyFit;
-    /**
      * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
     NTuple::Item<double> m_TagHighEPi0px;

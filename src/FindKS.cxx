@@ -125,13 +125,9 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, std::ve
     SecondaryVertexFit->BuildVirtualParticle(0);
     // Save fitted track parameters of the KS
     WTrackParameter WTrackKS = SecondaryVertexFit->wVirtualTrack(0);
-    // Store the four-momenta of daughter particles from fit
-    m_KSPiPlusPFit = SecondaryVertexFit->wTrackInfit(0).p();
-    m_KSPiMinusPFit = SecondaryVertexFit->wTrackInfit(1).p();
     // Swap pions if charges are the other way around
     if(KSChildKalmanTrack1->charge() < 0) {
       std::swap(m_KSPiPlusP, m_KSPiMinusP);
-      std::swap(m_KSPiPlusPFit, m_KSPiMinusPFit);
       std::swap(m_DaughterTrackIDs[0], m_DaughterTrackIDs[1]);
     }
     // Get VertexDbSvc, which determines the average beam position for each run
@@ -205,14 +201,6 @@ double FindKS::GetKSPiPlusP(int i) const {
 
 double FindKS::GetKSPiMinusP(int i) const {
   return m_KSPiMinusP[i];
-}
-
-double FindKS::GetKSPiPlusPFit(int i) const {
-  return m_KSPiPlusPFit[i];
-}
-
-double FindKS::GetKSPiMinusPFit(int i) const {
-  return m_KSPiMinusPFit[i];
 }
 
 std::vector<int> FindKS::GetDaughterTrackIDs() const {

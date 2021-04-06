@@ -80,14 +80,6 @@ class FindKSpipiTagInfo {
      */
     double GetKSPiMinusP(int i) const;
     /**
-     * Get the \f$\pi^+\f$ daughter momentum component after vertex fit
-     */
-    double GetKSPiPlusPFit(int i) const;
-    /**
-     * Get the \f$\pi^-\f$ daughter momentum component after vertex fit
-     */
-    double GetKSPiMinusPFit(int i) const;
-    /**
      * Get \f$K_S^0\f$ momentum component after vertex fit
      * @param i Component
      */
@@ -198,14 +190,6 @@ class FindKSpipiTagInfo {
      * The \f$\pi^-\f$ daughter momentum from the MDC track
      */
     CLHEP::HepLorentzVector m_KSPiMinusP;
-    /**
-     * The \f$\pi^+\f$ daughter momentum along \f$x\f$ after vertex fit
-     */
-    CLHEP::HepLorentzVector m_KSPiPlusPFit;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$x\f$ after vertex fit
-     */
-    CLHEP::HepLorentzVector m_KSPiMinusPFit;
     /**
      * \f$K_S^0\f$ four-momentum
      */

@@ -431,38 +431,6 @@ class KKpipiVersusKSetaPrimerhogammaDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagKSPiMinusenergy;
     /**
-     * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
-     */
-    NTuple::Item<double> m_TagKSPiPluspxFit;
-    /**
-     * The \f$\pi^+\f$ daughter momentum along \f$y\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiPluspyFit;
-    /**
-     * The \f$\pi^+\f$ daughter momentum along \f$z\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiPluspzFit;
-    /**
-     * The \f$\pi^+\f$ daughter energy after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiPlusenergyFit;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$x\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiMinuspxFit;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$y\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiMinuspyFit;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$z\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiMinuspzFit;
-    /**
-     * The \f$\pi^-\f$ daughter energy after vertex fit
-     */
-    NTuple::Item<double> m_TagKSPiMinusenergyFit;
-    /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of \f$\pi^+\pi^-\f$ tag tracks
      */
     NTuple::Item<int> m_TagpipiKSFitSuccess;

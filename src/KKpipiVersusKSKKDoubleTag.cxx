@@ -147,14 +147,6 @@ StatusCode KKpipiVersusKSKKDoubleTag::initialize() {
       status = m_tuple->addItem("TagKSPiMinuspy", m_TagKSPiMinuspy);
       status = m_tuple->addItem("TagKSPiMinuspz", m_TagKSPiMinuspz);
       status = m_tuple->addItem("TagKSPiMinusenergy", m_TagKSPiMinusenergy);
-      status = m_tuple->addItem("TagKSPiPluspxFit", m_TagKSPiPluspxFit);
-      status = m_tuple->addItem("TagKSPiPluspyFit", m_TagKSPiPluspyFit);
-      status = m_tuple->addItem("TagKSPiPluspzFit", m_TagKSPiPluspzFit);
-      status = m_tuple->addItem("TagKSPiPlusenergyFit", m_TagKSPiPlusenergyFit);
-      status = m_tuple->addItem("TagKSPiMinuspxFit", m_TagKSPiMinuspxFit);
-      status = m_tuple->addItem("TagKSPiMinuspyFit", m_TagKSPiMinuspyFit);
-      status = m_tuple->addItem("TagKSPiMinuspzFit", m_TagKSPiMinuspzFit);
-      status = m_tuple->addItem("TagKSPiMinusenergyFit", m_TagKSPiMinusenergyFit);
       status = m_tuple->addItem("TagKPluspx", m_TagKPluspx);
       status = m_tuple->addItem("TagKPluspy", m_TagKPluspy);
       status = m_tuple->addItem("TagKPluspz", m_TagKPluspz);
@@ -344,14 +336,6 @@ StatusCode KKpipiVersusKSKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_TagKSPiMinuspy = findKS.GetKSPiMinusP(1);
   m_TagKSPiMinuspz = findKS.GetKSPiMinusP(2);
   m_TagKSPiMinusenergy = findKS.GetKSPiMinusP(3);
-  m_TagKSPiPluspxFit = findKS.GetKSPiPlusPFit(0);
-  m_TagKSPiPluspyFit = findKS.GetKSPiPlusPFit(1);
-  m_TagKSPiPluspzFit = findKS.GetKSPiPlusPFit(2);
-  m_TagKSPiPlusenergyFit = findKS.GetKSPiPlusPFit(3);
-  m_TagKSPiMinuspxFit = findKS.GetKSPiMinusPFit(0);
-  m_TagKSPiMinuspyFit = findKS.GetKSPiMinusPFit(1);
-  m_TagKSPiMinuspzFit = findKS.GetKSPiMinusPFit(2);
-  m_TagKSPiMinusenergyFit = findKS.GetKSPiMinusPFit(3);
   FindhhTagInfo findKKTagInfo("KK");
   status = findKKTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {

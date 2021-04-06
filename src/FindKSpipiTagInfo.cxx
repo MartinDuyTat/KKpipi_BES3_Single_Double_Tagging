@@ -47,8 +47,6 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   m_KSMassFit = findKS.GetKSMassFit();
   m_KSPiPlusP = CLHEP::HepLorentzVector(findKS.GetKSPiPlusP(0), findKS.GetKSPiPlusP(1), findKS.GetKSPiPlusP(2), findKS.GetKSPiPlusP(3));
   m_KSPiMinusP = CLHEP::HepLorentzVector(findKS.GetKSPiMinusP(0), findKS.GetKSPiMinusP(1), findKS.GetKSPiMinusP(2), findKS.GetKSPiMinusP(3));
-  m_KSPiPlusPFit = CLHEP::HepLorentzVector(findKS.GetKSPiPlusPFit(0), findKS.GetKSPiPlusPFit(1), findKS.GetKSPiPlusPFit(2), findKS.GetKSPiPlusPFit(3));
-  m_KSPiMinusPFit = CLHEP::HepLorentzVector(findKS.GetKSPiMinusPFit(0), findKS.GetKSPiMinusPFit(1), findKS.GetKSPiMinusPFit(2), findKS.GetKSPiMinusPFit(3));
   m_KShortP = findKS.GetKShortPFit();
   // Get the track ID of the KS daughters
   std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
@@ -172,14 +170,6 @@ double FindKSpipiTagInfo::GetKSPiPlusP(int i) const {
 
 double FindKSpipiTagInfo::GetKSPiMinusP(int i) const {
   return m_KSPiMinusP[i];
-}
-
-double FindKSpipiTagInfo::GetKSPiPlusPFit(int i) const {
-  return m_KSPiPlusPFit[i];
-}
-
-double FindKSpipiTagInfo::GetKSPiMinusPFit(int i) const {
-  return m_KSPiMinusPFit[i];
 }
 
 double FindKSpipiTagInfo::GetKShortP(int i) const {
