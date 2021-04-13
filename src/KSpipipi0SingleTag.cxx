@@ -279,7 +279,7 @@ StatusCode KSpipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool 
            	         - TMath::Power(m_PiPluspz + m_PiMinuspz + m_HighEPi0Constrainedpz + m_LowEPi0Constrainedpz, 2));
   double Mpipi = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy, 2) - TMath::Power(m_PiPluspx + m_PiMinuspx, 2) - TMath::Power(m_PiPluspy + m_PiMinuspy, 2) - TMath::Power(m_PiPluspz + m_PiMinuspz, 2));
   m_pipiKSFitSuccess = 0;
-  if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
+  if(Mpipi - MASS::KS_MASS < 0.050 && Mpipi - MASS::KS_MASS > -0.060) {
     FindKS findKSFromPiPi(false);
     std::vector<int> PionTrackIDs;
     PionTrackIDs.push_back(findpipiInfo.GetPiPlusTrackID());

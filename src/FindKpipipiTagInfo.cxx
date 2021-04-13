@@ -70,7 +70,7 @@ StatusCode FindKpipipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DT
   // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
   double Mpipi12 = (m_Pi1P + m_Pi2P).m();
   m_12KSFitSuccess = 0;
-  if(TMath::Abs(Mpipi12 - MASS::KS_MASS) < 0.020) {
+  if(Mpipi12 - MASS::KS_MASS < 0.050 && Mpipi12 - MASS::KS_MASS > -0.060) {
     FindKS findKS(false);
     std::vector<int> PionTrackIDs;
     PionTrackIDs.push_back((*DaughterTrackIterators[PION1])->trackId());
@@ -90,7 +90,7 @@ StatusCode FindKpipipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DT
   // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
   double Mpipi13 = (m_Pi1P + m_Pi3P).m();
   m_13KSFitSuccess = 0;
-  if(TMath::Abs(Mpipi13 - MASS::KS_MASS) < 0.020) {
+  if(Mpipi13 - MASS::KS_MASS < 0.050 && Mpipi13 - MASS::KS_MASS > -0.060) {
     FindKS findKS(false);
     std::vector<int> PionTrackIDs;
     PionTrackIDs.push_back((*DaughterTrackIterators[PION1])->trackId());

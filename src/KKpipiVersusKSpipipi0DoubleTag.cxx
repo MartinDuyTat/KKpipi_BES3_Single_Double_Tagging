@@ -405,7 +405,7 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
                 	    - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz + m_TagHighEPi0Constrainedpz + m_TagLowEPi0Constrainedpz, 2));
   double Mpipi = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy, 2) - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx, 2) - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy, 2) - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz, 2));
   m_TagpipiKSFitSuccess = 0;
-  if(TMath::Abs(Mpipi - MASS::KS_MASS) < 0.020) {
+  if(Mpipi - MASS::KS_MASS < 0.050 && Mpipi - MASS::KS_MASS > -0.060) {
     FindKS findKSFromPiPi(false);
     std::vector<int> PionTrackIDs;
     PionTrackIDs.push_back(findpipiTagInfo.GetPiPlusTrackID());
