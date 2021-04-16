@@ -214,9 +214,6 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   double Mpipi = TMath::Sqrt(TMath::Power(m_PiPlusenergy + m_PiMinusenergy, 2) - TMath::Power(m_PiPluspx + m_PiMinuspx, 2) - TMath::Power(m_PiPluspy + m_PiMinuspy, 2) - TMath::Power(m_PiPluspz + m_PiMinuspz, 2));
   m_KSFitSuccess = 0;
-  m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
-  m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
-  m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
   if(Mpipi - MASS::KS_MASS < 0.050 && Mpipi - MASS::KS_MASS > -0.060) {
     FindKS findKS(false);
     std::vector<int> PionTrackIDs;
@@ -226,7 +223,9 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
       }
     }
     StatusCode statuscode = findKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
-    m_KSFitSuccess = 0;
+    m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
+    m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
+    m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
     if(statuscode == StatusCode::SUCCESS) {
       m_KSFitSuccess = 1;
       m_DecayLengthFit = findKS.GetDecayLengthFit();
