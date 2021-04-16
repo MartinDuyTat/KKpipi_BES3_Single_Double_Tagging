@@ -405,6 +405,9 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DT
            	            - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz + m_TagHighEEtaConstrainedpz + m_TagLowEEtaConstrainedpz, 2));
   double Mpipi = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy, 2) - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx, 2) - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy, 2) - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz, 2));
   m_TagpipiKSFitSuccess = 0;
+  m_TagpipiDecayLengthVeeVertex = findKSFromPiPi.GetDecayLengthVeeVertex();
+  m_TagpipiChi2VeeVertex = findKSFromPiPi.GetChi2VeeVertex();
+  m_TagpipiKSMassVeeVertex = findKSFromPiPi.GetKSMassVeeVertex();
   if(Mpipi - MASS::KS_MASS < 0.050 && Mpipi - MASS::KS_MASS > -0.060) {
     FindKS findKSFromPiPi(false);
     std::vector<int> PionTrackIDs;
@@ -413,9 +416,6 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DT
     StatusCode statuscode = findKSFromPiPi.findKS(DTTool_Tag_iter, DTTool, PionTrackIDs);
     if(statuscode == StatusCode::SUCCESS) {
       m_TagpipiKSFitSuccess = 1;
-      m_TagpipiDecayLengthVeeVertex = findKSFromPiPi.GetDecayLengthVeeVertex();
-      m_TagpipiChi2VeeVertex = findKSFromPiPi.GetChi2VeeVertex();
-      m_TagpipiKSMassVeeVertex = findKSFromPiPi.GetKSMassVeeVertex();
       m_TagpipiDecayLengthFit = findKSFromPiPi.GetDecayLengthFit();
       m_TagpipiDecayLengthErrorFit = findKSFromPiPi.GetDecayLengthErrorFit();
       m_TagpipiChi2Fit = findKSFromPiPi.GetChi2Fit();

@@ -112,6 +112,9 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   // Do a vertex fit of the pipi in the tag, to make sure they're not KS in disguise
   double Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_pipiKSFitSuccess = 0;
+  m_pipiDecayLengthVeeVertex = pipifindKS.GetDecayLengthVeeVertex();
+  m_pipiChi2VeeVertex = pipifindKS.GetChi2VeeVertex();
+  m_pipiKSMassVeeVertex = pipifindKS.GetKSMassVeeVertex();
   if(Mpipi - MASS::KS_MASS < 0.050 && Mpipi - MASS::KS_MASS > -0.060) {
     FindKS pipifindKS(false);
     std::vector<int> PionTrackIDs;
@@ -120,9 +123,6 @@ StatusCode FindKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     StatusCode statuscode = pipifindKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
     if(statuscode == StatusCode::SUCCESS) {
       m_pipiKSFitSuccess = 1;
-      m_pipiDecayLengthVeeVertex = pipifindKS.GetDecayLengthVeeVertex();
-      m_pipiChi2VeeVertex = pipifindKS.GetChi2VeeVertex();
-      m_pipiKSMassVeeVertex = pipifindKS.GetKSMassVeeVertex();
       m_pipiDecayLengthFit = pipifindKS.GetDecayLengthFit();
       m_pipiDecayLengthErrorFit = pipifindKS.GetDecayLengthErrorFit();
       m_pipiChi2Fit = pipifindKS.GetChi2Fit();

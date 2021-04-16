@@ -83,6 +83,9 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
   }
   m_Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_KSFitSuccess = 0;
+  m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
+  m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
+  m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
   // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
   if(m_Mpipi - MASS::KS_MASS < 0.050 && m_Mpipi - MASS::KS_MASS > -0.060) {
     FindKS findKS(false);
@@ -92,9 +95,6 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
     StatusCode statuscode = findKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
     if(statuscode == StatusCode::SUCCESS) {
       m_KSFitSuccess = 1;
-      m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
-      m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
-      m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
       m_DecayLengthFit = findKS.GetDecayLengthFit();
       m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
       m_Chi2Fit = findKS.GetChi2Fit();

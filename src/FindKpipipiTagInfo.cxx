@@ -70,6 +70,9 @@ StatusCode FindKpipipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DT
   // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
   double Mpipi12 = (m_Pi1P + m_Pi2P).m();
   m_12KSFitSuccess = 0;
+  m_12DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
+  m_12Chi2VeeVertex = findKS.GetChi2VeeVertex();
+  m_12KSMassVeeVertex = findKS.GetKSMassVeeVertex();
   if(Mpipi12 - MASS::KS_MASS < 0.050 && Mpipi12 - MASS::KS_MASS > -0.060) {
     FindKS findKS(false);
     std::vector<int> PionTrackIDs;
@@ -78,9 +81,6 @@ StatusCode FindKpipipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DT
     StatusCode statuscode = findKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
     if(statuscode == StatusCode::SUCCESS) {
       m_12KSFitSuccess = 1;
-      m_12DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
-      m_12Chi2VeeVertex = findKS.GetChi2VeeVertex();
-      m_12KSMassVeeVertex = findKS.GetKSMassVeeVertex();
       m_12DecayLengthFit = findKS.GetDecayLengthFit();
       m_12DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
       m_12Chi2Fit = findKS.GetChi2Fit();
@@ -90,6 +90,9 @@ StatusCode FindKpipipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DT
   // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
   double Mpipi13 = (m_Pi1P + m_Pi3P).m();
   m_13KSFitSuccess = 0;
+  m_13DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
+  m_13Chi2VeeVertex = findKS.GetChi2VeeVertex();
+  m_13KSMassVeeVertex = findKS.GetKSMassVeeVertex();
   if(Mpipi13 - MASS::KS_MASS < 0.050 && Mpipi13 - MASS::KS_MASS > -0.060) {
     FindKS findKS(false);
     std::vector<int> PionTrackIDs;
@@ -98,9 +101,6 @@ StatusCode FindKpipipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DT
     StatusCode statuscode = findKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
     if(statuscode == StatusCode::SUCCESS) {
       m_13KSFitSuccess = 1;
-      m_13DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
-      m_13Chi2VeeVertex = findKS.GetChi2VeeVertex();
-      m_13KSMassVeeVertex = findKS.GetKSMassVeeVertex();
       m_13DecayLengthFit = findKS.GetDecayLengthFit();
       m_13DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
       m_13Chi2Fit = findKS.GetChi2Fit();
