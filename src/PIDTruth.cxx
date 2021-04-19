@@ -15,7 +15,7 @@
 #include <vector>
 #include <algorithm>
 
-PIDTruth::PIDTruth(const std::vector<int> &TrackID, const Algorithm *algorithm): m_TrackID(TrackID), m_algorithm(algorithm) {
+PIDTruth::PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm): m_TrackID(TrackID), m_NumberCharged(NumberCharged), m_algorithm(algorithm) {
 }
 
 int PIDTruth::MCTKPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
@@ -96,6 +96,86 @@ int PIDTruth::MCTKPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
   return ismatched;
 }
 
+int PIDTruth::MCSHPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) {
+  SmartDataPtr < EvtRecEvent > evtRecEvent(eventSvc(), "/Event/EvtRec/EvtRecEvent");
+  SmartDataPtr < EvtRecTrackCol > evtRecTrkCol(eventSvc(), "/Event/EvtRec/EvtRecTrackCol");
+  SmartDataPtr < EventNavigator > navigator(eventSvc(), "/Event/Navigator");
+  int ismatched = -1;
+  for (int i = evtRecEvent -> totalCharged(); i < evtRecEvent -> totalTracks(); i++) {
+    EvtRecTrackIterator itTrk = evtRecTrkCol -> begin() + i;
+    if (!( * itTrk) -> isEmcShowerValid()) {
+      continue;
+    }
+    RecEmcShower * emcTrk = ( * itTrk) -> emcShower();
+    if (( * itTrk) -> trackId() == tkID) {
+      McParticleVector particles = navigator -> getMcParticles(emcTrk);
+      int temp_hits = -2;
+      int thebestmatchedPDG = -2;
+      int thebestParent = -2;
+      int thebestGParent = -2;
+      int thebestGGParent = -2;
+      int thebestGGGParent = -2;
+      int thebestGGGGParent = -2;
+      int thebestGGGGGParent = -2;
+      int thebestGGGGGGParent = -2;
+      int thebestGGGGGGGParent = -2;
+      for (unsigned int i = 0; i < particles.size(); i++) {
+        int relevance = navigator -> getMcParticleRelevance(emcTrk, particles[i]);
+        if (relevance > temp_hits) {
+          temp_hits = relevance;
+          thebestmatchedPDG = particles[i] -> particleProperty();
+          thebestParent = particles[i] -> mother().particleProperty();
+          thebestGParent = particles[i] -> mother().mother().particleProperty();
+          thebestGGParent = particles[i] -> mother().mother().mother().particleProperty();
+          thebestGGGParent = particles[i] -> mother().mother().mother().mother().particleProperty();
+          thebestGGGGParent = particles[i] -> mother().mother().mother().mother().mother().particleProperty();
+          thebestGGGGGParent = particles[i] -> mother().mother().mother().mother().mother().mother().particleProperty();
+          thebestGGGGGGParent = particles[i] -> mother().mother().mother().mother().mother().mother().mother().particleProperty();
+          thebestGGGGGGGParent = particles[i] -> mother().mother().mother().mother().mother().mother().mother().mother().particleProperty();
+        }
+      }
+
+      if (mcParPDG == -1) {
+        return thebestParent;
+      }
+      if (mcPDG == -1) {
+        return thebestmatchedPDG;
+      }
+
+      if (mcPDG == 0 && mcParPDG == 0) {
+        if (thebestParent == GParPDG || thebestGParent == GParPDG || thebestGGParent == GParPDG || thebestGGGParent == GParPDG || thebestGGGGParent == GParPDG ||
+          thebestGGGGGParent == GParPDG || thebestGGGGGGParent == GParPDG || thebestGGGGGGGParent == GParPDG) {
+          return 1;
+        }
+      }
+      if (GParPDG == 0 && mcParPDG == 0) {
+        if (thebestmatchedPDG == mcPDG) {
+          return 1;
+        }
+      }
+      if (mcPDG == 0 && GParPDG == 0) {
+        if (thebestParent == mcParPDG) {
+          return 1;
+        }
+      }
+      if (mcParPDG == 0) {
+        if (thebestmatchedPDG == mcPDG &&
+          (thebestParent == GParPDG || thebestGParent == GParPDG || thebestGGParent == GParPDG || thebestGGGParent == GParPDG ||
+            thebestGGGGParent == GParPDG || thebestGGGGGParent == GParPDG || thebestGGGGGGParent == GParPDG || thebestGGGGGGGParent == GParPDG)) {
+          return 1;
+        }
+      } else {
+        if (thebestmatchedPDG == mcPDG && thebestParent == mcParPDG &&
+          (thebestGParent == GParPDG || thebestGGParent == GParPDG || thebestGGGParent == GParPDG || thebestGGGGParent == GParPDG ||
+            thebestGGGGGParent == GParPDG || thebestGGGGGGParent == GParPDG || thebestGGGGGGGParent == GParPDG)) {
+          ismatched = 1;
+        }
+      }
+    }
+  }
+  return ismatched;
+}
+
 bool PIDTruth::SameDMother() const {
   std::vector<int> IsD0Mother, IsD0barMother;
   for(std::vector<int>::const_iterator iter = m_TrackID.begin(); iter != m_TrackID.end(); iter++) {
@@ -122,15 +202,27 @@ bool PIDTruth::SameDMother() const {
   return isD0Mother || isD0barMother;
 }
 
-bool PIDTruth::FindTrueID(std::vector<int> &ParticleID) {
+bool PIDTruth::FindTrueID(std::vector<int> &ParticleID) const {
   std::vector<int> TrueID;
   bool PIDMatch = true;
   for(unsigned int i = 0; i < m_TrackID.size(); i++) {
-    TrueID.push_back(MCTKPIDCHG(m_TrackID[i], -1, 0, 0));
-    if(PIDMatch && ParticleID[i] != TrueID[i]) {
+    if(i < m_NumberCharged) {
+      TrueID.push_back(MCTKPIDCHG(m_TrackID[i], -1, 0, 0));
+    } else {
+      TrueID.push_back(MCSHPIDCHG(m_TrackID[i], -1, 0, 0));
+    }
+    if(PIDMatch && ParticleID[i] != TrueID[i] && ParticleID[i] != 0) {
       PIDMatch = false;
     }
   }
   std::swap(ParticleID, TrueID);
   return PIDMatch;
+}
+
+int PIDTruth::GetTrueMotherID(int TrackID, bool Charged) const {
+  if(Charged) {
+    return MCTKPIDCHG(TrackID, 0, -1, 0);
+  } else {
+    return MCSHPIDCHG(TrackID, 0, -1, 0);
+  }
 }
