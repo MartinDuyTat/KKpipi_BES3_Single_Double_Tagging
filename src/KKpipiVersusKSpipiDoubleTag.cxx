@@ -186,6 +186,8 @@ StatusCode KKpipiVersusKSpipiDoubleTag::initialize() {
       status = m_tuple->addItem("TagKSPiMinusTrueID", m_TagKSPiMinusTrueID);
       status = m_tuple->addItem("TagPiPlusTrueID", m_TagPiPlusTrueID);
       status = m_tuple->addItem("TagPiMinusTrueID", m_TagPiMinusTrueID);
+      status = m_tuple->addItem("TagKPlusMotherTrueID", m_TagKPlusMotherTrueID);
+      status = m_tuple->addItem("TagKMinusMotherTrueID", m_TagKMinusMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KSpipi Double Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -404,6 +406,8 @@ StatusCode KKpipiVersusKSpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
     m_TagKSPiMinusTrueID = ReconstructedPID[1];
     m_TagPiPlusTrueID = ReconstructedPID[2];
     m_TagPiMinusTrueID = ReconstructedPID[3];
+    m_TagKSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_TagKSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
   }
   return StatusCode::SUCCESS;
 }

@@ -591,6 +591,14 @@ class KKpipiVersusKSpipiDoubleTag: public Algorithm {
      * The tag \f$\pi^-\f$ true PID
      */
     NTuple::Item<int> m_TagPiMinusTrueID;
+    /**
+     * Tag \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagKSPiPlusMotherTrueID;
+    /**
+     * Tag \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagKSPiMinusMotherTrueID;
 };
 
 #endif

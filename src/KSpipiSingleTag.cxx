@@ -128,6 +128,8 @@ StatusCode KSpipiSingleTag::initialize() {
       status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
       status = m_tuple->addItem("PiPlusTrueID", m_PiPlusTrueID);
       status = m_tuple->addItem("PiMinusTrueID", m_PiMinusTrueID);
+      status = m_tuple->addItem("KSPiPlusMotherTrueID", m_KSPiPlusMotherTrueID);
+      status = m_tuple->addItem("KSPiMinusMotherTrueID", m_KSPiMinusMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSpipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -278,6 +280,8 @@ StatusCode KSpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
     m_KSPiMinusTrueID = ReconstructedPID[1];
     m_PiPlusTrueID = ReconstructedPID[2];
     m_PiMinusTrueID = ReconstructedPID[3];
+    m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
   }
   return StatusCode::SUCCESS;
 }

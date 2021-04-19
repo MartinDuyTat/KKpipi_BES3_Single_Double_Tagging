@@ -360,6 +360,14 @@ class KSpipiSingleTag: public Algorithm {
      * The \f$\pi^-\f$ true PID
      */
     NTuple::Item<int> m_PiMinusTrueID;
+    /**
+     * The \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiPlusMotherTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiMinusMotherTrueID;
 };
 
 #endif
