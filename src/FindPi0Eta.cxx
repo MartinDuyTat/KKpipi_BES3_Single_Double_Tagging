@@ -152,10 +152,10 @@ double FindPi0Eta::GetChi2Fit(int pi0eta_index) const {
   return m_Chi2Fit[pi0eta_index];
 }
 
-double FindPi0Eta::GetHighEPhotonTrackID(int pi0eta_index) const {
+int FindPi0Eta::GetHighEPhotonTrackID(int pi0eta_index) const {
   return m_HighEPhotonTrackID[pi0eta_index];
 }
 
-double FindPi0Eta::GetLowEPhotonTrackID(int pi0eta_index) const {
+int FindPi0Eta::GetLowEPhotonTrackID(int pi0eta_index) const {
   return m_LowEPhotonTrackID[pi0eta_index];
 }
