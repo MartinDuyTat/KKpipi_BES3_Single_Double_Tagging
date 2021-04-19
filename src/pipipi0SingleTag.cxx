@@ -116,6 +116,10 @@ StatusCode pipipi0SingleTag::initialize() {
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("PiPlusTrueID", m_PiPlusTrueID);
       status = m_tuple->addItem("PiMinusTrueID", m_PiMinusTrueID);
+      status = m_tuple->addItem("HighEPi0PhotonTrueID", m_HighEPi0PhotonTrueID);
+      status = m_tuple->addItem("LowEPi0PhotonTrueID", m_LowEPi0PhotonTrueID);
+      status = m_tuple->addItem("HighEPi0PhotonMotherTrueID", m_HighEPi0PhotonMotherTrueID);
+      status = m_tuple->addItem("LowEPi0PhotonMotherTrueID", m_LowEPi0PhotonMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for pipipi0 Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -255,13 +259,20 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   m_LowEPi0Constrainedenergy = findPi0.GetLowEPhotonPConstrained(3);
   m_Pi0Chi2Fit = findPi0.GetChi2Fit();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findpipiTagInfo.GetDaughterTrackID(), 2, this);
+    std::vector<int> DaughterTrackIDs = findKpiTagInfo.GetDaughterTrackID();
+    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
+    PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[2] = {211, -211};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    int SomeArray[4] = {211, -211, 22, 0};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_PiPlusTrueID = ReconstructedPID[0];
     m_PiMinusTrueID = ReconstructedPID[1];
+    m_HighEPi0PhotonTrueID = ReconstructedPID[2];
+    m_LowEPi0PhotonTrueID = ReconstructedPID[3];
+    m_HighEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], false);
+    m_LowEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], false);
   }
   return StatusCode::SUCCESS;
 }

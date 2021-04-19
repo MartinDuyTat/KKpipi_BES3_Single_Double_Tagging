@@ -292,6 +292,22 @@ class pipipi0SingleTag: public Algorithm {
      * The \f$\pi^-\f$ true PID
      */
     NTuple::Item<int> m_PiMinusTrueID;
+    /**
+     * The high energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Item<int> m_HighEPi0PhotonTrueID;
+    /**
+     * The low energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Item<int> m_LowEPi0PhotonTrueID;
+    /**
+     * The high energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_HighEPi0PhotonMotherTrueID;
+    /**
+     * The low energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_LowEPi0PhotonMotherTrueID;
 };
 
 #endif
