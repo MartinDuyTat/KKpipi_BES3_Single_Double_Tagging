@@ -191,6 +191,8 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagPiPlusTrueID", m_TagPiPlusTrueID);
       status = m_tuple->addItem("TagPiMinusTrueID", m_TagPiMinusTrueID);
+      status = m_tuple->addItem("TagPiPlusDOrigin", m_TagPiPlusDOrigin);
+      status = m_tuple->addItem("TagPiMinusDOrigin", m_TagPiMinusDOrigin);
       status = m_tuple->addIndexedItem("TagPi0HighEPhotonTrueID", m_TagNumberPi0, m_TagPi0HighEPhotonTrueID);
       status = m_tuple->addIndexedItem("TagPi0LowEPhotonTrueID", m_TagNumberPi0, m_TagPi0LowEPhotonTrueID);
       status = m_tuple->addIndexedItem("TagEtaHighEPhotonTrueID", m_TagNumberEta, m_TagEtaHighEPhotonTrueID);
@@ -458,6 +460,8 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
     if(m_TagFoundPionPair) {
       m_TagPiPlusTrueID = ReconstructedPID[0];
       m_TagPiMinusTrueID = ReconstructedPID[1];
+      m_TagPiPlusDOrigin = PID_Truth.FindDOrigin(DaughterTrackIDs[0], true);
+      m_TagPiMinusDOrigin = PID_Truth.FindDOrigin(DaughterTrackIDs[1], true);
       index += 2;
     }
     for(int i = 0; i < m_TagNumberPi0; i++) {

@@ -607,6 +607,14 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      */
     NTuple::Item<int> m_TagPiMinusTrueID;
     /**
+     * The tag \f$\pi^+\f$ \f$D\f$ origin
+     */
+    NTuple::Item<int> m_TagPiPlusDOrigin;
+    /**
+     * The tag \f$\pi^-\f$ \f$D\f$ origin
+     */
+    NTuple::Item<int> m_TagPiMinusDOrigin;
+    /**
      * The tag high energy photon from \f$\pi^0\f$ true PID
      */
     NTuple::Array<int> m_TagPi0HighEPhotonTrueID;
