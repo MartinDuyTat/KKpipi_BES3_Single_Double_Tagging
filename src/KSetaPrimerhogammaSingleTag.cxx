@@ -293,7 +293,7 @@ StatusCode KSetaPrimerhogammaSingleTag::FillTuple(DTagToolIterator DTTool_iter, 
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> EtaPDaughterTrackIDs = findpipiInfo.GetDaughterTrackID();
     DaughterTrackIDs.insert(DaughterTrackIDs.end(), EtaPDaughterTrackIDs.begin(), EtaPDaughterTrackIDs.end());
-    DaughterTRackIDs.push_back(Showers[0]->trackId());
+    DaughterTrackIDs.push_back(Showers[0]->trackId());
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[5] = {211, -211, 211, -211, 22};

@@ -594,6 +594,38 @@ class KKpipiVersusKSpipipi0DoubleTag: public Algorithm {
      * The tag \f$\pi^-\f$ true PID
      */
     NTuple::Item<int> m_TagPiMinusTrueID;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Item<int> m_TagHighEPi0PhotonTrueID;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Item<int> m_TagLowEPi0PhotonTrueID;
+    /**
+     * Tag \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagKSPiPlusMotherTrueID;
+    /**
+     * Tag \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagKSPiMinusMotherTrueID;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagHighEPi0PhotonMotherTrueID;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagLowEPi0PhotonMotherTrueID;
+    /**
+     * Tag \f$\pi^+\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagPiPlusMotherTrueID;
+    /**
+     * Tag \f$\pi^-\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagPiMinusMotherTrueID;
 };
 
 #endif

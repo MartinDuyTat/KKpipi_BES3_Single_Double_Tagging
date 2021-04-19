@@ -415,7 +415,7 @@ StatusCode KKpipiVersusKSpi0pi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sign
     DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID(0));
     DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID(1));
     DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID(1));
-    PIDTruth PID_Truth(findKS.GetDaughterTrackIDs(), 2, this);
+    PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[6] = {211, -211, 22, 0, 22, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 6);

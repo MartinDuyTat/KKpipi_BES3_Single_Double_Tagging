@@ -364,6 +364,38 @@ class KSpipipi0SingleTag: public Algorithm {
      * The \f$\pi^-\f$ true PID
      */
     NTuple::Item<int> m_PiMinusTrueID;
+    /**
+     * The high energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Item<int> m_HighEPi0PhotonTrueID;
+    /**
+     * The low energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Item<int> m_LowEPi0PhotonTrueID;
+    /**
+     * The \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiPlusMotherTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiMinusMotherTrueID;
+    /**
+     * The high energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_HighEPi0PhotonMotherTrueID;
+    /**
+     * The low energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_LowEPi0PhotonMotherTrueID;
+    /**
+     * The \f$\pi^+\f$ true mother PID
+     */
+    NTuple::Item<int> m_PiPlusMotherTrueID;
+    /**
+     * The \f$\pi^-\f$ true mother PID
+     */
+    NTuple::Item<int> m_PiMinusMotherTrueID;
 };
 
 #endif
