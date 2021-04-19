@@ -256,10 +256,10 @@ StatusCode KSpi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTT
     m_KSPiMinusTrueID = ReconstructedPID[1];
     m_HighEPi0PhotonTrueID = ReconstructedPID[2];
     m_LowEPi0PhotonTrueID = ReconstructedPID[3];
-    m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0]);
-    m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1]);
-    m_HighEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2]);
-    m_LowEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3]);
+    m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
+    m_HighEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], false);
+    m_LowEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], false);
   }
   return StatusCode::SUCCESS;
 }

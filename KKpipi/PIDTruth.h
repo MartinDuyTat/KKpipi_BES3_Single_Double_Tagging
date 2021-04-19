@@ -20,7 +20,7 @@ class PIDTruth {
      * @param NumberCharged Number of charged tracks
      * @param algorithm Pointer to the Algorithm object that created this class, need this to access the MC info!
      */
-  PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm);
+    PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm);
     /**
      * Function from Alex Gilman that matches charged reconstructed particles with generator particles by comparing the hits of the reconstructed object and the truth level trajectory
      * @param tkID Track ID of particle of interest

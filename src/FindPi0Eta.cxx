@@ -89,8 +89,8 @@ StatusCode FindPi0Eta::findPi0Eta(DTagToolIterator &DTTool_iter, DTagTool &DTToo
       m_LowEPhotonPConstrained[i] = (*Pi0_iter)->loPfit();
       m_Chi2Fit[i] = (*Pi0_iter)->chisq();
       // Get photon track IDs
-      m_HighEPhotonTrackID.push_back(HighEPhotonShower->trackId());
-      m_LowEPhotonTrackID.push_back(LowEPhotonShower->trackId());
+      m_HighEPhotonTrackID.push_back((*Pi0_iter)->hiEnGamma()->trackId());
+      m_LowEPhotonTrackID.push_back((*Pi0_iter)->loEnGamma()->trackId());
       i++;
       if(i == m_npi0eta) {
 	return StatusCode::SUCCESS;
