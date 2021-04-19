@@ -192,6 +192,14 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::initialize() {
       status = m_tuple->addItem("TagKSPiMinusTrueID", m_TagKSPiMinusTrueID);
       status = m_tuple->addItem("TagEtaPPiPlusTrueID", m_TagEtaPPiPlusTrueID);
       status = m_tuple->addItem("TagEtaPPiMinusTrueID", m_TagEtaPPiMinusTrueID);
+      status = m_tuple->addItem("TagHighEEtaPhotonTrueID", m_TagHighEEtaPhotonTrueID);
+      status = m_tuple->addItem("TagLowEEtaPhotonTrueID", m_TagLowEEtaPhotonTrueID);
+      status = m_tuple->addItem("TagKSPiPlusMotherTrueID", m_TagKSPiPlusMotherTrueID);
+      status = m_tuple->addItem("TagKSPiMinusMotherTrueID", m_TagKSPiMinusMotherTrueID);
+      status = m_tuple->addItem("TagHighEEtaPhotonMotherTrueID", m_TagHighEEtaPhotonMotherTrueID);
+      status = m_tuple->addItem("TagLowEEtaPhotonMotherTrueID", m_TagLowEEtaPhotonMotherTrueID);
+      status = m_tuple->addItem("TagEtaPPiPlusMotherTrueID", m_TagEtaPPiPlusMotherTrueID);
+      status = m_tuple->addItem("TagEtaPPiMinusMotherTrueID", m_TagEtaPPiMinusMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KSetaPrime(pipipi0) Double Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -426,15 +434,25 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DT
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> EtaPDaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();
     DaughterTrackIDs.insert(DaughterTrackIDs.end(), EtaPDaughterTrackIDs.begin(), EtaPDaughterTrackIDs.end());
+    DaughterTrackIDs.push_back(findEta.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findEta.GetLowEPhotonTrackID());
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[4] = {211, -211, 211, -211};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
+    int SomeArray[6] = {211, -211, 211, -211, 22, 0};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 6);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_TagKSPiPlusTrueID = ReconstructedPID[0];
     m_TagKSPiMinusTrueID = ReconstructedPID[1];
     m_TagEtaPPiPlusTrueID = ReconstructedPID[2];
     m_TagEtaPPiMinusTrueID = ReconstructedPID[3];
+    m_TagHighEEtaPhotonTrueID = ReconstructedPID[4];
+    m_TagLowEEtaPhotonTrueID = ReconstructedPID[5];
+    m_TagKSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_TagKSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
+    m_TagEtaPPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], true);
+    m_TagEtaPPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], true);
+    m_TagHighEEtaPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[4], false);
+    m_TagLowEEtaPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[5], false);
   }
   return StatusCode::SUCCESS;
 }

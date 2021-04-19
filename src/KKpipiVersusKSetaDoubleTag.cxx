@@ -371,8 +371,8 @@ StatusCode KKpipiVersusKSetaDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
   m_EtaChi2Fit = findEta.GetChi2Fit();
   if(m_RunNumber < 0) {
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
-    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
-    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
+    DaughterTrackIDs.push_back(findEta.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findEta.GetLowEPhotonTrackID());
     PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {211, -211, 22, 0};
