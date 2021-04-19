@@ -288,6 +288,30 @@ class KSetaSingleTag: public Algorithm {
      * The \f$\pi^-\f$ from \f$K_S^0\f$ true PID
      */
     NTuple::Item<int> m_KSPiMinusTrueID;
+    /**
+     * The high energy photon from \f$\eta\f$ true PID
+     */
+    NTuple::Item<int> m_HighEEtaPhotonTrueID;
+    /**
+     * The low energy photon from \f$\eta\f$ true PID
+     */
+    NTuple::Item<int> m_LowEEtaPhotonTrueID;
+    /**
+     * The \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiPlusMotherTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiMinusMotherTrueID;
+    /**
+     * The high energy photon from \f$\eta\f$ true mother PID
+     */
+    NTuple::Item<int> m_HighEEtaPhotonMotherTrueID;
+    /**
+     * The low energy photon from \f$\eta\f$ true mother PID
+     */
+    NTuple::Item<int> m_LowEEtaPhotonMotherTrueID;
 };
 
 #endif

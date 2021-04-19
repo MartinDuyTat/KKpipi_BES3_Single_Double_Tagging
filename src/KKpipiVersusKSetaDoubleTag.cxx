@@ -169,6 +169,12 @@ StatusCode KKpipiVersusKSetaDoubleTag::initialize() {
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagKSPiPlusTrueID", m_TagKSPiPlusTrueID);
       status = m_tuple->addItem("TagKSPiMinusTrueID", m_TagKSPiMinusTrueID);
+      status = m_tuple->addItem("TagHighEEtaPhotonTrueID", m_TagHighEEtaPhotonTrueID);
+      status = m_tuple->addItem("TagLowEEtaPhotonTrueID", m_TagLowEEtaPhotonTrueID);
+      status = m_tuple->addItem("TagKSPiPlusMotherTrueID", m_TagKSPiPlusMotherTrueID);
+      status = m_tuple->addItem("TagKSPiMinusMotherTrueID", m_TagKSPiMinusMotherTrueID);
+      status = m_tuple->addItem("TagHighEEtaPhotonMotherTrueID", m_TagHighEEtaPhotonMotherTrueID);
+      status = m_tuple->addItem("TagLowEEtaPhotonMotherTrueID", m_TagLowEEtaPhotonMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KSeta Double Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -364,13 +370,22 @@ StatusCode KKpipiVersusKSetaDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
   m_TagLowEEtaConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
   m_EtaChi2Fit = findEta.GetChi2Fit();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKS.GetDaughterTrackIDs(), 2, this);
+    std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
+    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
+    PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[2] = {211, -211};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    int SomeArray[4] = {211, -211, 22, 0};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_TagKSPiPlusTrueID = ReconstructedPID[0];
     m_TagKSPiMinusTrueID = ReconstructedPID[1];
+    m_TagHighEEtaPhotonTrueID = ReconstructedPID[2];
+    m_TagLowEEtaPhotonTrueID = ReconstructedPID[3];
+    m_TagKSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_TagKSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
+    m_TagHighEEtaPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], false);
+    m_TagLowEEtaPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], false);
   }
   return StatusCode::SUCCESS;
 }
