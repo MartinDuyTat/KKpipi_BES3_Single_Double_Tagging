@@ -106,6 +106,10 @@ StatusCode Kpipi0SingleTag::initialize() {
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KTrueID", m_KTrueID);
       status = m_tuple->addItem("PiTrueID", m_PiTrueID);
+      status = m_tuple->addItem("HighEPi0PhotonTrueID", m_HighEPi0PhotonTrueID);
+      status = m_tuple->addItem("LowEPi0PhotonTrueID", m_LowEPi0PhotonTrueID);
+      status = m_tuple->addItem("HighEPi0PhotonMotherTrueID", m_HighEPi0PhotonMotherTrueID);
+      status = m_tuple->addItem("LowEPi0PhotonMotherTrueID", m_LowEPi0PhotonMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for Kpipi0 Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -224,13 +228,20 @@ StatusCode Kpipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_LowEPi0Constrainedenergy = findPi0.GetLowEPhotonPConstrained(3);
   m_Pi0Chi2Fit = findPi0.GetChi2Fit();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKpiTagInfo.GetDaughterTrackID(), 2, this);
+    std::vector<int> DaughterTrackIDs = findKpiTagInfo.GetDaughterTrackID();
+    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
+    PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[2] = {321*m_KCharge, 211*m_PiCharge};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    int SomeArray[4] = {321*m_KCharge, 211*m_PiCharge, 22, 0};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_KTrueID = ReconstructedPID[0];
     m_PiTrueID = ReconstructedPID[1];
+    m_HighEPi0PhotonTrueID = ReconstructedPID[2];
+    m_LowEPi0PhotonTrueID = ReconstructedPID[3];
+    m_HighEPi0PhotonTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2]);
+    m_LowEPi0PhotonTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3]);
   }
   return StatusCode::SUCCESS;
 }

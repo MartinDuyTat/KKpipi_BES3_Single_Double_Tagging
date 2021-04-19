@@ -169,12 +169,12 @@ StatusCode KKpipiVersusKSpi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagKSPiPlusTrueID", m_TagKSPiPlusTrueID);
       status = m_tuple->addItem("TagKSPiMinusTrueID", m_TagKSPiMinusTrueID);
-      status = m_Tagtuple->addItem("TagHighEPi0PhotonTrueID", m_TagHighEPi0PhotonTrueID);
-      status = m_Tagtuple->addItem("TagLowEPi0PhotonTrueID", m_TagLowEPi0PhotonTrueID);
-      status = m_Tagtuple->addItem("TagKSPiPlusMotherTrueID", m_TagKSPiPlusMotherTrueID);
-      status = m_Tagtuple->addItem("TagKSPiMinusMotherTrueID", m_TagKSPiMinusMotherTrueID);
-      status = m_Tagtuple->addItem("TagHighEPi0PhotonMotherTrueID", m_TagHighEPi0PhotonMotherTrueID);
-      status = m_Tagtuple->addItem("TagLowEPi0PhotonMotherTrueID", m_TagLowEPi0PhotonMotherTrueID);
+      status = m_tuple->addItem("TagHighEPi0PhotonTrueID", m_TagHighEPi0PhotonTrueID);
+      status = m_tuple->addItem("TagLowEPi0PhotonTrueID", m_TagLowEPi0PhotonTrueID);
+      status = m_tuple->addItem("TagKSPiPlusMotherTrueID", m_TagKSPiPlusMotherTrueID);
+      status = m_tuple->addItem("TagKSPiMinusMotherTrueID", m_TagKSPiMinusMotherTrueID);
+      status = m_tuple->addItem("TagHighEPi0PhotonMotherTrueID", m_TagHighEPi0PhotonMotherTrueID);
+      status = m_tuple->addItem("TagLowEPi0PhotonMotherTrueID", m_TagLowEPi0PhotonMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KSpi0 Double Tags" << endmsg;
       return StatusCode::FAILURE;

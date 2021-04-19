@@ -164,6 +164,10 @@ StatusCode KKpipiVersusKpipi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagKTrueID", m_TagKTrueID);
       status = m_tuple->addItem("TagPiTrueID", m_TagPiTrueID);
+      status = m_tuple->addItem("TagHighEPi0PhotonTrueID", m_TagHighEPi0PhotonTrueID);
+      status = m_tuple->addItem("TagLowEPi0PhotonTrueID", m_TagLowEPi0PhotonTrueID);
+      status = m_tuple->addItem("TagHighEPi0PhotonMotherTrueID", m_TagHighEPi0PhotonMotherTrueID);
+      status = m_tuple->addItem("TagLowEPi0PhotonMotherTrueID", m_TagLowEPi0PhotonMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs Kpi Double Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -350,13 +354,20 @@ StatusCode KKpipiVersusKpipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagLowEPi0Constrainedenergy = findPi0.GetLowEPhotonPConstrained(3);
   m_Pi0Chi2Fit = findPi0.GetChi2Fit();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKpiTagInfo.GetDaughterTrackID(), 2, this);
+    std::vector<int> DaughterTrackIDs = findKpiTagInfo.GetDaughterTrackID();
+    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
+    PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[2] = {321*m_TagKCharge, 211*m_TagPiCharge};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    int SomeArray[4] = {321*m_TagKCharge, 211*m_TagPiCharge, 22, 0};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_TagKTrueID = ReconstructedPID[0];
     m_TagPiTrueID = ReconstructedPID[1];
+    m_TagHighEPi0PhotonTrueID = ReconstructedPID[2];
+    m_TagLowEPi0PhotonTrueID = ReconstructedPID[3];
+    m_TagHighEPi0PhotonTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2]);
+    m_TagLowEPi0PhotonTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3]);
   }
   return StatusCode::SUCCESS;
 }
