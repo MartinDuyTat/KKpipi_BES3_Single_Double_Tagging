@@ -642,6 +642,26 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      * The tag low energy photon from \f$\eta\f$ true mother PID
      */
     NTuple::Array<int> m_TagEtaLowEPhotonMotherTrueID;
+    /**
+     * The tag high energy photon from \f$\pi^0\f$ \f$D\f$ meson origin
+     */
+    NTuple::Array<int> m_TagPi0HighEPhotonDOrigin;
+    /**
+     * The tag low energy photon from \f$\pi^0\f$ \f$D\f$ meson origin
+     */
+    NTuple::Array<int> m_TagPi0LowEPhotonDOrigin;
+    /**
+     * The tag high energy photon from \f$\eta\f$ \f$D\f$ meson origin
+     */
+    NTuple::Array<int> m_TagEtaHighEPhotonDOrigin;
+    /**
+     * The tag low energy photon from \f$\eta\f$ \f$D\f$ meson origin
+     */
+    NTuple::Array<int> m_TagEtaLowEPhotonDOrigin;
+    /**
+     * The tag single photon \f$D\f$ meson origin
+     */
+    NTuple::Array<int> m_TagPhotonDOrigin;
 };
 
 #endif

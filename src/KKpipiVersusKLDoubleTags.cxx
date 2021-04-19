@@ -200,6 +200,11 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addIndexedItem("TagPi0LowEPhotonMotherTrueID", m_TagNumberPi0, m_TagPi0LowEPhotonMotherTrueID);
       status = m_tuple->addIndexedItem("TagEtaHighEPhotonMotherTrueID", m_TagNumberEta, m_TagEtaHighEPhotonMotherTrueID);
       status = m_tuple->addIndexedItem("TagEtaLowEPhotonMotherTrueID", m_TagNumberEta, m_TagEtaLowEPhotonMotherTrueID);
+      status = m_tuple->addIndexedItem("TagPi0HighEPhotonDOrigin", m_TagNumberPi0, m_TagPi0HighEPhotonDOrigin);
+      status = m_tuple->addIndexedItem("TagPi0LowEPhotonDOrigin", m_TagNumberPi0, m_TagPi0LowEPhotonDOrigin);
+      status = m_tuple->addIndexedItem("TagEtaHighEPhotonDOrigin", m_TagNumberEta, m_TagEtaHighEPhotonDOrigin);
+      status = m_tuple->addIndexedItem("TagEtaLowEPhotonDOrigin", m_TagNumberEta, m_TagEtaLowEPhotonDOrigin);
+      status = m_tuple->addIndexedItem("TagPhotonDOrigin", m_TagNumberGamma, m_TagPhotonDOrigin);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KLX Double Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -450,7 +455,7 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     int index = 0;
-    if(m_FoundPionPair) {
+    if(m_TagFoundPionPair) {
       m_TagPiPlusTrueID = ReconstructedPID[0];
       m_TagPiMinusTrueID = ReconstructedPID[1];
       index += 2;
@@ -458,20 +463,24 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
     for(int i = 0; i < m_TagNumberPi0; i++) {
       m_TagPi0HighEPhotonTrueID[i] = ReconstructedPID[index];
       m_TagPi0LowEPhotonTrueID[i] = ReconstructedPID[index + 1];
-      m_TagPi0HighEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index], false);
-      m_TagPi0LowEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index + 1], false);
+      m_TagPi0HighEPhotonMotherTrueID[i] = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index], false);
+      m_TagPi0LowEPhotonMotherTrueID[i] = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index + 1], false);
+      m_TagPi0HighEPhotonDOrigin[i] = PID_Truth.FindDOrigin(DaughterTrackIDs[index], false);
+      m_TagPi0LowEPhotonDOrigin[i] = PID_Truth.FindDOrigin(DaughterTrackIDs[index + 1], false);
       index += 2;
     }
     for(int i = 0; i < m_TagNumberEta; i++) {
       m_TagEtaHighEPhotonTrueID[i] = ReconstructedPID[index];
       m_TagEtaLowEPhotonTrueID[i] = ReconstructedPID[index + 1];
-      m_TagEtaHighEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index], false);
-      m_TagEtaLowEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index + 1], false);
+      m_TagEtaHighEPhotonMotherTrueID[i] = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index], false);
+      m_TagEtaLowEPhotonMotherTrueID[i] = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index + 1], false);
+      m_TagEtaHighEPhotonDOrigin[i] = PID_Truth.FindDOrigin(DaughterTrackIDs[index], false);
+      m_TagEtaLowEPhotonDOrigin[i] = PID_Truth.FindDOrigin(DaughterTrackIDs[index + 1], false);
       index += 2;
     }
     for(int i = 0; i < m_TagNumberGamma; i++) {
       m_TagPhotonTrueID[i] = ReconstructedPID[index];
-      m_TagPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index], false);
+      m_TagPhotonDOrigin[i] = PID_Truth.FindDOrigin(DaughterTrackIDs[index], false);
       index++;
     }
   }

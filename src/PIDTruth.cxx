@@ -176,6 +176,26 @@ int PIDTruth::MCSHPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
   return ismatched;
 }
 
+int PIDTruth::FindDOrigin(int TrackID, bool Charged) const {
+  if(Charged) {
+    if(MCTKPIDCHG(TrackID, 0, 0, 421) == 1) {
+      return 421;
+    } else if(MCTKPIDCHG(TrackID, 0, 0, -421) == 1) {
+      return -421;
+    } else {
+      return 0;
+    }
+  } else {
+    if(MCSHPIDCHG(TrackID, 0, 0, 421) == 1) {
+      return 421;
+    } else if(MCTKPIDCHG(TrackID, 0, 0, -421) == 1) {
+      return -421;
+    } else {
+      return 0;
+    }
+  }
+}
+
 bool PIDTruth::SameDMother() const {
   std::vector<int> IsD0Mother, IsD0barMother;
   for(std::vector<int>::const_iterator iter = m_TrackID.begin(); iter != m_TrackID.end(); iter++) {

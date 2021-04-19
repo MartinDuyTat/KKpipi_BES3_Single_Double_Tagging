@@ -40,6 +40,13 @@ class PIDTruth {
      */
     int MCSHPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const;
     /**
+     * Function that determines which $D$ meson that a particle originated from
+     * @param TrackID Track ID of the particle of interest
+     * @param Charged True if particle is charged, false if particle is neutral
+     * @return 421 for \f$D^0\f$, -421 for \f$\bar{D^0}\f$ and 0 for unknown
+     */
+    int FindDOrigin(int TrackID, bool Charged) const;
+    /**
      * Function that checks if all the particles originate from the same \f$D\f$ meson
      */
     bool SameDMother() const;
