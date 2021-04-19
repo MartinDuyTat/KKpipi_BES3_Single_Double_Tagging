@@ -259,7 +259,7 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   m_LowEPi0Constrainedenergy = findPi0.GetLowEPhotonPConstrained(3);
   m_Pi0Chi2Fit = findPi0.GetChi2Fit();
   if(m_RunNumber < 0) {
-    std::vector<int> DaughterTrackIDs = findKpiTagInfo.GetDaughterTrackID();
+    std::vector<int> DaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();
     DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
     DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
     PIDTruth PID_Truth(DaughterTrackIDs, 2, this);

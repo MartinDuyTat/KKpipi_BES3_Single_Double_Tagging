@@ -129,6 +129,16 @@ StatusCode KSpi0pi0SingleTag::initialize() {
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
       status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
+      status = m_tuple->addItem("HighEPi0PhotonTrueID1", m_HighEPi0PhotonTrueID1);
+      status = m_tuple->addItem("LowEPi0PhotonTrueID1", m_LowEPi0PhotonTrueID1);
+      status = m_tuple->addItem("HighEPi0PhotonTrueID2", m_HighEPi0PhotonTrueID2);
+      status = m_tuple->addItem("LowEPi0PhotonTrueID2", m_LowEPi0PhotonTrueID2);
+      status = m_tuple->addItem("KSPiPlusMotherTrueID", m_KSPiPlusMotherTrueID);
+      status = m_tuple->addItem("KSPiMinusMotherTrueID", m_KSPiMinusMotherTrueID);
+      status = m_tuple->addItem("HighEPi0PhotonMotherTrueID1", m_HighEPi0PhotonMotherTrueID1);
+      status = m_tuple->addItem("LowEPi0PhotonMotherTrueID1", m_LowEPi0PhotonMotherTrueID1);
+      status = m_tuple->addItem("HighEPi0PhotonMotherTrueID2", m_HighEPi0PhotonMotherTrueID2);
+      status = m_tuple->addItem("LowEPi0PhotonMotherTrueID2", m_LowEPi0PhotonMotherTrueID2);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSpi0pi0 Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -274,13 +284,28 @@ StatusCode KSpi0pi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &
   m_LowEPi0Constrainedenergy2 = findPi0.GetLowEPhotonPConstrained(3, 1);
   m_Pi0Chi2Fit2 = findPi0.GetChi2Fit(1);
   if(m_RunNumber < 0) {
+    std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
+    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID(0));
+    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID(0));
+    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID(1));
+    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID(1));
     PIDTruth PID_Truth(findKS.GetDaughterTrackIDs(), 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[2] = {211, -211};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    int SomeArray[6] = {211, -211, 22, 0, 22, 0};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 6);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_KSPiPlusTrueID = ReconstructedPID[0];
     m_KSPiMinusTrueID = ReconstructedPID[1];
+    m_HighEPi0PhotonTrueID1 = ReconstructedPID[2];
+    m_LowEPi0PhotonTrueID1 = ReconstructedPID[3];
+    m_HighEPi0PhotonTrueID2 = ReconstructedPID[4];
+    m_LowEPi0PhotonTrueID2 = ReconstructedPID[5];
+    m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
+    m_HighEPi0PhotonMotherTrueID1 = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], false);
+    m_LowEPi0PhotonMotherTrueID1 = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], false);
+    m_HighEPi0PhotonMotherTrueID2 = PID_Truth.GetTrueMotherID(DaughterTrackIDs[4], false);
+    m_LowEPi0PhotonMotherTrueID2 = PID_Truth.GetTrueMotherID(DaughterTrackIDs[5], false);
   }
   return StatusCode::SUCCESS;
 }

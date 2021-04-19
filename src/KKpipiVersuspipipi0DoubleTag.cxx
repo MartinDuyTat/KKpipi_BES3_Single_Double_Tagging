@@ -385,7 +385,7 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_TagLowEPi0Constrainedenergy = findPi0.GetLowEPhotonPConstrained(3);
   m_Pi0Chi2Fit = findPi0.GetChi2Fit();
   if(m_RunNumber < 0) {
-    std::vector<int> DaughterTrackIDs = findKpiTagInfo.GetDaughterTrackID();
+    std::vector<int> DaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();
     DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
     DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
     PIDTruth PID_Truth(findpipiTagInfo.GetDaughterTrackID(), 2, this);
