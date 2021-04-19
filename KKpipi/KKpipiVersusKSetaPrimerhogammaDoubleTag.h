@@ -554,6 +554,30 @@ class KKpipiVersusKSetaPrimerhogammaDoubleTag: public Algorithm {
      * The tag \f$\pi^-\f$ from \f$\eta'\f$ true PID
      */
     NTuple::Item<int> m_TagEtaPPiMinusTrueID;
+    /**
+     * Tag photon from \f$\eta'\f$ true PID
+     */
+    NTuple::Item<int> m_TagPhotonTrueID;
+    /**
+     * Tag \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagKSPiPlusMotherTrueID;
+    /**
+     * Tag \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagKSPiMinusMotherTrueID;
+    /**
+     * Tag photon from \f$\eta'\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagPhotonMotherTrueID;
+    /**
+     * Tag \f$\pi^+\f$ from \f$\eta'\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagEtaPPiPlusMotherTrueID;
+    /**
+     * Tag \f$\pi^-\f$ from \f$\eta'\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagEtaPPiMinusMotherTrueID;
 };
 
 #endif

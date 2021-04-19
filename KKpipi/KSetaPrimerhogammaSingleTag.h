@@ -324,6 +324,30 @@ class KSetaPrimerhogammaSingleTag: public Algorithm {
      * The \f$\pi^-\f$ from \f$\eta'\f$ true PID
      */
     NTuple::Item<int> m_EtaPPiMinusTrueID;
+    /**
+     * The photon from \f$\eta'\f$ true PID
+     */
+    NTuple::Item<int> m_PhotonTrueID;
+    /**
+     * The \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiPlusMotherTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiMinusMotherTrueID;
+    /**
+     * The photon from \f$\eta'\f$ true mother PID
+     */
+    NTuple::Item<int> m_PhotonMotherTrueID;
+    /**
+     * The \f$\pi^+\f$ from \f$\eta'\f$ true mother PID
+     */
+    NTuple::Item<int> m_EtaPPiPlusMotherTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$\eta'\f$ true mother PID
+     */
+    NTuple::Item<int> m_EtaPPiMinusMotherTrueID;
 };
 
 #endif
