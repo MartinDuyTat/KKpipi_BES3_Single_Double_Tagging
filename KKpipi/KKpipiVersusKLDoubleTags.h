@@ -606,6 +606,42 @@ class KKpipiVersusKLDoubleTags: public Algorithm {
      * The tag \f$\pi^-\f$ true PID
      */
     NTuple::Item<int> m_TagPiMinusTrueID;
+    /**
+     * The tag high energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Array<int> m_TagPi0HighEPhotonTrueID;
+    /**
+     * The tag low energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Array<int> m_TagPi0LowEPhotonTrueID;
+    /**
+     * The tag high energy photon from \f$\eta\f$ true PID
+     */
+    NTuple::Array<int> m_TagEtaHighEPhotonTrueID;
+    /**
+     * The tag low energy photon from \f$\eta\f$ true PID
+     */
+    NTuple::Array<int> m_TagEtaLowEPhotonTrueID;
+    /**
+     * The tag single photon true PID
+     */
+    NTuple::Array<int> m_TagPhotonTrueID;
+    /**
+     * The tag high energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Array<int> m_TagPi0HighEPhotonMotherTrueID;
+    /**
+     * The tag low energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Array<int> m_TagPi0LowEPhotonMotherTrueID;
+    /**
+     * The tag high energy photon from \f$\eta\f$ true mother PID
+     */
+    NTuple::Array<int> m_TagEtaHighEPhotonMotherTrueID;
+    /**
+     * The tag low energy photon from \f$\eta\f$ true mother PID
+     */
+    NTuple::Array<int> m_TagEtaLowEPhotonMotherTrueID;
 };
 
 #endif

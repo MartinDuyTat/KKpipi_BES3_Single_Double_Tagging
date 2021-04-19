@@ -397,7 +397,8 @@ StatusCode KKpipiVersusKSpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagpipiChi2Fit = findKSpipiTagInfo.GetpipiChi2Fit();
   m_TagpipiKSMassFit = findKSpipiTagInfo.GetpipiKSMassFit();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKSpipiTagInfo.GetDaughterTrackID(), 4, this);
+    std::vector<int> DaughterTrackIDs = findKSpipiTagInfo.GetDaughterTrackID();
+    PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {211, -211, 211, -211};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);

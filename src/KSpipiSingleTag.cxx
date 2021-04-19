@@ -271,7 +271,8 @@ StatusCode KSpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_pipiChi2Fit = findKSpipiTagInfo.GetpipiChi2Fit();
   m_pipiKSMassFit = findKSpipiTagInfo.GetpipiKSMassFit();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKSpipiTagInfo.GetDaughterTrackID(), 4, this);
+    std::vector<int> DaughterTrackIDs = findKSpipiTagInfo.GetDaughterTrackID();
+    PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {211, -211, 211, -211};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);

@@ -191,6 +191,15 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagPiPlusTrueID", m_TagPiPlusTrueID);
       status = m_tuple->addItem("TagPiMinusTrueID", m_TagPiMinusTrueID);
+      status = m_tuple->addIndexedItem("TagPi0HighEPhotonTrueID", m_TagNumberPi0, m_TagPi0HighEPhotonTrueID);
+      status = m_tuple->addIndexedItem("TagPi0LowEPhotonTrueID", m_TagNumberPi0, m_TagPi0LowEPhotonTrueID);
+      status = m_tuple->addIndexedItem("TagEtaHighEPhotonTrueID", m_TagNumberEta, m_TagEtaHighEPhotonTrueID);
+      status = m_tuple->addIndexedItem("TagEtaLowEPhotonTrueID", m_TagNumberEta, m_TagEtaLowEPhotonTrueID);
+      status = m_tuple->addIndexedItem("TagPhotonTrueID", m_TagNumberGamma, m_TagPhotonTrueID);
+      status = m_tuple->addIndexedItem("TagPi0HighEPhotonMotherTrueID", m_TagNumberPi0, m_TagPi0HighEPhotonMotherTrueID);
+      status = m_tuple->addIndexedItem("TagPi0LowEPhotonMotherTrueID", m_TagNumberPi0, m_TagPi0LowEPhotonMotherTrueID);
+      status = m_tuple->addIndexedItem("TagEtaHighEPhotonMotherTrueID", m_TagNumberEta, m_TagEtaHighEPhotonMotherTrueID);
+      status = m_tuple->addIndexedItem("TagEtaLowEPhotonMotherTrueID", m_TagNumberEta, m_TagEtaLowEPhotonMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KLX Double Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -413,14 +422,58 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
     m_TagPhotonTrackID[j] = findKL.GetPhotonTrackID(j);
   }
   FillMissingMassEnergy();
-  if(m_RunNumber < 0 && m_TagFoundPionPair == 1) {
-    PIDTruth PID_Truth(findKL.GetDaughterTrackID(), 2, this);
+  if(m_RunNumber < 0) {
+    int NumberCharged = m_TagFoundPionPair ? 2 : 0;
+    std::vector<int> DaughterTrackIDs, ReconstructedPID;
+    if(m_TagFoundPionPair) {
+      DaughterTrackIDs = findKL.GetDaughterTrackID();
+      ReconstructedPID.push_back(211);
+      ReconstructedPID.push_back(-211);
+    }
+    for(int i = 0; i < m_TagNumberPi0; i++) {
+      DaughterTrackIDs.push_back(findKL.GetPi0HighEPhotonTrackID(i));
+      DaughterTrackIDs.push_back(findKL.GetPi0LowEPhotonTrackID(i));
+      ReconstructedPID.push_back(22);
+      ReconstructedPID.push_back(0);
+    }
+    for(int i = 0; i < m_TagNumberEta; i++) {
+      DaughterTrackIDs.push_back(findKL.GetEtaHighEPhotonTrackID(i));
+      DaughterTrackIDs.push_back(findKL.GetEtaLowEPhotonTrackID(i));
+      ReconstructedPID.push_back(22);
+      ReconstructedPID.push_back(0);
+    }
+    for(int i = 0; i < m_TagNumberGamma; i++) {
+      DaughterTrackIDs.push_back(findKL.GetPhotonTrackID(i));
+      ReconstructedPID.push_back(22);
+    }
+    PIDTruth PID_Truth(DaughterTrackIDs, NumberCharged, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[2] = {211, -211};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
-    m_TagPiPlusTrueID = ReconstructedPID[0];
-    m_TagPiMinusTrueID = ReconstructedPID[1];
+    int index = 0;
+    if(m_FoundPionPair) {
+      m_TagPiPlusTrueID = ReconstructedPID[0];
+      m_TagPiMinusTrueID = ReconstructedPID[1];
+      index += 2;
+    }
+    for(int i = 0; i < m_TagNumberPi0; i++) {
+      m_TagPi0HighEPhotonTrueID[i] = ReconstructedPID[index];
+      m_TagPi0LowEPhotonTrueID[i] = ReconstructedPID[index + 1];
+      m_TagPi0HighEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index], false);
+      m_TagPi0LowEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index + 1], false);
+      index += 2;
+    }
+    for(int i = 0; i < m_TagNumberEta; i++) {
+      m_TagEtaHighEPhotonTrueID[i] = ReconstructedPID[index];
+      m_TagEtaLowEPhotonTrueID[i] = ReconstructedPID[index + 1];
+      m_TagEtaHighEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index], false);
+      m_TagEtaLowEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index + 1], false);
+      index += 2;
+    }
+    for(int i = 0; i < m_TagNumberGamma; i++) {
+      m_TagPhotonTrueID[i] = ReconstructedPID[index];
+      m_TagPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[index], false);
+      index++;
+    }
   }
   return StatusCode::SUCCESS;
 }
