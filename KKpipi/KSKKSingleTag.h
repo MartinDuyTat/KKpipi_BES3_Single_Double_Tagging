@@ -260,6 +260,22 @@ class KSKKSingleTag: public Algorithm {
      * The \f$K^-\f$ true PID
      */
     NTuple::Item<int> m_KMinusTrueID;
+    /**
+     * The \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiPlusMotherTrueID;
+    /**
+     * The \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_KSPiMinusMotherTrueID;
+    /**
+     * The \f$K^+\f$ true mother PID
+     */
+    NTuple::Item<int> m_KPlusMotherTrueID;
+    /**
+     * The \f$K^-\f$ true mother PID
+     */
+    NTuple::Item<int> m_KMinusMotherTrueID;
 };
 
 #endif

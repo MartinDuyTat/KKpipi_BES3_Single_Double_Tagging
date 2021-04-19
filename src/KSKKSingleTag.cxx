@@ -105,6 +105,10 @@ StatusCode KSKKSingleTag::initialize() {
       status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
       status = m_tuple->addItem("KPlusTrueID", m_KPlusTrueID);
       status = m_tuple->addItem("KMinusTrueID", m_KMinusTrueID);
+      status = m_tuple->addItem("KSPiPlusMotherTrueID", m_KSPiPlusMotherTrueID);
+      status = m_tuple->addItem("KSPiMinusMotherTrueID", m_KSPiMinusMotherTrueID);
+      status = m_tuple->additem("KPlusMotherTrueID", m_KPlusMotherTrueID);
+      status = m_tuple->additem("KMinusMotherTrueID", m_KMinusMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSKK Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -238,6 +242,10 @@ StatusCode KSKKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
     m_KMinusTrueID = ReconstructedPID[1];
     m_KSPiPlusTrueID = ReconstructedPID[2];
     m_KSPiMinusTrueID = ReconstructedPID[3];
+    m_KPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_KMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
+    m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], true);
+    m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], true);
   }
   return StatusCode::SUCCESS;
 }
