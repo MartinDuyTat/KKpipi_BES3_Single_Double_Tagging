@@ -283,7 +283,7 @@ StatusCode KKpipiVersusKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_ite
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
   m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), this);
+    PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), 4, this);
     m_SignalIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {321, -321, 211, -211};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
@@ -307,7 +307,7 @@ StatusCode KKpipiVersusKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_ite
   m_TagKMinuspz = findKKTagInfo.GethMinusP(2);
   m_TagKMinusenergy = findKKTagInfo.GethMinusP(3);
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKKTagInfo.GetDaughterTrackID(), this);
+    PIDTruth PID_Truth(findKKTagInfo.GetDaughterTrackID(), 2, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[2] = {321, -321};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);

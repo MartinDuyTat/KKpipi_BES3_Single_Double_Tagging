@@ -181,7 +181,7 @@ StatusCode pipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
   m_PiMinuspz = findpipiTagInfo.GethMinusP(2);
   m_PiMinusenergy = findpipiTagInfo.GethMinusP(3);
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findpipiTagInfo.GetDaughterTrackID(), this);
+    PIDTruth PID_Truth(findpipiTagInfo.GetDaughterTrackID(), 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[2] = {211, -211};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);

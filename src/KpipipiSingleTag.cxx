@@ -239,7 +239,7 @@ StatusCode KpipipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   m_13Chi2Fit = findKpipipiTagInfo.GetChi2Fit13();
   m_13KSMassFit = findKpipipiTagInfo.GetKSMassFit13();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKpipipiTagInfo.GetDaughterTrackID(), this);
+    PIDTruth PID_Truth(findKpipipiTagInfo.GetDaughterTrackID(), 4, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {321*m_KCharge, 211*m_Pi1Charge, 211*m_Pi2Charge, 211*m_Pi3Charge};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);

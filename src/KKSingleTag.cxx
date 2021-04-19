@@ -181,7 +181,7 @@ StatusCode KKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool
   m_KMinuspz = findKKTagInfo.GethMinusP(2);
   m_KMinusenergy = findKKTagInfo.GethMinusP(3);
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKKTagInfo.GetDaughterTrackID(), this);
+    PIDTruth PID_Truth(findKKTagInfo.GetDaughterTrackID(), 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[2] = {321, -321};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);

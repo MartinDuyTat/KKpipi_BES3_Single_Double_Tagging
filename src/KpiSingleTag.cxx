@@ -189,7 +189,7 @@ StatusCode KpiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTToo
   m_Pienergy = findKpiTagInfo.GetPiP(3);
   m_PiCharge = findKpiTagInfo.GetPiCharge();
   if(m_RunNumber < 0) {
-    PIDTruth PID_Truth(findKpiTagInfo.GetDaughterTrackID(), this);
+    PIDTruth PID_Truth(findKpiTagInfo.GetDaughterTrackID(), 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[2] = {321*m_KCharge, 211*m_PiCharge};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
