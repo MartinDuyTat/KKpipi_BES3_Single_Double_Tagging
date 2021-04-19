@@ -88,6 +88,9 @@ StatusCode FindPi0Eta::findPi0Eta(DTagToolIterator &DTTool_iter, DTagTool &DTToo
       m_HighEPhotonPConstrained[i] = (*Pi0_iter)->hiPfit();
       m_LowEPhotonPConstrained[i] = (*Pi0_iter)->loPfit();
       m_Chi2Fit[i] = (*Pi0_iter)->chisq();
+      // Get photon track IDs
+      m_HighEPhotonTrackID.push_back(HighEPhotonShower->trackId());
+      m_LowEPhotonTrackID.push_back(LowEPhotonShower->trackId());
       i++;
       if(i == m_npi0eta) {
 	return StatusCode::SUCCESS;
@@ -112,6 +115,9 @@ StatusCode FindPi0Eta::findPi0Eta(DTagToolIterator &DTTool_iter, DTagTool &DTToo
       m_HighEPhotonPConstrained[i] = (*Eta_iter)->hiPfit();
       m_LowEPhotonPConstrained[i] = (*Eta_iter)->loPfit();
       m_Chi2Fit[i] = (*Eta_iter)->chisq();
+      // Get photon track IDs
+      m_HighEPhotonTrackID.push_back(HighEPhotonShower->trackId());
+      m_LowEPhotonTrackID.push_back(LowEPhotonShower->trackId());
       i++;
       if(i == m_npi0eta) {
 	return StatusCode::SUCCESS;
@@ -144,4 +150,12 @@ double FindPi0Eta::GetLowEPhotonPConstrained(int i, int pi0eta_index) const {
 
 double FindPi0Eta::GetChi2Fit(int pi0eta_index) const {
   return m_Chi2Fit[pi0eta_index];
+}
+
+double FindPi0Eta::GetHighEPhotonTrackID(int pi0eta_index) const {
+  return m_HighEPhotonTrackID[pi0eta_index];
+}
+
+double FindPi0Eta::GetLowEPhotonTrackID(int pi0eta_index) const {
+  return m_LowEPhotonTrackID[pi0eta_index];
 }

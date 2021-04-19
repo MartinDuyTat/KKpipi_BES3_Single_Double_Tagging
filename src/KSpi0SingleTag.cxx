@@ -111,6 +111,12 @@ StatusCode KSpi0SingleTag::initialize() {
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
       status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
+      status = m_tuple->addItem("HighEPi0PhotonTrueID", m_HighEPi0PhotonTrueID);
+      status = m_tuple->addItem("LowEPi0PhotonTrueID", m_LowEPi0PhotonTrueID);
+      status = m_tuple->addItem("KSPiPlusMotherTrueID", m_KSPiPlusMotherTrueID);
+      status = m_tuple->addItem("KSPiMinusMotherTrueID", m_KSPiMinusMotherTrueID);
+      status = m_tuple->addItem("HighEPi0PhotonMotherTrueID", m_HighEPi0PhotonMotherTrueID);
+      status = m_tuple->addItem("LowEPi0PhotonMotherTrueID", m_LowEPi0PhotonMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSpi0 Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -238,10 +244,13 @@ StatusCode KSpi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTT
   m_LowEPi0Constrainedenergy = findPi0.GetLowEPhotonPConstrained(3);
   m_Pi0Chi2Fit = findPi0.GetChi2Fit();
   if(m_RunNumber < 0) {
+    std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
+    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
     PIDTruth PID_Truth(findKS.GetDaughterTrackIDs(), 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[2] = {211, -211};
-    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
+    int SomeArray[4] = {211, -211, 22, 0};
+    std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_KSPiPlusTrueID = ReconstructedPID[0];
     m_KSPiMinusTrueID = ReconstructedPID[1];

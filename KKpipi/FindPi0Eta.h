@@ -68,6 +68,16 @@ class FindPi0Eta {
      * @param pi0_index 0 for first \f$\pi^0\f$, 1 for second \f$\pi^0\f$...
      */
     double GetChi2Fit(int pi0eta_index = 0) const;
+    /**
+     * Get the track ID of the high energy photon
+     * @param pi0eta_index 0 for first \f$pi^0\f$, 1 for second \f$\pi^0\f$...
+     */
+    int GetHighEPhotonTrackID(int pi0eta_index = 0) const;
+    /**
+     * Get the track ID of the low energy photon
+     * @param pi0eta_index 0 for first \f$pi^0\f$, 1 for second \f$\pi^0\f$...
+     */
+    int GetLowEPhotonTrackID(int pi0eta_index = 0) const;
   private:
     /**
      * The high energy photon unconstrained four-momentum
@@ -89,6 +99,14 @@ class FindPi0Eta {
      * Kinematic fit \f$\chi^2\f$
      */
     std::vector<double> m_Chi2Fit;
+    /**
+     * Track ID of high energy photon
+     */
+    std::vector<int> m_HighEPhotonTrackID;
+    /**
+     * Track ID of low energy photon
+     */
+    std::vector<int> m_LowEPhotonTrackID;
     /**
      * Number of \f$\pi^0\f$ to look for
      */

@@ -96,10 +96,10 @@ int PIDTruth::MCTKPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
   return ismatched;
 }
 
-int PIDTruth::MCSHPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) {
-  SmartDataPtr < EvtRecEvent > evtRecEvent(eventSvc(), "/Event/EvtRec/EvtRecEvent");
-  SmartDataPtr < EvtRecTrackCol > evtRecTrkCol(eventSvc(), "/Event/EvtRec/EvtRecTrackCol");
-  SmartDataPtr < EventNavigator > navigator(eventSvc(), "/Event/Navigator");
+int PIDTruth::MCSHPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
+  SmartDataPtr < EvtRecEvent > evtRecEvent(m_algorithm->eventSvc(), "/Event/EvtRec/EvtRecEvent");
+  SmartDataPtr < EvtRecTrackCol > evtRecTrkCol(m_algorithm->eventSvc(), "/Event/EvtRec/EvtRecTrackCol");
+  SmartDataPtr < EventNavigator > navigator(m_algorithm->eventSvc(), "/Event/Navigator");
   int ismatched = -1;
   for (int i = evtRecEvent -> totalCharged(); i < evtRecEvent -> totalTracks(); i++) {
     EvtRecTrackIterator itTrk = evtRecTrkCol -> begin() + i;
