@@ -531,9 +531,13 @@ class KKpipiVersusKSetaPrimerhogammaDoubleTag: public Algorithm {
      */
     NTuple::Item<int> m_NumberShowers;
     /**
-     * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
+     * Equal to 1 if the charged tag daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_TagIsSameDMother;
+    /**
+     * Equal to 1 if all tag daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_TagIsSameDMotherAll;
     /**
      * Equal to 1 if the tag daughter tracks are assigned a PID matching that of the MC truth
      */
