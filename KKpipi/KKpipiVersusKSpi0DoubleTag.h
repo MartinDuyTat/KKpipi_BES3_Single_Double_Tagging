@@ -507,9 +507,13 @@ class KKpipiVersusKSpi0DoubleTag: public Algorithm {
      */
     NTuple::Item<int> m_TagIsSameDMother;
     /**
-     * Equal to 1 if the tag daughter tracks are assigned a PID matching that of the MC truth
+     * Equal to 1 if the charged tag daughter tracks are assigned a PID matching that of the MC truth
      */
     NTuple::Item<int> m_TagPIDTrue;
+    /**
+     * Equal to 1 if all tag daughter tracks are assigned a PID matching that of the MC truth
+     */
+    NTuple::Item<int> m_TagPIDTrueAll;
     /**
      * The tag \f$\pi^+\f$ from \f$K_S^0\f$ true PID
      */

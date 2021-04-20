@@ -268,7 +268,7 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
     std::vector<int> IgnoreTrackID;
     IgnoreTrackID.push_back(findPi0.GetLowEPhotonTrackID());
     PID_Truth = PIDTruth(DaughterTrackIDs, 2, this);
-    m_IsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;
+    m_IsSameDMotherAll = PID_Truth.SameDMother(IgnoreTrackID) ? 1 : 0;
     int SomeArray[4] = {211, -211, 22, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
