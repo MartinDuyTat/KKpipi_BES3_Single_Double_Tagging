@@ -196,9 +196,13 @@ int PIDTruth::FindDOrigin(int TrackID, bool Charged) const {
   }
 }
 
-bool PIDTruth::SameDMother() const {
+bool PIDTruth::SameDMother(const std::vector<int> &IgnoreTrackID) const {
   std::vector<int> IsD0Mother, IsD0barMother;
   for(std::vector<int>::const_iterator iter = m_TrackID.begin(); iter != m_TrackID.end(); iter++) {
+    // If track ID is on ignore list, skip
+    if(IgnoreTrackID.size != 0 && std::find(IgnoreTrackID.begin(), IgnoreTrackID.end(), *iter) != IgnoreTrackID.end()) {
+      continue;
+    }
     // Check if every track ID is a daughter originating from D0 or D0bar
     if(iter - m_TrackID.begin() < m_NumberCharged) {
       IsD0Mother.push_back(MCTKPIDCHG(*iter, 0, 0, 421));

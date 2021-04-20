@@ -48,8 +48,9 @@ class PIDTruth {
     int FindDOrigin(int TrackID, bool Charged) const;
     /**
      * Function that checks if all the particles originate from the same \f$D\f$ meson
+     * @param Vector of track IDs that should not be included in this check
      */
-    bool SameDMother() const;
+    bool SameDMother(const std::vector<int> &IgnoreTrackID = std::vector<int>()) const;
     /**
      * Function that determines the true PID of the particles of interest
      * If some particle is to not be included in the truth matching, put 0 as the input
