@@ -129,6 +129,7 @@ StatusCode KSetaPrimepipietaSingleTag::initialize() {
       status = m_tuple->addItem("PiMinuspz", m_PiMinuspz);
       status = m_tuple->addItem("PiMinusenergy", m_PiMinusenergy);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
+      status = m_tuple->addItem("IsSameDMotherAll", m_IsSameDMotherAll);
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
       status = m_tuple->addItem("KSPiMinusTrueID", m_KSPiMinusTrueID);
@@ -308,10 +309,14 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> EtaPDaughterTrackIDs = findpipiInfo.GetDaughterTrackID();
     DaughterTrackIDs.insert(DaughterTrackIDs.end(), EtaPDaughterTrackIDs.begin(), EtaPDaughterTrackIDs.end());
-    DaughterTrackIDs.push_back(findEta.GetHighEPhotonTrackID());
-    DaughterTrackIDs.push_back(findEta.GetLowEPhotonTrackID());
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    DaughterTrackIDs.push_back(findEta.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findEta.GetLowEPhotonTrackID());
+    std::vector<int> IgnoreTrackID;
+    IgnoreTrackID.push_back(findEta.GetLowEPhotonTrackID());
+    PID_Truth = PIDTruth(DaughterTrackIDs, 4, this);
+    m_IsSameDMotherAll = PID_Truth.SameDMother(IgnoreTrackID) ? 1 : 0;
     int SomeArray[6] = {211, -211, 211, -211, 22, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 6);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
