@@ -436,7 +436,7 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
     m_TagKSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
     m_TagEtaPPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], true);
     m_TagEtaPPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], true);
-    m_TagPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[4], true);
+    m_TagPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[4], false);
   }
   return StatusCode::SUCCESS;
 }

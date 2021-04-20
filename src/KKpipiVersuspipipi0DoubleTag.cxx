@@ -388,7 +388,7 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
     std::vector<int> DaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();
     DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
     DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
-    PIDTruth PID_Truth(findpipiTagInfo.GetDaughterTrackID(), 2, this);
+    PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {211, -211, 22, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);

@@ -188,7 +188,7 @@ int PIDTruth::FindDOrigin(int TrackID, bool Charged) const {
   } else {
     if(MCSHPIDCHG(TrackID, 0, 0, 421) == 1) {
       return 421;
-    } else if(MCTKPIDCHG(TrackID, 0, 0, -421) == 1) {
+    } else if(MCSHPIDCHG(TrackID, 0, 0, -421) == 1) {
       return -421;
     } else {
       return 0;
