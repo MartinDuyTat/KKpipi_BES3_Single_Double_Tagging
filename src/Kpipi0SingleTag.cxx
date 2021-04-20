@@ -234,6 +234,7 @@ StatusCode Kpipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
     DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
+    PID_Truth = PIDTruth(DaughterTrackIDs, 2, this);
     std::vector<int> IgnoreTrackID;
     IgnoreTrackID.push_back(findPi0.GetLowEPhotonTrackID());
     m_IsSameDMotherAll = PID_Truth.SameDMother(IgnoreTrackID) ? 1 : 0;

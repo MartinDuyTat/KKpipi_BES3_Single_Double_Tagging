@@ -360,6 +360,7 @@ StatusCode KKpipiVersusKpipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
     DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
+    PID_Truth = PIDTruth(DaughterTrackIDs, 2, this);
     std::vector<int> IgnoreTrackID;
     IgnoreTrackID.push_back(findPi0.GetLowEPhotonTrackID());
     m_TagIsSameDMotherAll = PID_Truth.SameDMother(IgnoreTrackID) ? 1 : 0;

@@ -171,6 +171,7 @@ StatusCode KKpipiVersuspipipi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagLowEPi0Constrainedenergy", m_TagLowEPi0Constrainedenergy);
       status = m_tuple->addItem("TagPi0Chi2Fit", m_Pi0Chi2Fit);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
+      status = m_tuple->addItem("TagIsSameDMotherAll", m_TagIsSameDMotherAll);
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagPiPlusTrueID", m_TagPiPlusTrueID);
       status = m_tuple->addItem("TagPiMinusTrueID", m_TagPiMinusTrueID);
@@ -386,10 +387,14 @@ StatusCode KKpipiVersuspipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_Pi0Chi2Fit = findPi0.GetChi2Fit();
   if(m_RunNumber < 0) {
     std::vector<int> DaughterTrackIDs = findpipiTagInfo.GetDaughterTrackID();
-    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
-    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
     PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
+    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
+    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
+    std::vector<int> IgnoreTrackID;
+    IgnoreTrackID.push_back(findPi0.GetLowEPhotonTrackID());
+    PID_Truth = PIDTruth(DaughterTrackIDs, 2, this);
+    m_TagIsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {211, -211, 22, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
