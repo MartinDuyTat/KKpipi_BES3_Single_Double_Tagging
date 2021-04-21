@@ -341,9 +341,13 @@ class KSpipipi0SingleTag: public Algorithm {
      */
     NTuple::Item<double> m_Mpipipi0;
     /**
-     * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
+     * Equal to 1 if the charged daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_IsSameDMother;
+    /**
+     * Equal to 1 if all daughter tracks are from the same \f$D\f$ meson
+     */
+    NTuple::Item<int> m_IsSameDMotherAll;
     /**
      * Equal to 1 if the daughter tracks are assigned a PID matching that of the MC truth
      */

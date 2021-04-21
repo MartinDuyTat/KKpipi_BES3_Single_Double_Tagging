@@ -295,7 +295,7 @@ StatusCode KSpi0pi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &
     std::vector<int> IgnoreTrackID;
     IgnoreTrackID.push_back(findPi0.GetLowEPhotonTrackID(0));
     IgnoreTrackID.push_back(findPi0.GetLowEPhotonTrackID(1));
-    PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
+    PID_Truth = PIDTruth(DaughterTrackIDs, 2, this);
     m_IsSameDMotherAll = PID_Truth.SameDMother(IgnoreTrackID) ? 1 : 0;
     int SomeArray[6] = {211, -211, 22, 0, 22, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 6);
