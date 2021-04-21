@@ -121,10 +121,6 @@ class FindKKpipiTagInfo {
      * Get the \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double GetChi2Fit() const;
-    /**
-     * Get the \f$K_S^0\f$ mass, from fit
-     */
-    double GetKSMassFit() const;
   private:
     /**
      * Daughter track IDs
@@ -202,10 +198,6 @@ class FindKKpipiTagInfo {
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double m_Chi2Fit;
-    /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    double m_KSMassFit;
 };
 
 #endif

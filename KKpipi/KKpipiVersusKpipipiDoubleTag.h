@@ -343,10 +343,6 @@ class KKpipiVersusKpipipiDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_SignalChi2Fit;
     /**
-     * The signal \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_SignalKSMassFit;
-    /**
      * Equal to 1 if the signal daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_SignalIsSameDMother;
@@ -479,10 +475,6 @@ class KKpipiVersusKpipipiDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_Tag12Chi2Fit;
     /**
-     * The tag \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_Tag12KSMassFit;
-    /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tag tracks
      */
     NTuple::Item<int> m_Tag13KSFitSuccess;
@@ -510,10 +502,6 @@ class KKpipiVersusKpipipiDoubleTag: public Algorithm {
      * The tag \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     NTuple::Item<double> m_Tag13Chi2Fit;
-    /**
-     * The tag \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_Tag13KSMassFit;
     /**
      * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
      */

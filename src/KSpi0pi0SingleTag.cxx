@@ -80,7 +80,6 @@ StatusCode KSpi0pi0SingleTag::initialize() {
       status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
       status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
       status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
-      status = m_tuple->addItem("KSMassFit", m_KSMassFit);
       status = m_tuple->addItem("KSPiPluspx", m_KSPiPluspx);
       status = m_tuple->addItem("KSPiPluspy", m_KSPiPluspy);
       status = m_tuple->addItem("KSPiPluspz", m_KSPiPluspz);
@@ -237,7 +236,6 @@ StatusCode KSpi0pi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &
   m_DecayLengthFit = findKS.GetDecayLengthFit();
   m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
   m_Chi2Fit = findKS.GetChi2Fit();
-  m_KSMassFit = findKS.GetKSMassFit();
   m_KSPiPluspx = findKS.GetKSPiPlusP(0);
   m_KSPiPluspy = findKS.GetKSPiPlusP(1);
   m_KSPiPluspz = findKS.GetKSPiPlusP(2);

@@ -68,10 +68,6 @@ class FindKSpipiTagInfo {
      */
     double GetChi2Fit() const;
     /**
-     * Get the \f$K_S^0\f$ mass, from fit
-     */
-    double GetKSMassFit() const;
-    /**
      * Get the \f$\pi^+\f$ daughter momentum component from the MDC track
      */
     double GetKSPiPlusP(int i) const;
@@ -145,10 +141,6 @@ class FindKSpipiTagInfo {
      * Get the \f$K_S^0\f$ from \f$\pi^+\pi^-\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double GetpipiChi2Fit() const;
-    /**
-     * Get the \f$K_S^0\f$ from \f$\pi^+\pi^-\f$ mass, from fit
-     */
-    double GetpipiKSMassFit() const;
   private:
     /**
      * Daughter track IDs, in the order (pi+ pi-)KS pi+ pi-
@@ -178,10 +170,6 @@ class FindKSpipiTagInfo {
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double m_Chi2Fit;
-    /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    double m_KSMassFit;
     /**
      * The \f$\pi^+\f$ daughter momentum from the MDC track
      */
@@ -250,10 +238,6 @@ class FindKSpipiTagInfo {
      * The \f$K_S^0\f$ from \f$\pi^+\pi^-\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double m_pipiChi2Fit;
-    /**
-     * The \f$K_S^0\f$ from \f$\pi^+\pi^-\f$ mass, from fit
-     */
-    double m_pipiKSMassFit;
 };
 
 #endif

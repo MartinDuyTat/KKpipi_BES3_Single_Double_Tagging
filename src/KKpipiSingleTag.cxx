@@ -115,7 +115,6 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
       status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
       status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
-      status = m_tuple->addItem("KSMassFit", m_KSMassFit);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KPlusTrueID", m_KPlusTrueID);
@@ -251,7 +250,6 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_DecayLengthFit = findKKpipiTagInfo.GetDecayLengthFit();
   m_DecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_Chi2Fit = findKKpipiTagInfo.GetChi2Fit();
-  m_KSMassFit = findKKpipiTagInfo.GetKSMassFit();
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), 4, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;

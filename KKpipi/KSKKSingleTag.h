@@ -165,10 +165,6 @@ class KSKKSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_Chi2Fit;
     /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_KSMassFit;
-    /**
      * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
      */
     NTuple::Item<double> m_KSPiPluspx;

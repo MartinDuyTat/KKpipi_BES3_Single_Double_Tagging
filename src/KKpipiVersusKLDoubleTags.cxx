@@ -118,7 +118,6 @@ StatusCode KKpipiVersusKLDoubleTags::initialize() {
       status = m_tuple->addItem("SignalKSDecayLengthFit", m_SignalDecayLengthFit);
       status = m_tuple->addItem("SignalKSDecayLengthErrorFit", m_SignalDecayLengthErrorFit);
       status = m_tuple->addItem("SignalKSChi2Fit", m_SignalChi2Fit);
-      status = m_tuple->addItem("SignalKSMassFit", m_SignalKSMassFit);
       status = m_tuple->addItem("SignalIsSameDMother", m_SignalIsSameDMother);
       status = m_tuple->addItem("SignalPIDTrue", m_SignalPIDTrue);
       status = m_tuple->addItem("SignalKPlusTrueID", m_SignalKPlusTrueID);
@@ -347,7 +346,6 @@ StatusCode KKpipiVersusKLDoubleTags::FillTuple(DTagToolIterator DTTool_Signal_it
   m_SignalDecayLengthFit = findKKpipiTagInfo.GetDecayLengthFit();
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
-  m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), 4, this);
     m_SignalIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;

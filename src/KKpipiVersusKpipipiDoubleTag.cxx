@@ -124,7 +124,6 @@ StatusCode KKpipiVersusKpipipiDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKSDecayLengthFit", m_SignalDecayLengthFit);
       status = m_tuple->addItem("SignalKSDecayLengthErrorFit", m_SignalDecayLengthErrorFit);
       status = m_tuple->addItem("SignalKSChi2Fit", m_SignalChi2Fit);
-      status = m_tuple->addItem("SignalKSMassFit", m_SignalKSMassFit);
       status = m_tuple->addItem("SignalIsSameDMother", m_SignalIsSameDMother);
       status = m_tuple->addItem("SignalPIDTrue", m_SignalPIDTrue);
       status = m_tuple->addItem("SignalKPlusTrueID", m_SignalKPlusTrueID);
@@ -158,7 +157,6 @@ StatusCode KKpipiVersusKpipipiDoubleTag::initialize() {
       status = m_tuple->addItem("Tag12KSDecayLengthFit", m_Tag12DecayLengthFit);
       status = m_tuple->addItem("Tag12KSDecayLengthErrorFit", m_Tag12DecayLengthErrorFit);
       status = m_tuple->addItem("Tag12KSChi2Fit", m_Tag12Chi2Fit);
-      status = m_tuple->addItem("Tag12KSMassFit", m_Tag12KSMassFit);
       status = m_tuple->addItem("Tag13KSFitSuccess", m_Tag13KSFitSuccess);
       status = m_tuple->addItem("Tag13KSDecayLengthVeeVertex", m_Tag13DecayLengthVeeVertex);
       status = m_tuple->addItem("Tag13KSChi2VeeVertex", m_Tag13Chi2VeeVertex);
@@ -166,7 +164,6 @@ StatusCode KKpipiVersusKpipipiDoubleTag::initialize() {
       status = m_tuple->addItem("Tag13KSDecayLengthFit", m_Tag13DecayLengthFit);
       status = m_tuple->addItem("Tag13KSDecayLengthErrorFit", m_Tag13DecayLengthErrorFit);
       status = m_tuple->addItem("Tag13KSChi2Fit", m_Tag13Chi2Fit);
-      status = m_tuple->addItem("Tag13KSMassFit", m_Tag13KSMassFit);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagKTrueID", m_TagKTrueID);
@@ -311,7 +308,6 @@ StatusCode KKpipiVersusKpipipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_SignalDecayLengthFit = findKKpipiTagInfo.GetDecayLengthFit();
   m_SignalDecayLengthErrorFit = findKKpipiTagInfo.GetDecayLengthErrorFit();
   m_SignalChi2Fit = findKKpipiTagInfo.GetChi2Fit();
-  m_SignalKSMassFit = findKKpipiTagInfo.GetKSMassFit();
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKKpipiTagInfo.GetDaughterTrackID(), 4, this);
     m_SignalIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
@@ -356,7 +352,6 @@ StatusCode KKpipiVersusKpipipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_Tag12DecayLengthFit = findKpipipiTagInfo.GetDecayLengthFit12();
   m_Tag12DecayLengthErrorFit = findKpipipiTagInfo.GetDecayLengthErrorFit12();
   m_Tag12Chi2Fit = findKpipipiTagInfo.GetChi2Fit12();
-  m_Tag12KSMassFit = findKpipipiTagInfo.GetKSMassFit12();
   m_Tag13KSFitSuccess = findKpipipiTagInfo.GetKSFitSuccess13();
   m_Tag13DecayLengthVeeVertex = findKpipipiTagInfo.GetDecayLengthVeeVertex13();
   m_Tag13Chi2VeeVertex = findKpipipiTagInfo.GetChi2VeeVertex13();
@@ -364,7 +359,6 @@ StatusCode KKpipiVersusKpipipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signa
   m_Tag13DecayLengthFit = findKpipipiTagInfo.GetDecayLengthFit13();
   m_Tag13DecayLengthErrorFit = findKpipipiTagInfo.GetDecayLengthErrorFit13();
   m_Tag13Chi2Fit = findKpipipiTagInfo.GetChi2Fit13();
-  m_Tag13KSMassFit = findKpipipiTagInfo.GetKSMassFit13();
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKpipipiTagInfo.GetDaughterTrackID(), 4, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;

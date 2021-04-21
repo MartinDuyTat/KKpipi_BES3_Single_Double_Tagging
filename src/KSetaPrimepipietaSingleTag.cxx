@@ -84,7 +84,6 @@ StatusCode KSetaPrimepipietaSingleTag::initialize() {
       status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
       status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
       status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
-      status = m_tuple->addItem("KSMassFit", m_KSMassFit);
       status = m_tuple->addItem("KSPiPluspx", m_KSPiPluspx);
       status = m_tuple->addItem("KSPiPluspy", m_KSPiPluspy);
       status = m_tuple->addItem("KSPiPluspz", m_KSPiPluspz);
@@ -119,7 +118,6 @@ StatusCode KSetaPrimepipietaSingleTag::initialize() {
       status = m_tuple->addItem("pipiKSDecayLengthFit", m_pipiDecayLengthFit);
       status = m_tuple->addItem("pipiKSDecayLengthErrorFit", m_pipiDecayLengthErrorFit);
       status = m_tuple->addItem("pipiKSChi2Fit", m_pipiChi2Fit);
-      status = m_tuple->addItem("pipiKSMassFit", m_pipiKSMassFit);
       status = m_tuple->addItem("PiPluspx", m_PiPluspx);
       status = m_tuple->addItem("PiPluspy", m_PiPluspy);
       status = m_tuple->addItem("PiPluspz", m_PiPluspz);
@@ -240,7 +238,6 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
   m_DecayLengthFit = findKS.GetDecayLengthFit();
   m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
   m_Chi2Fit = findKS.GetChi2Fit();
-  m_KSMassFit = findKS.GetKSMassFit();
   m_KSPiPluspx = findKS.GetKSPiPlusP(0);
   m_KSPiPluspy = findKS.GetKSPiPlusP(1);
   m_KSPiPluspz = findKS.GetKSPiPlusP(2);
@@ -302,7 +299,6 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
       m_pipiDecayLengthFit = findKSFromPiPi.GetDecayLengthFit();
       m_pipiDecayLengthErrorFit = findKSFromPiPi.GetDecayLengthErrorFit();
       m_pipiChi2Fit = findKSFromPiPi.GetChi2Fit();
-      m_pipiKSMassFit = findKSFromPiPi.GetKSMassFit();
     }
   }
   if(m_RunNumber < 0) {

@@ -79,7 +79,6 @@ StatusCode KSpipiSingleTag::initialize() {
       status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
       status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
       status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
-      status = m_tuple->addItem("KSMassFit", m_KSMassFit);
       status = m_tuple->addItem("KSpx", m_KSpx);
       status = m_tuple->addItem("KSpy", m_KSpy);
       status = m_tuple->addItem("KSz", m_KSpz);
@@ -121,7 +120,6 @@ StatusCode KSpipiSingleTag::initialize() {
       status = m_tuple->addItem("pipiKSDecayLengthFit", m_pipiDecayLengthFit);
       status = m_tuple->addItem("pipiKSDecayLengthErrorFit", m_pipiDecayLengthErrorFit);
       status = m_tuple->addItem("pipiKSChi2Fit", m_pipiChi2Fit);
-      status = m_tuple->addItem("pipiKSMassFit", m_pipiKSMassFit);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KSPiPlusTrueID", m_KSPiPlusTrueID);
@@ -227,7 +225,6 @@ StatusCode KSpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_DecayLengthFit = findKSpipiTagInfo.GetDecayLengthFit();
   m_DecayLengthErrorFit = findKSpipiTagInfo.GetDecayLengthErrorFit();
   m_Chi2Fit = findKSpipiTagInfo.GetChi2Fit();
-  m_KSMassFit = findKSpipiTagInfo.GetKSMassFit();
   m_KSPiPluspx = findKSpipiTagInfo.GetKSPiPlusP(0);
   m_KSPiPluspy = findKSpipiTagInfo.GetKSPiPlusP(1);
   m_KSPiPluspz = findKSpipiTagInfo.GetKSPiPlusP(2);
@@ -269,7 +266,6 @@ StatusCode KSpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_pipiDecayLengthFit = findKSpipiTagInfo.GetpipiDecayLengthFit();
   m_pipiDecayLengthErrorFit = findKSpipiTagInfo.GetpipiDecayLengthErrorFit();
   m_pipiChi2Fit = findKSpipiTagInfo.GetpipiChi2Fit();
-  m_pipiKSMassFit = findKSpipiTagInfo.GetpipiKSMassFit();
   if(m_RunNumber < 0) {
     std::vector<int> DaughterTrackIDs = findKSpipiTagInfo.GetDaughterTrackID();
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);

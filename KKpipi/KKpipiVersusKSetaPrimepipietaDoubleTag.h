@@ -343,10 +343,6 @@ class KKpipiVersusKSetaPrimepipietaDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_SignalChi2Fit;
     /**
-     * The signal \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_SignalKSMassFit;
-    /**
      * Equal to 1 if the signal daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_SignalIsSameDMother;
@@ -394,10 +390,6 @@ class KKpipiVersusKSetaPrimepipietaDoubleTag: public Algorithm {
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     NTuple::Item<double> m_TagChi2Fit;
-    /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_TagKSMassFit;
     /**
      * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
      */
@@ -534,10 +526,6 @@ class KKpipiVersusKSetaPrimepipietaDoubleTag: public Algorithm {
      * The tag \f$K_S^0\f$ \f$\chi^2\f$, from \f$\pi^+\pi^-\f$, from fit of primary vertex
      */
     NTuple::Item<double> m_TagpipiChi2Fit;
-    /**
-     * The tag \f$K_S^0\f$ mass, from \f$\pi^+\pi^-\f$, from fit
-     */
-    NTuple::Item<double> m_TagpipiKSMassFit;
     /**
      * Tag \f$\pi^+\f$ momentum along \f$x\f$
      */

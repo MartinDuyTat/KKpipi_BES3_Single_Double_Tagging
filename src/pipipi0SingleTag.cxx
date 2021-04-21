@@ -93,7 +93,6 @@ StatusCode pipipi0SingleTag::initialize() {
       status = m_tuple->addItem("KSDecayLengthFit", m_DecayLengthFit);
       status = m_tuple->addItem("KSDecayLengthErrorFit", m_DecayLengthErrorFit);
       status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
-      status = m_tuple->addItem("KSMassFit", m_KSMassFit);
       status = m_tuple->addItem("HighEPi0px", m_HighEPi0px);
       status = m_tuple->addItem("HighEPi0py", m_HighEPi0py);
       status = m_tuple->addItem("HighEPi0pz", m_HighEPi0pz);
@@ -236,7 +235,6 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
       m_DecayLengthFit = findKS.GetDecayLengthFit();
       m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
       m_Chi2Fit = findKS.GetChi2Fit();
-      m_KSMassFit = findKS.GetKSMassFit();
     }
   }
   FindPi0Eta findPi0;

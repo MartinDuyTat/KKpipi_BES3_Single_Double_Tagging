@@ -37,7 +37,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKS::FindKS(bool KSTag, const std::vector<int> &VetoKSIDs): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0), m_KSTag(KSTag), m_VetoKSIDs(VetoKSIDs) {
+FindKS::FindKS(bool KSTag, const std::vector<int> &VetoKSIDs): m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSTag(KSTag), m_VetoKSIDs(VetoKSIDs) {
 }
 
 FindKS::~FindKS() {
@@ -158,7 +158,6 @@ StatusCode FindKS::findKS(DTagToolIterator DTTool_iter, DTagTool DTTool, std::ve
       m_DecayLengthFit = PrimaryVertexFit->decayLength();
       m_DecayLengthErrorFit = PrimaryVertexFit->decayLengthError();
       m_Chi2Fit = PrimaryVertexFit->chisq();
-      m_KSMassFit = PrimaryVertexFit->p4par().m();
       m_KShortPFit = PrimaryVertexFit->p4par();
       m_WTrackParameter = PrimaryVertexFit->wpar();
       return StatusCode::SUCCESS;
@@ -189,10 +188,6 @@ double FindKS::GetDecayLengthErrorFit() const {
 
 double FindKS::GetChi2Fit() const {
   return m_Chi2Fit;
-}
-
-double FindKS::GetKSMassFit() const {
-  return m_KSMassFit;
 }
 
 double FindKS::GetKSPiPlusP(int i) const {

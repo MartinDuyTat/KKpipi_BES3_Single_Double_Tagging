@@ -21,7 +21,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKKpipiTagInfo::FindKKpipiTagInfo(): m_DaughterTrackID(std::vector<int>(4)), m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_KSFitSuccess(0), m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0), m_KSMassFit(0.0) {
+FindKKpipiTagInfo::FindKKpipiTagInfo(): m_DaughterTrackID(std::vector<int>(4)), m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_KSFitSuccess(0), m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0) {
 }
 
 FindKKpipiTagInfo::~FindKKpipiTagInfo() {
@@ -98,7 +98,6 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
       m_DecayLengthFit = findKS.GetDecayLengthFit();
       m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
       m_Chi2Fit = findKS.GetChi2Fit();
-      m_KSMassFit = findKS.GetKSMassFit();
     }
   }
   return StatusCode::SUCCESS;
@@ -178,8 +177,4 @@ double FindKKpipiTagInfo::GetDecayLengthErrorFit() const {
 
 double FindKKpipiTagInfo::GetChi2Fit() const {
   return m_Chi2Fit;
-}
-
-double FindKKpipiTagInfo::GetKSMassFit() const {
-  return m_KSMassFit;
 }

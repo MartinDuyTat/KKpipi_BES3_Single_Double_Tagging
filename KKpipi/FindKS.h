@@ -62,10 +62,6 @@ class FindKS {
      * Get \f$\chi^2\f$ from fit of primary vertex
      */
     double GetChi2Fit() const;
-    /** 
-     * Get \f$K_S^0\f$ from fit
-     */
-    double GetKSMassFit() const;
     /**
      * Get the \f$\pi^+\f$ daughter four-momentum from the MDC track
      * @param i Momentum component
@@ -113,10 +109,6 @@ class FindKS {
      * The \f$\chi^2\f$, from fit of primary vertex
      */
     double m_Chi2Fit;
-    /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    double m_KSMassFit;
     /**
      * The \f$\pi^+\f$ daughter four-momentum from the MDC track
      */

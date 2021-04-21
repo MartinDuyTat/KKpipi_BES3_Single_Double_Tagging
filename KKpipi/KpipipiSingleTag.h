@@ -250,10 +250,6 @@ class KpipipiSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_12Chi2Fit;
     /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_12KSMassFit;
-    /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
      */
     NTuple::Item<int> m_13KSFitSuccess;
@@ -281,10 +277,6 @@ class KpipipiSingleTag: public Algorithm {
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     NTuple::Item<double> m_13Chi2Fit;
-    /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_13KSMassFit;
     /**
      * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
      */

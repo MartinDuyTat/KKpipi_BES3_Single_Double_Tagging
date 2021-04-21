@@ -310,10 +310,6 @@ class KKpipiSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_Chi2Fit;
     /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_KSMassFit;
-    /**
      * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_IsSameDMother;

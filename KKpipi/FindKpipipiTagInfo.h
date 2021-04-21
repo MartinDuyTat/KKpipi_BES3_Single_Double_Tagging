@@ -106,10 +106,6 @@ class FindKpipipiTagInfo {
      */
     double GetChi2Fit12() const;
     /**
-     * Get the \f$K_S^0\f$ mass, from fit
-     */
-    double GetKSMassFit12() const;
-    /**
      * Get flag of \f$K_S^0\f$ fit success of tracks
      */
     int GetKSFitSuccess13() const;
@@ -137,10 +133,6 @@ class FindKpipipiTagInfo {
      * Get the \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double GetChi2Fit13() const;
-    /**
-     * Get the \f$K_S^0\f$ mass, from fit
-     */
-    double GetKSMassFit13() const;
   private:
     /**
      * Daughter track IDs
@@ -207,10 +199,6 @@ class FindKpipipiTagInfo {
      */
     double m_12Chi2Fit;
     /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    double m_12KSMassFit;
-    /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
      */
     int m_13KSFitSuccess;
@@ -238,10 +226,6 @@ class FindKpipipiTagInfo {
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double m_13Chi2Fit;
-    /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    double m_13KSMassFit;
 };
 
 #endif

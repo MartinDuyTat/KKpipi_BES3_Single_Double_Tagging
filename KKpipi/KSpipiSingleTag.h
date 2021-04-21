@@ -165,10 +165,6 @@ class KSpipiSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_Chi2Fit;
     /**
-     * The \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_KSMassFit;
-    /**
      * \f$K_S^0\f$ momentum along \f$x\f$ after vertex fit
      */
     NTuple::Item<double> m_KSpx;
@@ -332,10 +328,6 @@ class KSpipiSingleTag: public Algorithm {
      * \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     NTuple::Item<double> m_pipiChi2Fit;
-    /**
-     * \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_pipiKSMassFit;
     /**
      * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
      */

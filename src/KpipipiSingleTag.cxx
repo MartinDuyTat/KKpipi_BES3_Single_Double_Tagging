@@ -100,7 +100,6 @@ StatusCode KpipipiSingleTag::initialize() {
       status = m_tuple->addItem("12KSDecayLengthFit", m_12DecayLengthFit);
       status = m_tuple->addItem("12KSDecayLengthErrorFit", m_12DecayLengthErrorFit);
       status = m_tuple->addItem("12KSChi2Fit", m_12Chi2Fit);
-      status = m_tuple->addItem("12KSMassFit", m_12KSMassFit);
       status = m_tuple->addItem("13KSFitSuccess", m_13KSFitSuccess);
       status = m_tuple->addItem("13KSDecayLengthVeeVertex", m_13DecayLengthVeeVertex);
       status = m_tuple->addItem("13KSChi2VeeVertex", m_13Chi2VeeVertex);
@@ -108,7 +107,6 @@ StatusCode KpipipiSingleTag::initialize() {
       status = m_tuple->addItem("13KSDecayLengthFit", m_13DecayLengthFit);
       status = m_tuple->addItem("13KSDecayLengthErrorFit", m_13DecayLengthErrorFit);
       status = m_tuple->addItem("13KSChi2Fit", m_13Chi2Fit);
-      status = m_tuple->addItem("13KSMassFit", m_13KSMassFit);
       status = m_tuple->addItem("IsSameDMother", m_IsSameDMother);
       status = m_tuple->addItem("PIDTrue", m_PIDTrue);
       status = m_tuple->addItem("KTrueID", m_KTrueID);
@@ -229,7 +227,6 @@ StatusCode KpipipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   m_12DecayLengthFit = findKpipipiTagInfo.GetDecayLengthFit12();
   m_12DecayLengthErrorFit = findKpipipiTagInfo.GetDecayLengthErrorFit12();
   m_12Chi2Fit = findKpipipiTagInfo.GetChi2Fit12();
-  m_12KSMassFit = findKpipipiTagInfo.GetKSMassFit12();
   m_13KSFitSuccess = findKpipipiTagInfo.GetKSFitSuccess13();
   m_13DecayLengthVeeVertex = findKpipipiTagInfo.GetDecayLengthVeeVertex13();
   m_13Chi2VeeVertex = findKpipipiTagInfo.GetChi2VeeVertex13();
@@ -237,7 +234,6 @@ StatusCode KpipipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
   m_13DecayLengthFit = findKpipipiTagInfo.GetDecayLengthFit13();
   m_13DecayLengthErrorFit = findKpipipiTagInfo.GetDecayLengthErrorFit13();
   m_13Chi2Fit = findKpipipiTagInfo.GetChi2Fit13();
-  m_13KSMassFit = findKpipipiTagInfo.GetKSMassFit13();
   if(m_RunNumber < 0) {
     PIDTruth PID_Truth(findKpipipiTagInfo.GetDaughterTrackID(), 4, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;

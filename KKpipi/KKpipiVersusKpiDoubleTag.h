@@ -343,10 +343,6 @@ class KKpipiVersusKpiDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_SignalChi2Fit;
     /**
-     * The signal \f$K_S^0\f$ mass, from fit
-     */
-    NTuple::Item<double> m_SignalKSMassFit;
-    /**
      * Equal to 1 if the signal daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_SignalIsSameDMother;

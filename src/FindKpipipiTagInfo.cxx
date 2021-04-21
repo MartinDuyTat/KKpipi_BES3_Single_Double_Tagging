@@ -21,7 +21,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKpipipiTagInfo::FindKpipipiTagInfo(): m_DaughterTrackID(std::vector<int>(4)), m_KCharge(0), m_Pi1Charge(0), m_Pi2Charge(0), m_Pi3Charge(0), m_12KSFitSuccess(0), m_12DecayLengthVeeVertex(0.0), m_12Chi2VeeVertex(0.0), m_12KSMassVeeVertex(0.0), m_12DecayLengthFit(0.0), m_12DecayLengthErrorFit(0.0), m_12Chi2Fit(0.0), m_12KSMassFit(0.0), m_13KSFitSuccess(0), m_13DecayLengthVeeVertex(0.0), m_13Chi2VeeVertex(0.0), m_13KSMassVeeVertex(0.0), m_13DecayLengthFit(0.0), m_13DecayLengthErrorFit(0.0), m_13Chi2Fit(0.0), m_13KSMassFit(0.0) {
+FindKpipipiTagInfo::FindKpipipiTagInfo(): m_DaughterTrackID(std::vector<int>(4)), m_KCharge(0), m_Pi1Charge(0), m_Pi2Charge(0), m_Pi3Charge(0), m_12KSFitSuccess(0), m_12DecayLengthVeeVertex(0.0), m_12Chi2VeeVertex(0.0), m_12KSMassVeeVertex(0.0), m_12DecayLengthFit(0.0), m_12DecayLengthErrorFit(0.0), m_12Chi2Fit(0.0), m_13KSFitSuccess(0), m_13DecayLengthVeeVertex(0.0), m_13Chi2VeeVertex(0.0), m_13KSMassVeeVertex(0.0), m_13DecayLengthFit(0.0), m_13DecayLengthErrorFit(0.0), m_13Chi2Fit(0.0) {
 }
 
 FindKpipipiTagInfo::~FindKpipipiTagInfo() {
@@ -84,7 +84,6 @@ StatusCode FindKpipipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DT
       m_12DecayLengthFit = findKS.GetDecayLengthFit();
       m_12DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
       m_12Chi2Fit = findKS.GetChi2Fit();
-      m_12KSMassFit = findKS.GetKSMassFit();
     }
   }
   // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
@@ -104,7 +103,6 @@ StatusCode FindKpipipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DT
       m_13DecayLengthFit = findKS.GetDecayLengthFit();
       m_13DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
       m_13Chi2Fit = findKS.GetChi2Fit();
-      m_13KSMassFit = findKS.GetKSMassFit();
     }
   }
   return StatusCode::SUCCESS;
@@ -174,10 +172,6 @@ double FindKpipipiTagInfo::GetChi2Fit12() const {
   return m_12Chi2Fit;
 }
 
-double FindKpipipiTagInfo::GetKSMassFit12() const {
-  return m_12KSMassFit;
-}
-
 int FindKpipipiTagInfo::GetKSFitSuccess13() const {
   return m_13KSFitSuccess;
 }
@@ -204,8 +198,4 @@ double FindKpipipiTagInfo::GetDecayLengthErrorFit13() const {
 
 double FindKpipipiTagInfo::GetChi2Fit13() const {
   return m_13Chi2Fit;
-}
-
-double FindKpipipiTagInfo::GetKSMassFit13() const {
-  return m_13KSMassFit;
 }
