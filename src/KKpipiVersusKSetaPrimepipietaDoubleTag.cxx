@@ -395,7 +395,7 @@ StatusCode KKpipiVersusKSetaPrimepipietaDoubleTag::FillTuple(DTagToolIterator DT
   m_TagLowEEtaConstrainedpz = findEta.GetLowEPhotonPConstrained(2);
   m_TagLowEEtaConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
   m_TagEtaChi2Fit = findEta.GetChi2Fit();
-  FindhhTagInfo findpipiTagInfo("pipi", findKS.GetDaughterTrackIDs());
+  FindhhTagInfo findpipiTagInfo("pipi", findKS.GetDaughterTrackIDs(), false);
   status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;

@@ -21,9 +21,10 @@ class FindhhTagInfo {
     /**
      * Default constructor that initalizes all variables to zero, and specifies if it's a \f$KK\f$ or a \f$\pi\pi\f$ tag
      * @param TagMode String that either says "KK" or "pipi"
-     * @param VetoTracks Vector of tracks that should be skipped
+     * @param VetoTracks Vector of tracks that should be skipped (optional)
+     * @param PIDrequirement Set this to false to turn off PID requirements for pions (optional)
      */
-    FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs = std::vector<int>());
+    FindhhTagInfo(std::string TagMode, const std::vector<int> &VetoTrackIDs = std::vector<int>(), bool PIDrequirement = true);
     /**
      * Trivial destructor
      */
@@ -91,6 +92,11 @@ class FindhhTagInfo {
      * Track iterator of a \f$\pi^-\f$, if found
      */
     int m_PiMinusTrackID;
+    /**
+     * Flag that indicates whether or not pions are subject to PID requirements
+     * Set to false for pions from eta' usually
+     */
+    bool m_PIDrequirement;
 };
 
 #endif

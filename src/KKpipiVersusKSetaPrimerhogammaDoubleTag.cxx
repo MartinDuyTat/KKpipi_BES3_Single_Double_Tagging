@@ -364,7 +364,7 @@ StatusCode KKpipiVersusKSetaPrimerhogammaDoubleTag::FillTuple(DTagToolIterator D
   m_TagKSPiMinuspy = findKS.GetKSPiMinusP(1);
   m_TagKSPiMinuspz = findKS.GetKSPiMinusP(2);
   m_TagKSPiMinusenergy = findKS.GetKSPiMinusP(3);
-  FindhhTagInfo findpipiTagInfo("pipi", findKS.GetDaughterTrackIDs());
+  FindhhTagInfo findpipiTagInfo("pipi", findKS.GetDaughterTrackIDs(), false);
   status = findpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;

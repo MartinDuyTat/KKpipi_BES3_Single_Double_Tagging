@@ -269,7 +269,7 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
   m_LowEEtaConstrainedpz = findEta.GetLowEPhotonPConstrained(2);
   m_LowEEtaConstrainedenergy = findEta.GetLowEPhotonPConstrained(3);
   m_EtaChi2Fit = findEta.GetChi2Fit();
-  FindhhTagInfo findpipiInfo("pipi", findKS.GetDaughterTrackIDs());
+  FindhhTagInfo findpipiInfo("pipi", findKS.GetDaughterTrackIDs(), false);
   status = findpipiInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;

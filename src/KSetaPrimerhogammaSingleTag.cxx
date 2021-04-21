@@ -237,7 +237,7 @@ StatusCode KSetaPrimerhogammaSingleTag::FillTuple(DTagToolIterator DTTool_iter, 
   m_KSPiMinuspy = findKS.GetKSPiMinusP(1);
   m_KSPiMinuspz = findKS.GetKSPiMinusP(2);
   m_KSPiMinusenergy = findKS.GetKSPiMinusP(3);
-  FindhhTagInfo findpipiInfo("pipi", findKS.GetDaughterTrackIDs());
+  FindhhTagInfo findpipiInfo("pipi", findKS.GetDaughterTrackIDs(), false);
   status = findpipiInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
