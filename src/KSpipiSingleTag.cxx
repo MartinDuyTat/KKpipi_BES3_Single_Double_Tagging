@@ -81,7 +81,7 @@ StatusCode KSpipiSingleTag::initialize() {
       status = m_tuple->addItem("KSChi2Fit", m_Chi2Fit);
       status = m_tuple->addItem("KSpx", m_KSpx);
       status = m_tuple->addItem("KSpy", m_KSpy);
-      status = m_tuple->addItem("KSz", m_KSpz);
+      status = m_tuple->addItem("KSpz", m_KSpz);
       status = m_tuple->addItem("KSenergy", m_KSenergy);
       status = m_tuple->addItem("KSPiPluspx", m_KSPiPluspx);
       status = m_tuple->addItem("KSPiPluspy", m_KSPiPluspy);

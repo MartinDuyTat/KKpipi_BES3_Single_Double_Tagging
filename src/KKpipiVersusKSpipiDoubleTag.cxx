@@ -138,7 +138,7 @@ StatusCode KKpipiVersusKSpipiDoubleTag::initialize() {
       status = m_tuple->addItem("TagKSChi2Fit", m_TagChi2Fit);
       status = m_tuple->addItem("TagKSpx", m_TagKSpx);
       status = m_tuple->addItem("TagKSpy", m_TagKSpy);
-      status = m_tuple->addItem("TagKSz", m_TagKSpz);
+      status = m_tuple->addItem("TagKSpz", m_TagKSpz);
       status = m_tuple->addItem("TagKSenergy", m_TagKSenergy);
       status = m_tuple->addItem("TagKSPiPluspx", m_TagKSPiPluspx);
       status = m_tuple->addItem("TagKSPiPluspy", m_TagKSPiPluspy);
