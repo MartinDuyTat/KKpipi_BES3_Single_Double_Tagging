@@ -385,7 +385,7 @@ class KKpipiVersusKpiDoubleTag: public Algorithm {
     /**
      * Tag \f$\pi\f$ charge
      */
-    NTuple::Item<double> m_TagPiCharge;
+    NTuple::Item<int> m_TagPiCharge;
     /**
      * Tag \f$K\f$ momentum along \f$x\f$
      */
@@ -405,7 +405,7 @@ class KKpipiVersusKpiDoubleTag: public Algorithm {
     /**
      * Tag \f$K\f$ charge
      */
-    NTuple::Item<double> m_TagKCharge;
+    NTuple::Item<int> m_TagKCharge;
     /**
      * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
      */
