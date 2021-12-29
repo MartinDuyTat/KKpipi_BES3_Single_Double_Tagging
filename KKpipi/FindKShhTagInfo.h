@@ -1,10 +1,10 @@
 // Martin Duy Tat 5th March 2021
 /**
- * FindKSpipiTag is a class for extracting all the variables of a KSpipi tag
+ * FindKShhTagInfo is a class for extracting all the variables of a KSpipi or KSKK tag
  */
 
-#ifndef FINDKSPIPITAG
-#define FINDKSPIPITAG
+#ifndef FINDKSPIPITAGINFO
+#define FINDKSPIPITAGINFO
 
 //KKpipi
 #include "KKpipi/FindKS.h"
@@ -18,16 +18,16 @@
 #include<vector>
 #include<string>
 
-class FindKSpipiTagInfo {
+class FindKShhTagInfo {
   public: 
     /**
      * Default constructor that initalizes all variables to zero
      */
-    FindKSpipiTagInfo();
+    FindKShhTagInfo(const std::string &TagMode = "KSpipi");
     /**
      * Trivial destructor
      */
-    ~FindKSpipiTagInfo();
+    ~FindKShhTagInfo();
     /**
      * Function that calculates all the tag information and saves them
      * @param DTTool_iter Iterator pointing to tag candidate
@@ -40,9 +40,13 @@ class FindKSpipiTagInfo {
      */
     std::vector<int> GetDaughterTrackID() const;
     /**
-     * Enumeration to label daughter particles in the order K+ K- pi+ pi-
+     * Enumeration to label daughter particles in the order h+ h- KS0
      */
-    enum DaughterParticle {PIPLUS, PIMINUS, KSHORT};
+    enum DaughterParticle {HPLUS, HMINUS, KSHORT};
+    /**
+     * Get flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
+     */
+    int GetKSFitSuccess() const;
     /**
      * Get the \f$K_S\f$ decay length, from VeeVertexAlg
      */
@@ -81,15 +85,15 @@ class FindKSpipiTagInfo {
      */
     double GetKShortP(int i) const;
     /**
-     * Get \f$\pi^+\f$ momentum component
+     * Get \f$h^+\f$ momentum component
      * @param i Component
      */
-    double GetPiPlusP(int i) const;
+    double GethPlusP(int i) const;
     /**
-     * Get \f$\pi^-\f$ momentum component
+     * Get \f$h^-\f$ momentum component
      * @param i Component
      */
-    double GetPiMinusP(int i) const;
+    double GethMinusP(int i) const;
     /**
      * Get flag of Kalman fit success
      */
@@ -104,15 +108,15 @@ class FindKSpipiTagInfo {
      */
     double GetKShortPKalmanFit(int i) const;
     /**
-     * Get \f$\pi^+\f$ momentum component from Kalman fit
+     * Get \f$h^+\f$ momentum component from Kalman fit
      * @param i Component
      */
-    double GetPiPlusPKalmanFit(int i) const;
+    double GethPlusPKalmanFit(int i) const;
     /**
-     * Get \f$\pi^-\f$ momentum component from Kalman fit
+     * Get \f$h^-\f$ momentum component from Kalman fit
      * @param i Component
      */
-    double GetPiMinusPKalmanFit(int i) const;
+    double GethMinusPKalmanFit(int i) const;
     /**
      * Get flag of \f$K_S^0\f$ from \f$\pi^+\pi^-\f$ fit of tracks success
      */
@@ -143,9 +147,17 @@ class FindKSpipiTagInfo {
     double GetpipiChi2Fit() const;
   private:
     /**
-     * Daughter track IDs, in the order (pi+ pi-)KS pi+ pi-
+     * "KSpipi" or "KSKK"
+     */
+    std::string m_TagMode;
+    /**
+     * Daughter track IDs, in the order (pi+ pi-)KS h+ h-
      */
     std::vector<int> m_DaughterTrackID;
+    /**
+     * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
+     */
+    int m_KSFitSuccess;
     /**
      * The \f$K_S\f$ decay length, from VeeVertexAlg
      */
@@ -183,13 +195,13 @@ class FindKSpipiTagInfo {
      */
     CLHEP::HepLorentzVector m_KShortP;
     /**
-     * \f$\pi^+\f$ four-momentum
+     * \f$h^+\f$ four-momentum
      */
-    CLHEP::HepLorentzVector m_PiPlusP;
+    CLHEP::HepLorentzVector m_hPlusP;
     /**
-     * \f$\pi^-\f$ four-momentum
+     * \f$h^-\f$ four-momentum
      */
-    CLHEP::HepLorentzVector m_PiMinusP;
+    CLHEP::HepLorentzVector m_hMinusP;
     /**
      * Flag equal to 1 for success and 0 for fail in the Kalman fit of tracks
      */
@@ -203,13 +215,13 @@ class FindKSpipiTagInfo {
      */
     CLHEP::HepLorentzVector m_KShortPKalmanFit;
     /**
-     * Kalman fitted \f$\pi^+\f$ four-momentum
+     * Kalman fitted \f$h^+\f$ four-momentum
      */
-    CLHEP::HepLorentzVector m_PiPlusPKalmanFit;
+    CLHEP::HepLorentzVector m_hPlusPKalmanFit;
     /**
-     * Kalman fitted \f$\pi^-\f$ four-momentum
+     * Kalman fitted \f$h^-\f$ four-momentum
      */
-    CLHEP::HepLorentzVector m_PiMinusPKalmanFit;
+    CLHEP::HepLorentzVector m_hMinusPKalmanFit;
     /**
      * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ from \f$\pi^+\pi^-\f$ fit of tracks
      */

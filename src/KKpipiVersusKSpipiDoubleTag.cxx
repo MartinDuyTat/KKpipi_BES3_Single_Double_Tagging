@@ -3,7 +3,7 @@
 // KKpipi
 #include "KKpipi/KKpipiVersusKSpipiDoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
-#include "KKpipi/FindKSpipiTagInfo.h"
+#include "KKpipi/FindKShhTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/PIDTruth.h"
 // Gaudi
@@ -130,6 +130,7 @@ StatusCode KKpipiVersusKSpipiDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKMinusTrueID", m_SignalKMinusTrueID);
       status = m_tuple->addItem("SignalPiPlusTrueID", m_SignalPiPlusTrueID);
       status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
+      status = m_tuple->addItem("TagKSFitSuccess", m_TagKSFitSuccess);
       status = m_tuple->addItem("TagKSDecayLengthVeeVertex", m_TagDecayLengthVeeVertex);
       status = m_tuple->addItem("TagKSChi2VeeVertex", m_TagChi2VeeVertex);
       status = m_tuple->addItem("TagKSMassVeeVertex", m_TagKSMassVeeVertex);
@@ -214,10 +215,6 @@ StatusCode KKpipiVersusKSpipiDoubleTag::execute() {
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-      if(FillTupleStatus == StatusCode::RECOVERABLE) {
-	log << MSG::WARNING << "Vertex fit of KS failed, skipping event" << endreq;
-	return StatusCode::SUCCESS;
-      }
       log << MSG::FATAL << "Assigning KSpipi tuple info failed" << endreq;
       return StatusCode::FAILURE;
     }
@@ -338,11 +335,9 @@ StatusCode KKpipiVersusKSpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
     m_SignalPiPlusTrueID = ReconstructedPID[2];
     m_SignalPiMinusTrueID = ReconstructedPID[3];
   }
-  FindKSpipiTagInfo findKSpipiTagInfo;
-  status = findKSpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
-  if(status != StatusCode::SUCCESS) {
-    return status;
-  }
+  FindKShhTagInfo findKSpipiTagInfo;
+  findKSpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
+  m_TagKSFitSuccess = findKSpipiTagInfo.GetKSFitSuccess();
   m_TagDecayLengthVeeVertex = findKSpipiTagInfo.GetDecayLengthVeeVertex();
   m_TagChi2VeeVertex = findKSpipiTagInfo.GetChi2VeeVertex();
   m_TagKSMassVeeVertex = findKSpipiTagInfo.GetKSMassVeeVertex();

@@ -2,7 +2,7 @@
 
 // KKpipi
 #include "KKpipi/KSpipiSingleTag.h"
-#include "KKpipi/FindKSpipiTagInfo.h"
+#include "KKpipi/FindKShhTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/PIDTruth.h"
 // Gaudi
@@ -73,6 +73,7 @@ StatusCode KSpipiSingleTag::initialize() {
       status = m_tuple->addItem("Dpy", m_Dpy);
       status = m_tuple->addItem("Dpz", m_Dpz);
       status = m_tuple->addItem("Denergy", m_Denergy);
+      status = m_tuple->addItem("KSFitSuccess", m_KSFitSuccess);
       status = m_tuple->addItem("KSDecayLengthVeeVertex", m_DecayLengthVeeVertex);
       status = m_tuple->addItem("KSChi2VeeVertex", m_Chi2VeeVertex);
       status = m_tuple->addItem("KSMassVeeVertex", m_KSMassVeeVertex);
@@ -156,10 +157,6 @@ StatusCode KSpipiSingleTag::execute() {
     DTagToolIterator DTTool_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-      if(FillTupleStatus == StatusCode::RECOVERABLE) {
-	log << MSG::WARNING << "Vertex fit of KS failed, skipping event" << endreq;
-	return StatusCode::SUCCESS;
-      }
       log << MSG::FATAL << "Assigning tuple info failed" << endreq;
       return StatusCode::FAILURE;
     }
@@ -214,11 +211,9 @@ StatusCode KSpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
   m_Dpy = (*DTTool_iter)->p4().y();
   m_Dpz = (*DTTool_iter)->p4().z();
   m_Denergy = (*DTTool_iter)->p4().t();
-  FindKSpipiTagInfo findKSpipiTagInfo;
-  StatusCode status = findKSpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
-  if(status != StatusCode::SUCCESS) {
-    return status;
-  }
+  FindKShhTagInfo findKSpipiTagInfo;
+  findKSpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
+  m_KSFitSuccess = findKSpipiTagInfo.GetKSFitSuccess();
   m_DecayLengthVeeVertex = findKSpipiTagInfo.GetDecayLengthVeeVertex();
   m_Chi2VeeVertex = findKSpipiTagInfo.GetChi2VeeVertex();
   m_KSMassVeeVertex = findKSpipiTagInfo.GetKSMassVeeVertex();
