@@ -221,7 +221,6 @@ bool PIDTruth::SameDMother() const {
 }
 
 bool PIDTruth::FindTrueID(std::vector<int> &ParticleID) const {
-  assert(particleID.size() == m_TrackID.size() + 2*m_PhotonPairTrackID.size());
   std::vector<int> TrueID;
   bool PIDMatch = true;
   // Loop over all track IDs
