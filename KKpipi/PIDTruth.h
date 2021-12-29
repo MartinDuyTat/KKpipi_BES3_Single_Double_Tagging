@@ -7,6 +7,7 @@
 #include "GaudiKernel/Algorithm.h"
 // STL
 #include <vector>
+#include <utility>
 
 #ifndef PIDTRUTH
 #define PIDTRUTH
@@ -20,7 +21,7 @@ class PIDTruth {
      * @param NumberCharged Number of charged tracks
      * @param algorithm Pointer to the Algorithm object that created this class, need this to access the MC info!
      */
-    PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm);
+    PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm, const std::vector<std::pair<int, int>> &PhotonPairTrackID = std::vector<std::pair<int, int>>());
     /**
      * Function from Alex Gilman that matches charged reconstructed particles with generator particles by comparing the hits of the reconstructed object and the truth level trajectory
      * @param tkID Track ID of particle of interest
@@ -48,12 +49,12 @@ class PIDTruth {
     int FindDOrigin(int TrackID, bool Charged) const;
     /**
      * Function that checks if all the particles originate from the same \f$D\f$ meson
-     * @param Vector of track IDs that should not be included in this check
      */
-    bool SameDMother(const std::vector<int> &IgnoreTrackID = std::vector<int>()) const;
+    bool SameDMother() const;
     /**
      * Function that determines the true PID of the particles of interest
      * If some particle is to not be included in the truth matching, put 0 as the input
+     * It is assumed that the track ID order is the same as in m_TrackID + m_PhotonPairTrackID, so for each photon pair the size of ParticleID is two larger than that of m_TrackID
      * @param ParticleID Input vector of reconstructed PIDs, the function will replace these with the MC truth
      * @return Returns true if the reconstructed PIDs match perfectly with the MC truth
      */
@@ -78,6 +79,11 @@ class PIDTruth {
      * Pointer to the Algorithm object that created this class, need this to access the MC info!
      */
     const Algorithm *m_algorithm;
+    /**
+     * Vector with track IDs of photon pairs
+     * In matching the same D mother only one of the photons needs to be matched
+     */
+    std::vector<std::pair<int, int>> m_PhotonPairTrackID;
 };
 
 #endif

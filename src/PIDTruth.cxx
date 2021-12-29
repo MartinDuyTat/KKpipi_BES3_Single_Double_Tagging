@@ -13,9 +13,10 @@
 #include "MdcRecEvent/RecMdcKalTrack.h"
 // STL
 #include <vector>
+#include <utility>
 #include <algorithm>
 
-PIDTruth::PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm): m_TrackID(TrackID), m_NumberCharged(NumberCharged), m_algorithm(algorithm) {
+PIDTruth::PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm, const std::vector<std::pair<int, int>> &PhotonPairTrackID): m_TrackID(TrackID), m_NumberCharged(NumberCharged), m_algorithm(algorithm), m_PhotonPairTrackID(PhotonPairTrackID) {
 }
 
 int PIDTruth::MCTKPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
@@ -196,53 +197,52 @@ int PIDTruth::FindDOrigin(int TrackID, bool Charged) const {
   }
 }
 
-bool PIDTruth::SameDMother(const std::vector<int> &IgnoreTrackID) const {
-  std::vector<int> IsD0Mother, IsD0barMother;
-  for(std::vector<int>::const_iterator iter = m_TrackID.begin(); iter != m_TrackID.end(); iter++) {
-    // If track ID is on ignore list, skip
-    if(IgnoreTrackID.size() != 0 && std::find(IgnoreTrackID.begin(), IgnoreTrackID.end(), *iter) != IgnoreTrackID.end()) {
-      continue;
-    }
-    // Check if every track ID is a daughter originating from D0 or D0bar
-    if(iter - m_TrackID.begin() < m_NumberCharged) {
-      IsD0Mother.push_back(MCTKPIDCHG(*iter, 0, 0, 421));
-      IsD0barMother.push_back(MCTKPIDCHG(*iter, 0, 0, -421));
-    } else {
-      IsD0Mother.push_back(MCSHPIDCHG(*iter, 0, 0, 421));
-      IsD0barMother.push_back(MCSHPIDCHG(*iter, 0, 0, -421));
+bool PIDTruth::SameDMother() const {
+  // Check D meson ID of first track ID
+  int DMotherID = FindDOrigin(m_TrackID[0], m_NumberCharged != 0);
+  // Loop over all other track IDs and compare their D meson ID to the first one
+  for(std::vector<int>::const_iterator iter = m_TrackID.begin() + 1; iter != m_TrackID.end(); iter++) {
+    int ThisDMotherID = iter - m_TrackID.begin() < m_NumberCharged ? FindDOrigin(*iter, true) : FindDOrigin(*iter, false);
+    // If their D meson IDs are not equal, these tracks don't originate from the same D mother
+    if(DMotherID != ThisDMotherID) {
+      return false;
     }
   }
-  bool isD0Mother = true, isD0barMother = true;
-  // If any daughter doesn't originate from D0, set isD0Mother to false
-  for(std::vector<int>::iterator iter = IsD0Mother.begin(); iter != IsD0Mother.end(); iter++) {
-    if(*iter != 1) {
-      isD0Mother = false;
-      break;
+  // Repeat, but for pairs of photons only require one of them to pass the truth matching
+  for(std::vector<std::pair<int, int>>::const_iterator iter = m_PhotonPairTrackID.begin(); iter != m_PhotonPairTrackID.end(); iter++) {
+    int ThisMotherIDFirst = FindDOrigin(iter->first, false);
+    int ThisMotherIDSecond = FindDOrigin(iter->second, false);
+    if(DMotherID != ThisMotherIDFirst && DMotherID != ThisMotherIDSecond) {
+      return false;
     }
   }
-  // If any daughter doesn't originate from D0bar, set isD0barMother to false
-  for(std::vector<int>::iterator iter = IsD0barMother.begin(); iter != IsD0barMother.end(); iter++) {
-    if(*iter != 1) {
-      isD0barMother = false;
-      break;
-    }
-  }
-  // Return true of all daughters originate from D0, or if all daughters originate from D0bar, otherwise return false
-  return isD0Mother || isD0barMother;
+  // If we make it this far, all tracks and photons originate from the same D meson
+  return true;
 }
 
 bool PIDTruth::FindTrueID(std::vector<int> &ParticleID) const {
+  assert(particleID.size() == m_TrackID.size() + 2*m_PhotonPairTrackID.size());
   std::vector<int> TrueID;
   bool PIDMatch = true;
+  // Loop over all track IDs
   for(unsigned int i = 0; i < m_TrackID.size(); i++) {
     if(i < m_NumberCharged) {
+      // Charged tracks
       TrueID.push_back(MCTKPIDCHG(m_TrackID[i], -1, 0, 0));
     } else {
+      // Neutral tracks
       TrueID.push_back(MCSHPIDCHG(m_TrackID[i], -1, 0, 0));
     }
+    // Check if PID matches
     if(PIDMatch && ParticleID[i] != TrueID[i] && ParticleID[i] != 0) {
       PIDMatch = false;
     }
+  }
+  // Repeat for the photon pairs to obtain their true PID
+  for(unsigned int i = 0; i < m_PhotonPairTrackID.size(); i++) {
+    TrueID.push_back(MCSHPIDCHG(m_PhotonPairTrackID[i].first, -1, 0, 0));
+    TrueID.push_back(MCSHPIDCHG(m_PhotonPairTrackID[i].second, -1, 0, 0));
+    // No PID truth matching for photon pairs
   }
   std::swap(ParticleID, TrueID);
   return PIDMatch;

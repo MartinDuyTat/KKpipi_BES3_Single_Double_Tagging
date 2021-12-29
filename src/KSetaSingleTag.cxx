@@ -35,6 +35,7 @@
 // STL
 #include<vector>
 #include<string>
+#include<utility>
 
 KSetaSingleTag::KSetaSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
@@ -245,13 +246,11 @@ StatusCode KSetaSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTT
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    DaughterTrackIDs.push_back(findEta.GetHighEPhotonTrackID());
-    DaughterTrackIDs.push_back(findEta.GetLowEPhotonTrackID());
-    std::vector<int> IgnoreTrackID;
-    IgnoreTrackID.push_back(findEta.GetLowEPhotonTrackID());
-    PID_Truth = PIDTruth(DaughterTrackIDs, 2, this);
-    m_IsSameDMotherAll = PID_Truth.SameDMother(IgnoreTrackID) ? 1 : 0;
-    int SomeArray[4] = {211, -211, 22, 0};
+    std::vector<std::pair<int, int>> PhotonPairTrackID;
+    PhotonPairTrackID.push_back(std::make_pair(findEta.GetHighEPhotonTrackID(), findEta.GetLowEPhotonTrackID()));
+    PID_Truth = PIDTruth(DaughterTrackIDs, 2, this, PhotonPairTrackID);
+    m_IsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[4] = {211, -211, 0, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_KSPiPlusTrueID = ReconstructedPID[0];

@@ -40,6 +40,7 @@
 // STL
 #include<vector>
 #include<string>
+#include<utility>
 
 KKpipiVersusKSpipipi0DoubleTag::KKpipiVersusKSpipipi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
@@ -430,13 +431,11 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
     DaughterTrackIDs.insert(DaughterTrackIDs.end(), KSDaughterTrackIDs.begin(), KSDaughterTrackIDs.end());
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    DaughterTrackIDs.push_back(findPi0.GetHighEPhotonTrackID());
-    DaughterTrackIDs.push_back(findPi0.GetLowEPhotonTrackID());
-    std::vector<int> IgnoreTrackID;
-    IgnoreTrackID.push_back(findPi0.GetLowEPhotonTrackID());
-    PID_Truth = PIDTruth(DaughterTrackIDs, 4, this);
-    m_TagIsSameDMotherAll = PID_Truth.SameDMother(IgnoreTrackID) ? 1 : 0;
-    int SomeArray[6] = {211, -211, 211, -211, 22, 0};
+    std::vector<std::pair<int, int>> PhotonPairTrackID;
+    PhotonPairTrackID.push_back(std::make_pair(findPi0.GetHighEPhotonTrackID(), findPi0.GetLowEPhotonTrackID()));
+    PID_Truth = PIDTruth(DaughterTrackIDs, 4, this, PhotonPairTrackID);
+    m_TagIsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;
+    int SomeArray[6] = {211, -211, 211, -211, 0, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 6);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_TagPiPlusTrueID = ReconstructedPID[0];
