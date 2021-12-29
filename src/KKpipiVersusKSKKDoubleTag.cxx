@@ -4,7 +4,7 @@
 #include "KKpipi/KKpipiVersusKSKKDoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindKS.h"
-#include "KKpipi/FindhhTagInfo.h"
+#include "KKpipi/FindKShhTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/PIDTruth.h"
 // Gaudi
@@ -131,12 +131,17 @@ StatusCode KKpipiVersusKSKKDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKMinusTrueID", m_SignalKMinusTrueID);
       status = m_tuple->addItem("SignalPiPlusTrueID", m_SignalPiPlusTrueID);
       status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
+      status = m_tuple->addItem("TagKSFitSuccess", m_TagKSFitSuccess);
       status = m_tuple->addItem("TagKSDecayLengthVeeVertex", m_TagDecayLengthVeeVertex);
       status = m_tuple->addItem("TagKSChi2VeeVertex", m_TagChi2VeeVertex);
       status = m_tuple->addItem("TagKSMassVeeVertex", m_TagKSMassVeeVertex);
       status = m_tuple->addItem("TagKSDecayLengthFit", m_TagDecayLengthFit);
       status = m_tuple->addItem("TagKSDecayLengthErrorFit", m_TagDecayLengthErrorFit);
       status = m_tuple->addItem("TagKSChi2Fit", m_TagChi2Fit);
+      status = m_tuple->addItem("TagKSpx", m_TagKSpx);
+      status = m_tuple->addItem("TagKSpy", m_TagKSpy);
+      status = m_tuple->addItem("TagKSpz", m_TagKSpz);
+      status = m_tuple->addItem("TagKSenergy", m_TagKSenergy);
       status = m_tuple->addItem("TagKSPiPluspx", m_TagKSPiPluspx);
       status = m_tuple->addItem("TagKSPiPluspy", m_TagKSPiPluspy);
       status = m_tuple->addItem("TagKSPiPluspz", m_TagKSPiPluspz);
@@ -153,7 +158,20 @@ StatusCode KKpipiVersusKSKKDoubleTag::initialize() {
       status = m_tuple->addItem("TagKMinuspy", m_TagKMinuspy);
       status = m_tuple->addItem("TagKMinuspz", m_TagKMinuspz);
       status = m_tuple->addItem("TagKMinusenergy", m_TagKMinusenergy);
-      status = m_tuple->addItem("TagMKK", m_TagMKK);
+      status = m_tuple->addItem("TagKalmanFitSuccess", m_TagKalmanFitSuccess);
+      status = m_tuple->addItem("TagKalmanFitChi2", m_TagKalmanFitChi2);
+      status = m_tuple->addItem("TagPiPluspxKalmanFit", m_TagPiPluspxKalmanFit);
+      status = m_tuple->addItem("TagPiPluspyKalmanFit", m_TagPiPluspyKalmanFit);
+      status = m_tuple->addItem("TagPiPluspzKalmanFit", m_TagPiPluspzKalmanFit);
+      status = m_tuple->addItem("TagPiPlusenergyKalmanFit", m_TagPiPlusenergyKalmanFit);
+      status = m_tuple->addItem("TagPiMinuspxKalmanFit", m_TagPiMinuspxKalmanFit);
+      status = m_tuple->addItem("TagPiMinuspyKalmanFit", m_TagPiMinuspyKalmanFit);
+      status = m_tuple->addItem("TagPiMinuspzKalmanFit", m_TagPiMinuspzKalmanFit);
+      status = m_tuple->addItem("TagPiMinusenergyKalmanFit", m_TagPiMinusenergyKalmanFit);
+      status = m_tuple->addItem("TagKSpxKalmanFit", m_TagKSpxKalmanFit);
+      status = m_tuple->addItem("TagKSpyKalmanFit", m_TagKSpyKalmanFit);
+      status = m_tuple->addItem("TagKSpzKalmanFit", m_TagKSpzKalmanFit);
+      status = m_tuple->addItem("TagKSenergyKalmanFit", m_TagKSenergyKalmanFit);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
       status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
       status = m_tuple->addItem("TagKSPiPlusTrueID", m_TagKSPiPlusTrueID);
@@ -193,10 +211,6 @@ StatusCode KKpipiVersusKSKKDoubleTag::execute() {
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-      if(FillTupleStatus == StatusCode::RECOVERABLE) {
-	log << MSG::WARNING << "Vertex fit of KS failed, skipping event" << endreq;
-	return StatusCode::SUCCESS;
-      }
       log << MSG::FATAL << "Assigning KSKK tuple info failed" << endreq;
       return StatusCode::FAILURE;
     }
@@ -317,39 +331,49 @@ StatusCode KKpipiVersusKSKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
     m_SignalPiPlusTrueID = ReconstructedPID[2];
     m_SignalPiMinusTrueID = ReconstructedPID[3];
   }
-  FindKS findKS(true);
-  status = findKS.findKS(DTTool_Tag_iter, DTTool);
-  if(status != StatusCode::SUCCESS) {
-    return status;
-  }
-  m_TagDecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
-  m_TagChi2VeeVertex = findKS.GetChi2VeeVertex();
-  m_TagKSMassVeeVertex = findKS.GetKSMassVeeVertex();
-  m_TagDecayLengthFit = findKS.GetDecayLengthFit();
-  m_TagDecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
-  m_TagChi2Fit = findKS.GetChi2Fit();
-  m_TagKSPiPluspx = findKS.GetKSPiPlusP(0);
-  m_TagKSPiPluspy = findKS.GetKSPiPlusP(1);
-  m_TagKSPiPluspz = findKS.GetKSPiPlusP(2);
-  m_TagKSPiPlusenergy = findKS.GetKSPiPlusP(3);
-  m_TagKSPiMinuspx = findKS.GetKSPiMinusP(0);
-  m_TagKSPiMinuspy = findKS.GetKSPiMinusP(1);
-  m_TagKSPiMinuspz = findKS.GetKSPiMinusP(2);
-  m_TagKSPiMinusenergy = findKS.GetKSPiMinusP(3);
-  FindhhTagInfo findKKTagInfo("KK");
-  status = findKKTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
-  if(status != StatusCode::SUCCESS) {
-    return status;
-  }
-  m_TagKPluspx = findKKTagInfo.GethPlusP(0);
-  m_TagKPluspy = findKKTagInfo.GethPlusP(1);
-  m_TagKPluspz = findKKTagInfo.GethPlusP(2);
-  m_TagKPlusenergy = findKKTagInfo.GethPlusP(3);
-  m_TagKMinuspx = findKKTagInfo.GethMinusP(0);
-  m_TagKMinuspy = findKKTagInfo.GethMinusP(1);
-  m_TagKMinuspz = findKKTagInfo.GethMinusP(2);
-  m_TagKMinusenergy = findKKTagInfo.GethMinusP(3);
-  m_TagMKK = findKKTagInfo.GetMhh();
+  FindKShhTagInfo findKSKKTagInfo("KSKK");
+  findKSKKTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
+  m_TagKSFitSuccess = findKSKKTagInfo.GetKSFitSuccess();
+  m_TagDecayLengthVeeVertex = findKSKKTagInfo.GetDecayLengthVeeVertex();
+  m_TagChi2VeeVertex = findKSKKTagInfo.GetChi2VeeVertex();
+  m_TagKSMassVeeVertex = findKSKKTagInfo.GetKSMassVeeVertex();
+  m_TagDecayLengthFit = findKSKKTagInfo.GetDecayLengthFit();
+  m_TagDecayLengthErrorFit = findKSKKTagInfo.GetDecayLengthErrorFit();
+  m_TagChi2Fit = findKSKKTagInfo.GetChi2Fit();
+  m_TagKSPiPluspx = findKSKKTagInfo.GetKSPiPlusP(0);
+  m_TagKSPiPluspy = findKSKKTagInfo.GetKSPiPlusP(1);
+  m_TagKSPiPluspz = findKSKKTagInfo.GetKSPiPlusP(2);
+  m_TagKSPiPlusenergy = findKSKKTagInfo.GetKSPiPlusP(3);
+  m_TagKSPiMinuspx = findKSKKTagInfo.GetKSPiMinusP(0);
+  m_TagKSPiMinuspy = findKSKKTagInfo.GetKSPiMinusP(1);
+  m_TagKSPiMinuspz = findKSKKTagInfo.GetKSPiMinusP(2);
+  m_TagKSPiMinusenergy = findKSKKTagInfo.GetKSPiMinusP(3);
+  m_TagKSpx = findKSKKTagInfo.GetKShortP(0);
+  m_TagKSpy = findKSKKTagInfo.GetKShortP(1);
+  m_TagKSpz = findKSKKTagInfo.GetKShortP(2);
+  m_TagKSenergy = findKSKKTagInfo.GetKShortP(3);
+  m_TagKPluspx = findKSKKTagInfo.GethPlusP(0);
+  m_TagKPluspy = findKSKKTagInfo.GethPlusP(1);
+  m_TagKPluspz = findKSKKTagInfo.GethPlusP(2);
+  m_TagKPlusenergy = findKSKKTagInfo.GethPlusP(3);
+  m_TagKMinuspx = findKSKKTagInfo.GethMinusP(0);
+  m_TagKMinuspy = findKSKKTagInfo.GethMinusP(1);
+  m_TagKMinuspz = findKSKKTagInfo.GethMinusP(2);
+  m_TagKMinusenergy = findKSKKTagInfo.GethMinusP(3);
+  m_TagKalmanFitSuccess = findKSKKTagInfo.GetKalmanFitSuccess();
+  m_TagKalmanFitChi2 = findKSKKTagInfo.GetKalmanFitChi2();
+  m_TagKSpxKalmanFit = findKSKKTagInfo.GetKShortPKalmanFit(0);
+  m_TagKSpyKalmanFit = findKSKKTagInfo.GetKShortPKalmanFit(1);
+  m_TagKSpzKalmanFit = findKSKKTagInfo.GetKShortPKalmanFit(2);
+  m_TagKSenergyKalmanFit = findKSKKTagInfo.GetKShortPKalmanFit(3);
+  m_TagKPluspxKalmanFit = findKSKKTagInfo.GethPlusPKalmanFit(0);
+  m_TagKPluspyKalmanFit = findKSKKTagInfo.GethPlusPKalmanFit(1);
+  m_TagKPluspzKalmanFit = findKSKKTagInfo.GethPlusPKalmanFit(2);
+  m_TagKPlusenergyKalmanFit = findKSKKTagInfo.GethPlusPKalmanFit(3);
+  m_TagKMinuspxKalmanFit = findKSKKTagInfo.GethMinusPKalmanFit(0);
+  m_TagKMinuspyKalmanFit = findKSKKTagInfo.GethMinusPKalmanFit(1);
+  m_TagKMinuspzKalmanFit = findKSKKTagInfo.GethMinusPKalmanFit(2);
+  m_TagKMinusenergyKalmanFit = findKSKKTagInfo.GethMinusPKalmanFit(3);
   if(m_RunNumber < 0) {
     std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
     std::vector<int> DaughterTrackIDs = findKKTagInfo.GetDaughterTrackID();

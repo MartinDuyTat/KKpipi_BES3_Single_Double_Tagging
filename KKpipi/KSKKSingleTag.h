@@ -141,6 +141,10 @@ class KSKKSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_Denergy;
     /**
+     * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
+     */
+    NTuple::Item<int> m_KSFitSuccess;
+    /**
      * The \f$K_S\f$ decay length, from VeeVertexAlg
      */
     NTuple::Item<double> m_DecayLengthVeeVertex;
@@ -164,6 +168,22 @@ class KSKKSingleTag: public Algorithm {
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     NTuple::Item<double> m_Chi2Fit;
+    /**
+     * \f$K_S^0\f$ momentum along \f$x\f$ after vertex fit
+     */
+    NTuple::Item<double> m_KSpx;
+    /**
+     * \f$K_S^0\f$ momentum along \f$y\f$ after vertex fit
+     */
+    NTuple::Item<double> m_KSpy;
+    /**
+     * \f$K_S^0\f$ momentum along \f$z\f$ after vertex fit
+     */
+    NTuple::Item<double> m_KSpz;
+    /**
+     * \f$K_S^0\f$ energy after vertex fit
+     */
+    NTuple::Item<double> m_KSenergy;
     /**
      * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
      */
@@ -229,9 +249,61 @@ class KSKKSingleTag: public Algorithm {
      */
     NTuple::Item<double> m_KMinusenergy;
     /**
-     * \f$KK\f$ invariant mass
+     * Flag equal to 1 for success and 0 for fail in the Kalman fit of tag tracks
      */
-    NTuple::Item<double> m_MKK;
+    NTuple::Item<int> m_KalmanFitSuccess;
+    /**
+     * \f$\chi^2\f$ of Kalman fit
+     */
+    NTuple::Item<double> m_KalmanFitChi2;
+    /**
+     * Kalman fitted \f$K^+\f$ momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_KPluspxKalmanFit;
+    /**
+     * Kalman fitted \f$K^+\f$ momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_KPluspyKalmanFit;
+    /**
+     * Kalman fitted \f$K^+\f$ momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_KPluspzKalmanFit;
+    /**
+     * Kalman fitted \f$K^+\f$ energy
+     */
+    NTuple::Item<double> m_KPlusenergyKalmanFit;
+    /**
+     * Kalman fitted \f$\pi^-\f$ momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_KMinuspxKalmanFit;
+    /**
+     * Kalman fitted \f$K^-\f$ momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_KMinuspyKalmanFit;
+    /**
+     * Kalman fitted \f$K^-\f$ momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_KMinuspzKalmanFit;
+    /**
+     * Kalman fitted \f$K^-\f$ energy
+     */
+    NTuple::Item<double> m_KMinusenergyKalmanFit;
+    /**
+     * Kalman fitted \f$K_S^0\f$ momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_KSpxKalmanFit;
+    /**
+     * Kalman fitted \f$K_S^0\f$ momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_KSpyKalmanFit;
+    /**
+     * Kalman fitted \f$K_S^0\f$ momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_KSpzKalmanFit;
+    /**
+     * Kalman fitted \f$K_S^0\f$ energy
+     */
+    NTuple::Item<double> m_KSenergyKalmanFit;
     /**
      * Equal to 1 if the daughter tracks are from the same \f$D\f$ meson
      */
