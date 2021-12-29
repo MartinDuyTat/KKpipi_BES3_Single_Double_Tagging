@@ -131,6 +131,7 @@ StatusCode KKpipiVersusKSetaDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKMinusTrueID", m_SignalKMinusTrueID);
       status = m_tuple->addItem("SignalPiPlusTrueID", m_SignalPiPlusTrueID);
       status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
+      status = m_tuple->addItem("TagKSFitSuccess", m_TagKSFitSuccess);
       status = m_tuple->addItem("TagKSDecayLengthVeeVertex", m_TagDecayLengthVeeVertex);
       status = m_tuple->addItem("TagKSChi2VeeVertex", m_TagChi2VeeVertex);
       status = m_tuple->addItem("TagKSMassVeeVertex", m_TagKSMassVeeVertex);
@@ -203,10 +204,6 @@ StatusCode KKpipiVersusKSetaDoubleTag::execute() {
     DTagToolIterator DTTool_Tag_iter = DTTool.dtag2();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool_Tag_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-      if(FillTupleStatus == StatusCode::RECOVERABLE) {
-	log << MSG::WARNING << "Vertex fit of KS failed, skipping event" << endreq;
-	return StatusCode::SUCCESS;
-      }
       log << MSG::FATAL << "Assigning KSeta tuple info failed" << endreq;
       return StatusCode::FAILURE;
     }
@@ -329,15 +326,17 @@ StatusCode KKpipiVersusKSetaDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
   }
   FindKS findKS(true);
   status = findKS.findKS(DTTool_Tag_iter, DTTool);
-  if(status != StatusCode::SUCCESS) {
-    return status;
+  if(status == StatusCode::SUCCESS) {
+    m_TagKSFitSuccess = 1;
+    m_TagDecayLengthFit = findKS.GetDecayLengthFit();
+    m_TagDecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
+    m_TagChi2Fit = findKS.GetChi2Fit();
+  } else {
+    m_TagKSFitSuccess = 0;
   }
   m_TagDecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
   m_TagChi2VeeVertex = findKS.GetChi2VeeVertex();
   m_TagKSMassVeeVertex = findKS.GetKSMassVeeVertex();
-  m_TagDecayLengthFit = findKS.GetDecayLengthFit();
-  m_TagDecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
-  m_TagChi2Fit = findKS.GetChi2Fit();
   m_TagKSPiPluspx = findKS.GetKSPiPlusP(0);
   m_TagKSPiPluspy = findKS.GetKSPiPlusP(1);
   m_TagKSPiPluspz = findKS.GetKSPiPlusP(2);
