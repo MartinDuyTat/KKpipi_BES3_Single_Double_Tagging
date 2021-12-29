@@ -370,7 +370,7 @@ StatusCode KKpipiVersusKSetaDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    std::vector<std::pair<int, int>> PhotonPairTrackID;
+    std::vector<std::pair<int, int> > PhotonPairTrackID;
     PhotonPairTrackID.push_back(std::make_pair(findEta.GetHighEPhotonTrackID(), findEta.GetLowEPhotonTrackID()));
     PID_Truth = PIDTruth(DaughterTrackIDs, 2, this, PhotonPairTrackID);
     m_TagIsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;

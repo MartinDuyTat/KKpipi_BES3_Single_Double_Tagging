@@ -21,7 +21,7 @@ class PIDTruth {
      * @param NumberCharged Number of charged tracks
      * @param algorithm Pointer to the Algorithm object that created this class, need this to access the MC info!
      */
-    PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm, const std::vector<std::pair<int, int>> &PhotonPairTrackID = std::vector<std::pair<int, int>>());
+    PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm, const std::vector<std::pair<int, int> > &PhotonPairTrackID = (std::vector<std::pair<int, int> >()));
     /**
      * Function from Alex Gilman that matches charged reconstructed particles with generator particles by comparing the hits of the reconstructed object and the truth level trajectory
      * @param tkID Track ID of particle of interest
@@ -83,7 +83,7 @@ class PIDTruth {
      * Vector with track IDs of photon pairs
      * In matching the same D mother only one of the photons needs to be matched
      */
-    std::vector<std::pair<int, int>> m_PhotonPairTrackID;
+    std::vector<std::pair<int, int> > m_PhotonPairTrackID;
 };
 
 #endif
