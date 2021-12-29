@@ -390,7 +390,6 @@ class KKpipiVersusKeNuDoubleTag: public Algorithm {
      * Tag FSR energy
      */
     NTuple::Item<double> m_TagFSRenergy;
-
     /**
      * Tag missing momentum along \f$x\f$
      */

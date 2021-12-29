@@ -121,6 +121,19 @@ StatusCode KpipipiSingleTag::initialize() {
   }
 }
 
+void FillAndWriteTuple() {
+  SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
+  m_RunNumber = eventHeader->runNumber();
+  m_EventNumber = eventHeader->eventNumber();
+  DTagToolIterator DTTool_iter = DTTool.stag();
+  StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
+  if(FillTupleStatus != StatusCode::SUCCESS) {
+    log << MSG::FATAL << "Assigning tuple info failed" << endreq;
+    return StatusCode::FAILURE;
+  }
+  m_tuple->write();
+}
+
 StatusCode KpipipiSingleTag::execute() {
   MsgStream log(msgSvc(), name());
   log << MSG::INFO << "Executing Kpipipi Single Tag Algorithm" << endreq;
@@ -134,17 +147,11 @@ StatusCode KpipipiSingleTag::execute() {
     log << MSG::DEBUG << "Cosmic and lepton veto" << endreq;
     return StatusCode::SUCCESS;
   }
-  if(DTTool.findSTag(EvtRecDTag::kD0toKPiPiPi)) {
-    SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
-    m_RunNumber = eventHeader->runNumber();
-    m_EventNumber = eventHeader->eventNumber();
-    DTagToolIterator DTTool_iter = DTTool.stag();
-    StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
-    if(FillTupleStatus != StatusCode::SUCCESS) {
-      log << MSG::FATAL << "Assigning tuple info failed" << endreq;
-      return StatusCode::FAILURE;
-    }
-    m_tuple->write();
+  // For flavour tag fill the two flavours separately in case both D mesons decay to Kpipi0
+  if(DTTool.findSTag(EvtRecDTag::kD0toKPiPiPi, +1)) {
+    FillAndWriteTuple();
+  } else if(DTTool.findSTag(EvtRecDTag::kD0toKPiPiPi, -1)) {
+    FillAndWriteTuple();
   }
   return StatusCode::SUCCESS;
 }

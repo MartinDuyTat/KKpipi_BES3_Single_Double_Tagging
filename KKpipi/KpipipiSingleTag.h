@@ -1,4 +1,4 @@
-// Martin Duy Tat 25th March
+// Martin Duy Tat 25th March 2021
 /**
  * KpipipiSingleTag is a class for a BOSS algorithm
  * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a single \f$D\to K\pi\pi\pi\f$ tag
@@ -46,6 +46,10 @@ class KpipipiSingleTag: public Algorithm {
      * @param DTTool DTagTool object with all the event information
      */
     StatusCode FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool);
+    /**
+     * Helper function that runs the tuple filling and writing
+     */
+    void FillAndWriteTuple();
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later

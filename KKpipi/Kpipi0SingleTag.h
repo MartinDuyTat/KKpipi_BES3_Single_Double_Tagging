@@ -45,6 +45,10 @@ class Kpipi0SingleTag: public Algorithm {
      * @param DTTool DTagTool object with all the event information
      */
     StatusCode FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTool);
+    /**
+     * Helper function that runs the tuple filling and writing
+     */
+    void FillAndWriteTuple();
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later
