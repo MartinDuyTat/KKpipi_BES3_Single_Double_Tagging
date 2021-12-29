@@ -367,6 +367,10 @@ class KKpipiVersusKSetaPrimerhogammaDoubleTag: public Algorithm {
      */
     NTuple::Item<int> m_SignalPiMinusTrueID;
     /**
+     * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
+     */
+    NTuple::Item<int> m_TagKSFitSuccess;
+    /**
      * The \f$K_S\f$ decay length, from VeeVertexAlg
      */
     NTuple::Item<double> m_TagDecayLengthVeeVertex;
