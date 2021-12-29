@@ -74,6 +74,7 @@ StatusCode KSpi0pi0SingleTag::initialize() {
       status = m_tuple->addItem("Dpy", m_Dpy);
       status = m_tuple->addItem("Dpz", m_Dpz);
       status = m_tuple->addItem("Denergy", m_Denergy);
+      status = m_tuple->addItem("KSFitSuccess", m_KSFitSuccess);
       status = m_tuple->addItem("KSDecayLengthVeeVertex", m_DecayLengthVeeVertex);
       status = m_tuple->addItem("KSChi2VeeVertex", m_Chi2VeeVertex);
       status = m_tuple->addItem("KSMassVeeVertex", m_KSMassVeeVertex);
@@ -167,10 +168,6 @@ StatusCode KSpi0pi0SingleTag::execute() {
     DTagToolIterator DTTool_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-      if(FillTupleStatus == StatusCode::RECOVERABLE) {
-	log << MSG::WARNING << "Vertex fit of KS failed, skipping event" << endreq;
-	return StatusCode::SUCCESS;
-      }
       log << MSG::FATAL << "Assigning tuple info failed" << endreq;
       return StatusCode::FAILURE;
     }
@@ -227,15 +224,17 @@ StatusCode KSpi0pi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &
   m_Denergy = (*DTTool_iter)->p4().t();
   FindKS findKS(true);
   StatusCode status = findKS.findKS(DTTool_iter, DTTool);
-  if(status != StatusCode::SUCCESS) {
-    return status;
+  if(status == StatusCode::SUCCESS) {
+    m_KSFitSuccess = 1;
+    m_DecayLengthFit = findKS.GetDecayLengthFit();
+    m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
+    m_Chi2Fit = findKS.GetChi2Fit();
+  } else {
+    m_KSFitSuccess = 0;
   }
   m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
   m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
   m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
-  m_DecayLengthFit = findKS.GetDecayLengthFit();
-  m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
-  m_Chi2Fit = findKS.GetChi2Fit();
   m_KSPiPluspx = findKS.GetKSPiPlusP(0);
   m_KSPiPluspy = findKS.GetKSPiPlusP(1);
   m_KSPiPluspz = findKS.GetKSPiPlusP(2);
