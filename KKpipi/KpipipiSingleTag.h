@@ -49,7 +49,7 @@ class KpipipiSingleTag: public Algorithm {
     /**
      * Helper function that runs the tuple filling and writing
      */
-    void FillAndWriteTuple();
+    StatusCode FillAndWriteTuple(DTagTool &DTTool);
   private:
     /**
      * Dummy variable, placeholder for more important properties to be added later

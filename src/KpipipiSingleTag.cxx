@@ -121,17 +121,14 @@ StatusCode KpipipiSingleTag::initialize() {
   }
 }
 
-void FillAndWriteTuple() {
+StatusCode KpipipiSingleTag::FillAndWriteTuple(DTagTool &DTTool) {
   SmartDataPtr<Event::EventHeader> eventHeader(eventSvc(), "/Event/EventHeader");
   m_RunNumber = eventHeader->runNumber();
   m_EventNumber = eventHeader->eventNumber();
   DTagToolIterator DTTool_iter = DTTool.stag();
   StatusCode FillTupleStatus = FillTuple(DTTool_iter, DTTool);
-  if(FillTupleStatus != StatusCode::SUCCESS) {
-    log << MSG::FATAL << "Assigning tuple info failed" << endreq;
-    return StatusCode::FAILURE;
-  }
   m_tuple->write();
+  return FillTupleStatus;
 }
 
 StatusCode KpipipiSingleTag::execute() {
@@ -149,9 +146,16 @@ StatusCode KpipipiSingleTag::execute() {
   }
   // For flavour tag fill the two flavours separately in case both D mesons decay to Kpipi0
   if(DTTool.findSTag(EvtRecDTag::kD0toKPiPiPi, +1)) {
-    FillAndWriteTuple();
-  } else if(DTTool.findSTag(EvtRecDTag::kD0toKPiPiPi, -1)) {
-    FillAndWriteTuple();
+    StatusCode FillTupleStatus = FillAndWriteTuple(DTTool);
+    if(FillTupleStatus != StatusCode::SUCCESS) {
+      log << MSG::FATAL << "Assigning tuple info failed" << endreq;
+    }
+  }
+  if(DTTool.findSTag(EvtRecDTag::kD0toKPiPiPi, -1)) {
+    StatusCode FillTupleStatus = FillAndWriteTuple(DTTool);
+    if(FillTupleStatus != StatusCode::SUCCESS) {
+      log << MSG::FATAL << "Assigning tuple info failed" << endreq;
+    }
   }
   return StatusCode::SUCCESS;
 }
