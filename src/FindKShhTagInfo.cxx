@@ -59,7 +59,7 @@ StatusCode FindKShhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagT
   std::vector<RecMdcKalTrack*> KalmanTracks(2); //In the order h+ h-
   std::vector<RecMdcKalTrack*> KSDaughterKalmanTracks;
   // Loop over all tracks
-  double hMass = m_TagMode == "KSpipi" ? MASS::PI_MASS : MASS:K_MASS;
+  double hMass = m_TagMode == "KSpipi" ? MASS::PI_MASS : MASS::K_MASS;
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     // If track is from KS daughters, skip
@@ -78,7 +78,7 @@ StatusCode FindKShhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagT
       } else if(MDCKalTrack->charge() == -1) {
 	DaughterTrackIterators[HMINUS] = Track_iter;
 	KalmanTracks[HMINUS] = MDCKalTrack;
-	m_PiMinusP = MDCKalTrack->p4(hMass);
+	m_hMinusP = MDCKalTrack->p4(hMass);
 	m_DaughterTrackID[3] = (*Track_iter)->trackId();
       }
     }
@@ -90,7 +90,7 @@ StatusCode FindKShhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagT
   KSKalmanFit->init();
   KSKalmanFit->AddTrack(0, WTrackKSPIplus);
   KSKalmanFit->AddTrack(1, WTrackKSPIminus);
-  KSKalmanFit->AddResonance(0, MASS::KS_MASS, PIPLUS, PIMINUS);
+  KSKalmanFit->AddResonance(0, MASS::KS_MASS, 0, 1);
   bool KSKalmanFitSuccess = KSKalmanFit->Fit();
   // Do a Kalman kinematic fit of the D daughter tracks, and constrain the KS and D masses to their PDG values
   if(KSKalmanFitSuccess) {
