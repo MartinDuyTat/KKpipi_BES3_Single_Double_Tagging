@@ -124,8 +124,6 @@ StatusCode KSKKSingleTag::initialize() {
       status = m_tuple->addItem("KMinusTrueID", m_KMinusTrueID);
       status = m_tuple->addItem("KSPiPlusMotherTrueID", m_KSPiPlusMotherTrueID);
       status = m_tuple->addItem("KSPiMinusMotherTrueID", m_KSPiMinusMotherTrueID);
-      status = m_tuple->addItem("KPlusMotherTrueID", m_KPlusMotherTrueID);
-      status = m_tuple->addItem("KMinusMotherTrueID", m_KMinusMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KSKK Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -252,22 +250,18 @@ StatusCode KSKKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
   m_KMinuspzKalmanFit = findKSKKTagInfo.GethMinusPKalmanFit(2);
   m_KMinusenergyKalmanFit = findKSKKTagInfo.GethMinusPKalmanFit(3);
   if(m_RunNumber < 0) {
-    std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
-    std::vector<int> DaughterTrackIDs = findKKTagInfo.GetDaughterTrackID();
-    DaughterTrackIDs.insert(DaughterTrackIDs.end(), KSDaughterTrackIDs.begin(), KSDaughterTrackIDs.end());
+    std::vector<int> DaughterTrackIDs = findKSKKTagInfo.GetDaughterTrackID();
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[4] = {321, -321, 211, -211};
+    int SomeArray[4] = {211, -211, 321, -321};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_KPlusTrueID = ReconstructedPID[0];
     m_KMinusTrueID = ReconstructedPID[1];
     m_KSPiPlusTrueID = ReconstructedPID[2];
     m_KSPiMinusTrueID = ReconstructedPID[3];
-    m_KPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
-    m_KMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
-    m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], true);
-    m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], true);
+    m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
   }
   return StatusCode::SUCCESS;
 }

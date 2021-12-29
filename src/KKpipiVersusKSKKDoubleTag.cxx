@@ -160,14 +160,14 @@ StatusCode KKpipiVersusKSKKDoubleTag::initialize() {
       status = m_tuple->addItem("TagKMinusenergy", m_TagKMinusenergy);
       status = m_tuple->addItem("TagKalmanFitSuccess", m_TagKalmanFitSuccess);
       status = m_tuple->addItem("TagKalmanFitChi2", m_TagKalmanFitChi2);
-      status = m_tuple->addItem("TagPiPluspxKalmanFit", m_TagPiPluspxKalmanFit);
-      status = m_tuple->addItem("TagPiPluspyKalmanFit", m_TagPiPluspyKalmanFit);
-      status = m_tuple->addItem("TagPiPluspzKalmanFit", m_TagPiPluspzKalmanFit);
-      status = m_tuple->addItem("TagPiPlusenergyKalmanFit", m_TagPiPlusenergyKalmanFit);
-      status = m_tuple->addItem("TagPiMinuspxKalmanFit", m_TagPiMinuspxKalmanFit);
-      status = m_tuple->addItem("TagPiMinuspyKalmanFit", m_TagPiMinuspyKalmanFit);
-      status = m_tuple->addItem("TagPiMinuspzKalmanFit", m_TagPiMinuspzKalmanFit);
-      status = m_tuple->addItem("TagPiMinusenergyKalmanFit", m_TagPiMinusenergyKalmanFit);
+      status = m_tuple->addItem("PiPluspxKalmanFit", m_TagKPluspxKalmanFit);
+      status = m_tuple->addItem("PiPluspyKalmanFit", m_TagKPluspyKalmanFit);
+      status = m_tuple->addItem("PiPluspzKalmanFit", m_TagKPluspzKalmanFit);
+      status = m_tuple->addItem("PiPlusenergyKalmanFit", m_TagKPlusenergyKalmanFit);
+      status = m_tuple->addItem("PiMinuspxKalmanFit", m_TagKMinuspxKalmanFit);
+      status = m_tuple->addItem("PiMinuspyKalmanFit", m_TagKMinuspyKalmanFit);
+      status = m_tuple->addItem("PiMinuspzKalmanFit", m_TagKMinuspzKalmanFit);
+      status = m_tuple->addItem("PiMinusenergyKalmanFit", m_TagKMinusenergyKalmanFit);
       status = m_tuple->addItem("TagKSpxKalmanFit", m_TagKSpxKalmanFit);
       status = m_tuple->addItem("TagKSpyKalmanFit", m_TagKSpyKalmanFit);
       status = m_tuple->addItem("TagKSpzKalmanFit", m_TagKSpzKalmanFit);
@@ -180,8 +180,6 @@ StatusCode KKpipiVersusKSKKDoubleTag::initialize() {
       status = m_tuple->addItem("TagKMinusTrueID", m_TagKMinusTrueID);
       status = m_tuple->addItem("TagKSPiPlusMotherTrueID", m_TagKSPiPlusMotherTrueID);
       status = m_tuple->addItem("TagKSPiMinusMotherTrueID", m_TagKSPiMinusMotherTrueID);
-      status = m_tuple->addItem("TagKPlusMotherTrueID", m_TagKPlusMotherTrueID);
-      status = m_tuple->addItem("TagKMinusMotherTrueID", m_TagKMinusMotherTrueID);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KSKK Double Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -375,22 +373,18 @@ StatusCode KKpipiVersusKSKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_TagKMinuspzKalmanFit = findKSKKTagInfo.GethMinusPKalmanFit(2);
   m_TagKMinusenergyKalmanFit = findKSKKTagInfo.GethMinusPKalmanFit(3);
   if(m_RunNumber < 0) {
-    std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
-    std::vector<int> DaughterTrackIDs = findKKTagInfo.GetDaughterTrackID();
-    DaughterTrackIDs.insert(DaughterTrackIDs.end(), KSDaughterTrackIDs.begin(), KSDaughterTrackIDs.end());
+    std::vector<int> DaughterTrackIDs = findKSKKTagInfo.GetDaughterTrackID();
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[4] = {321, -321, 211, -211};
+    int SomeArray[4] = {211, -211, 321, -321};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
     m_TagKPlusTrueID = ReconstructedPID[0];
     m_TagKMinusTrueID = ReconstructedPID[1];
     m_TagKSPiPlusTrueID = ReconstructedPID[2];
     m_TagKSPiMinusTrueID = ReconstructedPID[3];
-    m_TagKPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
-    m_TagKMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
-    m_TagKSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], true);
-    m_TagKSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], true);
+    m_TagKSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
+    m_TagKSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
   }
   return StatusCode::SUCCESS;
 }
