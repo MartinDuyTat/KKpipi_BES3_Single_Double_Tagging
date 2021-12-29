@@ -246,7 +246,7 @@ StatusCode KSetaSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTT
     std::vector<int> DaughterTrackIDs = findKS.GetDaughterTrackIDs();
     PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    std::vector<std::pair<int, int>> PhotonPairTrackID;
+    std::vector<std::pair<int, int> > PhotonPairTrackID;
     PhotonPairTrackID.push_back(std::make_pair(findEta.GetHighEPhotonTrackID(), findEta.GetLowEPhotonTrackID()));
     PID_Truth = PIDTruth(DaughterTrackIDs, 2, this, PhotonPairTrackID);
     m_IsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;

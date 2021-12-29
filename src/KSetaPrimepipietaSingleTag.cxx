@@ -307,7 +307,7 @@ StatusCode KSetaPrimepipietaSingleTag::FillTuple(DTagToolIterator DTTool_iter, D
     DaughterTrackIDs.insert(DaughterTrackIDs.end(), EtaPDaughterTrackIDs.begin(), EtaPDaughterTrackIDs.end());
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_IsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    std::vector<std::pair<int, int>> PhotonPairTrackID;
+    std::vector<std::pair<int, int> > PhotonPairTrackID;
     PhotonPairTrackID.push_back(std::make_pair(findEta.GetHighEPhotonTrackID(), findEta.GetLowEPhotonTrackID()));
     PID_Truth = PIDTruth(DaughterTrackIDs, 4, this, PhotonPairTrackID);
     m_IsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;

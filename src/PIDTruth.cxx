@@ -16,7 +16,7 @@
 #include <utility>
 #include <algorithm>
 
-PIDTruth::PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm, const std::vector<std::pair<int, int>> &PhotonPairTrackID): m_TrackID(TrackID), m_NumberCharged(NumberCharged), m_algorithm(algorithm), m_PhotonPairTrackID(PhotonPairTrackID) {
+PIDTruth::PIDTruth(const std::vector<int> &TrackID, int NumberCharged, const Algorithm *algorithm, const std::vector<std::pair<int, int> > &PhotonPairTrackID): m_TrackID(TrackID), m_NumberCharged(NumberCharged), m_algorithm(algorithm), m_PhotonPairTrackID(PhotonPairTrackID) {
 }
 
 int PIDTruth::MCTKPIDCHG(int tkID, int mcPDG, int mcParPDG, int GParPDG) const {
@@ -209,7 +209,7 @@ bool PIDTruth::SameDMother() const {
     }
   }
   // Repeat, but for pairs of photons only require one of them to pass the truth matching
-  for(std::vector<std::pair<int, int>>::const_iterator iter = m_PhotonPairTrackID.begin(); iter != m_PhotonPairTrackID.end(); iter++) {
+  for(std::vector<std::pair<int, int> >::const_iterator iter = m_PhotonPairTrackID.begin(); iter != m_PhotonPairTrackID.end(); iter++) {
     int ThisMotherIDFirst = FindDOrigin(iter->first, false);
     int ThisMotherIDSecond = FindDOrigin(iter->second, false);
     if(DMotherID != ThisMotherIDFirst && DMotherID != ThisMotherIDSecond) {
