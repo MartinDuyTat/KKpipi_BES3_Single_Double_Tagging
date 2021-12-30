@@ -43,6 +43,10 @@ class FindKL {
      */
     bool GetFoundKaonPair() const;
     /**
+     * Get the ith component of the \f$K_L\f$ four-momentum vector on the other side
+     */
+    double GetKLongP(int i) const;
+    /**
      * Get the ith component of the \f$\pi^+\f$ or \f$K^+\f$ four-momentum vector on the other side
      */
     double GethPlusP(int i) const;
@@ -50,6 +54,18 @@ class FindKL {
      * Get the ith component of the \f$\pi^-\f$ or \f$K^-\f$ four-momentum vector on the other side
      */
     double GethMinusP(int i) const;
+    /**
+     * Get the ith component of the \f$K_L\f$ four-momentum vector on the other side after Kalman fit
+     */
+    double GetKLongPKalmanFit(int i) const;
+    /**
+     * Get the ith component of the \f$\pi^+\f$ or \f$K^+\f$ four-momentum vector on the other side after Kalman fit
+     */
+    double GethPlusPKalmanFit(int i) const;
+    /**
+     * Get the ith component of the \f$\pi^-\f$ or \f$K^-\f$ four-momentum vector on the other side after Kalman fit
+     */
+    double GethMinusPKalmanFit(int i) const;
     /**
      * Get the ith component of the jth high energy photon four-momentum from \f$\pi^0\f$
      */
@@ -152,10 +168,8 @@ class FindKL {
     std::vector<int> GetDaughterTrackID() const;
     /**
      * Function for calculating the missing four-momentum, or the \f$K_L\f$ momentum
-     * @param Include_hh_Momentum Set to true if tag contains a \f$h^+h^-\f$ pair
-     * @param Pi0_index A vector of $\fpi^0\f$ candidates in the tag
      */
-    void GetMissingFourMomentum(bool Include_hh_Momentum, const std::vector<int> &Pi0_index, DTagToolIterator DTTool_iter);
+    void GetMissingFourMomentum(DTagToolIterator DTTool_iter);
     /**
      * Do Kalman fit of \f$K_Lh^+h^-\f$
      */

@@ -224,17 +224,20 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_PhotonTrackID.push_back((*Shower_iter)->trackId());
     m_NumberGamma++;
   }
+  GetMissingFourMomentum();
+  if(m_FoundPionPair && m_NumberPi0 == 0 && m_NumberEta == 0) {
+    DoKalmanKinematicFit();
+  }
   return StatusCode::SUCCESS;
 }
 
-void FindKL::GetMissingFourMomentum(bool Include_hh_Momentum, const std::vector<int> &Pi0_index, DTagToolIterator DTTool_iter) {
-  CLHEP::HepLorentzVector P_X() 
-  if(Include_hh_Momentum) {
+void FindKL::GetMissingFourMomentum() {
+  CLHEP::HepLorentzVector P_X;
+  if(m_FoundPionPair || m_FoundKaonPair) {
     P_X += m_hPlusP + m_hMinusP;
   }
-  for(unsigned int i = 0; i < Pi0_index.size(); i++) {
-    int index = Pi0_index[i];
-    P_X += m_Pi0HighEPhotonPConstrained[index] + m_Pi0LowEPhotonPConstrained[index];
+  for(int i = 0; i < m_NumberPi0; i++) {
+    P_X += m_Pi0HighEPhotonPConstrained[i] + m_Pi0LowEPhotonPConstrained[i];
   }
   m_KLongP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
 }
