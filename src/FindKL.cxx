@@ -33,7 +33,7 @@
 // ROOT
 #include "TMath.h"
 
-FindKL::FindKL(): m_FoundPionPair(0), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0), m_DaughterTrackID(std::vector<int>(2)) {
+FindKL::FindKL(): m_FoundPionPair(0), m_FoundKaonPair(0), m_KalmanFitSuccess(false), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0), m_DaughterTrackID(std::vector<int>(2)), m_KalmanTracks(std::vector<RecMdcKalTrack*>(2)) {
 }
 
 FindKL::~FindKL() {
@@ -59,58 +59,75 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   }
   // Get tracks on the other side of the reconstructed D meson
   SmartRefVector<EvtRecTrack> OtherTracks = (*DTTool_iter)->otherTracks();
-  // Loop over all tracks on the other side to find pi+ pi-
-  int NumberPiPlusTracks = 0, NumberPiMinusTracks = 0;
+  // Loop over all tracks on the other side to find pi+ pi- or K+ K-
+  int NumberPiPlusTracks = 0, NumberPiMinusTracks = 0, NumberKPlusTracks = 0, NumberKMinusTracks = 0;
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = OtherTracks.begin(); Track_iter != OtherTracks.end(); Track_iter++) {
     // First check if track is valid
     if(!(*Track_iter)->isMdcTrackValid() || !(*Track_iter)->isMdcKalTrackValid()) {
       continue;
     }
-    if(DTTool.isGoodTrack(*Track_iter)) {
-      if(DTTool.isPion(*Track_iter)) {
-	RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
-	MDCKalTrack->setPidType(RecMdcKalTrack::pion);
-	if(MDCKalTrack->charge() == +1) {
-	  NumberPiPlusTracks++;
-	  m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
-	  m_DaughterTrackID[0] = (*Track_iter)->trackId();
-	} else if(MDCKalTrack->charge() == -1) {
-	  NumberPiMinusTracks++;
-	  m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
-	  m_DaughterTrackID[1] = (*Track_iter)->trackId();
-	} else {
-	  return StatusCode::FAILURE;
-	}
+    // Look for good pion tracks
+    if(DTTool.isPion(*Track_iter)) {
+      RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
+      MDCKalTrack->setPidType(RecMdcKalTrack::pion);
+      if(MDCKalTrack->charge() == +1) {
+	NumberPiPlusTracks++;
+	m_hPlusP = MDCKalTrack->p4(MASS::PI_MASS);
+	m_DaughterTrackID[0] = (*Track_iter)->trackId();
+	KalmanTracks[0] = MDCKalTrack;
+      } else if(MDCKalTrack->charge() == -1) {
+	NumberPiMinusTracks++;
+	m_hMinusP = MDCKalTrack->p4(MASS::PI_MASS);
+	m_DaughterTrackID[1] = (*Track_iter)->trackId();
+	KalmanTracks[1] = MDCKalTrack;
       } else {
 	return StatusCode::FAILURE;
       }
-    }
-  }
-  // If no pions are found, or a pi+ pi- pair is found, keep going, otherwise reject event
-  if(NumberPiPlusTracks == NumberPiMinusTracks) {
-    if(NumberPiPlusTracks == 1) {
-      m_FoundPionPair = 1;
-    } else if (NumberPiPlusTracks != 0) {
+    // Or look for good Kaon tracks
+    } else if(DTTool.isKaon(*Track_iter)) {
+      RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
+      MDCKalTrack->setPidType(RecMdcKalTrack::kaon);
+      if(MDCKalTrack->charge() == +1) {
+	NumberKPlusTracks++;
+	m_hPlusP = MDCKalTrack->p4(MASS::K_MASS);
+	m_DaughterTrackID[0] = (*Track_iter)->trackId();
+	KalmanTracks[0] = MDCKalTrack;
+      } else if(MDCKalTrack->charge() == -1) {
+	NumberKMinusTracks++;
+	m_hMinusP = MDCKalTrack->p4(MASS::K_MASS);
+	m_DaughterTrackID[1] = (*Track_iter)->trackId();
+	KalmanTracks[1] = MDCKalTrack;
+      } else {
+	return StatusCode::FAILURE;
+      }
+    // If tracks are bad, we don't want the event, could be badly reconstructed KS instead of KL
+    } else {
       return StatusCode::FAILURE;
     }
-  } else {
+  }
+  // If total number of good tracks is not 0 or 2, reject event
+  int TotalGoodTracks = NumberPiPlusTracks + NumberPiMinusTracks + NumberKPlusTracks + NumberKMinusTracks;
+  if(TotalGoodTracks != 0 && TotalGoodTracks != 2) {
     return StatusCode::FAILURE;
   }
-  // Check if there are any showers already present on the reconstructed side
-  bool ShowersUsed;
-  SmartRefVector<EvtRecTrack> Showers = (*DTTool_iter)->showers();
-  if(Showers.size() == 0) {
-    // If no showers, it's probably a Kpi, KKpipi or Kpipipi tag on the reconstructed side
-    ShowersUsed = false;
-  } else if(Showers.size() > 2) {
-    // There shouldn't be more than 2 showers or just 1 shower
-    return StatusCode::FAILURE;
-  } else if(Showers.size() == 1) {
-    log << MSG::ERROR << "Found a single shower when looking for KL" << endreq;
-    return StatusCode::FAILURE;
+  if(TotalGoodTracks == 0) {
+    // If no good tracks are found
+    m_FoundPionPair = false;
+    m_FoundKaonPair = false;
   } else {
-    // If 2 showers, it's probably a Kpipi0 tag on the reconstructed side
-    ShowersUsed = true;
+    // If two good tracks are found, it's either a pion pair or a kaon pair
+    if(NumberPiPlusTracks == 1 && NumberPiMinusTracks == 1) {
+      // Pion pair found
+      m_FoundPionPair = true;
+      m_FoundKaonPair = false;
+    } else if(NumberKPlusTracks == 1 && Number KMinusTracks == 1) {
+      // Kaon pair found
+      m_FoundPionPair = false
+      m_FoundPionPair = true;
+    } else {
+      // Else we don't want this event
+      return StatusCode::FAILURE;
+    }
   }
   // Look for pi0
   for(EvtRecPi0Col::iterator Pi0_iter = evtRecPi0Col->begin(); Pi0_iter != evtRecPi0Col->end(); Pi0_iter++) {
@@ -120,18 +137,16 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     // Get EM shower four-momenta of photons
     RecEmcShower *HighEPhotonShower = HighEnergyPhotonTrack->emcShower();
     RecEmcShower *LowEPhotonShower = LowEnergyPhotonTrack->emcShower();
+    // Pi0 invariant mass
+    CLHEP::HepLorentzVector HighEPhotonP = KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi());
+    CLHEP::HepLorentzVector LowEPhotonP = KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi());
+    double Mgammagamma = (HighEPhotonP + LowEPhotonP).m();
+    if(Mgammagamma < 0.115 || Mgammagamma > 0.150) {
+      continue;
+    }
     // Get photon track ID
     int HighEnergyPhotonTrackID = HighEnergyPhotonTrack->trackId();
     int LowEnergyPhotonTrackID = LowEnergyPhotonTrack->trackId();
-    // If reconstructed side constains a shower, make sure this is not the same shower
-    if(ShowersUsed) {
-      if(HighEnergyPhotonTrackID == Showers[0]->trackId() || HighEnergyPhotonTrackID == Showers[1]->trackId()) {
-	continue;
-      }
-      if(LowEnergyPhotonTrackID == Showers[0]->trackId() || LowEnergyPhotonTrackID == Showers[1]->trackId()) {
-	continue;
-      }
-    }
     // Get photon momenta
     m_Pi0HighEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi()));
     m_Pi0LowEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi()));
@@ -143,10 +158,6 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_Pi0LowEPhotonTrackID.push_back(LowEnergyPhotonTrack->trackId());
     m_NumberPi0++;
   }
-  // If there are no pi0, reject event
-  if(m_NumberPi0 == 0) {
-    return StatusCode::FAILURE;
-  }
   // Look for eta
   for(EvtRecEtaToGGCol::iterator Eta_iter = evtRecEtaToGGCol->begin(); Eta_iter != evtRecEtaToGGCol->end(); Eta_iter++) {
     // Get photon tracks...?
@@ -155,18 +166,16 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     // Get EM shower four-momenta of photons
     RecEmcShower *HighEPhotonShower = HighEnergyPhotonTrack->emcShower();
     RecEmcShower *LowEPhotonShower = LowEnergyPhotonTrack->emcShower();
+    // Eta invariant mass
+    CLHEP::HepLorentzVector HighEPhotonP = KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi());
+    CLHEP::HepLorentzVector LowEPhotonP = KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi());
+    double Mgammagamma = (HighEPhotonP + LowEPhotonP).m();
+    if(Mgammagamma < 0.480 || Mgammagamma > 0.580) {
+      continue;
+    }
     // Get photon track ID
     int HighEnergyPhotonTrackID = HighEnergyPhotonTrack->trackId();
     int LowEnergyPhotonTrackID = LowEnergyPhotonTrack->trackId();
-    // If reconstructed side constains a shower, make sure this is not the same shower
-    if(ShowersUsed) {
-      if(HighEnergyPhotonTrackID == Showers[0]->trackId() || HighEnergyPhotonTrackID == Showers[1]->trackId()) {
-	continue;
-      }
-      if(LowEnergyPhotonTrackID == Showers[0]->trackId() || LowEnergyPhotonTrackID == Showers[1]->trackId()) {
-	continue;
-      }
-    }
     // Get photon momenta
     m_EtaHighEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi()));
     m_EtaLowEPhotonP.push_back(KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi()));
@@ -218,8 +227,50 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   return StatusCode::SUCCESS;
 }
 
-int FindKL::GetFoundPionPair() const {
+void FindKL::GetMissingFourMomentum(bool Include_hh_Momentum, const std::vector<int> &Pi0_index, DTagToolIterator DTTool_iter) {
+  CLHEP::HepLorentzVector P_X() 
+  if(Include_hh_Momentum) {
+    P_X += m_hPlusP + m_hMinusP;
+  }
+  for(unsigned int i = 0; i < Pi0_index.size(); i++) {
+    int index = Pi0_index[i];
+    P_X += m_Pi0HighEPhotonPConstrained[index] + m_Pi0LowEPhotonPConstrained[index];
+  }
+  m_KLongP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
+}
+
+void FindKL::DoKalmanKinematicFit() {
+  double hMass;
+  if(m_FoundPionPair && !m_FoundKaonPair) {
+    hMass = MASS::PI_MASS;
+  } else if(!m_FoundPionPair && m_FoundKaonPair) {
+    hMass = MASS::K_MASS;
+  }
+  WTrackParameter WTrackKplus(hMass, m_KalmanTracks[0]->getZHelix(), m_KalmanTracks[0]->getZError());
+  WTrackParameter WTrackKminus(hMass, m_KalmanTracks[1]->getZHelix(), m_KalmanTracks[1]->getZError());
+  WTrackParameter WTrackKLong(m_KLongP, m_KLongP.phi(), m_KLongP.theta(), m_KLongP.t());
+  WTrackKLong.setCharge(0);
+  WTrackKLong.setMass(MASS::KS_MASS);
+  KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
+  KalmanFit->init();
+  KalmanFit->AddTrack(0, WTrackKplus);
+  KalmanFit->AddTrack(1, WTrackKminus);
+  KalmanFit->AddTrack(2, WTrackKLong);
+  KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2);
+  m_KalmanFitSuccess = KalmanFit->Fit();
+  if(m_KalmanFitSuccess) {
+    m_hPlusPKalmanFit = KalmanFit->pfit(0);
+    m_hMinusPKalmanFit = KalmanFit->pfit(1);
+    m_KLongPKalmanFit = KalmanFit->pfit(2);
+  }
+}
+
+bool FindKL::GetFoundPionPair() const {
   return m_FoundPionPair;
+}
+
+bool FindKL::GetFoundKaonPair() const {
+  return m_FoundKaonPair;
 }
 
 double FindKL::GetPiPlusP(int i) const {

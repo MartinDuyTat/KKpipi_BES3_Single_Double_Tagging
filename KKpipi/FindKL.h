@@ -35,17 +35,21 @@ class FindKL {
      */
     StatusCode findKL(DTagToolIterator DTTool_iter, DTagTool DTTool);
     /**
-     * Get flag that is 1 if a \f$\pi^\pi^-\f$ pair is found
+     * Get flag that is true if a \f$\pi^+\pi^-\f$ pair is found
      */
-    int GetFoundPionPair() const;
+    bool GetFoundPionPair() const;
     /**
-     * Get the ith component of the \f$\pi^+\f$ four-momentum vector on the other side
+     * Get flag that is true if a \f$K^+K^-\f$ pair is found
      */
-    double GetPiPlusP(int i) const;
+    bool GetFoundKaonPair() const;
     /**
-     * Get the ith component of the \f$\pi^-\f$ four-momentum vector on the other side
+     * Get the ith component of the \f$\pi^+\f$ or \f$K^+\f$ four-momentum vector on the other side
      */
-    double GetPiMinusP(int i) const;
+    double GethPlusP(int i) const;
+    /**
+     * Get the ith component of the \f$\pi^-\f$ or \f$K^-\f$ four-momentum vector on the other side
+     */
+    double GethMinusP(int i) const;
     /**
      * Get the ith component of the jth high energy photon four-momentum from \f$\pi^0\f$
      */
@@ -146,19 +150,53 @@ class FindKL {
      * Get vector of track IDs of \f$\pi^+\pi^-\f$ pair
      */
     std::vector<int> GetDaughterTrackID() const;
+    /**
+     * Function for calculating the missing four-momentum, or the \f$K_L\f$ momentum
+     * @param Include_hh_Momentum Set to true if tag contains a \f$h^+h^-\f$ pair
+     * @param Pi0_index A vector of $\fpi^0\f$ candidates in the tag
+     */
+    void GetMissingFourMomentum(bool Include_hh_Momentum, const std::vector<int> &Pi0_index, DTagToolIterator DTTool_iter);
+    /**
+     * Do Kalman fit of \f$K_Lh^+h^-\f$
+     */
+    void DoKalmanKinematicFit();
   private:
     /**
-     * Flag that is 1 if a \f$\pi^\pi^-\f$ pair is found
+     * Flag that is true if a \f$\pi^\pi^-\f$ pair is found
      */
-    int m_FoundPionPair;
+    bool m_FoundPionPair;
     /**
-     * The \f$\pi^+\f$ four-momentum vector on the other side
+     * Flag that is true if a \f$K^K^-\f$ pair is found
      */
-    CLHEP::HepLorentzVector m_PiPlusP;
+    bool m_FoundKaonPair;
     /**
-     * The \f$\pi^-\f$ four-momentum vector on the other side
+     * The \f$K_L\f$ four-momentum vector on the other side
      */
-    CLHEP::HepLorentzVector m_PiMinusP;
+    CLHEP::HepLorentzVector m_KLongP;
+    /**
+     * The \f$\pi^+\f$ or \f$K^+\f$ four-momentum vector on the other side
+     */
+    CLHEP::HepLorentzVector m_hPlusP;
+    /**
+     * The \f$\pi^-\f$ or \f$K^-\f$ four-momentum vector on the other side
+     */
+    CLHEP::HepLorentzVector m_hMinusP;
+    /**
+     * Flag that is true if Kalman fit is a success
+     */
+    bool m_KalmanFitSuccess;
+    /**
+     * The \f$K_L\f$ four-momentum vector on the other side after Kalman fit
+     */
+    CLHEP::HepLorentzVector m_KLongPKalmanFit;
+    /**
+     * The \f$\pi^+\f$ or \f$K^+\f$ four-momentum vector on the other side after Kalman fit
+     */
+    CLHEP::HepLorentzVector m_hPlusPKalmanFit;
+    /**
+     * The \f$\pi^-\f$ or \f$K^-\f$ four-momentum vector on the other side after Kalman fit
+     */
+    CLHEP::HepLorentzVector m_hMinusPKalmanFit;
     /**
      * Vector of all high energy photon four-momentum from \f$\pi^0\f$
      */
@@ -251,6 +289,10 @@ class FindKL {
      * Vector of \f$\pi^+\pi^-\f$ daughter track IDs, in the order \f$\pi^+\f$ \f$\pi^-\f$
      */
     std::vector<int> m_DaughterTrackID;
+    /**
+     * Kalman track objects, store for Kalman fit later
+     */
+    std::vector<RecMdcKalTrack*> m_KalmanTracks;
 };
 
 #endif
