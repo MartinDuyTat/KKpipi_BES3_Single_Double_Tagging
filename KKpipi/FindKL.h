@@ -160,6 +160,26 @@ class FindKL {
      * Do Kalman fit of \f$K_Lh^+h^-\f$
      */
     void DoKalmanKinematicFit();
+    /**
+     * Function that returns true if a \f$K_L\pi\pi\f$ tag is found
+     */
+    bool FoundKLpipiTag() const;
+    /**
+     * Function that returns true if a \f$K_LKK\f$ tag is found
+     */
+    bool FoundKLKKTag() const;
+    /**
+     * Function that returns true if a $K_L\pi^0\f$ tag is found
+     */
+    bool FoundKLpi0Tag() const;
+    /**
+     * Function that returns true if a $K_L\pi^0\pi^0\f$ tag is found
+     */
+    bool FoundKLpi0pi0Tag() const;
+    /**
+     * Function that returns true if a $K_L\pi\pi\pi^0\f$ tag is found
+     */
+    bool FoundKLpipipi0Tag() const;
   private:
     /**
      * Flag that is true if a \f$\pi^\pi^-\f$ pair is found

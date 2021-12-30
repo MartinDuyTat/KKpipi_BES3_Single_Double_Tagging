@@ -265,6 +265,55 @@ void FindKL::DoKalmanKinematicFit() {
   }
 }
 
+bool FindKL::FoundKLpipiTag() const {
+  if(!m_FoundPionPair || m_FoundKaonPair || m_NumberPi0 != 0 || m_NumberEta != 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+bool FindKL::FoundKLKKTag() const {
+  if(m_FoundPionPair || !m_FoundKaonPair || m_NumberPi0 != 0 || m_NumberEta != 0) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+bool FindKL::FoundKLpi0Tag() {
+  if(m_FoundPionPair || m_FoundKaonPair || m_NumberEta != 0 || m_NumberPi0 != 1) {
+    return false;
+  } else {
+    return true;
+  }
+}
+
+bool FindKL::FoundKLpi0pi0Tag() {
+  if(m_FoundPionPair || m_FoundKaonPair || m_NumberEta != 0 || m_NumberPi0 != 2) {
+    return false;
+  } else {
+    // Make sure the two photons don't share common showers
+    if(m_Pi0HighEPhotonTrackID[0] == m_Pi0HighEPhotonTrackID[1] ||
+       m_Pi0HighEPhotonTrackID[0] == m_Pi0LowEPhotonTrackID[1] ||
+       m_Pi0LowEPhotonTrackID[0] == m_Pi0HighEPhotonTrackID[1] ||
+       m_Pi0LowEPhotonTrackID[0] == m_Pi0LowEPhotonTrackID[1] ||) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+}
+
+bool FindKL::FoundKLpipipi0Tag() {
+  if(!m_FoundPionPair || m_FoundKaonPair || m_NumberEta != 0 || m_NumberPi0 != 1) {
+    return false;
+  } else {
+    return true;
+  }
+}
+  
+
 bool FindKL::GetFoundPionPair() const {
   return m_FoundPionPair;
 }
