@@ -242,6 +242,10 @@ void FindKL::GetMissingFourMomentum() {
   m_KLongP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
 }
 
+void FindKL::GetMissingMass2() {
+  return m_KLongP.m2();
+}
+
 void FindKL::DoKalmanKinematicFit() {
   double hMass;
   if(m_FoundPionPair && !m_FoundKaonPair) {

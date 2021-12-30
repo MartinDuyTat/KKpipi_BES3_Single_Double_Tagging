@@ -171,6 +171,10 @@ class FindKL {
      */
     void GetMissingFourMomentum(DTagToolIterator DTTool_iter);
     /**
+     * Get the missing mass squared
+     */
+    double GetMissingMass2() const;
+    /**
      * Do Kalman fit of \f$K_Lh^+h^-\f$
      */
     void DoKalmanKinematicFit();
