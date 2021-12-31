@@ -124,6 +124,8 @@ StatusCode KKpipiVersusKLpi0DoubleTag::initialize() {
       status = m_tuple->addItem("SignalKMinusTrueID", m_SignalKMinusTrueID);
       status = m_tuple->addItem("SignalPiPlusTrueID", m_SignalPiPlusTrueID);
       status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
+      status = m_tuple->addItem("SignalDaughters", m_SignalDaughters, 0, 100);
+      status = m_tuple->addIndexedItem("SignalDOrigin", m_SignalDaughters, m_SignalDOrigin);
       status = m_tuple->addItem("TagHighEPi0px", m_TagHighEPi0px);
       status = m_tuple->addItem("TagHighEPi0py", m_TagHighEPi0py);
       status = m_tuple->addItem("TagHighEPi0pz", m_TagHighEPi0pz);
@@ -132,7 +134,7 @@ StatusCode KKpipiVersusKLpi0DoubleTag::initialize() {
       status = m_tuple->addItem("TagLowEPi0py", m_TagLowEPi0py);
       status = m_tuple->addItem("TagLowEPi0pz", m_TagLowEPi0pz);
       status = m_tuple->addItem("TagLowEPi0energy", m_TagLowEPi0energy);
-      status = m_tuple->addItem("TagMgammagamma", m_TagMgammagamma);
+      status = m_tuple->addItem("TagPi0Mgammagamma", m_TagPi0Mgammagamma);
       status = m_tuple->addItem("TagHighEPi0Constrainedpx", m_TagHighEPi0Constrainedpx);
       status = m_tuple->addItem("TagHighEPi0Constrainedpy", m_TagHighEPi0Constrainedpy);
       status = m_tuple->addItem("TagHighEPi0Constrainedpz", m_TagHighEPi0Constrainedpz);
@@ -151,13 +153,12 @@ StatusCode KKpipiVersusKLpi0DoubleTag::initialize() {
       status = m_tuple->addIndexedItem("TagPhotonThetaSeparation", m_TagNumberGamma, m_TagPhotonThetaSeparation);
       status = m_tuple->addIndexedItem("TagPhotonPhiSeparation", m_TagNumberGamma, m_TagPhotonPhiSeparation);
       status = m_tuple->addItem("TagMissingMass2", m_TagMissingMass2);
-      status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
-      status = m_tuple->addItem("TagIsSameDMotherAll", m_TagIsSameDMotherAll);
       status = m_tuple->addItem("TagPi0HighEPhotonTrueID", m_TagPi0HighEPhotonTrueID);
       status = m_tuple->addItem("TagPi0LowEPhotonTrueID", m_TagPi0LowEPhotonTrueID);
       status = m_tuple->addItem("TagPi0HighEPhotonMotherTrueID", m_TagPi0HighEPhotonMotherTrueID);
       status = m_tuple->addItem("TagPi0LowEPhotonMotherTrueID", m_TagPi0LowEPhotonMotherTrueID);
-      status = m_tuple->addIndexedItem("TagPhotonTrueID", m_TagNumberGamma, m_TagPhotonTrueID);
+      status = m_tuple->addItem("TagDaughters", m_TagDaughters, 0, 100);
+      status = m_tuple->addIndexedItem("TagDOrigin", m_TagDaughters, m_TagDOrigin);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KLpi0 Double Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -186,6 +187,8 @@ StatusCode KKpipiVersusKLpi0DoubleTag::execute() {
     DTagToolIterator DTTool_Signal_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool);
     if(FillTupleStatus == StatusCode::RECOVERABLE) {
+      m_RunNumber = 0;
+      m_EventNumber = 0;
       return StatusCode::SUCCESS;
     } else if(FillTupleStatus == StatusCode::FAILURE) {
       log << MSG::FATAL << "Assigning KL tuple info failed" << endreq;
@@ -311,6 +314,10 @@ StatusCode KKpipiVersusKLpi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
     m_SignalKMinusTrueID = ReconstructedPID[1];
     m_SignalPiPlusTrueID = ReconstructedPID[2];
     m_SignalPiMinusTrueID = ReconstructedPID[3];
+    m_SignalDaughters = 4;
+    for(int i = 0; i < 4; i++) {
+      m_SignalDOrigin[i] = PID_Truth.FindDOrigin(findKKpipiTagInfo.GetDaughterTrackID()[i], true);
+    }
   }
   // Save information about tag side
   m_TagHighEPi0px = findKL.GetPi0HighEPhotonP(0, 0);
@@ -331,7 +338,7 @@ StatusCode KKpipiVersusKLpi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
   m_TagLowEPi0Constrainedpz = findKL.GetPi0LowEPhotonPConstrained(2, 0);
   m_TagLowEPi0Constrainedenergy = findKL.GetPi0LowEPhotonPConstrained(3, 0);
   m_TagPi0Chi2Fit = findKL.GetPi0Chi2Fit(0);
-  m_MissingMass2 = findKL.GetMissingMass2();
+  m_TagMissingMass2 = findKL.GetMissingMass2();
   m_TagNumberGamma = findKL.GetNumberGamma();
   for(int j = 0; j < m_TagNumberGamma; j++) {
     m_TagPhotonPx[j] = findKL.GetPhotonP(0, j);
@@ -343,19 +350,20 @@ StatusCode KKpipiVersusKLpi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_
     m_TagPhotonPhiSeparation[j] = findKL.GetPhotonPhiSeparation(j);
   }
   if(m_RunNumber < 0) {
-    std::vector<int> DaughterTrackIDs;
-    PIDTruth PID_Truth(DaughterTrackIDs, 0, this);
-    m_TagIsSameDMother = 1;
     std::vector<std::pair<int, int> > PhotonPairTrackID;
     PhotonPairTrackID.push_back(std::make_pair(findKL.GetPi0HighEPhotonTrackID(0), findKL.GetPi0LowEPhotonTrackID(0)));
-    PID_Truth = PIDTruth(DaughterTrackIDs, 0, this, PhotonPairTrackID);
-    m_TagIsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;
+    std::vector<int> DaughterTrackIDs;
+    PIDTruth PID_Truth(DaughterTrackIDs, 0, this, PhotonPairTrackID);
     int SomeArray[2] = {0, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 2);
-    m_TagHighEPi0PhotonTrueID = ReconstructedPID[0];
-    m_TagLowEPi0PhotonTrueID = ReconstructedPID[1];
-    m_TagHighEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], false);
-    m_TagLowEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], false);
+    PID_Truth.FindTrueID(ReconstructedPID);
+    m_TagPi0HighEPhotonTrueID = ReconstructedPID[0];
+    m_TagPi0LowEPhotonTrueID = ReconstructedPID[1];
+    m_TagPi0HighEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(findKL.GetPi0HighEPhotonTrackID(0), false);
+    m_TagPi0LowEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(findKL.GetPi0LowEPhotonTrackID(0), false);
+    m_TagDaughters = 2;
+    m_TagDOrigin[0] = PID_Truth.FindDOrigin(findKL.GetPi0HighEPhotonTrackID(0), false);
+    m_TagDOrigin[1] = PID_Truth.FindDOrigin(findKL.GetPi0LowEPhotonTrackID(0), false);
   }
   return StatusCode::SUCCESS;
 }

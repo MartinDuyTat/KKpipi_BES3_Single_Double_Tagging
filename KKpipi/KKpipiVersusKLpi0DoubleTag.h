@@ -335,6 +335,10 @@ class KKpipiVersusKLpi0DoubleTag: public Algorithm {
      */
     NTuple::Item<int> m_SignalPiMinusTrueID;
     /**
+     * Array of the signal D meson mother ID
+     */
+    NTuple::Array<int> m_SignalDOrigin;
+    /**
      * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
     NTuple::Item<double> m_TagHighEPi0px;
@@ -369,7 +373,7 @@ class KKpipiVersusKLpi0DoubleTag: public Algorithm {
     /**
      * The tag \f$\gamma\gamma\f$ invariant mass
      */
-    NTuple::Item<double> m_TagMgammagamma;
+    NTuple::Item<double> m_TagPi0Mgammagamma;
     /**
      * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
      */
@@ -443,14 +447,6 @@ class KKpipiVersusKLpi0DoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagMissingMass2;
     /**
-     * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson (for this tag it's trivially equal to 1)
-     */
-    NTuple::Item<int> m_TagIsSameDMother;
-    /**
-     * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson, including neutral particles
-     */
-    NTuple::Item<int> m_TagIsSameDMotherAll;
-    /**
      * The tag high energy photon from \f$\pi^0\f$ true PID
      */
     NTuple::Item<int> m_TagPi0HighEPhotonTrueID;
@@ -466,6 +462,15 @@ class KKpipiVersusKLpi0DoubleTag: public Algorithm {
      * The tag low energy photon from \f$\pi^0\f$ true mother PID
      */
     NTuple::Item<int> m_TagPi0LowEPhotonMotherTrueID;
+    /**
+     * Array of the tag D meson mother ID
+     */
+    NTuple::Array<int> m_TagDOrigin;
+    /**
+     * Number of daughters for array sizes
+     */
+    NTuple::Item<int> m_SignalDaughters;
+    NTuple::Item<int> m_TagDaughters;
 };
 
 #endif

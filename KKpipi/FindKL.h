@@ -55,6 +55,10 @@ class FindKL {
      */
     double GethMinusP(int i) const;
     /**
+     * Get flag for Kalman fit success
+     */
+    bool GetKalmanFitSuccess() const;
+    /**
      * Get the ith component of the \f$K_L\f$ four-momentum vector on the other side after Kalman fit
      */
     double GetKLongPKalmanFit(int i) const;

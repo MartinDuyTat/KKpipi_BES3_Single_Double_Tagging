@@ -26,6 +26,7 @@
 #include "CLHEP/Vector/ThreeVector.h"
 // Boss
 #include "DTagTool/DTagTool.h"
+#include "VertexFit/KalmanKinematicFit.h"
 #include "MdcRecEvent/RecMdcKalTrack.h"
 // STL
 #include <cmath>
@@ -74,12 +75,12 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
 	NumberPiPlusTracks++;
 	m_hPlusP = MDCKalTrack->p4(MASS::PI_MASS);
 	m_DaughterTrackID[0] = (*Track_iter)->trackId();
-	KalmanTracks[0] = MDCKalTrack;
+	m_KalmanTracks[0] = MDCKalTrack;
       } else if(MDCKalTrack->charge() == -1) {
 	NumberPiMinusTracks++;
 	m_hMinusP = MDCKalTrack->p4(MASS::PI_MASS);
 	m_DaughterTrackID[1] = (*Track_iter)->trackId();
-	KalmanTracks[1] = MDCKalTrack;
+	m_KalmanTracks[1] = MDCKalTrack;
       } else {
 	return StatusCode::FAILURE;
       }
@@ -91,12 +92,12 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
 	NumberKPlusTracks++;
 	m_hPlusP = MDCKalTrack->p4(MASS::K_MASS);
 	m_DaughterTrackID[0] = (*Track_iter)->trackId();
-	KalmanTracks[0] = MDCKalTrack;
+	m_KalmanTracks[0] = MDCKalTrack;
       } else if(MDCKalTrack->charge() == -1) {
 	NumberKMinusTracks++;
 	m_hMinusP = MDCKalTrack->p4(MASS::K_MASS);
 	m_DaughterTrackID[1] = (*Track_iter)->trackId();
-	KalmanTracks[1] = MDCKalTrack;
+	m_KalmanTracks[1] = MDCKalTrack;
       } else {
 	return StatusCode::FAILURE;
       }
@@ -120,9 +121,9 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
       // Pion pair found
       m_FoundPionPair = true;
       m_FoundKaonPair = false;
-    } else if(NumberKPlusTracks == 1 && Number KMinusTracks == 1) {
+    } else if(NumberKPlusTracks == 1 && NumberKMinusTracks == 1) {
       // Kaon pair found
-      m_FoundPionPair = false
+      m_FoundPionPair = false;
       m_FoundPionPair = true;
     } else {
       // Else we don't want this event
@@ -224,14 +225,14 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_PhotonTrackID.push_back((*Shower_iter)->trackId());
     m_NumberGamma++;
   }
-  GetMissingFourMomentum();
+  GetMissingFourMomentum(DTTool_iter);
   if(m_FoundPionPair && m_NumberPi0 == 0 && m_NumberEta == 0) {
     DoKalmanKinematicFit();
   }
   return StatusCode::SUCCESS;
 }
 
-void FindKL::GetMissingFourMomentum() {
+void FindKL::GetMissingFourMomentum(DTagToolIterator DTTool_iter) {
   CLHEP::HepLorentzVector P_X;
   if(m_FoundPionPair || m_FoundKaonPair) {
     P_X += m_hPlusP + m_hMinusP;
@@ -242,7 +243,7 @@ void FindKL::GetMissingFourMomentum() {
   m_KLongP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
 }
 
-void FindKL::GetMissingMass2() {
+double FindKL::GetMissingMass2() const {
   return m_KLongP.m2();
 }
 
@@ -288,7 +289,7 @@ bool FindKL::FoundKLKKTag() const {
   }
 }
 
-bool FindKL::FoundKLpi0Tag() {
+bool FindKL::FoundKLpi0Tag() const {
   if(m_FoundPionPair || m_FoundKaonPair || m_NumberEta != 0 || m_NumberPi0 != 1) {
     return false;
   } else {
@@ -296,7 +297,7 @@ bool FindKL::FoundKLpi0Tag() {
   }
 }
 
-bool FindKL::FoundKLpi0pi0Tag() {
+bool FindKL::FoundKLpi0pi0Tag() const {
   if(m_FoundPionPair || m_FoundKaonPair || m_NumberEta != 0 || m_NumberPi0 != 2) {
     return false;
   } else {
@@ -304,7 +305,7 @@ bool FindKL::FoundKLpi0pi0Tag() {
     if(m_Pi0HighEPhotonTrackID[0] == m_Pi0HighEPhotonTrackID[1] ||
        m_Pi0HighEPhotonTrackID[0] == m_Pi0LowEPhotonTrackID[1] ||
        m_Pi0LowEPhotonTrackID[0] == m_Pi0HighEPhotonTrackID[1] ||
-       m_Pi0LowEPhotonTrackID[0] == m_Pi0LowEPhotonTrackID[1] ||) {
+       m_Pi0LowEPhotonTrackID[0] == m_Pi0LowEPhotonTrackID[1]) {
       return false;
     } else {
       return true;
@@ -312,7 +313,7 @@ bool FindKL::FoundKLpi0pi0Tag() {
   }
 }
 
-bool FindKL::FoundKLpipipi0Tag() {
+bool FindKL::FoundKLpipipi0Tag() const {
   if(!m_FoundPionPair || m_FoundKaonPair || m_NumberEta != 0 || m_NumberPi0 != 1) {
     return false;
   } else {
@@ -329,12 +330,32 @@ bool FindKL::GetFoundKaonPair() const {
   return m_FoundKaonPair;
 }
 
-double FindKL::GetPiPlusP(int i) const {
-  return m_PiPlusP[i];
+double FindKL::GetKLongP(int i) const {
+  return m_KLongP[i];
 }
 
-double FindKL::GetPiMinusP(int i) const {
-  return m_PiMinusP[i];
+double FindKL::GethPlusP(int i) const {
+  return m_hPlusP[i];
+}
+
+double FindKL::GethMinusP(int i) const {
+  return m_hMinusP[i];
+}
+
+bool FindKL::GetKalmanFitSuccess() const {
+  return m_KalmanFitSuccess;
+}
+
+double FindKL::GetKLongPKalmanFit(int i) const {
+  return m_KLongPKalmanFit[i];
+}
+
+double FindKL::GethPlusPKalmanFit(int i) const {
+  return m_hPlusPKalmanFit[i];
+}
+
+double FindKL::GethMinusPKalmanFit(int i) const {
+  return m_hMinusPKalmanFit[i];
 }
 
 double FindKL::GetPi0HighEPhotonP(int i, int j) const{
