@@ -163,6 +163,10 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KLpi0Tag;
     /**
+     * \f$K_L\pi\pi\pi^0\f$ tag mode
+     */
+    Algorithm *m_KLpipipi0Tag;
+    /**
      * \f$Ke\nu\f$ tag mode
      */
     Algorithm *m_KeNuTag;
@@ -230,6 +234,10 @@ class KKpipi: public Algorithm {
      * Turn on \f$K_L\pi^0\f$ tag mode
      */
     bool m_recKLpi0Tag;
+    /**
+     * Turn on \f$K_L\pi\pi\pi^0\f$ tag mode
+     */
+    bool m_recKLpipipi0Tag;
     /**
      * Turn on \f$Ke\nu\f$ tag mode
      */
