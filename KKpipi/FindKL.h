@@ -167,7 +167,7 @@ class FindKL {
      */
     int GetNumberGamma() const;
     /**
-     * Get vector of track IDs of \f$\pi^+\pi^-\f$ pair
+     * Get vector of track IDs of \f$h^+h^-\f$ pair
      */
     std::vector<int> GetDaughterTrackID() const;
     /**
