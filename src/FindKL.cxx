@@ -34,7 +34,7 @@
 // ROOT
 #include "TMath.h"
 
-FindKL::FindKL(): m_FoundPionPair(0), m_FoundKaonPair(0), m_KalmanFitSuccess(false), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0), m_DaughterTrackID(std::vector<int>(2)), m_KalmanTracks(std::vector<RecMdcKalTrack*>(2)) {
+FindKL::FindKL(): m_FoundPionPair(0), m_FoundKaonPair(0), m_KalmanFitSuccess(false), m_NumberPi0(0), m_NumberEta(0), m_NumberGamma(0), m_DaughterTrackID(std::vector<int>(2)) {
 }
 
 FindKL::~FindKL() {
@@ -61,6 +61,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   // Get tracks on the other side of the reconstructed D meson
   SmartRefVector<EvtRecTrack> OtherTracks = (*DTTool_iter)->otherTracks();
   // Loop over all tracks on the other side to find pi+ pi- or K+ K-
+  std::vector<RecMdcKalTrack*> KalmanTracks(2);
   int NumberPiPlusTracks = 0, NumberPiMinusTracks = 0, NumberKPlusTracks = 0, NumberKMinusTracks = 0;
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = OtherTracks.begin(); Track_iter != OtherTracks.end(); Track_iter++) {
     // First check if track is valid
@@ -75,12 +76,12 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
 	NumberPiPlusTracks++;
 	m_hPlusP = MDCKalTrack->p4(MASS::PI_MASS);
 	m_DaughterTrackID[0] = (*Track_iter)->trackId();
-	m_KalmanTracks[0] = MDCKalTrack;
+	KalmanTracks[0] = MDCKalTrack;
       } else if(MDCKalTrack->charge() == -1) {
 	NumberPiMinusTracks++;
 	m_hMinusP = MDCKalTrack->p4(MASS::PI_MASS);
 	m_DaughterTrackID[1] = (*Track_iter)->trackId();
-	m_KalmanTracks[1] = MDCKalTrack;
+	KalmanTracks[1] = MDCKalTrack;
       } else {
 	return StatusCode::FAILURE;
       }
@@ -92,12 +93,12 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
 	NumberKPlusTracks++;
 	m_hPlusP = MDCKalTrack->p4(MASS::K_MASS);
 	m_DaughterTrackID[0] = (*Track_iter)->trackId();
-	m_KalmanTracks[0] = MDCKalTrack;
+	KalmanTracks[0] = MDCKalTrack;
       } else if(MDCKalTrack->charge() == -1) {
 	NumberKMinusTracks++;
 	m_hMinusP = MDCKalTrack->p4(MASS::K_MASS);
 	m_DaughterTrackID[1] = (*Track_iter)->trackId();
-	m_KalmanTracks[1] = MDCKalTrack;
+	KalmanTracks[1] = MDCKalTrack;
       } else {
 	return StatusCode::FAILURE;
       }
@@ -227,7 +228,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   }
   GetMissingFourMomentum(DTTool_iter);
   if((m_FoundPionPair || m_FoundKaonPair) && m_NumberPi0 == 0 && m_NumberEta == 0) {
-    DoKalmanKinematicFit();
+    DoKalmanKinematicFit(KalmanTracks);
   }
   return StatusCode::SUCCESS;
 }
@@ -247,15 +248,15 @@ double FindKL::GetMissingMass2() const {
   return m_KLongP.m2();
 }
 
-void FindKL::DoKalmanKinematicFit() {
+void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTracks) {
   double hMass;
   if(m_FoundPionPair && !m_FoundKaonPair) {
     hMass = MASS::PI_MASS;
   } else if(!m_FoundPionPair && m_FoundKaonPair) {
     hMass = MASS::K_MASS;
   }
-  WTrackParameter WTrackKplus(hMass, m_KalmanTracks[0]->getZHelix(), m_KalmanTracks[0]->getZError());
-  WTrackParameter WTrackKminus(hMass, m_KalmanTracks[1]->getZHelix(), m_KalmanTracks[1]->getZError());
+  WTrackParameter WTrackKplus(hMass, KalmanTracks[0]->getZHelix(), KalmanTracks[0]->getZError());
+  WTrackParameter WTrackKminus(hMass, KalmanTracks[1]->getZHelix(), KalmanTracks[1]->getZError());
   WTrackParameter WTrackKLong(m_KLongP, m_KLongP.phi(), m_KLongP.theta(), m_KLongP.t());
   WTrackKLong.setCharge(0);
   WTrackKLong.setMass(MASS::KS_MASS);
@@ -265,7 +266,7 @@ void FindKL::DoKalmanKinematicFit() {
   KalmanFit->AddTrack(1, WTrackKminus);
   KalmanFit->AddTrack(2, WTrackKLong);
   KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2);
-  m_KalmanFitSuccess = KalmanFit->Fit();
+  m_KalmanFitSuccess = KalmanFit->Fit() ? 1 : 0;
   if(m_KalmanFitSuccess) {
     m_hPlusPKalmanFit = KalmanFit->pfit(0);
     m_hMinusPKalmanFit = KalmanFit->pfit(1);

@@ -181,7 +181,7 @@ class FindKL {
     /**
      * Do Kalman fit of \f$K_Lh^+h^-\f$
      */
-    void DoKalmanKinematicFit();
+    void DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &m_KalmanTracks);
     /**
      * Function that returns true if a \f$K_L\pi\pi\f$ tag is found
      */
@@ -331,10 +331,6 @@ class FindKL {
      * Vector of \f$\pi^+\pi^-\f$ daughter track IDs, in the order \f$\pi^+\f$ \f$\pi^-\f$
      */
     std::vector<int> m_DaughterTrackID;
-    /**
-     * Kalman track objects, store for Kalman fit later
-     */
-    std::vector<RecMdcKalTrack*> m_KalmanTracks;
 };
 
 #endif
