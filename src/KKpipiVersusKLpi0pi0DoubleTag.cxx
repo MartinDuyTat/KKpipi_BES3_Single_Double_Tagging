@@ -1,7 +1,7 @@
-// Martin Duy Tat 1st January 2022
+// Martin Duy Tat 2nd January 2022
 
 // KKpipi
-#include "KKpipi/KKpipiVersusKLpipipi0DoubleTag.h"
+#include "KKpipi/KKpipiVersusKLpi0pi0DoubleTag.h"
 #include "KKpipi/FindKKpipiTagInfo.h"
 #include "KKpipi/FindMCInfo.h"
 #include "KKpipi/FindKL.h"
@@ -38,22 +38,22 @@
 #include<vector>
 #include<string>
 
-KKpipiVersusKLpipipi0DoubleTag::KKpipiVersusKLpipipi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
+KKpipiVersusKLpi0pi0DoubleTag::KKpipiVersusKLpi0pi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
 
-KKpipiVersusKLpipipi0DoubleTag::~KKpipiVersusKLpipipi0DoubleTag() {
+KKpipiVersusKLpi0pi0DoubleTag::~KKpipiVersusKLpi0pi0DoubleTag() {
 }
 
-StatusCode KKpipiVersusKLpipipi0DoubleTag::initialize() {
+StatusCode KKpipiVersusKLpi0pi0DoubleTag::initialize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Initializing KKpipi vs KLpipipi0 Double Tagging" << endreq;
+  log << MSG::INFO << "Initializing KKpipi vs KLpi0pi0 Double Tagging" << endreq;
   StatusCode status;
-  NTuplePtr ntp(ntupleSvc(), "KKPIPI/KLpipipi0DoubleTag");
+  NTuplePtr ntp(ntupleSvc(), "KKPIPI/KLpi0pi0DoubleTag");
   if(ntp) {
     m_tuple = ntp;
   } else {
-    m_tuple = ntupleSvc()->book("KKPIPI/KLpipipi0DoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->KLpipipi0 events");
+    m_tuple = ntupleSvc()->book("KKPIPI/KLpi0pi0DoubleTag", CLID_ColumnWiseTuple, "Double tagged D->KKpipi vs D->KLpi0pi0 events");
     if(m_tuple) {
       status = m_tuple->addItem("Run", m_RunNumber);
       status = m_tuple->addItem("Event", m_EventNumber);
@@ -126,33 +126,42 @@ StatusCode KKpipiVersusKLpipipi0DoubleTag::initialize() {
       status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
       status = m_tuple->addItem("SignalDaughters", m_SignalDaughters, 0, 100);
       status = m_tuple->addIndexedItem("SignalDOrigin", m_SignalDaughters, m_SignalDOrigin);
-      status = m_tuple->addItem("TagHighEPi0px", m_TagHighEPi0px);
-      status = m_tuple->addItem("TagHighEPi0py", m_TagHighEPi0py);
-      status = m_tuple->addItem("TagHighEPi0pz", m_TagHighEPi0pz);
-      status = m_tuple->addItem("TagHighEPi0energy", m_TagHighEPi0energy);
-      status = m_tuple->addItem("TagLowEPi0px", m_TagLowEPi0px);
-      status = m_tuple->addItem("TagLowEPi0py", m_TagLowEPi0py);
-      status = m_tuple->addItem("TagLowEPi0pz", m_TagLowEPi0pz);
-      status = m_tuple->addItem("TagLowEPi0energy", m_TagLowEPi0energy);
-      status = m_tuple->addItem("TagPi0Mgammagamma", m_TagPi0Mgammagamma);
-      status = m_tuple->addItem("TagHighEPi0Constrainedpx", m_TagHighEPi0Constrainedpx);
-      status = m_tuple->addItem("TagHighEPi0Constrainedpy", m_TagHighEPi0Constrainedpy);
-      status = m_tuple->addItem("TagHighEPi0Constrainedpz", m_TagHighEPi0Constrainedpz);
-      status = m_tuple->addItem("TagHighEPi0Constrainedenergy", m_TagHighEPi0Constrainedenergy);
-      status = m_tuple->addItem("TagLowEPi0Constrainedpx", m_TagLowEPi0Constrainedpx);
-      status = m_tuple->addItem("TagLowEPi0Constrainedpy", m_TagLowEPi0Constrainedpy);
-      status = m_tuple->addItem("TagLowEPi0Constrainedpz", m_TagLowEPi0Constrainedpz);
-      status = m_tuple->addItem("TagLowEPi0Constrainedenergy", m_TagLowEPi0Constrainedenergy);
-      status = m_tuple->addItem("TagPi0Chi2Fit", m_TagPi0Chi2Fit);
-      status = m_tuple->addItem("TagPiPluspx", m_TagPiPluspx);
-      status = m_tuple->addItem("TagPiPluspy", m_TagPiPluspy);
-      status = m_tuple->addItem("TagPiPluspz", m_TagPiPluspz);
-      status = m_tuple->addItem("TagPiPlusenergy", m_TagPiPlusenergy);
-      status = m_tuple->addItem("TagPiMinuspx", m_TagPiMinuspx);
-      status = m_tuple->addItem("TagPiMinuspy", m_TagPiMinuspy);
-      status = m_tuple->addItem("TagPiMinuspz", m_TagPiMinuspz);
-      status = m_tuple->addItem("TagPiMinusenergy", m_TagPiMinusenergy);
-      status = m_tuple->addItem("TagMpipipi0", m_TagMpipipi0);
+      status = m_tuple->addItem("TagHighEPi0px1", m_TagHighEPi0px1);
+      status = m_tuple->addItem("TagHighEPi0py1", m_TagHighEPi0py1);
+      status = m_tuple->addItem("TagHighEPi0pz1", m_TagHighEPi0pz1);
+      status = m_tuple->addItem("TagHighEPi0energy1", m_TagHighEPi0energy1);
+      status = m_tuple->addItem("TagLowEPi0px1", m_TagLowEPi0px1);
+      status = m_tuple->addItem("TagLowEPi0py1", m_TagLowEPi0py1);
+      status = m_tuple->addItem("TagLowEPi0pz1", m_TagLowEPi0pz1);
+      status = m_tuple->addItem("TagLowEPi0energy1", m_TagLowEPi0energy1);
+      status = m_tuple->addItem("TagPi0Mgammagamma1", m_TagPi0Mgammagamma1);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpx1", m_TagHighEPi0Constrainedpx1);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpy1", m_TagHighEPi0Constrainedpy1);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpz1", m_TagHighEPi0Constrainedpz1);
+      status = m_tuple->addItem("TagHighEPi0Constrainedenergy1", m_TagHighEPi0Constrainedenergy1);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpx1", m_TagLowEPi0Constrainedpx1);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpy1", m_TagLowEPi0Constrainedpy1);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpz1", m_TagLowEPi0Constrainedpz1);
+      status = m_tuple->addItem("TagLowEPi0Constrainedenergy1", m_TagLowEPi0Constrainedenergy1);
+      status = m_tuple->addItem("TagPi0Chi2Fit1", m_TagPi0Chi2Fit1);
+      status = m_tuple->addItem("TagHighEPi0px2", m_TagHighEPi0px2);
+      status = m_tuple->addItem("TagHighEPi0py2", m_TagHighEPi0py2);
+      status = m_tuple->addItem("TagHighEPi0pz2", m_TagHighEPi0pz2);
+      status = m_tuple->addItem("TagHighEPi0energy2", m_TagHighEPi0energy2);
+      status = m_tuple->addItem("TagLowEPi0px2", m_TagLowEPi0px2);
+      status = m_tuple->addItem("TagLowEPi0py2", m_TagLowEPi0py2);
+      status = m_tuple->addItem("TagLowEPi0pz2", m_TagLowEPi0pz2);
+      status = m_tuple->addItem("TagLowEPi0energy2", m_TagLowEPi0energy2);
+      status = m_tuple->addItem("TagPi0Mgammagamma2", m_TagPi0Mgammagamma2);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpx2", m_TagHighEPi0Constrainedpx2);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpy2", m_TagHighEPi0Constrainedpy2);
+      status = m_tuple->addItem("TagHighEPi0Constrainedpz2", m_TagHighEPi0Constrainedpz2);
+      status = m_tuple->addItem("TagHighEPi0Constrainedenergy2", m_TagHighEPi0Constrainedenergy2);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpx2", m_TagLowEPi0Constrainedpx2);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpy2", m_TagLowEPi0Constrainedpy2);
+      status = m_tuple->addItem("TagLowEPi0Constrainedpz2", m_TagLowEPi0Constrainedpz2);
+      status = m_tuple->addItem("TagLowEPi0Constrainedenergy2", m_TagLowEPi0Constrainedenergy2);
+      status = m_tuple->addItem("TagPi0Chi2Fit2", m_TagPi0Chi2Fit2);
       status = m_tuple->addItem("TagNumberGamma", m_TagNumberGamma, 0, 100);
       status = m_tuple->addIndexedItem("TagPhotonEnergy", m_TagNumberGamma, m_TagPhotonEnergy);
       status = m_tuple->addIndexedItem("TagPhotonPx", m_TagNumberGamma, m_TagPhotonPx);
@@ -162,30 +171,27 @@ StatusCode KKpipiVersusKLpipipi0DoubleTag::initialize() {
       status = m_tuple->addIndexedItem("TagPhotonThetaSeparation", m_TagNumberGamma, m_TagPhotonThetaSeparation);
       status = m_tuple->addIndexedItem("TagPhotonPhiSeparation", m_TagNumberGamma, m_TagPhotonPhiSeparation);
       status = m_tuple->addItem("TagMissingMass2", m_TagMissingMass2);
-      status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
-      status = m_tuple->addItem("TagIsSameDMotherAll", m_TagIsSameDMotherAll);
-      status = m_tuple->addItem("TagPIDTrue", m_TagPIDTrue);
-      status = m_tuple->addItem("TagPiPlusTrueID", m_TagPiPlusTrueID);
-      status = m_tuple->addItem("TagPiMinusTrueID", m_TagPiMinusTrueID);
-      status = m_tuple->addItem("TagPiPlusMotherTrueID", m_TagPiPlusMotherTrueID);
-      status = m_tuple->addItem("TagPiMinusMotherTrueID", m_TagPiMinusMotherTrueID);
-      status = m_tuple->addItem("TagPi0HighEPhotonTrueID", m_TagPi0HighEPhotonTrueID);
-      status = m_tuple->addItem("TagPi0LowEPhotonTrueID", m_TagPi0LowEPhotonTrueID);
-      status = m_tuple->addItem("TagPi0HighEPhotonMotherTrueID", m_TagPi0HighEPhotonMotherTrueID);
-      status = m_tuple->addItem("TagPi0LowEPhotonMotherTrueID", m_TagPi0LowEPhotonMotherTrueID);
+      status = m_tuple->addItem("TagPi0HighEPhotonTrueID1", m_TagPi0HighEPhotonTrueID1);
+      status = m_tuple->addItem("TagPi0LowEPhotonTrueID1", m_TagPi0LowEPhotonTrueID1);
+      status = m_tuple->addItem("TagPi0HighEPhotonMotherTrueID1", m_TagPi0HighEPhotonMotherTrueID1);
+      status = m_tuple->addItem("TagPi0LowEPhotonMotherTrueID1", m_TagPi0LowEPhotonMotherTrueID1);
+      status = m_tuple->addItem("TagPi0HighEPhotonTrueID2", m_TagPi0HighEPhotonTrueID2);
+      status = m_tuple->addItem("TagPi0LowEPhotonTrueID2", m_TagPi0LowEPhotonTrueID2);
+      status = m_tuple->addItem("TagPi0HighEPhotonMotherTrueID2", m_TagPi0HighEPhotonMotherTrueID2);
+      status = m_tuple->addItem("TagPi0LowEPhotonMotherTrueID2", m_TagPi0LowEPhotonMotherTrueID2);
       status = m_tuple->addItem("TagDaughters", m_TagDaughters, 0, 100);
       status = m_tuple->addIndexedItem("TagDOrigin", m_TagDaughters, m_TagDOrigin);
     } else {
-      log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KLpipipi0 Double Tags" << endmsg;
+      log << MSG::ERROR << "Cannot book NTuple for KKpipi vs KLpi0pi0 Double Tags" << endmsg;
       return StatusCode::FAILURE;
     }
     return StatusCode::SUCCESS;
   }
 }
 
-StatusCode KKpipiVersusKLpipipi0DoubleTag::execute() {
+StatusCode KKpipiVersusKLpi0pi0DoubleTag::execute() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Executing KKpipi vs KLpipipi0 Double Tag Algorithm" << endreq;
+  log << MSG::INFO << "Executing KKpipi vs KLpi0pi0 Double Tag Algorithm" << endreq;
   DTagTool DTTool;
   DTTool.setPID(true);
   if(DTTool.isDTagListEmpty()) {
@@ -216,20 +222,20 @@ StatusCode KKpipiVersusKLpipipi0DoubleTag::execute() {
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKLpipipi0DoubleTag::finalize() {
+StatusCode KKpipiVersusKLpi0pi0DoubleTag::finalize() {
   MsgStream log(msgSvc(), name());
-  log << MSG::INFO << "Finalizing KKpipi vs KLpipipi0 Double Tagging" << endreq;
+  log << MSG::INFO << "Finalizing KKpipi vs KLpi0pi0 Double Tagging" << endreq;
   return StatusCode::SUCCESS;
 }
 
-StatusCode KKpipiVersusKLpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagTool &DTTool) {
-  // First check if there are any KLpipipi0 candidates, otherwise no point in saving all the other stuff
+StatusCode KKpipiVersusKLpi0pi0DoubleTag::FillTuple(DTagToolIterator DTTool_Signal_iter, DTagTool &DTTool) {
+  // First check if there are any KLpi0pi0 candidates, otherwise no point in saving all the other stuff
   FindKL findKL;
   StatusCode FoundKL = findKL.findKL(DTTool_Signal_iter, DTTool);
   if(FoundKL == StatusCode::FAILURE) {
     return StatusCode::RECOVERABLE;
   }
-  if(!findKL.FoundKLpipipi0Tag()) {
+  if(!findKL.FoundKLpi0pi0Tag()) {
     return StatusCode::RECOVERABLE;
   }
   // Save MC truth information
@@ -336,47 +342,43 @@ StatusCode KKpipiVersusKLpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
     }
   }
   // Save information about tag side
-  m_TagHighEPi0px = findKL.GetPi0HighEPhotonP(0, 0);
-  m_TagHighEPi0py = findKL.GetPi0HighEPhotonP(1, 0);
-  m_TagHighEPi0pz = findKL.GetPi0HighEPhotonP(2, 0);
-  m_TagHighEPi0energy = findKL.GetPi0HighEPhotonP(3, 0);
-  m_TagLowEPi0px = findKL.GetPi0LowEPhotonP(0, 0);
-  m_TagLowEPi0py = findKL.GetPi0LowEPhotonP(1, 0);
-  m_TagLowEPi0pz = findKL.GetPi0LowEPhotonP(2, 0);
-  m_TagLowEPi0energy = findKL.GetPi0LowEPhotonP(3, 0);
-  m_TagPi0Mgammagamma = findKL.GetPi0Mgammagamma(0);
-  m_TagHighEPi0Constrainedpx = findKL.GetPi0HighEPhotonPConstrained(0, 0);
-  m_TagHighEPi0Constrainedpy = findKL.GetPi0HighEPhotonPConstrained(1, 0);
-  m_TagHighEPi0Constrainedpz = findKL.GetPi0HighEPhotonPConstrained(2, 0);
-  m_TagHighEPi0Constrainedenergy = findKL.GetPi0HighEPhotonPConstrained(3, 0);
-  m_TagLowEPi0Constrainedpx = findKL.GetPi0LowEPhotonPConstrained(0, 0);
-  m_TagLowEPi0Constrainedpy = findKL.GetPi0LowEPhotonPConstrained(1, 0);
-  m_TagLowEPi0Constrainedpz = findKL.GetPi0LowEPhotonPConstrained(2, 0);
-  m_TagLowEPi0Constrainedenergy = findKL.GetPi0LowEPhotonPConstrained(3, 0);
-  m_TagPi0Chi2Fit = findKL.GetPi0Chi2Fit(0);
-
-  m_TagPiPluspx = findKL.GethPlusP(0);
-  m_TagPiPluspy = findKL.GethPlusP(1);
-  m_TagPiPluspz = findKL.GethPlusP(2);
-  m_TagPiPlusenergy = findKL.GethPlusP(3);
-  m_TagPiMinuspx = findKL.GethMinusP(0);
-  m_TagPiMinuspy = findKL.GethMinusP(1);
-  m_TagPiMinuspz = findKL.GethMinusP(2);
-  m_TagPiMinusenergy = findKL.GethMinusP(3);
-  m_TagMpipipi0 = TMath::Sqrt(TMath::Power(m_TagPiPlusenergy + m_TagPiMinusenergy + m_TagHighEPi0Constrainedenergy + m_TagLowEPi0Constrainedenergy, 2)
-                            - TMath::Power(m_TagPiPluspx + m_TagPiMinuspx + m_TagHighEPi0Constrainedpx + m_TagLowEPi0Constrainedpx, 2)
-                            - TMath::Power(m_TagPiPluspy + m_TagPiMinuspy + m_TagHighEPi0Constrainedpy + m_TagLowEPi0Constrainedpy, 2)
-                	    - TMath::Power(m_TagPiPluspz + m_TagPiMinuspz + m_TagHighEPi0Constrainedpz + m_TagLowEPi0Constrainedpz, 2));
-
-
-
-
+  m_TagHighEPi0px1 = findKL.GetPi0HighEPhotonP(0, 0);
+  m_TagHighEPi0py1 = findKL.GetPi0HighEPhotonP(1, 0);
+  m_TagHighEPi0pz1 = findKL.GetPi0HighEPhotonP(2, 0);
+  m_TagHighEPi0energy1 = findKL.GetPi0HighEPhotonP(3, 0);
+  m_TagLowEPi0px1 = findKL.GetPi0LowEPhotonP(0, 0);
+  m_TagLowEPi0py1 = findKL.GetPi0LowEPhotonP(1, 0);
+  m_TagLowEPi0pz1 = findKL.GetPi0LowEPhotonP(2, 0);
+  m_TagLowEPi0energy1 = findKL.GetPi0LowEPhotonP(3, 0);
+  m_TagPi0Mgammagamma1 = findKL.GetPi0Mgammagamma(0);
+  m_TagHighEPi0Constrainedpx1 = findKL.GetPi0HighEPhotonPConstrained(0, 0);
+  m_TagHighEPi0Constrainedpy1 = findKL.GetPi0HighEPhotonPConstrained(1, 0);
+  m_TagHighEPi0Constrainedpz1 = findKL.GetPi0HighEPhotonPConstrained(2, 0);
+  m_TagHighEPi0Constrainedenergy1 = findKL.GetPi0HighEPhotonPConstrained(3, 0);
+  m_TagLowEPi0Constrainedpx1 = findKL.GetPi0LowEPhotonPConstrained(0, 0);
+  m_TagLowEPi0Constrainedpy1 = findKL.GetPi0LowEPhotonPConstrained(1, 0);
+  m_TagLowEPi0Constrainedpz1 = findKL.GetPi0LowEPhotonPConstrained(2, 0);
+  m_TagLowEPi0Constrainedenergy1 = findKL.GetPi0LowEPhotonPConstrained(3, 0);
+  m_TagPi0Chi2Fit1 = findKL.GetPi0Chi2Fit(0);
+  m_TagHighEPi0px2 = findKL.GetPi0HighEPhotonP(0, 1);
+  m_TagHighEPi0py2 = findKL.GetPi0HighEPhotonP(1, 1);
+  m_TagHighEPi0pz2 = findKL.GetPi0HighEPhotonP(2, 1);
+  m_TagHighEPi0energy2 = findKL.GetPi0HighEPhotonP(3, 1);
+  m_TagLowEPi0px2 = findKL.GetPi0LowEPhotonP(0, 1);
+  m_TagLowEPi0py2 = findKL.GetPi0LowEPhotonP(1, 1);
+  m_TagLowEPi0pz2 = findKL.GetPi0LowEPhotonP(2, 1);
+  m_TagLowEPi0energy2 = findKL.GetPi0LowEPhotonP(3, 1);
+  m_TagPi0Mgammagamma2 = findKL.GetPi0Mgammagamma(1);
+  m_TagHighEPi0Constrainedpx2 = findKL.GetPi0HighEPhotonPConstrained(0, 1);
+  m_TagHighEPi0Constrainedpy2 = findKL.GetPi0HighEPhotonPConstrained(1, 1);
+  m_TagHighEPi0Constrainedpz2 = findKL.GetPi0HighEPhotonPConstrained(2, 1);
+  m_TagHighEPi0Constrainedenergy2 = findKL.GetPi0HighEPhotonPConstrained(3, 1);
+  m_TagLowEPi0Constrainedpx2 = findKL.GetPi0LowEPhotonPConstrained(0, 1);
+  m_TagLowEPi0Constrainedpy2 = findKL.GetPi0LowEPhotonPConstrained(1, 1);
+  m_TagLowEPi0Constrainedpz2 = findKL.GetPi0LowEPhotonPConstrained(2, 1);
+  m_TagLowEPi0Constrainedenergy2 = findKL.GetPi0LowEPhotonPConstrained(3, 1);
+  m_TagPi0Chi2Fit2 = findKL.GetPi0Chi2Fit(1);
   m_TagMissingMass2 = findKL.GetMissingMass2();
-
-
-
-
-
   m_TagNumberGamma = findKL.GetNumberGamma();
   for(int j = 0; j < m_TagNumberGamma; j++) {
     m_TagPhotonPx[j] = findKL.GetPhotonP(0, j);
@@ -390,27 +392,25 @@ StatusCode KKpipiVersusKLpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
   if(m_RunNumber < 0) {
     std::vector<std::pair<int, int> > PhotonPairTrackID;
     PhotonPairTrackID.push_back(std::make_pair(findKL.GetPi0HighEPhotonTrackID(0), findKL.GetPi0LowEPhotonTrackID(0)));
-    std::vector<int> DaughterTrackIDs = findKL.GetDaughterTrackID();
-    PIDTruth PID_Truth(DaughterTrackIDs, 2, this);
-    m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
-    PID_Truth = PIDTruth(DaughterTrackIDs, 4, this, PhotonPairTrackID);
-    m_TagIsSameDMotherAll = PID_Truth.SameDMother() ? 1 : 0;
-    int SomeArray[4] = {211, -211, 0, 0};
+    PhotonPairTrackID.push_back(std::make_pair(findKL.GetPi0HighEPhotonTrackID(1), findKL.GetPi0LowEPhotonTrackID(1)));
+    std::vector<int> DaughterTrackIDs;
+    PIDTruth PID_Truth(DaughterTrackIDs, 0, this, PhotonPairTrackID);
+    int SomeArray[4] = {0, 0, 0, 0};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
-    m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
-    m_TagPiPlusTrueID = ReconstructedPID[0];
-    m_TagPiMinusTrueID = ReconstructedPID[1];
-    m_TagPi0HighEPhotonTrueID = ReconstructedPID[2];
-    m_TagPi0LowEPhotonTrueID = ReconstructedPID[3];
-    m_TagPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
-    m_TagPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
-    m_TagPi0HighEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(findKL.GetPi0HighEPhotonTrackID(0), false);
-    m_TagPi0LowEPhotonMotherTrueID = PID_Truth.GetTrueMotherID(findKL.GetPi0LowEPhotonTrackID(0), false);
+    PID_Truth.FindTrueID(ReconstructedPID);
+    m_TagPi0HighEPhotonTrueID1 = ReconstructedPID[0];
+    m_TagPi0LowEPhotonTrueID1 = ReconstructedPID[1];
+    m_TagPi0HighEPhotonTrueID2 = ReconstructedPID[0];
+    m_TagPi0LowEPhotonTrueID2 = ReconstructedPID[1];
+    m_TagPi0HighEPhotonMotherTrueID1 = PID_Truth.GetTrueMotherID(findKL.GetPi0HighEPhotonTrackID(0), false);
+    m_TagPi0LowEPhotonMotherTrueID1 = PID_Truth.GetTrueMotherID(findKL.GetPi0LowEPhotonTrackID(0), false);
+    m_TagPi0HighEPhotonMotherTrueID2 = PID_Truth.GetTrueMotherID(findKL.GetPi0HighEPhotonTrackID(1), false);
+    m_TagPi0LowEPhotonMotherTrueID2 = PID_Truth.GetTrueMotherID(findKL.GetPi0LowEPhotonTrackID(1), false);
     m_TagDaughters = 4;
-    m_TagDOrigin[0] = PID_Truth.FindDOrigin(DaughterTrackIDs[0], true);
-    m_TagDOrigin[1] = PID_Truth.FindDOrigin(DaughterTrackIDs[1], true);
-    m_TagDOrigin[2] = PID_Truth.FindDOrigin(findKL.GetPi0HighEPhotonTrackID(0), false);
-    m_TagDOrigin[3] = PID_Truth.FindDOrigin(findKL.GetPi0LowEPhotonTrackID(0), false);
+    m_TagDOrigin[0] = PID_Truth.FindDOrigin(findKL.GetPi0HighEPhotonTrackID(0), false);
+    m_TagDOrigin[1] = PID_Truth.FindDOrigin(findKL.GetPi0LowEPhotonTrackID(0), false);
+    m_TagDOrigin[2] = PID_Truth.FindDOrigin(findKL.GetPi0HighEPhotonTrackID(1), false);
+    m_TagDOrigin[3] = PID_Truth.FindDOrigin(findKL.GetPi0LowEPhotonTrackID(1), false);
   }
   return StatusCode::SUCCESS;
 }

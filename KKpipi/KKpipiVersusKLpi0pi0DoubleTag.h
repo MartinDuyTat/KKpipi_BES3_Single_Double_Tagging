@@ -1,12 +1,12 @@
-// Martin Duy Tat 1st January 2022
+// Martin Duy Tat 2nd January 2022
 /**
- * KKpipiVersusKLpipipi0DoubleTag is a class for a BOSS algorithm
- * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$K_L\pi\pi\pi^0\f$ double tags
+ * KKpipiVersusKLpi0pi0DoubleTag is a class for a BOSS algorithm
+ * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$K_L\pi^0\pi^0\f$ double tags
  * It also runs a fit for the decay \f$K_S^0\to\pi^+\pi^-\f$ by refitting the primary and secondary vertex in the class FindKS, from this the flight significance is used to eliminate peaking background
  */
 
-#ifndef KKPIPIVERSUSKLPIPIPI0DOUBLETAG
-#define KKPIPIVERSUSKLPIPIPI0DOUBLETAG
+#ifndef KKPIPIVERSUSKLPI0DOUBLETAG
+#define KKPIPIVERSUSKLPI0DOUBLETAG
 
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -18,16 +18,16 @@
 // STL
 #include<string>
 
-class KKpipiVersusKLpipipi0DoubleTag: public Algorithm {
+class KKpipiVersusKLpi0pi0DoubleTag: public Algorithm {
   public: 
     /**
      * Default constructor for an algorithm where all necessary properties are declared
      */
-    KKpipiVersusKLpipipi0DoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
+    KKpipiVersusKLpi0pi0DoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
     /**
      * Trivial destructor
      */
-    ~KKpipiVersusKLpipipi0DoubleTag();
+    ~KKpipiVersusKLpi0pi0DoubleTag();
     /**
      * This function runs when algorithm is initialized
      */
@@ -341,111 +341,147 @@ class KKpipiVersusKLpipipi0DoubleTag: public Algorithm {
     /**
      * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_TagHighEPi0px;
+    NTuple::Item<double> m_TagHighEPi0px1;
     /**
      * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_TagHighEPi0py;
+    NTuple::Item<double> m_TagHighEPi0py1;
     /**
      * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_TagHighEPi0pz;
+    NTuple::Item<double> m_TagHighEPi0pz1;
     /**
      * Tag high energy photon from \f$\pi^0\f$ unconstrained energy
      */
-    NTuple::Item<double> m_TagHighEPi0energy;
+    NTuple::Item<double> m_TagHighEPi0energy1;
     /**
      * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_TagLowEPi0px;
+    NTuple::Item<double> m_TagLowEPi0px1;
     /**
      * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_TagLowEPi0py;
+    NTuple::Item<double> m_TagLowEPi0py1;
     /**
      * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_TagLowEPi0pz;
+    NTuple::Item<double> m_TagLowEPi0pz1;
     /**
      * Tag low energy photon from \f$\pi^0\f$ unconstrained energy
      */
-    NTuple::Item<double> m_TagLowEPi0energy;
+    NTuple::Item<double> m_TagLowEPi0energy1;
     /**
      * The tag \f$\gamma\gamma\f$ invariant mass
      */
-    NTuple::Item<double> m_TagPi0Mgammagamma;
+    NTuple::Item<double> m_TagPi0Mgammagamma1;
     /**
      * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_TagHighEPi0Constrainedpx;
+    NTuple::Item<double> m_TagHighEPi0Constrainedpx1;
     /**
      * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_TagHighEPi0Constrainedpy;
+    NTuple::Item<double> m_TagHighEPi0Constrainedpy1;
     /**
      * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_TagHighEPi0Constrainedpz;
+    NTuple::Item<double> m_TagHighEPi0Constrainedpz1;
     /**
      * Tag high energy photon from \f$\pi^0\f$ constrained energy
      */
-    NTuple::Item<double> m_TagHighEPi0Constrainedenergy;
+    NTuple::Item<double> m_TagHighEPi0Constrainedenergy1;
     /**
      * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_TagLowEPi0Constrainedpx;
+    NTuple::Item<double> m_TagLowEPi0Constrainedpx1;
     /**
      * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_TagLowEPi0Constrainedpy;
+    NTuple::Item<double> m_TagLowEPi0Constrainedpy1;
     /**
      * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_TagLowEPi0Constrainedpz;
+    NTuple::Item<double> m_TagLowEPi0Constrainedpz1;
     /**
      * Tag low energy photon from \f$\pi^0\f$ constrained energy
      */
-    NTuple::Item<double> m_TagLowEPi0Constrainedenergy;
+    NTuple::Item<double> m_TagLowEPi0Constrainedenergy1;
     /**
      * Tag \f$\pi^0\f$ kinematic fit \f$\chi^2\f$
      */
-    NTuple::Item<double> m_TagPi0Chi2Fit;
+    NTuple::Item<double> m_TagPi0Chi2Fit1;
     /**
-     * Tag \f$\pi^+\f$ momentum along \f$x\f$
+     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_TagPiPluspx;
+    NTuple::Item<double> m_TagHighEPi0px2;
     /**
-     * Tag \f$\pi^+\f$ momentum along \f$y\f$
+     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_TagPiPluspy;
+    NTuple::Item<double> m_TagHighEPi0py2;
     /**
-     * Tag \f$\pi^+\f$ momentum along \f$z\f$
+     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_TagPiPluspz;
+    NTuple::Item<double> m_TagHighEPi0pz2;
     /**
-     * Tag \f$\pi^=\f$ energy
+     * Tag high energy photon from \f$\pi^0\f$ unconstrained energy
      */
-    NTuple::Item<double> m_TagPiPlusenergy;
+    NTuple::Item<double> m_TagHighEPi0energy2;
     /**
-     * Tag \f$\pi^-\f$ momentum along \f$x\f$
+     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
-    NTuple::Item<double> m_TagPiMinuspx;
+    NTuple::Item<double> m_TagLowEPi0px2;
     /**
-     * Tag \f$\pi^-\f$ momentum along \f$y\f$
+     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
      */
-    NTuple::Item<double> m_TagPiMinuspy;
+    NTuple::Item<double> m_TagLowEPi0py2;
     /**
-     * Tag \f$\pi^-\f$ momentum along \f$z\f$
+     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
      */
-    NTuple::Item<double> m_TagPiMinuspz;
+    NTuple::Item<double> m_TagLowEPi0pz2;
     /**
-     * Tag \f$\pi^-\f$ energy
+     * Tag low energy photon from \f$\pi^0\f$ unconstrained energy
      */
-    NTuple::Item<double> m_TagPiMinusenergy;
+    NTuple::Item<double> m_TagLowEPi0energy2;
     /**
-     * The tag \f$\pi\pi\pi^0\f$ invariant mass
+     * The tag \f$\gamma\gamma\f$ invariant mass
      */
-    NTuple::Item<double> m_TagMpipipi0;
+    NTuple::Item<double> m_TagPi0Mgammagamma2;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0Constrainedpx2;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0Constrainedpy2;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_TagHighEPi0Constrainedpz2;
+    /**
+     * Tag high energy photon from \f$\pi^0\f$ constrained energy
+     */
+    NTuple::Item<double> m_TagHighEPi0Constrainedenergy2;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0Constrainedpx2;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0Constrainedpy2;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_TagLowEPi0Constrainedpz2;
+    /**
+     * Tag low energy photon from \f$\pi^0\f$ constrained energy
+     */
+    NTuple::Item<double> m_TagLowEPi0Constrainedenergy2;
+    /**
+     * Tag \f$\pi^0\f$ kinematic fit \f$\chi^2\f$
+     */
+    NTuple::Item<double> m_TagPi0Chi2Fit2;
     /**
      * Number of single photons found
      */
@@ -483,49 +519,37 @@ class KKpipiVersusKLpipipi0DoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagMissingMass2;
     /**
-     * Equal to 1 if the charged tag daughter tracks are from the same \f$D\f$ meson
-     */
-    NTuple::Item<int> m_TagIsSameDMother;
-    /**
-     * Equal to 1 if all tag daughter tracks are from the same \f$D\f$ meson
-     */
-    NTuple::Item<int> m_TagIsSameDMotherAll;
-    /**
-     * Equal to 1 if the tag daughter tracks are assigned a PID matching that of the MC truth
-     */
-    NTuple::Item<int> m_TagPIDTrue;
-    /**
-     * The tag \f$\pi^+\f$ true PID
-     */
-    NTuple::Item<int> m_TagPiPlusTrueID;
-    /**
-     * The tag \f$\pi^-\f$ true PID
-     */
-    NTuple::Item<int> m_TagPiMinusTrueID;
-    /**
-     * Tag \f$\pi^+\f$ true mother PID
-     */
-    NTuple::Item<int> m_TagPiPlusMotherTrueID;
-    /**
-     * Tag \f$\pi^-\f$ true mother PID
-     */
-    NTuple::Item<int> m_TagPiMinusMotherTrueID;
-    /**
      * The tag high energy photon from \f$\pi^0\f$ true PID
      */
-    NTuple::Item<int> m_TagPi0HighEPhotonTrueID;
+    NTuple::Item<int> m_TagPi0HighEPhotonTrueID1;
     /**
      * The tag low energy photon from \f$\pi^0\f$ true PID
      */
-    NTuple::Item<int> m_TagPi0LowEPhotonTrueID;
+    NTuple::Item<int> m_TagPi0LowEPhotonTrueID1;
     /**
      * The tag high energy photon from \f$\pi^0\f$ true mother PID
      */
-    NTuple::Item<int> m_TagPi0HighEPhotonMotherTrueID;
+    NTuple::Item<int> m_TagPi0HighEPhotonMotherTrueID1;
     /**
      * The tag low energy photon from \f$\pi^0\f$ true mother PID
      */
-    NTuple::Item<int> m_TagPi0LowEPhotonMotherTrueID;
+    NTuple::Item<int> m_TagPi0LowEPhotonMotherTrueID1;
+    /**
+     * The tag high energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Item<int> m_TagPi0HighEPhotonTrueID2;
+    /**
+     * The tag low energy photon from \f$\pi^0\f$ true PID
+     */
+    NTuple::Item<int> m_TagPi0LowEPhotonTrueID2;
+    /**
+     * The tag high energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagPi0HighEPhotonMotherTrueID2;
+    /**
+     * The tag low energy photon from \f$\pi^0\f$ true mother PID
+     */
+    NTuple::Item<int> m_TagPi0LowEPhotonMotherTrueID2;
     /**
      * Array of the tag D meson mother ID
      */

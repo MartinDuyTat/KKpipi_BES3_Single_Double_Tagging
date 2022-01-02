@@ -1,4 +1,4 @@
-// Martin Duy Tat 26th march 2021
+// Martin Duy Tat 30th December 2021
 /**
  * KKpipiVersusKLpi0DoubleTag is a class for a BOSS algorithm
  * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$K_L\pi^0\f$ double tags
