@@ -226,7 +226,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     m_NumberGamma++;
   }
   GetMissingFourMomentum(DTTool_iter);
-  if(m_FoundPionPair && m_NumberPi0 == 0 && m_NumberEta == 0) {
+  if((m_FoundPionPair || m_FoundKaonPair) && m_NumberPi0 == 0 && m_NumberEta == 0) {
     DoKalmanKinematicFit();
   }
   return StatusCode::SUCCESS;

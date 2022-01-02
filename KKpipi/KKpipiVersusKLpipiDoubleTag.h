@@ -339,6 +339,22 @@ class KKpipiVersusKLpipiDoubleTag: public Algorithm {
      */
     NTuple::Array<int> m_SignalDOrigin;
     /**
+     * Tag \f$K_L^0\f$ momentum along \f$x\f$ after vertex fit
+     */
+    NTuple::Item<double> m_TagKLpx;
+    /**
+     * Tag \f$K_L^0\f$ momentum along \f$y\f$ after vertex fit
+     */
+    NTuple::Item<double> m_TagKLpy;
+    /**
+     * Tag \f$K_L^0\f$ momentum along \f$z\f$ after vertex fit
+     */
+    NTuple::Item<double> m_TagKLpz;
+    /**
+     * Tag \f$K_L^0\f$ energy after vertex fit
+     */
+    NTuple::Item<double> m_TagKLenergy;
+    /**
      * Tag \f$\pi^+\f$ momentum along \f$x\f$
      */
     NTuple::Item<double> m_TagPiPluspx;
@@ -374,6 +390,22 @@ class KKpipiVersusKLpipiDoubleTag: public Algorithm {
      * Flag equal to 1 for success and 0 for fail in the Kalman fit of tracks
      */
     NTuple::Item<int> m_TagKalmanFitSuccess;
+    /**
+     * Tag Kalman fitted \f$K_L^0\f$ momentum along \f$x\f$
+     */
+    NTuple::Item<double> m_TagKLpxKalmanFit;
+    /**
+     * Tag Kalman fitted \f$K_L^0\f$ momentum along \f$y\f$
+     */
+    NTuple::Item<double> m_TagKLpyKalmanFit;
+    /**
+     * Tag Kalman fitted \f$K_L^0\f$ momentum along \f$z\f$
+     */
+    NTuple::Item<double> m_TagKLpzKalmanFit;
+    /**
+     * Tag Kalman fitted \f$K_L^0\f$ energy
+     */
+    NTuple::Item<double> m_TagKLenergyKalmanFit;
     /**
      * Tag \f$\pi^+\f$ momentum along \f$x\f$ after Kalman fit
      */

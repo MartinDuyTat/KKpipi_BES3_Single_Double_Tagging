@@ -126,6 +126,10 @@ StatusCode KKpipiVersusKLpipiDoubleTag::initialize() {
       status = m_tuple->addItem("SignalPiMinusTrueID", m_SignalPiMinusTrueID);
       status = m_tuple->addItem("SignalDaughters", m_SignalDaughters, 0, 100);
       status = m_tuple->addIndexedItem("SignalDOrigin", m_SignalDaughters, m_SignalDOrigin);
+      status = m_tuple->addItem("TagKLpx", m_TagKLpx);
+      status = m_tuple->addItem("TagKLpy", m_TagKLpy);
+      status = m_tuple->addItem("TagKLpz", m_TagKLpz);
+      status = m_tuple->addItem("TagKLenergy", m_TagKLenergy);
       status = m_tuple->addItem("TagPiPluspx", m_TagPiPluspx);
       status = m_tuple->addItem("TagPiPluspy", m_TagPiPluspy);
       status = m_tuple->addItem("TagPiPluspz", m_TagPiPluspz);
@@ -135,6 +139,10 @@ StatusCode KKpipiVersusKLpipiDoubleTag::initialize() {
       status = m_tuple->addItem("TagPiMinuspz", m_TagPiMinuspz);
       status = m_tuple->addItem("TagPiMinusenergy", m_TagPiMinusenergy);
       status = m_tuple->addItem("TagKalmanFitSuccess", m_TagKalmanFitSuccess);
+      status = m_tuple->addItem("TagKLpxKalmanFit", m_TagKLpxKalmanFit);
+      status = m_tuple->addItem("TagKLpyKalmanFit", m_TagKLpyKalmanFit);
+      status = m_tuple->addItem("TagKLpzKalmanFit", m_TagKLpzKalmanFit);
+      status = m_tuple->addItem("TagKLenergyKalmanFit", m_TagKLenergyKalmanFit);
       status = m_tuple->addItem("TagPiPluspxKalmanFit", m_TagPiPluspxKalmanFit);
       status = m_tuple->addItem("TagPiPluspyKalmanFit", m_TagPiPluspyKalmanFit);
       status = m_tuple->addItem("TagPiPluspzKalmanFit", m_TagPiPluspzKalmanFit);
@@ -319,6 +327,10 @@ StatusCode KKpipiVersusKLpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
     }
   }
   // Save information about tag side
+  m_TagKLpx = findKL.GetKLongP(0);
+  m_TagKLpy = findKL.GetKLongP(1);
+  m_TagKLpz = findKL.GetKLongP(2);
+  m_TagKLenergy = findKL.GetKLongP(3);
   m_TagPiPluspx = findKL.GethPlusP(0);
   m_TagPiPluspy = findKL.GethPlusP(1);
   m_TagPiPluspz = findKL.GethPlusP(2);
@@ -328,6 +340,10 @@ StatusCode KKpipiVersusKLpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagPiMinuspz = findKL.GethMinusP(2);
   m_TagPiMinusenergy = findKL.GethMinusP(3);
   m_TagKalmanFitSuccess = findKL.GetKalmanFitSuccess();
+  m_TagKLpxKalmanFit = findKL.GetKLongPKalmanFit(0);
+  m_TagKLpyKalmanFit = findKL.GetKLongPKalmanFit(1);
+  m_TagKLpzKalmanFit = findKL.GetKLongPKalmanFit(2);
+  m_TagKLenergyKalmanFit = findKL.GetKLongPKalmanFit(3);
   m_TagPiPluspxKalmanFit = findKL.GethPlusPKalmanFit(0);
   m_TagPiPluspyKalmanFit = findKL.GethPlusPKalmanFit(1);
   m_TagPiPluspzKalmanFit = findKL.GethPlusPKalmanFit(2);
