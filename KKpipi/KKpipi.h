@@ -163,13 +163,17 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KLpi0Tag;
     /**
+     * \f$K_L\pi^0\pi^0\f$ tag mode
+     */
+    Algorithm *m_KLpi0pi0Tag;
+    /**
      * \f$K_L\pi\pi\pi^0\f$ tag mode
      */
     Algorithm *m_KLpipipi0Tag;
     /**
-     * \f$K_L\pi^0\pi^0\f$ tag mode
+     * \f$K_L\pi\pi\f$ tag mode
      */
-    Algorithm *m_KLpi0pi0Tag;
+    Algorithm *m_KLpipiTag;
     /**
      * \f$Ke\nu\f$ tag mode
      */
@@ -239,13 +243,17 @@ class KKpipi: public Algorithm {
      */
     bool m_recKLpi0Tag;
     /**
+     * Turn on \f$K_L\pi^0\pi^0\f$ tag mode
+     */
+    bool m_recKLpi0pi0Tag;
+    /**
      * Turn on \f$K_L\pi\pi\pi^0\f$ tag mode
      */
     bool m_recKLpipipi0Tag;
     /**
-     * Turn on \f$K_L\pi^0\pi^0\f$ tag mode
+     * Turn on \f$K_L\pi\pi\f$ tag mode
      */
-    bool m_recKLpi0pi0Tag;
+    bool m_recKLpipiTag;
     /**
      * Turn on \f$Ke\nu\f$ tag mode
      */
