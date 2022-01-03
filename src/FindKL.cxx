@@ -267,7 +267,7 @@ void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTrac
   KalmanFit->AddTrack(2, WTrackKLong);
   KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2);
   m_KalmanFitSuccess = KalmanFit->Fit() ? 1 : 0;
-  if(m_KalmanFitSuccess) {
+  if(m_KalmanFitSuccess == 1) {
     m_hPlusPKalmanFit = KalmanFit->pfit(0);
     m_hMinusPKalmanFit = KalmanFit->pfit(1);
     m_KLongPKalmanFit = KalmanFit->pfit(2);
@@ -320,8 +320,7 @@ bool FindKL::FoundKLpipipi0Tag() const {
   } else {
     return true;
   }
-}
-  
+}  
 
 bool FindKL::GetFoundPionPair() const {
   return m_FoundPionPair;
