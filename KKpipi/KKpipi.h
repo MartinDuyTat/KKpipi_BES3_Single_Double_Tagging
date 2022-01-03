@@ -175,6 +175,10 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KLpipiTag;
     /**
+     * \f$K_LKK\f$ tag mode
+     */
+    Algorithm *m_KLKKTag;
+    /**
      * \f$Ke\nu\f$ tag mode
      */
     Algorithm *m_KeNuTag;
@@ -254,6 +258,10 @@ class KKpipi: public Algorithm {
      * Turn on \f$K_L\pi\pi\f$ tag mode
      */
     bool m_recKLpipiTag;
+    /**
+     * Turn on \f$K_LKK\f$ tag mode
+     */
+    bool m_recKLKKTag;
     /**
      * Turn on \f$Ke\nu\f$ tag mode
      */
