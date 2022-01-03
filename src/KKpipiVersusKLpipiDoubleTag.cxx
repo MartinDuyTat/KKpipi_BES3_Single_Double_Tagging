@@ -139,6 +139,7 @@ StatusCode KKpipiVersusKLpipiDoubleTag::initialize() {
       status = m_tuple->addItem("TagPiMinuspz", m_TagPiMinuspz);
       status = m_tuple->addItem("TagPiMinusenergy", m_TagPiMinusenergy);
       status = m_tuple->addItem("TagKalmanFitSuccess", m_TagKalmanFitSuccess);
+      status = m_tuple->addItem("TagKalmanFitChi2", m_TagKalmanFitChi2);
       status = m_tuple->addItem("TagKLpxKalmanFit", m_TagKLpxKalmanFit);
       status = m_tuple->addItem("TagKLpyKalmanFit", m_TagKLpyKalmanFit);
       status = m_tuple->addItem("TagKLpzKalmanFit", m_TagKLpzKalmanFit);
@@ -340,6 +341,7 @@ StatusCode KKpipiVersusKLpipiDoubleTag::FillTuple(DTagToolIterator DTTool_Signal
   m_TagPiMinuspz = findKL.GethMinusP(2);
   m_TagPiMinusenergy = findKL.GethMinusP(3);
   m_TagKalmanFitSuccess = findKL.GetKalmanFitSuccess();
+  m_TagKalmanFitChi2 = findKL.GetKalmanFitChi2();
   m_TagKLpxKalmanFit = findKL.GetKLongPKalmanFit(0);
   m_TagKLpyKalmanFit = findKL.GetKLongPKalmanFit(1);
   m_TagKLpzKalmanFit = findKL.GetKLongPKalmanFit(2);

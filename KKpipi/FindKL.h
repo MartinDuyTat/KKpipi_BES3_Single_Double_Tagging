@@ -59,6 +59,10 @@ class FindKL {
      */
     bool GetKalmanFitSuccess() const;
     /**
+     * Get the \f$\chi^2\f$ of the Kalman fit
+     */
+    double GetKalmanFitChi2() const;
+    /**
      * Get the ith component of the \f$K_L\f$ four-momentum vector on the other side after Kalman fit
      */
     double GetKLongPKalmanFit(int i) const;
@@ -227,6 +231,10 @@ class FindKL {
      * Flag that is true if Kalman fit is a success
      */
     bool m_KalmanFitSuccess;
+    /**
+     * The Kalman fit \f$\chi^2\f$
+     */
+    double m_KalmanFitChi2;
     /**
      * The \f$K_L\f$ four-momentum vector on the other side after Kalman fit
      */

@@ -391,6 +391,10 @@ class KKpipiVersusKLpipiDoubleTag: public Algorithm {
      */
     NTuple::Item<int> m_TagKalmanFitSuccess;
     /**
+     * Tag \f$\chi^2\f$ of Kalman fit
+     */
+    NTuple::Item<double> m_TagKalmanFitChi2;
+    /**
      * Tag Kalman fitted \f$K_L^0\f$ momentum along \f$x\f$
      */
     NTuple::Item<double> m_TagKLpxKalmanFit;

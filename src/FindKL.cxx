@@ -268,6 +268,7 @@ void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTrac
   KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2);
   m_KalmanFitSuccess = KalmanFit->Fit() ? 1 : 0;
   if(m_KalmanFitSuccess == 1) {
+    m_KalmanFitChi2 = KalmanFit->chisq();
     m_hPlusPKalmanFit = KalmanFit->pfit(0);
     m_hMinusPKalmanFit = KalmanFit->pfit(1);
     m_KLongPKalmanFit = KalmanFit->pfit(2);
@@ -344,6 +345,10 @@ double FindKL::GethMinusP(int i) const {
 
 bool FindKL::GetKalmanFitSuccess() const {
   return m_KalmanFitSuccess;
+}
+
+double FindKL::GetKalmanFitChi2() const {
+  return m_KalmanFitChi2;
 }
 
 double FindKL::GetKLongPKalmanFit(int i) const {
