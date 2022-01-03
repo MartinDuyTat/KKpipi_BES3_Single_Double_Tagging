@@ -125,7 +125,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
     } else if(NumberKPlusTracks == 1 && NumberKMinusTracks == 1) {
       // Kaon pair found
       m_FoundPionPair = false;
-      m_FoundPionPair = true;
+      m_FoundKaonPair = true;
     } else {
       // Else we don't want this event
       return StatusCode::FAILURE;
