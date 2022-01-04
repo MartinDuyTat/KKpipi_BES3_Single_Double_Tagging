@@ -228,7 +228,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   }
   GetMissingFourMomentum(DTTool_iter);
   if((m_FoundPionPair || m_FoundKaonPair) && m_NumberPi0 == 0 && m_NumberEta == 0) {
-    DoKalmanKinematicFit(KalmanTracks);
+    DoKalmanKinematicFit(KalmanTracks, DTTool_iter);
   }
   return StatusCode::SUCCESS;
 }
@@ -248,7 +248,7 @@ double FindKL::GetMissingMass2() const {
   return m_KLongP.m2();
 }
 
-void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTracks) {
+void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTracks, DTagToolIterator DTTool_iter) {
   double hMass;
   if(m_FoundPionPair && !m_FoundKaonPair) {
     hMass = MASS::PI_MASS;
@@ -257,21 +257,19 @@ void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTrac
   }
   WTrackParameter WTrackKplus(hMass, KalmanTracks[0]->getZHelix(), KalmanTracks[0]->getZError());
   WTrackParameter WTrackKminus(hMass, KalmanTracks[1]->getZHelix(), KalmanTracks[1]->getZError());
-  WTrackParameter WTrackKLong(m_KLongP, m_KLongP.phi(), m_KLongP.theta(), m_KLongP.t());
-  WTrackKLong.setCharge(0);
-  WTrackKLong.setMass(MASS::KS_MASS);
   KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
   KalmanFit->init();
+  KalmanFit->setIterNumber(100);
   KalmanFit->AddTrack(0, WTrackKplus);
   KalmanFit->AddTrack(1, WTrackKminus);
-  KalmanFit->AddTrack(2, WTrackKLong);
+  KalmanFit->AddMissTrack(2, MASS::KS_MASS);
   KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2);
   m_KalmanFitSuccess = KalmanFit->Fit() ? 1 : 0;
   if(m_KalmanFitSuccess == 1) {
     m_KalmanFitChi2 = KalmanFit->chisq();
     m_hPlusPKalmanFit = KalmanFit->pfit(0);
     m_hMinusPKalmanFit = KalmanFit->pfit(1);
-    m_KLongPKalmanFit = KalmanFit->pfit(2);
+    m_KLongPKalmanFit = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), m_hPlusPKalmanFit + m_hMinusPKalmanFit, (*DTTool_iter)->beamE());
   }
 }
 
