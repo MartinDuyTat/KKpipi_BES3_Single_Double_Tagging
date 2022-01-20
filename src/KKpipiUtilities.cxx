@@ -114,8 +114,8 @@ void KKpipiUtilities::GetIP(RecMdcKalTrack *MDCKalTrack, double &IP_Vxy, double 
     xorigin.setY(dbv[1]);
     xorigin.setZ(dbv[2]);
   }
-  HepVector a = mdcKalTrk->getZHelixK();
-  HepSymMatrix Ea = mdcKalTrk->getZErrorK();
+  HepVector a = MDCKalTrack->getZHelixK();
+  HepSymMatrix Ea = MDCKalTrack->getZErrorK();
   HepPoint3D point0(0.,0.,0.);
   HepPoint3D IP(xorigin[0],xorigin[1],xorigin[2]);
   VFHelix helixip3(point0,a,Ea);
