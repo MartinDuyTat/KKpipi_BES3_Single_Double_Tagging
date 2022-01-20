@@ -333,6 +333,22 @@ class KKpipiSingleTag: public Algorithm {
      * The \f$\pi^-\f$ true PID
      */
     NTuple::Item<int> m_PiMinusTrueID;
+    /**
+     * The \f$K^+\f$ radial impact parameter
+     */
+    NTuple::Item<double> m_KPlusIP_Vxy;
+    /**
+     * The \f$K^+\f$ longitudinal impact parameter
+     */
+    NTuple::Item<double> m_KPlusIP_Vz;
+    /**
+     * The \f$K^-\f$ radial impact parameter
+     */
+    NTuple::Item<double> m_KMinusIP_Vxy;
+    /**
+     * The \f$K^-\f$ longitudinal impact parameter
+     */
+    NTuple::Item<double> m_KMinusIP_Vz;
 };
 
 #endif

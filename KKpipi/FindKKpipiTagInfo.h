@@ -121,6 +121,22 @@ class FindKKpipiTagInfo {
      * Get the \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double GetChi2Fit() const;
+    /**
+     * Get the \f$K^+\f$ radial impact parameter
+     */
+    double GetKPlusIP_Vxy() const;
+    /**
+     * Get the \f$K^+\f$ longitudinal impact parameter
+     */
+    double GetKPlusIP_Vz() const;
+    /**
+     * Get the \f$K^-\f$ radial impact parameter
+     */
+    double GetKMinusIP_Vxy() const;
+    /**
+     * Get the \f$K^-\f$ longitudinal impact parameter
+     */
+    double GetKMinusIP_Vz() const;
   private:
     /**
      * Daughter track IDs
@@ -198,6 +214,22 @@ class FindKKpipiTagInfo {
      * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
      */
     double m_Chi2Fit;
+    /**
+     * The \f$K^+\f$ radial impact parameter
+     */
+    double m_KPlusIP_Vxy;
+    /**
+     * The \f$K^+\f$ longitudinal impact parameter
+     */
+    double m_KPlusIP_Vz;
+    /**
+     * The \f$K^-\f$ radial impact parameter
+     */
+    double m_KMinusIP_Vxy;
+    /**
+     * The \f$K^-\f$ longitudinal impact parameter
+     */
+    double m_KMinusIP_Vz;
 };
 
 #endif

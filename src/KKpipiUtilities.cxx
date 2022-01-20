@@ -1,5 +1,7 @@
 // Martin Duy Tat 26th March 2021
 
+//STL
+#include <cmath>
 // KKpipi
 #include "KKpipi/KKpipiUtilities.h"
 #include "KKpipi/ParticleMasses.h"
@@ -8,6 +10,7 @@
 #include "GaudiKernel/IDataProviderSvc.h"
 #include "GaudiKernel/MsgStream.h"
 #include "GaudiKernel/SmartDataPtr.h"
+#include "GaudiKernel/ISvcLocator.h"
 // Event information
 #include "EvtRecEvent/EvtRecEvent.h"
 #include "EvtRecEvent/EvtRecTrack.h"
@@ -17,6 +20,13 @@
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/ThreeVector.h"
+#include "CLHEP/Matrix/Vector.h"
+#include "CLHEP/Matrix/SymMatrix.h"
+#include "CLHEP/Geometry/Point3D.h"
+// Boss
+#include "MdcRecEvent/RecMdcKalTrack.h"
+#include "VertexFit/IVertexDbSvc.h"
+#include "VertexFit/Helix.h"
 
 CLHEP::HepLorentzVector KKpipiUtilities::GetPhoton4Vector(double Energy, double Theta, double Phi) {
   double Px = Energy*TMath::Sin(Theta)*TMath::Cos(Phi);
@@ -92,4 +102,25 @@ CLHEP::HepLorentzVector KKpipiUtilities::GetMissingMomentum(CLHEP::HepLorentzVec
   CLHEP::HepLorentzVector P_Dconstrained(DMomentum*P_Dunit, BeamE);
   // Use conservation of four-momentum to find missing four-momentum
   return CLHEP::HepLorentzVector(0.0, 0.0, 0.0, MASS::JPSI_MASS) - P_Dconstrained - P_X;
+}
+
+void KKpipiUtilities::GetIP(RecMdcKalTrack *MDCKalTrack, double &IP_Vxy, double &IP_Vz) {
+  Hep3Vector xorigin(0,0,0);
+  IVertexDbSvc*  vtxsvc;
+  Gaudi::svcLocator()->service("VertexDbSvc", vtxsvc);
+  if(vtxsvc->isVertexValid()){
+    double* dbv = vtxsvc->PrimaryVertex();
+    xorigin.setX(dbv[0]);
+    xorigin.setY(dbv[1]);
+    xorigin.setZ(dbv[2]);
+  }
+  HepVector a = mdcKalTrk->getZHelixK();
+  HepSymMatrix Ea = mdcKalTrk->getZErrorK();
+  HepPoint3D point0(0.,0.,0.);
+  HepPoint3D IP(xorigin[0],xorigin[1],xorigin[2]);
+  VFHelix helixip3(point0,a,Ea);
+  helixip3.pivot(IP);
+  HepVector  vecipa = helixip3.a();
+  IP_Vxy = fabs(vecipa[0]);
+  IP_Vz = fabs(vecipa[3]);
 }

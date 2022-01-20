@@ -11,6 +11,8 @@
 // CLHEP
 #include "CLHEP/Vector/LorentzVector.h"
 #include "CLHEP/Vector/ThreeVector.h"
+// Boss
+#include "MdcRecEvent/RecMdcKalTrack.h"
 
 namespace KKpipiUtilities {
   /**
@@ -38,6 +40,14 @@ namespace KKpipiUtilities {
    * @return The missing momentum
    */
   CLHEP::HepLorentzVector GetMissingMomentum(CLHEP::HepLorentzVector P_D, CLHEP::HepLorentzVector P_X, double BeamE);
+  /**
+   * Function that calculates the impact parameter in the radial and longitudinal directions (for now it's only for kaons)
+   * This code was copied directly from LocalKaonSelector.cxx in BOSS 6.6.4.p02
+   * @param MDCKalTrack Track object
+   * @param IP_Vxy Impact parameter in the radial direction
+   * @param IP_Vz Impact parameter in the longitudinal direction
+   */
+  void GetIP(RecMdcKalTrack *MDCKalTrack, double &IP_Vxy, double &IP_Vz);
 }
 
 #endif

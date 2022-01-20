@@ -20,6 +20,8 @@
 #include<string>
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
+// Utilities
+#include "KKpipi/KKpipiUtilities.h"
 
 FindKKpipiTagInfo::FindKKpipiTagInfo(): m_DaughterTrackID(std::vector<int>(4)), m_KalmanFitSuccess(0), m_KalmanFitChi2(0.0), m_KSFitSuccess(0), m_DecayLengthVeeVertex(0.0), m_Chi2VeeVertex(0.0), m_KSMassVeeVertex(0.0), m_DecayLengthFit(0.0), m_DecayLengthErrorFit(0.0), m_Chi2Fit(0.0) {
 }
@@ -40,11 +42,13 @@ StatusCode FindKKpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTa
 	KalmanTracks[KPLUS] = MDCKalTrack;
 	m_KPlusP = MDCKalTrack->p4(MASS::K_MASS);
 	m_DaughterTrackID[KPLUS] = (*Track_iter)->trackId();
+	KKpipiUtilities::GetIP(MDCKalTrack, m_KPlusIP_Vxy, m_KPlusIP_Vz);
       } else if (MDCKalTrack->charge() == -1) {
 	DaughterTrackIterators[KMINUS] = Track_iter;
 	KalmanTracks[KMINUS] = MDCKalTrack;
 	m_KMinusP = MDCKalTrack->p4(MASS::K_MASS);
 	m_DaughterTrackID[KMINUS] = (*Track_iter)->trackId();
+	KKpipiUtilities::GetIP(MDCKalTrack, m_KMinusIP_Vxy, m_KMinusIP_Vz);
       }
     } else if(DTTool.isPion(*Track_iter)) {
       if(MDCKalTrack->charge() == +1) {
@@ -177,4 +181,20 @@ double FindKKpipiTagInfo::GetDecayLengthErrorFit() const {
 
 double FindKKpipiTagInfo::GetChi2Fit() const {
   return m_Chi2Fit;
+}
+
+double FindKKpipiTagInfo::GetKPlusIP_Vxy() const {
+  return m_KPlusIP_Vxy;
+}
+
+double FindKKpipiTagInfo::GetKPlusIP_Vz() const {
+  return m_KPlusIP_Vz;
+}
+
+double FindKKpipiTagInfo::GetKMinusIP_Vxy() const {
+  return m_KMinusIP_Vxy;
+}
+
+double FindKKpipiTagInfo::GetKMinusIP_Vz() const {
+  return m_KMinusIP_Vz;
 }

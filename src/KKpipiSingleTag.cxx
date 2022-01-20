@@ -121,6 +121,10 @@ StatusCode KKpipiSingleTag::initialize() {
       status = m_tuple->addItem("KMinusTrueID", m_KMinusTrueID);
       status = m_tuple->addItem("PiPlusTrueID", m_PiPlusTrueID);
       status = m_tuple->addItem("PiMinusTrueID", m_PiMinusTrueID);
+      status = m_tuple->addItem("KPlusIP_Vxy", m_KPlusIP_Vxy);
+      status = m_tuple->addItem("KPlusIP_Vz", m_KPlusIP_Vz);
+      status = m_tuple->addItem("KMinusIP_Vxy", m_KMinusIP_Vxy);
+      status = m_tuple->addItem("KMinusIP_Vz", m_KMinusIP_Vz);
     } else {
       log << MSG::ERROR << "Cannot book NTuple for KKpipi Single Tags" << endmsg;
       return StatusCode::FAILURE;
@@ -261,5 +265,9 @@ StatusCode KKpipiSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DT
     m_PiPlusTrueID = ReconstructedPID[2];
     m_PiMinusTrueID = ReconstructedPID[3];
   }
+  m_KPlusIP_Vxy = findKKpipiTagInfo.GetKPlusIP_Vxy();
+  m_KPlusIP_Vz = findKKpipiTagInfo.GetKPlusIP_Vz();
+  m_KMinusIP_Vxy = findKKpipiTagInfo.GetKMinusIP_Vxy();
+  m_KMinusIP_Vz = findKKpipiTagInfo.GetKMinusIP_Vz();
   return StatusCode::SUCCESS;
 }
