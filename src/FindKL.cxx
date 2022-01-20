@@ -255,13 +255,13 @@ void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTrac
   } else if(!m_FoundPionPair && m_FoundKaonPair) {
     hMass = MASS::K_MASS;
   }
-  WTrackParameter WTrackKplus(hMass, KalmanTracks[0]->getZHelix(), KalmanTracks[0]->getZError());
-  WTrackParameter WTrackKminus(hMass, KalmanTracks[1]->getZHelix(), KalmanTracks[1]->getZError());
+  WTrackParameter WTrackhplus(hMass, KalmanTracks[0]->getZHelix(), KalmanTracks[0]->getZError());
+  WTrackParameter WTrackhminus(hMass, KalmanTracks[1]->getZHelix(), KalmanTracks[1]->getZError());
   KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
   KalmanFit->init();
   KalmanFit->setIterNumber(100);
-  KalmanFit->AddTrack(0, WTrackKplus);
-  KalmanFit->AddTrack(1, WTrackKminus);
+  KalmanFit->AddTrack(0, WTrackhplus);
+  KalmanFit->AddTrack(1, WTrackhminus);
   KalmanFit->AddMissTrack(2, MASS::KS_MASS);
   KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2);
   m_KalmanFitSuccess = KalmanFit->Fit() ? 1 : 0;
