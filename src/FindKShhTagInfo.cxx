@@ -96,8 +96,15 @@ StatusCode FindKShhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagT
   if(KSKalmanFitSuccess) {
     KSKalmanFit->BuildVirtualParticle(0);
     WTrackParameter WTrackKS = KSKalmanFit->wVirtualTrack(0);
-    WTrackParameter WTrackhplus(hMass, KalmanTracks[HPLUS]->getZHelix(), KalmanTracks[HPLUS]->getZError());
-    WTrackParameter WTrackhminus(hMass, KalmanTracks[HMINUS]->getZHelix(), KalmanTracks[HMINUS]->getZError());
+    WTrackParameter WTrackhplus;
+    WTrackParameter WTrackhminus
+    if(m_TagMode == "KSpipi") {
+      WTrackhplus(hMass, KalmanTracks[HPLUS]->getZHelix(), KalmanTracks[HPLUS]->getZError());
+      WTrackhminus(hMass, KalmanTracks[HMINUS]->getZHelix(), KalmanTracks[HMINUS]->getZError());
+    } else {
+      WTrackhplus(hMass, KalmanTracks[HPLUS]->getZHelixK(), KalmanTracks[HPLUS]->getZErrorK());
+      WTrackhminus(hMass, KalmanTracks[HMINUS]->getZHelixK(), KalmanTracks[HMINUS]->getZErrorK());
+    }
     KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
     KalmanFit->init();
     KalmanFit->AddTrack(HPLUS, WTrackhplus);
