@@ -228,7 +228,7 @@ StatusCode FindKL::findKL(DTagToolIterator DTTool_iter, DTagTool DTTool) {
   }
   GetMissingFourMomentum(DTTool_iter);
   if((m_FoundPionPair || m_FoundKaonPair) && m_NumberPi0 == 0 && m_NumberEta == 0) {
-    DoKalmanKinematicFit(KalmanTracks, DTTool_iter);
+    DoKalmanKinematicFit(KalmanTracks, DTTool_iter, DTTool);
   }
   return StatusCode::SUCCESS;
 }
@@ -248,28 +248,66 @@ double FindKL::GetMissingMass2() const {
   return m_KLongP.m2();
 }
 
-void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTracks, DTagToolIterator DTTool_iter) {
-  double hMass;
-  if(m_FoundPionPair && !m_FoundKaonPair) {
-    hMass = MASS::PI_MASS;
-  } else if(!m_FoundPionPair && m_FoundKaonPair) {
-    hMass = MASS::K_MASS;
+void FindKL::DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &KalmanTracks, DTagToolIterator DTTool_iter, DTagTool DTTool) {
+  // Get KKpipi track information
+  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
+  std::vector<RecMdcKalTrack*> KalmanTrack_KKpipi(4); //In the order K+ K- pi+ pi-
+  // Go through all tracks and find the daughter tracks
+  for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
+    RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
+    if(DTTool.isKaon(*Track_iter)) {
+      if(MDCKalTrack->charge() == +1) {
+	KalmanTrack_KKpipi[0] = MDCKalTrack;
+      } else if (MDCKalTrack->charge() == -1) {
+	KalmanTrack_KKpipi[1] = MDCKalTrack;
+      }
+    } else if(DTTool.isPion(*Track_iter)) {
+      if(MDCKalTrack->charge() == +1) {
+	KalmanTrack_KKpipi[2] = MDCKalTrack;
+      } else if(MDCKalTrack->charge() == -1) {
+	KalmanTrack_KKpipi[3] = MDCKalTrack;
+      }
+    }
   }
-  WTrackParameter WTrackhplus(hMass, KalmanTracks[0]->getZHelix(), KalmanTracks[0]->getZError());
-  WTrackParameter WTrackhminus(hMass, KalmanTracks[1]->getZHelix(), KalmanTracks[1]->getZError());
+  WTrackParameter WTrackKplus(MASS::K_MASS, KalmanTrack_KKpipi[0]->getZHelixK(), KalmanTrack_KKpipi[0]->getZErrorK());
+  WTrackParameter WTrackKminus(MASS::K_MASS, KalmanTrack_KKpipi[1]->getZHelixK(), KalmanTrack_KKpipi[1]->getZErrorK());
+  WTrackParameter WTrackPIplus(MASS::PI_MASS, KalmanTrack_KKpipi[2]->getZHelix(), KalmanTrack_KKpipi[2]->getZError());
+  WTrackParameter WTrackPIminus(MASS::PI_MASS, KalmanTrack_KKpipi[3]->getZHelix(), KalmanTrack_KKpipi[3]->getZError());
+  // Get K0hh track information
+  WTrackParameter WTrackhplus;
+  WTrackParameter WTrackhminus;
+  if(m_FoundPionPair && !m_FoundKaonPair) {
+    WTrackhplus = WTrackParameter(MASS::PI_MASS, KalmanTracks[0]->getZHelix(), KalmanTracks[0]->getZError());
+    WTrackhminus = WTrackParameter(MASS::PI_MASS, KalmanTracks[1]->getZHelix(), KalmanTracks[1]->getZError());
+  } else if(!m_FoundPionPair && m_FoundKaonPair) {
+    WTrackhplus = WTrackParameter(MASS::K_MASS, KalmanTracks[0]->getZHelixK(), KalmanTracks[0]->getZErrorK());
+    WTrackhminus = WTrackParameter(MASS::K_MASS, KalmanTracks[1]->getZHelixK(), KalmanTracks[1]->getZErrorK());
+  }
+  // Kalman fit
   KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
   KalmanFit->init();
   KalmanFit->setIterNumber(100);
   KalmanFit->AddTrack(0, WTrackhplus);
   KalmanFit->AddTrack(1, WTrackhminus);
   KalmanFit->AddMissTrack(2, MASS::KS_MASS);
+  KalmanFit->AddTrack(3, WTrackKplus);
+  KalmanFit->AddTrack(4, WTrackKminus);
+  KalmanFit->AddTrack(5, WTrackPIplus);
+  KalmanFit->AddTrack(6, WTrackPIminus);
+  // Constrain both D masses
   KalmanFit->AddResonance(0, MASS::D_MASS, 0, 1, 2);
+  KalmanFit->AddResonance(1, MASS::D_MASS, 3, 4, 5, 6);
+  // Constrain total four-momentum to psi(3770) in lab frame
+  CLHEP::HepLorentzVector Psipp_P(0.0, 0.0, 0.0, MASS::JPSI_MASS);
+  // Crossing angle of 11 mrad
+  Psipp_P.boost(0.011, 0.0, 0.0);
+  KalmanFit->AddFourMomentum(2, Psipp_P);
   m_KalmanFitSuccess = KalmanFit->Fit() ? 1 : 0;
   if(m_KalmanFitSuccess == 1) {
     m_KalmanFitChi2 = KalmanFit->chisq();
     m_hPlusPKalmanFit = KalmanFit->pfit(0);
     m_hMinusPKalmanFit = KalmanFit->pfit(1);
-    m_KLongPKalmanFit = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), m_hPlusPKalmanFit + m_hMinusPKalmanFit, (*DTTool_iter)->beamE());
+    m_KLongPKalmanFit = KalmanFit->pfit(2);
   }
 }
 

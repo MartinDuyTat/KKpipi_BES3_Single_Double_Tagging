@@ -185,7 +185,7 @@ class FindKL {
     /**
      * Do Kalman fit of \f$K_Lh^+h^-\f$
      */
-    void DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &m_KalmanTracks, DTagToolIterator DTTool_iter);
+    void DoKalmanKinematicFit(const std::vector<RecMdcKalTrack*> &m_KalmanTracks, DTagToolIterator DTTool_iter, DTagTool DTTool);
     /**
      * Function that returns true if a \f$K_L\pi\pi\f$ tag is found
      */
