@@ -81,15 +81,19 @@ bool KKpipiUtilities::GetPhotonAngularSeparation(const CLHEP::Hep3Vector &EMCPos
 }
 
 CLHEP::HepLorentzVector KKpipiUtilities::GetMissingMomentum(CLHEP::HepLorentzVector P_D, CLHEP::HepLorentzVector P_X, double BeamE) {
-  // Need to boost because the beams have a crossing angle of 11 mrad
-  CLHEP::Hep3Vector CrossingAngle(-0.011, 0.0, 0.0);
-  P_D.boost(CrossingAngle);
-  P_X.boost(CrossingAngle);
+  // Need to boost to CM frame because the beams have a crossing angle of 11 mrad
+  P_D.boost(-0.011, 0.0, 0.0);
+  P_X.boost(-0.011, 0.0, 0.0);
+  // In the CM frame, the total four-momentum is trivial
+  CLHEP::HepLorentzVector P_psipp(0.0, 0.0, 0.0, MASS::JPSI_MASS);
   // Get the direction unit vector of the D meson three-momentum
   CLHEP::Hep3Vector P_Dunit = P_D.vect().unit();
   // Get the constrained magnitude of the D meson momentum
   double DMomentum = TMath::Sqrt(BeamE*BeamE - MASS::D_MASS*MASS::D_MASS);
   CLHEP::HepLorentzVector P_Dconstrained(DMomentum*P_Dunit, BeamE);
   // Use conservation of four-momentum to find missing four-momentum
-  return CLHEP::HepLorentzVector(0.0, 0.0, 0.0, MASS::JPSI_MASS) - P_Dconstrained - P_X;
+  CLHEP::HepLorentzVector P_miss = P_psipp - P_Dconstrained - P_X;
+  // Boost back to lab frame
+  P_miss.boost(0.011, 0.0, 0.0);
+  return P_miss;
 }
