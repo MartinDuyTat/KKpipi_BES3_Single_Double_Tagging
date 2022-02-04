@@ -97,13 +97,13 @@ StatusCode FindKShhTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagT
     KSKalmanFit->BuildVirtualParticle(0);
     WTrackParameter WTrackKS = KSKalmanFit->wVirtualTrack(0);
     WTrackParameter WTrackhplus;
-    WTrackParameter WTrackhminus
+    WTrackParameter WTrackhminus;
     if(m_TagMode == "KSpipi") {
-      WTrackhplus(hMass, KalmanTracks[HPLUS]->getZHelix(), KalmanTracks[HPLUS]->getZError());
-      WTrackhminus(hMass, KalmanTracks[HMINUS]->getZHelix(), KalmanTracks[HMINUS]->getZError());
+      WTrackhplus = WTrackParameter(hMass, KalmanTracks[HPLUS]->getZHelix(), KalmanTracks[HPLUS]->getZError());
+      WTrackhminus = WTrackParameter(hMass, KalmanTracks[HMINUS]->getZHelix(), KalmanTracks[HMINUS]->getZError());
     } else {
-      WTrackhplus(hMass, KalmanTracks[HPLUS]->getZHelixK(), KalmanTracks[HPLUS]->getZErrorK());
-      WTrackhminus(hMass, KalmanTracks[HMINUS]->getZHelixK(), KalmanTracks[HMINUS]->getZErrorK());
+      WTrackhplus = WTrackParameter(hMass, KalmanTracks[HPLUS]->getZHelixK(), KalmanTracks[HPLUS]->getZErrorK());
+      WTrackhminus = WTrackParameter(hMass, KalmanTracks[HMINUS]->getZHelixK(), KalmanTracks[HMINUS]->getZErrorK());
     }
     KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
     KalmanFit->init();
