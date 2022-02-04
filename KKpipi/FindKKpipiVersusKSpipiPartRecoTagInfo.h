@@ -27,18 +27,18 @@ struct WTrackParameters {
   WTrackParameter TagKSPiMinus;
   WTrackParameter TagPiPlus;
   WTrackParameter TagPiMinus;
-}
+};
 
-class FindKKpipiVersusKSpipiTagInfo {
+class FindKKpipiVersusKSpipiPartRecoTagInfo {
   public: 
     /**
      * Default constructor that initalizes all variables to zero
      */
-    FindKKpipiVersusKSpipiTagInfo(const std::string &TagMode = "KSpipi");
+    FindKKpipiVersusKSpipiPartRecoTagInfo();
     /**
      * Trivial destructor
      */
-    ~FindKKpipiVersusKSpipiTagInfo();
+    ~FindKKpipiVersusKSpipiPartRecoTagInfo();
     /**
      * Function that calculates all the tag information and saves them
      * @param DTTool_iter Iterator pointing to tag candidate

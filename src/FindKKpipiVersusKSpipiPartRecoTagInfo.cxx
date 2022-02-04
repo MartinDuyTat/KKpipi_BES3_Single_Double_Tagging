@@ -1,7 +1,7 @@
 // Martin Duy Tat 5th March 2021
 
 // KKpipi
-#include "KKpipi/FindKKpipiVersusKSpipiTagInfo.h"
+#include "KKpipi/FindKKpipiVersusKSpipiPartRecoTagInfo.h"
 #include "KKpipi/FindKS.h"
 #include "KKpipi/FindhhTagInfo.h"
 #include "KKpipi/ParticleMasses.h"
@@ -26,7 +26,7 @@
 // Particle masses
 #include "KKpipi/ParticleMasses.h"
 
-FindKKpipiVersusKSpipiTagInfo::FindKKpipiVersusKSpipiTagInfo(): m_DaughterTrackID_KKpipi(std::vector<int>(3)),
+FindKKpipiVersusKSpipiPartRecoTagInfo::FindKKpipiVersusKSpipiPartRecoTagInfo(): m_DaughterTrackID_KKpipi(std::vector<int>(3)),
 				    m_DaughterTrackID_KSpipi(std::vector<int>(4)),
 				    m_KSFitSuccess_KSpipi(0),
 				    m_DecayLengthVeeVertex_KSpipi(0.0),
@@ -46,33 +46,33 @@ FindKKpipiVersusKSpipiTagInfo::FindKKpipiVersusKSpipiTagInfo(): m_DaughterTrackI
                                     m_Chi2Fit_KKpipi(0.0) {
 }
 
-FindKKpipiVersusKSpipiTagInfo::~FindKKpipiVersusKSpipiTagInfo() {
+FindKKpipiVersusKSpipiPartRecoTagInfo::~FindKKpipiVersusKSpipiPartRecoTagInfo() {
 }
 
-StatusCode FindKKpipiVersusKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
+StatusCode FindKKpipiVersusKSpipiPartRecoTagInfo::CalculateTagInfo(DTagToolIterator DTTool_iter, DTagTool &DTTool) {
   // First start with tag KSpipi side
   // Find the actual KS candidate
   FindKS findKS(true);
   StatusCode status = findKS.findKS(DTTool_iter, DTTool);
   if(status == StatusCode::SUCCESS) {
-    m_KSFitSuccess = 1;
-    m_DecayLengthFit = findKS.GetDecayLengthFit();
-    m_DecayLengthErrorFit = findKS.GetDecayLengthErrorFit();
-    m_Chi2Fit = findKS.GetChi2Fit();
+    m_KSFitSuccess_KSpipi = 1;
+    m_DecayLengthFit_KSpipi = findKS.GetDecayLengthFit();
+    m_DecayLengthErrorFit_KSpipi = findKS.GetDecayLengthErrorFit();
+    m_Chi2Fit_KSpipi = findKS.GetChi2Fit();
   } else {
-    m_KSFitSuccess = 0;
+    m_KSFitSuccess_KSpipi = 0;
   }
   // Fill out the information about the KS candidate
-  m_DecayLengthVeeVertex = findKS.GetDecayLengthVeeVertex();
-  m_Chi2VeeVertex = findKS.GetChi2VeeVertex();
-  m_KSMassVeeVertex = findKS.GetKSMassVeeVertex();
+  m_DecayLengthVeeVertex_KSpipi = findKS.GetDecayLengthVeeVertex();
+  m_Chi2VeeVertex_KSpipi = findKS.GetChi2VeeVertex();
+  m_KSMassVeeVertex_KSpipi = findKS.GetKSMassVeeVertex();
   m_KSPiPlusP = CLHEP::HepLorentzVector(findKS.GetKSPiPlusP(0), findKS.GetKSPiPlusP(1), findKS.GetKSPiPlusP(2), findKS.GetKSPiPlusP(3));
   m_KSPiMinusP = CLHEP::HepLorentzVector(findKS.GetKSPiMinusP(0), findKS.GetKSPiMinusP(1), findKS.GetKSPiMinusP(2), findKS.GetKSPiMinusP(3));
   m_KShortP = findKS.GetKShortPFit();
   // Get the track ID of the KS daughters
   std::vector<int> KSDaughterTrackIDs = findKS.GetDaughterTrackIDs();
-  m_DaughterTrackID[0] = KSDaughterTrackIDs[0];
-  m_DaughterTrackID[1] = KSDaughterTrackIDs[1];
+  m_DaughterTrackID_KSpipi[0] = KSDaughterTrackIDs[0];
+  m_DaughterTrackID_KSpipi[1] = KSDaughterTrackIDs[1];
   // Get all tracks
   SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   WTrackParameters TrackParameters;
@@ -93,43 +93,62 @@ StatusCode FindKKpipiVersusKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTo
       if(MDCKalTrack->charge() == +1) {
 	TrackParameters.TagPiPlus = WTrackParameter(MASS::PI_MASS, MDCKalTrack->getZHelix(), MDCKalTrack->getZError());
 	m_hPlusP = MDCKalTrack->p4(MASS::PI_MASS);
-	m_DaughterTrackID[2] = (*Track_iter)->trackId();
+	m_DaughterTrackID_KSpipi[2] = (*Track_iter)->trackId();
       } else if(MDCKalTrack->charge() == -1) {
 	TrackParameters.TagPiMinus = WTrackParameter(MASS::PI_MASS, MDCKalTrack->getZHelix(), MDCKalTrack->getZError());
 	m_hMinusP = MDCKalTrack->p4(MASS::PI_MASS);
-	m_DaughterTrackID[3] = (*Track_iter)->trackId();
+	m_DaughterTrackID_KSpipi[3] = (*Track_iter)->trackId();
       }
     }
   }
   // Then do KKpipi side, with a missing kaon
   bool FoundKPlus = false, FoundKMinus = false, FoundPiPlus = false, FoundPiMinus = false;
+  std::vector<int> PionTrackIDs(2);
   SmartRefVector<EvtRecTrack> OtherTracks = (*DTTool_iter)->otherTracks();
   // Go through all tracks and find the daughter tracks
-  for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
+  for(SmartRefVector<EvtRecTrack>::iterator Track_iter = OtherTracks.begin(); Track_iter != OtherTracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     if(DTTool.isKaon(*Track_iter)) {
       if(MDCKalTrack->charge() == +1) {
-	FoundKPlus ? return StatusCode::FAILURE : FoundKPlus = true;
-	TrackParameters.TagSignalKaon = WTrackParameter(MASS::K_MASS, MDCKalTrack->getZHelixK(), MDCKalTrack->getZErrorK());
+	if(FoundKPlus) {
+	  return StatusCode::FAILURE;
+	} else {
+	  FoundKPlus = true;
+	}
+	TrackParameters.SignalKaon = WTrackParameter(MASS::K_MASS, MDCKalTrack->getZHelixK(), MDCKalTrack->getZErrorK());
 	m_KPlusP = MDCKalTrack->p4(MASS::K_MASS);
 	m_DaughterTrackID_KKpipi[0] = (*Track_iter)->trackId();
       } else if (MDCKalTrack->charge() == -1) {
-	FoundKMinus ? return StatusCode::FAILURE : FoundKMinus = true;
-	TrackParameters.TagSignalKaon = WTrackParameter(MASS::K_MASS, MDCKalTrack->getZHelixK(), MDCKalTrack->getZErrorK());
+	if(FoundKMinus) {
+	  return StatusCode::FAILURE;
+	} else {
+	  FoundKMinus = true;
+	}
+	TrackParameters.SignalKaon = WTrackParameter(MASS::K_MASS, MDCKalTrack->getZHelixK(), MDCKalTrack->getZErrorK());
 	m_KMinusP = MDCKalTrack->p4(MASS::K_MASS);
 	m_DaughterTrackID_KKpipi[0] = (*Track_iter)->trackId();
       }
     } else if(DTTool.isPion(*Track_iter)) {
       if(MDCKalTrack->charge() == +1) {
-	FoundPiPlus ? return StatusCode::FAILURE : FoundPiPlus = true;
-	TrackParameters.TagSignalPiPlus = WTrackParameter(MASS::PI_MASS, MDCKalTrack->getZHelix(), MDCKalTrack->getZError());
+	if(FoundPiPlus) {
+	  return StatusCode::FAILURE;
+	} else {
+	  FoundPiPlus = true;
+	}
+	TrackParameters.SignalPiPlus = WTrackParameter(MASS::PI_MASS, MDCKalTrack->getZHelix(), MDCKalTrack->getZError());
 	m_PiPlusP = MDCKalTrack->p4(MASS::PI_MASS);
 	m_DaughterTrackID_KKpipi[1] = (*Track_iter)->trackId();
+	PionTrackIDs[0] = (*Track_iter)->trackId();
       } else if(MDCKalTrack->charge() == -1) {
-	FoundPiMinus ? return StatusCode::FAILURE : FoundPiMinus = true;
-	TrackParameters.TagSignalPiMinus = WTrackParameter(MASS::PI_MASS, MDCKalTrack->getZHelix(), MDCKalTrack->getZError());
+	if(FoundPiMinus) {
+	  return StatusCode::FAILURE;
+	} else {
+	  FoundPiMinus = true;
+	}
+	TrackParameters.SignalPiMinus = WTrackParameter(MASS::PI_MASS, MDCKalTrack->getZHelix(), MDCKalTrack->getZError());
 	m_PiMinusP = MDCKalTrack->p4(MASS::PI_MASS);
 	m_DaughterTrackID_KKpipi[2] = (*Track_iter)->trackId();
+	PionTrackIDs[1] = (*Track_iter)->trackId();
       }
     }
   }
@@ -142,7 +161,7 @@ StatusCode FindKKpipiVersusKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTo
     return StatusCode::FAILURE;
   }
   m_RecKCharge = FoundKPlus ? +1 : -1;
-  if(mRecKCharge == +1) {
+  if(m_RecKCharge == +1) {
     CLHEP::HepLorentzVector P_X = m_KPlusP + m_PiPlusP + m_PiMinusP;
     m_KMinusP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
     m_MissingMass2 = m_KMinusP.m2();
@@ -151,12 +170,28 @@ StatusCode FindKKpipiVersusKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTo
     m_KPlusP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
     m_MissingMass2 = m_KPlusP.m2();
   }
+  double Mpipi = (m_PiPlusP + m_PiMinusP).m();
+  m_KSFitSuccess_KKpipi = 0;
+  // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
+  if(Mpipi - MASS::KS_MASS < 0.050 && Mpipi - MASS::KS_MASS > -0.060) {
+    FindKS findKS(false);
+    StatusCode statuscode = findKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
+    m_DecayLengthVeeVertex_KKpipi = findKS.GetDecayLengthVeeVertex();
+    m_Chi2VeeVertex_KKpipi = findKS.GetChi2VeeVertex();
+    m_KSMassVeeVertex_KKpipi = findKS.GetKSMassVeeVertex();
+    if(statuscode == StatusCode::SUCCESS) {
+      m_KSFitSuccess_KKpipi = 1;
+      m_DecayLengthFit_KKpipi = findKS.GetDecayLengthFit();
+      m_DecayLengthErrorFit_KKpipi = findKS.GetDecayLengthErrorFit();
+      m_Chi2Fit_KKpipi = findKS.GetChi2Fit();
+    }
+  }
   // Finally do the Kalman kinematic fit
   DoKalmanFit(TrackParameters, m_RecKCharge);
   return StatusCode::SUCCESS;
 }
 
-void FindKKpipiVersusKSpipiTagInfo::DoKalmanFit(const WTrackParameters &TrackParameters, int RecKCharge) {    
+void FindKKpipiVersusKSpipiPartRecoTagInfo::DoKalmanFit(const WTrackParameters &TrackParameters, int RecKCharge) {    
   // Do a Kalman kinematic fit of the KS daughter tracks, and constrain the KS mass to its PDG value
   KalmanKinematicFit *KSKalmanFit = KalmanKinematicFit::instance();
   KSKalmanFit->init();
@@ -200,154 +235,153 @@ void FindKKpipiVersusKSpipiTagInfo::DoKalmanFit(const WTrackParameters &TrackPar
       m_PiPlusPKalmanFit = KalmanFit->pfit(5);
       m_PiMinusPKalmanFit = KalmanFit->pfit(6);
     }
-  }
-  
+  }  
 }
 
-std::vector<int> FindKKpipiVersusKSpipiTagInfo::GetDaughterTrackID_KKpipi() const {
+std::vector<int> FindKKpipiVersusKSpipiPartRecoTagInfo::GetDaughterTrackID_KKpipi() const {
   return m_DaughterTrackID_KKpipi;
 }
 
-std::vector<int> FindKKpipiVersusKSpipiTagInfo::GetDaughterTrackID_KSpipi() const {
+std::vector<int> FindKKpipiVersusKSpipiPartRecoTagInfo::GetDaughterTrackID_KSpipi() const {
   return m_DaughterTrackID_KSpipi;
 }
 
-int FindKKpipiVersusKSpipiTagInfo::GetKSFitSuccess_KSpipi() const {
-  return m_KSFitSuccesss_KSpipi;
+int FindKKpipiVersusKSpipiPartRecoTagInfo::GetKSFitSuccess_KSpipi() const {
+  return m_KSFitSuccess_KSpipi;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetDecayLengthVeeVertexs_KSpipi() const {
-  return m_DecayLengthVeeVertexs_KSpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetDecayLengthVeeVertex_KSpipi() const {
+  return m_DecayLengthVeeVertex_KSpipi;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetChi2VeeVertexs_KSpipi() const {
-  return m_Chi2VeeVertexs_KSpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetChi2VeeVertex_KSpipi() const {
+  return m_Chi2VeeVertex_KSpipi;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKSMassVeeVertexs_KSpipi() const {
-  return m_KSMassVeeVertexs_KSpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKSMassVeeVertex_KSpipi() const {
+  return m_KSMassVeeVertex_KSpipi;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetDecayLengthFits_KSpipi() const {
-  return m_DecayLengthFits_KSpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetDecayLengthFit_KSpipi() const {
+  return m_DecayLengthFit_KSpipi;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetDecayLengthErrorFits_KSpipi() const {
-  return m_DecayLengthErrorFits_KSpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetDecayLengthErrorFit_KSpipi() const {
+  return m_DecayLengthErrorFit_KSpipi;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetChi2Fits_KSpipi() const {
-  return m_Chi2Fits_KSpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetChi2Fit_KSpipi() const {
+  return m_Chi2Fit_KSpipi;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKSPiPlusP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKSPiPlusP(int i) const {
   return m_KSPiPlusP[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKSPiMinusP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKSPiMinusP(int i) const {
   return m_KSPiMinusP[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKShortP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKShortP(int i) const {
   return m_KShortP[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GethPlusP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GethPlusP(int i) const {
   return m_hPlusP[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GethMinusP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GethMinusP(int i) const {
   return m_hMinusP[i];
 }
 
-int FindKKpipiVersusKSpipiTagInfo::GetKalmanFitSuccess() const {
+int FindKKpipiVersusKSpipiPartRecoTagInfo::GetKalmanFitSuccess() const {
   return m_KalmanFitSuccess;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKalmanFitChi2() const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKalmanFitChi2() const {
   return m_KalmanFitChi2;
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKShortPKalmanFit(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKShortPKalmanFit(int i) const {
   return m_KShortPKalmanFit[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GethPlusPKalmanFit(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GethPlusPKalmanFit(int i) const {
   return m_hPlusPKalmanFit[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GethMinusPKalmanFit(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GethMinusPKalmanFit(int i) const {
   return m_hMinusPKalmanFit[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKPlusP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKPlusP(int i) const {
   return m_KPlusP[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKMinusP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKMinusP(int i) const {
   return m_KMinusP[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetPiPlusP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetPiPlusP(int i) const {
   return m_PiPlusP[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetPiMinusP(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetPiMinusP(int i) const {
   return m_PiMinusP[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKPlusPKalmanFit(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKPlusPKalmanFit(int i) const {
   return m_KPlusPKalmanFit[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetKMinusPKalmanFit(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKMinusPKalmanFit(int i) const {
   return m_KMinusPKalmanFit[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetPiPlusPKalmanFit(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetPiPlusPKalmanFit(int i) const {
   return m_PiPlusPKalmanFit[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetPiMinusPKalmanFit(int i) const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetPiMinusPKalmanFit(int i) const {
   return m_PiMinusPKalmanFit[i];
 }
 
-double FindKKpipiVersusKSpipiTagInfo::GetMpipi() const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetMpipi_KKpipi() const {
   return (m_PiPlusP + m_PiMinusP).m();
 }
 
-int FindKKpipiVersusKKpipiTagInfo::GetKSFitSuccess_KKpipi() const {
-  return m_KSFitSuccesss_KKpipi;
+int FindKKpipiVersusKSpipiPartRecoTagInfo::GetKSFitSuccess_KKpipi() const {
+  return m_KSFitSuccess_KKpipi;
 }
 
-double FindKKpipiVersusKKpipiTagInfo::GetDecayLengthVeeVertexs_KKpipi() const {
-  return m_DecayLengthVeeVertexs_KKpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetDecayLengthVeeVertex_KKpipi() const {
+  return m_DecayLengthVeeVertex_KKpipi;
 }
 
-double FindKKpipiVersusKKpipiTagInfo::GetChi2VeeVertexs_KKpipi() const {
-  return m_Chi2VeeVertexs_KKpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetChi2VeeVertex_KKpipi() const {
+  return m_Chi2VeeVertex_KKpipi;
 }
 
-double FindKKpipiVersusKKpipiTagInfo::GetKSMassVeeVertexs_KKpipi() const {
-  return m_KSMassVeeVertexs_KKpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetKSMassVeeVertex_KKpipi() const {
+  return m_KSMassVeeVertex_KKpipi;
 }
 
-double FindKKpipiVersusKKpipiTagInfo::GetDecayLengthFits_KKpipi() const {
-  return m_DecayLengthFits_KKpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetDecayLengthFit_KKpipi() const {
+  return m_DecayLengthFit_KKpipi;
 }
 
-double FindKKpipiVersusKKpipiTagInfo::GetDecayLengthErrorFits_KKpipi() const {
-  return m_DecayLengthErrorFits_KKpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetDecayLengthErrorFit_KKpipi() const {
+  return m_DecayLengthErrorFit_KKpipi;
 }
 
-double FindKKpipiVersusKKpipiTagInfo::GetChi2Fits_KKpipi() const {
-  return m_Chi2Fits_KKpipi;
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetChi2Fit_KKpipi() const {
+  return m_Chi2Fit_KKpipi;
 }
 
-double FindKKpipiVersusKKpipiTagInfo::GetMissingMass2() const {
+double FindKKpipiVersusKSpipiPartRecoTagInfo::GetMissingMass2() const {
   return m_MissingMass2;
 }
 
-int FindKKpipiVersusKKpipiTagInfo::GetRecKCharge() const {
+int FindKKpipiVersusKSpipiPartRecoTagInfo::GetRecKCharge() const {
   return m_RecKCharge;
 }

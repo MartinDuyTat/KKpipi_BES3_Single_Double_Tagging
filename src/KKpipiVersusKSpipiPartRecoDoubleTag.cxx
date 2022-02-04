@@ -108,7 +108,7 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKMinuspzKalmanFit", m_SignalKMinuspzKalmanFit);
       status = m_tuple->addItem("SignalKMinusenergyKalmanFit", m_SignalKMinusenergyKalmanFit);
       status = m_tuple->addItem("SignalMissingMass2", m_SignalMissingMass2);
-      status = m_tuple->addItem("SignalRecKCharge", m_RecKCharge);
+      status = m_tuple->addItem("SignalRecKCharge", m_SignalRecKCharge);
       status = m_tuple->addItem("SignalMpipi", m_SignalMpipi);
       status = m_tuple->addItem("SignalKSFitSuccess", m_SignalKSFitSuccess);
       status = m_tuple->addItem("SignalKSDecayLengthVeeVertex", m_SignalDecayLengthVeeVertex);
@@ -197,8 +197,7 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::execute() {
     DTagToolIterator DTTool_Tag_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_Tag_iter, DTTool);
     if(FillTupleStatus != StatusCode::SUCCESS) {
-      log << MSG::FATAL << "Assigning KSpipi tuple info failed" << endreq;
-      return StatusCode::FAILURE;
+      return StatusCode::SUCCESS;
     }
     m_tuple->write();
   }
@@ -212,6 +211,11 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::finalize() {
 }
 
 StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::FillTuple(DTagToolIterator DTTool_Tag_iter, DTagTool &DTTool) {
+  FindKKpipiVersusKSpipiPartRecoTagInfo findKKpipiVersusKSpipiPartRecoTagInfo;
+  StatusCode status = findKKpipiVersusKSpipiPartRecoTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
+  if(status != StatusCode::SUCCESS) {
+    return status;
+  }
   if(m_RunNumber < 0) {
     SmartDataPtr<Event::McParticleCol> MCParticleCol(eventSvc(), "/Event/MC/McParticleCol");
     if(!MCParticleCol) {
@@ -251,11 +255,6 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::FillTuple(DTagToolIterator DTToo
   m_TagDpy = (*DTTool_Tag_iter)->p4().y();
   m_TagDpz = (*DTTool_Tag_iter)->p4().z();
   m_TagDenergy = (*DTTool_Tag_iter)->p4().t();
-  FindKKpipiTagInfo findKKpipiVersusKSpipiPartRecoTagInfo;
-  StatusCode status = findKKpipiVersusKSpipiPartRecoTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
-  if(status != StatusCode::SUCCESS) {
-    return status;
-  }
   m_SignalKPluspx = findKKpipiVersusKSpipiPartRecoTagInfo.GetKPlusP(0);
   m_SignalKPluspy = findKKpipiVersusKSpipiPartRecoTagInfo.GetKPlusP(1);
   m_SignalKPluspz = findKKpipiVersusKSpipiPartRecoTagInfo.GetKPlusP(2);
@@ -290,8 +289,8 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::FillTuple(DTagToolIterator DTToo
   m_SignalPiMinuspyKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetPiMinusPKalmanFit(1);
   m_SignalPiMinuspzKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetPiMinusPKalmanFit(2);
   m_SignalPiMinusenergyKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetPiMinusPKalmanFit(3);
-  m_SignalMpipi = findKKpipiVersusKSpipiPartRecoTagInfo.GetMpipi();
-  m_SignalMissingMass2 = findKKpipiVersusKSpipiPartRecoTagInfo.GetMissingMass2_KKpipi();
+  m_SignalMpipi = findKKpipiVersusKSpipiPartRecoTagInfo.GetMpipi_KKpipi();
+  m_SignalMissingMass2 = findKKpipiVersusKSpipiPartRecoTagInfo.GetMissingMass2();
   m_SignalRecKCharge = findKKpipiVersusKSpipiPartRecoTagInfo.GetRecKCharge();
   m_SignalKSFitSuccess = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSFitSuccess_KKpipi();
   m_SignalDecayLengthVeeVertex = findKKpipiVersusKSpipiPartRecoTagInfo.GetDecayLengthVeeVertex_KKpipi();
@@ -310,47 +309,47 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::FillTuple(DTagToolIterator DTToo
     m_SignalPiPlusTrueID = ReconstructedPID[1];
     m_SignalPiMinusTrueID = ReconstructedPID[2];
   }
-  m_TagKSFitSuccess = findKKpipiVersusKSpipiTagInfo.GetKSFitSuccess_KSpipi();
-  m_TagDecayLengthVeeVertex = findKKpipiVersusKSpipiTagInfo.GetDecayLengthVeeVertexKSpipi();
-  m_TagChi2VeeVertex = findKKpipiVersusKSpipiTagInfo.GetChi2VeeVertexKSpipi();
-  m_TagKSMassVeeVertex = findKKpipiVersusKSpipiTagInfo.GetKSMassVeeVertexKSpipi();
-  m_TagDecayLengthFit = findKKpipiVersusKSpipiTagInfo.GetDecayLengthFitKSpipi();
-  m_TagDecayLengthErrorFit = findKKpipiVersusKSpipiTagInfo.GetDecayLengthErrorFitKSpipi();
-  m_TagChi2Fit = findKKpipiVersusKSpipiTagInfo.GetChi2FitKSpipi();
-  m_TagKSPiPluspx = findKKpipiVersusKSpipiTagInfo.GetKSPiPlusP(0);
-  m_TagKSPiPluspy = findKKpipiVersusKSpipiTagInfo.GetKSPiPlusP(1);
-  m_TagKSPiPluspz = findKKpipiVersusKSpipiTagInfo.GetKSPiPlusP(2);
-  m_TagKSPiPlusenergy = findKKpipiVersusKSpipiTagInfo.GetKSPiPlusP(3);
-  m_TagKSPiMinuspx = findKKpipiVersusKSpipiTagInfo.GetKSPiMinusP(0);
-  m_TagKSPiMinuspy = findKKpipiVersusKSpipiTagInfo.GetKSPiMinusP(1);
-  m_TagKSPiMinuspz = findKKpipiVersusKSpipiTagInfo.GetKSPiMinusP(2);
-  m_TagKSPiMinusenergy = findKKpipiVersusKSpipiTagInfo.GetKSPiMinusP(3);
-  m_TagKSpx = findKKpipiVersusKSpipiTagInfo.GetKShortP(0);
-  m_TagKSpy = findKKpipiVersusKSpipiTagInfo.GetKShortP(1);
-  m_TagKSpz = findKKpipiVersusKSpipiTagInfo.GetKShortP(2);
-  m_TagKSenergy = findKKpipiVersusKSpipiTagInfo.GetKShortP(3);
-  m_TagPiPluspx = findKKpipiVersusKSpipiTagInfo.GethPlusP(0);
-  m_TagPiPluspy = findKKpipiVersusKSpipiTagInfo.GethPlusP(1);
-  m_TagPiPluspz = findKKpipiVersusKSpipiTagInfo.GethPlusP(2);
-  m_TagPiPlusenergy = findKKpipiVersusKSpipiTagInfo.GethPlusP(3);
-  m_TagPiMinuspx = findKKpipiVersusKSpipiTagInfo.GethMinusP(0);
-  m_TagPiMinuspy = findKKpipiVersusKSpipiTagInfo.GethMinusP(1);
-  m_TagPiMinuspz = findKKpipiVersusKSpipiTagInfo.GethMinusP(2);
-  m_TagPiMinusenergy = findKKpipiVersusKSpipiTagInfo.GethMinusP(3);
-  m_TagKSpxKalmanFit = findKKpipiVersusKSpipiTagInfo.GetKShortPKalmanFit(0);
-  m_TagKSpyKalmanFit = findKKpipiVersusKSpipiTagInfo.GetKShortPKalmanFit(1);
-  m_TagKSpzKalmanFit = findKKpipiVersusKSpipiTagInfo.GetKShortPKalmanFit(2);
-  m_TagKSenergyKalmanFit = findKKpipiVersusKSpipiTagInfo.GetKShortPKalmanFit(3);
-  m_TagPiPluspxKalmanFit = findKKpipiVersusKSpipiTagInfo.GethPlusPKalmanFit(0);
-  m_TagPiPluspyKalmanFit = findKKpipiVersusKSpipiTagInfo.GethPlusPKalmanFit(1);
-  m_TagPiPluspzKalmanFit = findKKpipiVersusKSpipiTagInfo.GethPlusPKalmanFit(2);
-  m_TagPiPlusenergyKalmanFit = findKKpipiVersusKSpipiTagInfo.GethPlusPKalmanFit(3);
-  m_TagPiMinuspxKalmanFit = findKKpipiVersusKSpipiTagInfo.GethMinusPKalmanFit(0);
-  m_TagPiMinuspyKalmanFit = findKKpipiVersusKSpipiTagInfo.GethMinusPKalmanFit(1);
-  m_TagPiMinuspzKalmanFit = findKKpipiVersusKSpipiTagInfo.GethMinusPKalmanFit(2);
-  m_TagPiMinusenergyKalmanFit = findKKpipiVersusKSpipiTagInfo.GethMinusPKalmanFit(3);
+  m_TagKSFitSuccess = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSFitSuccess_KSpipi();
+  m_TagDecayLengthVeeVertex = findKKpipiVersusKSpipiPartRecoTagInfo.GetDecayLengthVeeVertex_KSpipi();
+  m_TagChi2VeeVertex = findKKpipiVersusKSpipiPartRecoTagInfo.GetChi2VeeVertex_KSpipi();
+  m_TagKSMassVeeVertex = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSMassVeeVertex_KSpipi();
+  m_TagDecayLengthFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetDecayLengthFit_KSpipi();
+  m_TagDecayLengthErrorFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetDecayLengthErrorFit_KSpipi();
+  m_TagChi2Fit = findKKpipiVersusKSpipiPartRecoTagInfo.GetChi2Fit_KSpipi();
+  m_TagKSPiPluspx = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSPiPlusP(0);
+  m_TagKSPiPluspy = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSPiPlusP(1);
+  m_TagKSPiPluspz = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSPiPlusP(2);
+  m_TagKSPiPlusenergy = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSPiPlusP(3);
+  m_TagKSPiMinuspx = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSPiMinusP(0);
+  m_TagKSPiMinuspy = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSPiMinusP(1);
+  m_TagKSPiMinuspz = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSPiMinusP(2);
+  m_TagKSPiMinusenergy = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSPiMinusP(3);
+  m_TagKSpx = findKKpipiVersusKSpipiPartRecoTagInfo.GetKShortP(0);
+  m_TagKSpy = findKKpipiVersusKSpipiPartRecoTagInfo.GetKShortP(1);
+  m_TagKSpz = findKKpipiVersusKSpipiPartRecoTagInfo.GetKShortP(2);
+  m_TagKSenergy = findKKpipiVersusKSpipiPartRecoTagInfo.GetKShortP(3);
+  m_TagPiPluspx = findKKpipiVersusKSpipiPartRecoTagInfo.GethPlusP(0);
+  m_TagPiPluspy = findKKpipiVersusKSpipiPartRecoTagInfo.GethPlusP(1);
+  m_TagPiPluspz = findKKpipiVersusKSpipiPartRecoTagInfo.GethPlusP(2);
+  m_TagPiPlusenergy = findKKpipiVersusKSpipiPartRecoTagInfo.GethPlusP(3);
+  m_TagPiMinuspx = findKKpipiVersusKSpipiPartRecoTagInfo.GethMinusP(0);
+  m_TagPiMinuspy = findKKpipiVersusKSpipiPartRecoTagInfo.GethMinusP(1);
+  m_TagPiMinuspz = findKKpipiVersusKSpipiPartRecoTagInfo.GethMinusP(2);
+  m_TagPiMinusenergy = findKKpipiVersusKSpipiPartRecoTagInfo.GethMinusP(3);
+  m_TagKSpxKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetKShortPKalmanFit(0);
+  m_TagKSpyKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetKShortPKalmanFit(1);
+  m_TagKSpzKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetKShortPKalmanFit(2);
+  m_TagKSenergyKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GetKShortPKalmanFit(3);
+  m_TagPiPluspxKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GethPlusPKalmanFit(0);
+  m_TagPiPluspyKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GethPlusPKalmanFit(1);
+  m_TagPiPluspzKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GethPlusPKalmanFit(2);
+  m_TagPiPlusenergyKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GethPlusPKalmanFit(3);
+  m_TagPiMinuspxKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GethMinusPKalmanFit(0);
+  m_TagPiMinuspyKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GethMinusPKalmanFit(1);
+  m_TagPiMinuspzKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GethMinusPKalmanFit(2);
+  m_TagPiMinusenergyKalmanFit = findKKpipiVersusKSpipiPartRecoTagInfo.GethMinusPKalmanFit(3);
   if(m_RunNumber < 0) {
-    std::vector<int> DaughterTrackIDs = findKKpipiVersusKSpipiTagInfo.GetDaughterTrackID_KSpipi();
+    std::vector<int> DaughterTrackIDs = findKKpipiVersusKSpipiPartRecoTagInfo.GetDaughterTrackID_KSpipi();
     PIDTruth PID_Truth(DaughterTrackIDs, 4, this);
     m_TagIsSameDMother = PID_Truth.SameDMother() ? 1 : 0;
     int SomeArray[4] = {211, -211, 211, -211};
