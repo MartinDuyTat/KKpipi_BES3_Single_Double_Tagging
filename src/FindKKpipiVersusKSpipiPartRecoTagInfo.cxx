@@ -149,7 +149,7 @@ StatusCode FindKKpipiVersusKSpipiTagInfo::CalculateTagInfo(DTagToolIterator DTTo
   } else {
     CLHEP::HepLorentzVector P_X = m_KMinusP + m_PiPlusP + m_PiMinusP;
     m_KPlusP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
-    m_MissingMass2 = m_KMinusP.m2();
+    m_MissingMass2 = m_KPlusP.m2();
   }
   // Finally do the Kalman kinematic fit
   DoKalmanFit(TrackParameters, m_RecKCharge);
