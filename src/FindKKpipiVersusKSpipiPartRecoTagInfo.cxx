@@ -166,7 +166,7 @@ StatusCode FindKKpipiVersusKSpipiPartRecoTagInfo::CalculateTagInfo(DTagToolItera
     m_KMinusP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
     m_MissingMass2 = m_KMinusP.m2();
   } else {
-    CLHEP::HepLorentzVector P_X = m_KPlusP + m_PiMinusP + m_PiMinusP;
+    CLHEP::HepLorentzVector P_X = m_KMinusP + m_PiPlusP + m_PiMinusP;
     m_KPlusP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
     m_MissingMass2 = m_KMinusP.m2();
   }
