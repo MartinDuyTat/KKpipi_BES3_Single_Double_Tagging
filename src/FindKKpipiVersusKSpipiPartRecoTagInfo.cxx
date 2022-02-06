@@ -7,6 +7,7 @@
 #include "KKpipi/ParticleMasses.h"
 #include "KKpipi/KKpipiUtilities.h"
 // Gaudi
+#include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/SmartRefVector.h"
 #include "GaudiKernel/StatusCode.h"
 #include "GaudiKernel/IDataProviderSvc.h"
