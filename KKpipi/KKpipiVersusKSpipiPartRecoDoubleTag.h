@@ -288,6 +288,10 @@ class KKpipiVersusKSpipiPartRecoDoubleTag: public Algorithm {
      */
     NTuple::Item<int> m_SignalRecKCharge;
     /**
+     * The number of \f$\pi^0\f$ in the event
+     */
+    NTuple::Item<int> m_NumberPi0;
+    /**
      * Signal \f$\pi^+\pi^-\f$ invariant mass
      */
     NTuple::Item<double> m_SignalMpipi;

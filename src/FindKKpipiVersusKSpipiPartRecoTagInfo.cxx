@@ -1,4 +1,4 @@
-// Martin Duy Tat 5th March 2021
+// Martin Duy Tat 2nd February 2022
 
 // KKpipi
 #include "KKpipi/FindKKpipiVersusKSpipiPartRecoTagInfo.h"
@@ -9,6 +9,10 @@
 // Gaudi
 #include "GaudiKernel/SmartRefVector.h"
 #include "GaudiKernel/StatusCode.h"
+#include "GaudiKernel/IDataProviderSvc.h"
+#include "GaudiKernel/ISvcLocator.h"
+#include "GaudiKernel/SmartRefVector.h"
+#include "GaudiKernel/SmartDataPtr.h"
 // Event information
 #include "EvtRecEvent/EvtRecTrack.h"
 // CLHEP
@@ -186,6 +190,8 @@ StatusCode FindKKpipiVersusKSpipiPartRecoTagInfo::CalculateTagInfo(DTagToolItera
       m_Chi2Fit_KKpipi = findKS.GetChi2Fit();
     }
   }
+  // Find the pi0
+  m_NumberPi0 = FindPi0();
   // Finally do the Kalman kinematic fit
   DoKalmanFit(TrackParameters, m_RecKCharge);
   return StatusCode::SUCCESS;
@@ -236,6 +242,32 @@ void FindKKpipiVersusKSpipiPartRecoTagInfo::DoKalmanFit(const WTrackParameters &
       m_PiMinusPKalmanFit = KalmanFit->pfit(6);
     }
   }  
+}
+
+int FindKKpipiVersusKSpipiPartRecoTagInfo::FindPi0() {
+  // Prepare event data service
+  IDataProviderSvc *EventDataService = nullptr;
+  Gaudi::svcLocator()->service("EventDataSvc", EventDataService);
+  // Prepare pi0 service
+  SmartDataPtr<EvtRecPi0Col> evtRecPi0Col(EventDataService, "/Event/EvtRec/EvtRecPi0Col");
+  // Look for pi0
+  int NumberPi0 = 0;
+  for(EvtRecPi0Col::iterator Pi0_iter = evtRecPi0Col->begin(); Pi0_iter != evtRecPi0Col->end(); Pi0_iter++) {
+    // Get photon tracks...?
+    EvtRecTrack *HighEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Pi0_iter)->hiEnGamma());
+    EvtRecTrack *LowEnergyPhotonTrack = const_cast<EvtRecTrack*>((*Pi0_iter)->loEnGamma());
+    // Get EM shower four-momenta of photons
+    RecEmcShower *HighEPhotonShower = HighEnergyPhotonTrack->emcShower();
+    RecEmcShower *LowEPhotonShower = LowEnergyPhotonTrack->emcShower();
+    // Pi0 invariant mass
+    CLHEP::HepLorentzVector HighEPhotonP = KKpipiUtilities::GetPhoton4Vector(HighEPhotonShower->energy(), HighEPhotonShower->theta(), HighEPhotonShower->phi());
+    CLHEP::HepLorentzVector LowEPhotonP = KKpipiUtilities::GetPhoton4Vector(LowEPhotonShower->energy(), LowEPhotonShower->theta(), LowEPhotonShower->phi());
+    double Mgammagamma = (HighEPhotonP + LowEPhotonP).m();
+    if(Mgammagamma > 0.115 && Mgammagamma < 0.150) {
+      NumberPi0++;
+    }
+  }
+  return NumberPi0;
 }
 
 std::vector<int> FindKKpipiVersusKSpipiPartRecoTagInfo::GetDaughterTrackID_KKpipi() const {
@@ -384,4 +416,8 @@ double FindKKpipiVersusKSpipiPartRecoTagInfo::GetMissingMass2() const {
 
 int FindKKpipiVersusKSpipiPartRecoTagInfo::GetRecKCharge() const {
   return m_RecKCharge;
+}
+
+int FindKKpipiVersusKSpipiPartRecoTagInfo::GetNumberPi0() const {
+  return m_NumberPi0;
 }

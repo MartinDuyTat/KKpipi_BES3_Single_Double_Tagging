@@ -1,4 +1,4 @@
-// Martin Duy Tat 5th March 2021
+// Martin Duy Tat 2nd February 2022
 /**
  * FindKKpipiVersusKSpipiTagInfo is a class for extracting all the variables of a KSpipi or KSKK tag
  */
@@ -52,6 +52,10 @@ class FindKKpipiVersusKSpipiPartRecoTagInfo {
      * @param RecKCharge Charge of the reconstructed kaon
      */
     void DoKalmanFit(const WTrackParameters &TrackParameters, int RecKCharge);
+    /**
+     * Find the number of pi0 in the event
+     */
+    int FindPi0();
     /**
      * Get the daughter track IDs, in the order K pi+ pi-
      */
@@ -222,6 +226,10 @@ class FindKKpipiVersusKSpipiPartRecoTagInfo {
      * Get reconstructed kaon charge
      */
     int GetRecKCharge() const;
+    /**
+     * Get the number of pi0 in the event
+     */
+    int GetNumberPi0() const;
   private:
     /**
      * Daughter track IDs, in the order K+ K- pi+ pi-
@@ -367,6 +375,10 @@ class FindKKpipiVersusKSpipiPartRecoTagInfo {
      * The reconstructed kaon charge
      */
     int m_RecKCharge;
+    /**
+     * The number of pi0 in the event
+     */
+    int m_NumberPi0;
 };
 
 #endif

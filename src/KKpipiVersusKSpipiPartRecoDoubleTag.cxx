@@ -109,6 +109,7 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::initialize() {
       status = m_tuple->addItem("SignalKMinusenergyKalmanFit", m_SignalKMinusenergyKalmanFit);
       status = m_tuple->addItem("SignalMissingMass2", m_SignalMissingMass2);
       status = m_tuple->addItem("SignalRecKCharge", m_SignalRecKCharge);
+      status = m_tuple->addItem("SignalNumberPi0", m_SignalNumberPi0);
       status = m_tuple->addItem("SignalMpipi", m_SignalMpipi);
       status = m_tuple->addItem("SignalKSFitSuccess", m_SignalKSFitSuccess);
       status = m_tuple->addItem("SignalKSDecayLengthVeeVertex", m_SignalDecayLengthVeeVertex);
@@ -292,6 +293,7 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::FillTuple(DTagToolIterator DTToo
   m_SignalMpipi = findKKpipiVersusKSpipiPartRecoTagInfo.GetMpipi_KKpipi();
   m_SignalMissingMass2 = findKKpipiVersusKSpipiPartRecoTagInfo.GetMissingMass2();
   m_SignalRecKCharge = findKKpipiVersusKSpipiPartRecoTagInfo.GetRecKCharge();
+  m_SignalNumberPi0 = findKKpipiVersusKSpipiPartRecoTagInfo.GetNumberPi0();
   m_SignalKSFitSuccess = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSFitSuccess_KKpipi();
   m_SignalDecayLengthVeeVertex = findKKpipiVersusKSpipiPartRecoTagInfo.GetDecayLengthVeeVertex_KKpipi();
   m_SignalChi2VeeVertex = findKKpipiVersusKSpipiPartRecoTagInfo.GetChi2VeeVertex_KKpipi();
