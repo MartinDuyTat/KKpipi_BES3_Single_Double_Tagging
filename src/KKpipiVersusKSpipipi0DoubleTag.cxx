@@ -448,8 +448,8 @@ StatusCode KKpipiVersusKSpipipi0DoubleTag::FillTuple(DTagToolIterator DTTool_Sig
     m_TagPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
     m_TagKSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], true);
     m_TagKSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], true);
-    m_TagHighEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[4], false);
-    m_TagLowEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[5], false);
+    m_TagHighEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(PhotonPairTrackID[0].first, false);
+    m_TagLowEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(PhotonPairTrackID[0].second, false);
   }
   return StatusCode::SUCCESS;
 }

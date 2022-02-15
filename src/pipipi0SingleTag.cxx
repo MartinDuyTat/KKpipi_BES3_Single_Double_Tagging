@@ -273,8 +273,8 @@ StatusCode pipipi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &D
     m_PiMinusTrueID = ReconstructedPID[1];
     m_HighEPi0PhotonTrueID = ReconstructedPID[2];
     m_LowEPi0PhotonTrueID = ReconstructedPID[3];
-    m_HighEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], false);
-    m_LowEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], false);
+    m_HighEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(PhotonPairTrackID[0].first, false);
+    m_LowEPi0PhotonMotherTrueID = PID_Truth.GetTrueMotherID(PhotonPairTrackID[0].second, false);
   }
   return StatusCode::SUCCESS;
 }

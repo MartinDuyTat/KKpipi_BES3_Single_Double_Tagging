@@ -302,10 +302,10 @@ StatusCode KSpi0pi0SingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &
     m_LowEPi0PhotonTrueID2 = ReconstructedPID[5];
     m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
     m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
-    m_HighEPi0PhotonMotherTrueID1 = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], false);
-    m_LowEPi0PhotonMotherTrueID1 = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], false);
-    m_HighEPi0PhotonMotherTrueID2 = PID_Truth.GetTrueMotherID(DaughterTrackIDs[4], false);
-    m_LowEPi0PhotonMotherTrueID2 = PID_Truth.GetTrueMotherID(DaughterTrackIDs[5], false);
+    m_HighEPi0PhotonMotherTrueID1 = PID_Truth.GetTrueMotherID(PhotonPairTrackID[0].first, false);
+    m_LowEPi0PhotonMotherTrueID1 = PID_Truth.GetTrueMotherID(PhotonPairTrackID[0].second, false);
+    m_HighEPi0PhotonMotherTrueID2 = PID_Truth.GetTrueMotherID(PhotonPairTrackID[1].first, false);
+    m_LowEPi0PhotonMotherTrueID2 = PID_Truth.GetTrueMotherID(PhotonPairTrackID[1].second, false);
   }
   return StatusCode::SUCCESS;
 }

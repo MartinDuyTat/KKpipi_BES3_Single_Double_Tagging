@@ -259,8 +259,8 @@ StatusCode KSetaSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTT
     m_LowEEtaPhotonTrueID = ReconstructedPID[3];
     m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
     m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
-    m_HighEEtaPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[2], false);
-    m_LowEEtaPhotonMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[3], false);
+    m_HighEEtaPhotonMotherTrueID = PID_Truth.GetTrueMotherID(PhotonPairTrackID[0].first, false);
+    m_LowEEtaPhotonMotherTrueID = PID_Truth.GetTrueMotherID(PhotonPairTrackID[0].second, false);
   }
   return StatusCode::SUCCESS;
 }
