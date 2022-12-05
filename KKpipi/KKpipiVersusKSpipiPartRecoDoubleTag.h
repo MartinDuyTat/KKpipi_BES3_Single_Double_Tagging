@@ -292,6 +292,14 @@ class KKpipiVersusKSpipiPartRecoDoubleTag: public Algorithm {
      */
     NTuple::Item<int> m_SignalNumberPi0;
     /**
+     * Number of good photons that are not FSR
+     */
+    NTuple::Item<int> m_TagNumberGamma;
+    /**
+     * Array of energies of good photon showers that are not FSR
+     */
+    NTuple::Array<double> m_TagExtraShowerEnergy;
+    /**
      * Signal \f$\pi^+\pi^-\f$ invariant mass
      */
     NTuple::Item<double> m_SignalMpipi;
