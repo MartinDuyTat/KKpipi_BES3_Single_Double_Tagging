@@ -110,8 +110,8 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::initialize() {
       status = m_tuple->addItem("SignalMissingMass2", m_SignalMissingMass2);
       status = m_tuple->addItem("SignalRecKCharge", m_SignalRecKCharge);
       status = m_tuple->addItem("SignalNumberPi0", m_SignalNumberPi0);
-      status = m_tuple->addItem("TagNumberGamma", m_TagNumberGamma, 0, 100);
-      status = m_tuple->addIndexedItem("TagExtraShowerEnergy", m_TagNumberGamma, m_TagExtraShowerEnergy);
+      status = m_tuple->addItem("SignalNumberGamma", m_SignalNumberGamma, 0, 100);
+      status = m_tuple->addIndexedItem("SignalExtraShowerEnergy", m_SignalNumberGamma, m_SignalExtraShowerEnergy);
       status = m_tuple->addItem("SignalMpipi", m_SignalMpipi);
       status = m_tuple->addItem("SignalKSFitSuccess", m_SignalKSFitSuccess);
       status = m_tuple->addItem("SignalKSDecayLengthVeeVertex", m_SignalDecayLengthVeeVertex);
@@ -296,9 +296,9 @@ StatusCode KKpipiVersusKSpipiPartRecoDoubleTag::FillTuple(DTagToolIterator DTToo
   m_SignalMissingMass2 = findKKpipiVersusKSpipiPartRecoTagInfo.GetMissingMass2();
   m_SignalRecKCharge = findKKpipiVersusKSpipiPartRecoTagInfo.GetRecKCharge();
   m_SignalNumberPi0 = findKKpipiVersusKSpipiPartRecoTagInfo.GetNumberPi0();
-  m_TagNumberGamma = findKKpipiVersusKSpipiPartRecoTagInfo.GetNumberGamma();
-  for(int j = 0; j < m_TagNumberGamma; j++) {
-    m_TagExtraShowerEnergy[j] = findKKpipiVersusKSpipiPartRecoTagInfo.GetExtraShowerEnergy(j);
+  m_SignalNumberGamma = findKKpipiVersusKSpipiPartRecoTagInfo.GetNumberGamma();
+  for(int j = 0; j < m_SignalNumberGamma; j++) {
+    m_SignalExtraShowerEnergy[j] = findKKpipiVersusKSpipiPartRecoTagInfo.GetExtraShowerEnergy(j);
   }
   m_SignalKSFitSuccess = findKKpipiVersusKSpipiPartRecoTagInfo.GetKSFitSuccess_KKpipi();
   m_SignalDecayLengthVeeVertex = findKKpipiVersusKSpipiPartRecoTagInfo.GetDecayLengthVeeVertex_KKpipi();

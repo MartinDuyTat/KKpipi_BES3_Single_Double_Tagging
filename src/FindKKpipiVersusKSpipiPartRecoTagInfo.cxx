@@ -48,7 +48,8 @@ FindKKpipiVersusKSpipiPartRecoTagInfo::FindKKpipiVersusKSpipiPartRecoTagInfo(): 
 				    m_KSMassVeeVertex_KKpipi(0.0),
 				    m_DecayLengthFit_KKpipi(0.0),
 				    m_DecayLengthErrorFit_KKpipi(0.0),
-                                    m_Chi2Fit_KKpipi(0.0) {
+                                    m_Chi2Fit_KKpipi(0.0),
+                                    m_NumberGamma(0) {
 }
 
 FindKKpipiVersusKSpipiPartRecoTagInfo::~FindKKpipiVersusKSpipiPartRecoTagInfo() {
@@ -273,7 +274,7 @@ int FindKKpipiVersusKSpipiPartRecoTagInfo::FindPi0() {
   return NumberPi0;
 }
 
-void KKpipiVersusKSpipiPartRecoTagInfo::FillExtraShowerInfo(DTagToolIterator DTTool_iter) {
+void FindKKpipiVersusKSpipiPartRecoTagInfo::FillExtraShowerInfo(DTagToolIterator DTTool_iter) {
   // Get showers on the other side of the reconstructed D meson
   SmartRefVector<EvtRecTrack> OtherShowers = (*DTTool_iter)->otherShowers();
   // Loop over all showers to find FSR photons
@@ -308,8 +309,7 @@ void KKpipiVersusKSpipiPartRecoTagInfo::FillExtraShowerInfo(DTagToolIterator DTT
     // Get four-momentum of shower
     CLHEP::HepLorentzVector ShowerP = KKpipiUtilities::GetPhoton4Vector(EMCShower->energy(), EMCShower->theta(), EMCShower->phi());
     // Calculate angle between charged tracks and shower, if less than 5 degrees this must be FSR
-    double PhotonLeptonAngle = m_ElectronP.vect().theta(ShowerP.vect());
-    CLHEP::HepLorentzVector KaonP = m_RecKCharge == +1 ? KPlusP : KMinusP;
+    CLHEP::HepLorentzVector KaonP = m_RecKCharge == +1 ? m_KPlusP : m_KMinusP;
     if(m_PiPlusP.vect().theta(ShowerP.vect()) < 5.0*TMath::Pi()/180.0 ||
        m_PiMinusP.vect().theta(ShowerP.vect()) < 5.0*TMath::Pi()/180.0 ||
        KaonP.vect().theta(ShowerP.vect()) < 5.0*TMath::Pi()/180.0) {
