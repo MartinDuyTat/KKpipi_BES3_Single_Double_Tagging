@@ -230,18 +230,6 @@ class FindKKpipiVersusKSpipiPartRecoTagInfo {
      * Get the number of pi0 in the event
      */
     int GetNumberPi0() const;
-    /**
-     * Obtain information about the extra showers
-     */
-    void FillExtraShowerInfo(DTagToolIterator DTTool_iter);
-    /**
-     * Get the energy of the jth photon shower that is not FSR
-     */
-    double GetExtraShowerEnergy(int j) const;
-    /**
-     * Get the number of photons that are not FSR
-     */
-    int GetNumberGamma() const;
   private:
     /**
      * Daughter track IDs, in the order K+ K- pi+ pi-
@@ -391,14 +379,6 @@ class FindKKpipiVersusKSpipiPartRecoTagInfo {
      * The number of pi0 in the event
      */
     int m_NumberPi0;
-    /**
-     * Vector of photon shower energies that is not FSR
-     */
-    std::vector<double> m_ExtraShowerEnergy;
-    /**
-     * Number of photons that are not FSR
-     */
-    int m_NumberGamma;
 };
 
 #endif

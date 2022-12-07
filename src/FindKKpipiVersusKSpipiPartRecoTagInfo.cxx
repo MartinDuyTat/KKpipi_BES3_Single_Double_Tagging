@@ -48,8 +48,7 @@ FindKKpipiVersusKSpipiPartRecoTagInfo::FindKKpipiVersusKSpipiPartRecoTagInfo(): 
 				    m_KSMassVeeVertex_KKpipi(0.0),
 				    m_DecayLengthFit_KKpipi(0.0),
 				    m_DecayLengthErrorFit_KKpipi(0.0),
-                                    m_Chi2Fit_KKpipi(0.0),
-                                    m_NumberGamma(0) {
+                                    m_Chi2Fit_KKpipi(0.0) {
 }
 
 FindKKpipiVersusKSpipiPartRecoTagInfo::~FindKKpipiVersusKSpipiPartRecoTagInfo() {
@@ -194,8 +193,6 @@ StatusCode FindKKpipiVersusKSpipiPartRecoTagInfo::CalculateTagInfo(DTagToolItera
   }
   // Find the pi0
   m_NumberPi0 = FindPi0();
-  // Find the extra showers
-  FillExtraShowerInfo(DTTool_iter);
   // Finally do the Kalman kinematic fit
   DoKalmanFit(TrackParameters, m_RecKCharge);
   return StatusCode::SUCCESS;
@@ -272,54 +269,6 @@ int FindKKpipiVersusKSpipiPartRecoTagInfo::FindPi0() {
     }
   }
   return NumberPi0;
-}
-
-void FindKKpipiVersusKSpipiPartRecoTagInfo::FillExtraShowerInfo(DTagToolIterator DTTool_iter) {
-  // Get showers on the other side of the reconstructed D meson
-  SmartRefVector<EvtRecTrack> OtherShowers = (*DTTool_iter)->otherShowers();
-  // Loop over all showers to find FSR photons
-  for(SmartRefVector<EvtRecTrack>::iterator Shower_iter = OtherShowers.begin(); Shower_iter != OtherShowers.end(); Shower_iter++) {
-    // Check if shower is valid
-    if(!(*Shower_iter)->isEmcShowerValid()) {
-      continue;
-    }
-    // Get reconstructed EMC shower
-    RecEmcShower *EMCShower = (*Shower_iter)->emcShower();
-    if(EMCShower->module() == 1 && EMCShower->energy() < 0.025) {
-      // Shower in the barrel must have energy larger than 25 MeV
-      continue;
-    } else if(EMCShower->module() != 1 && EMCShower->energy() < 0.050) {
-      // Shower in endcap must have energy larger than 50 MeV
-      continue;
-    }
-    if(EMCShower->time() < 0 || EMCShower->time() > 14) {
-      // EMC shower time requirement 0 <= T <= 14 (in units of 50 ns)
-      continue;
-    }
-    // Get EMC position of shower
-    CLHEP::Hep3Vector EMCPosition(EMCShower->x(), EMCShower->y(), EMCShower->z());
-    // Initialize angles to their maximum
-    double Theta;
-    double Phi;
-    double Angle;
-    // If the nearest charged track is separated by less than 20 degrees from the shower, skip event
-    if(!KKpipiUtilities::GetPhotonAngularSeparation(EMCPosition, Angle, Theta, Phi) || Angle < 20.0*TMath::Pi()/180.0) {
-      continue;
-    }
-    // Get four-momentum of shower
-    CLHEP::HepLorentzVector ShowerP = KKpipiUtilities::GetPhoton4Vector(EMCShower->energy(), EMCShower->theta(), EMCShower->phi());
-    // Calculate angle between charged tracks and shower, if less than 5 degrees this must be FSR
-    CLHEP::HepLorentzVector KaonP = m_RecKCharge == +1 ? m_KPlusP : m_KMinusP;
-    if(m_PiPlusP.vect().theta(ShowerP.vect()) < 5.0*TMath::Pi()/180.0 ||
-       m_PiMinusP.vect().theta(ShowerP.vect()) < 5.0*TMath::Pi()/180.0 ||
-       KaonP.vect().theta(ShowerP.vect()) < 5.0*TMath::Pi()/180.0) {
-      continue;
-    } else {
-      // If not, save shower energy for later background study
-      m_ExtraShowerEnergy.push_back(ShowerP.e());
-      m_NumberGamma++;
-    }
-  }
 }
 
 std::vector<int> FindKKpipiVersusKSpipiPartRecoTagInfo::GetDaughterTrackID_KKpipi() const {
@@ -472,12 +421,4 @@ int FindKKpipiVersusKSpipiPartRecoTagInfo::GetRecKCharge() const {
 
 int FindKKpipiVersusKSpipiPartRecoTagInfo::GetNumberPi0() const {
   return m_NumberPi0;
-}
-
-double FindKKpipiVersusKSpipiPartRecoTagInfo::GetExtraShowerEnergy(int j) const {
-  return m_ExtraShowerEnergy[j];
-}
-
-int FindKKpipiVersusKSpipiPartRecoTagInfo::GetNumberGamma() const {
-  return m_NumberGamma;
 }
