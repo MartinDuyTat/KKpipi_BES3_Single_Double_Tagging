@@ -78,6 +78,14 @@ class FindPi0Eta {
      * @param pi0eta_index 0 for first \f$pi^0\f$, 1 for second \f$\pi^0\f$...
      */
     int GetLowEPhotonTrackID(int pi0eta_index = 0) const;
+    /**
+     * Get the shower object of the high energy photon
+     */
+    const RecEmcShower* GetHighEShower();
+    /**
+     * Get the shower object of the low energy photon
+     */
+    const RecEmcShower* GetHighEShower();
   private:
     /**
      * The high energy photon unconstrained four-momentum
@@ -115,6 +123,14 @@ class FindPi0Eta {
      * Particle to look for, "pi0" for \f$\pi^0\f$ and "eta" for \f$eta\f$
      */
     std::string m_Particle;
+    /**
+     * The high energy shower object
+     */
+    RecEmcShower *m_HighEShower;
+    /**
+     * The low energy shower object
+     */
+    RecEmcShower *m_LowEShower;
 };
 
 #endif
