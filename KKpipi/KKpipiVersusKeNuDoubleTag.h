@@ -411,6 +411,22 @@ class KKpipiVersusKeNuDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagUMiss;
     /**
+     * Number of $\pi^0$ candidates
+     */
+    NTuple::Item<int> m_TagNumberPi0;
+    /**
+     * Smallest angle between a shower and a charged track
+     */
+    NTuple::Item<double> m_TagNearestShowerAngle;
+    /**
+     * Maximum shower energy
+     */
+    NTuple::Item<double> m_TagMaximumShowerEnergy;
+    /**
+     * Flag that is 1 if the electron is a good track
+     */
+    NTuple::Item<int> m_TagIsElectronGoodTrack;
+    /**
      * Number of good photons that are not FSR
      */
     NTuple::Item<int> m_TagNumberGamma;

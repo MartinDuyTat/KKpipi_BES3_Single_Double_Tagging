@@ -63,6 +63,18 @@ class FindKeNuTagInfo {
      */
     double GetUMiss() const;
     /**
+     * Get number of $\pi^0$ candidates
+     */
+    int GetNumberPi0() const;
+    /**
+     * Get smallest angle between a shower and a charged track
+     */
+    double GetNearestShowerAngle() const;
+    /**
+     * Get maximum shower energy
+     */
+    double GetMaximumShowerEnergy() const;
+    /**
      * Get the energy of the jth photon shower that is not FSR
      */
     double GetExtraShowerEnergy(int j) const;
@@ -74,6 +86,10 @@ class FindKeNuTagInfo {
      * Get the daughter track ID, in the order \f$K\f$ \f$e\f$
      */
     std::vector<int> GetDaughterTrackID() const;
+    /**
+     * Get flag that says whether or not the electron is a good track
+     */
+    bool IsElectronGoodTrack() const;
   private:
     /**
      * \f$e^\pm\f$ four-momentum, including FSR
@@ -104,6 +120,18 @@ class FindKeNuTagInfo {
      */
     double m_UMiss;
     /**
+     * Number of $\pi^0$ candidates
+     */
+    int m_NumberPi0;
+    /**
+     * Smallest angle between a shower and a charged track
+     */
+    double m_NearestShowerAngle;
+    /**
+     * Maximum shower energy
+     */
+    double m_MaximumShowerEnergy;
+    /**
      * Vector of photon shower energies that is not FSR
      */
     std::vector<double> m_ExtraShowerEnergy;
@@ -115,6 +143,10 @@ class FindKeNuTagInfo {
      * Daughter track ID, in the order \f$K\f$ \f$e\f$
      */
     std::vector<int> m_DaughterTrackID;
+    /**
+     * Flat that is true if electron also satisfies good track requirements
+     */
+    bool m_IsElectronGoodTrack;
 };
 
 #endif

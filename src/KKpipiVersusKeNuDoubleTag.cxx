@@ -141,6 +141,10 @@ StatusCode KKpipiVersusKeNuDoubleTag::initialize() {
       status = m_tuple->addItem("TagMissingpz", m_TagMissingpz);
       status = m_tuple->addItem("TagMissingenergy", m_TagMissingenergy);
       status = m_tuple->addItem("TagUMiss", m_TagUMiss);
+      status = m_tuple->addItem("TagNumberPi0", m_TagNumberPi0);
+      status = m_tuple->addItem("TagNearestShowerAngle", m_TagNearestShowerAngle);
+      status = m_tuple->addItem("TagMaximumShowerEnergy", m_TagMaximumShowerEnergy);
+      status = m_tuple->addItem("TagIsElectronGoodTrack", m_TagIsElectronGoodTrack);
       status = m_tuple->addItem("TagNumberGamma", m_TagNumberGamma, 0, 100);
       status = m_tuple->addIndexedItem("TagExtraShowerEnergy", m_TagNumberGamma, m_TagExtraShowerEnergy);
       status = m_tuple->addItem("TagIsSameDMother", m_TagIsSameDMother);
@@ -174,14 +178,14 @@ StatusCode KKpipiVersusKeNuDoubleTag::execute() {
     m_EventNumber = eventHeader->eventNumber();
     DTagToolIterator DTTool_Signal_iter = DTTool.stag();
     StatusCode FillTupleStatus = FillTuple(DTTool_Signal_iter, DTTool);
-    if(FillTupleStatus == StatusCode::RECOVERABLE) {
-      return StatusCode::SUCCESS;
-    } else if(FillTupleStatus == StatusCode::FAILURE) {
-      log << MSG::FATAL << "Assigning KeNu tuple info failed" << endreq;
+    if(FillTupleStatus != StatusCode::SUCCESS) {
+      if(FillTupleStatus == StatusCode::RECOVERABLE) {
+	return StatusCode::SUCCESS;
+      }
+      log << MSG::FATAL << "Assigning KKpipi vs KeNu tuple info failed" << endreq;
       return StatusCode::FAILURE;
-    } else {
-      m_tuple->write();
     }
+    m_tuple->write();
   }
   return StatusCode::SUCCESS;
 }
@@ -315,6 +319,10 @@ StatusCode KKpipiVersusKeNuDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
   m_TagMissingpz = findKeNuTagInfo.GetMissP(2);
   m_TagMissingenergy = findKeNuTagInfo.GetMissP(3);
   m_TagUMiss = findKeNuTagInfo.GetUMiss();
+  m_TagNumberPi0 = findKeNuTagInfo.GetNumberPi0();
+  m_TagNearestShowerAngle = findKeNuTagInfo.GetNearestShowerAngle();
+  m_TagMaximumShowerEnergy = findKeNuTagInfo.GetMaximumShowerEnergy();
+  m_TagIsElectronGoodTrack = findKeNuTagInfo.IsElectronGoodTrack();
   m_TagNumberGamma = findKeNuTagInfo.GetNumberGamma();
   for(int j = 0; j < m_TagNumberGamma; j++) {
     m_TagExtraShowerEnergy[j] = findKeNuTagInfo.GetExtraShowerEnergy(j);
