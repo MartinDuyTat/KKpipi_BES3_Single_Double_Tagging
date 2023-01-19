@@ -5,6 +5,7 @@
 #include "KKpipi/ParticleMasses.h"
 #include "KKpipi/KKpipiUtilities.h"
 #include "KKpipi/FindhhTagInfo.h"
+#include "KKpipi/FindKS.h"
 // Gaudi
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/SmartRefVector.h"
@@ -57,9 +58,9 @@ StatusCode FindKKpipiVersusKKPartRecoTagInfo::CalculateTagInfo(DTagToolIterator 
   if(status != StatusCode::SUCCESS) {
     return status;
   }
-  // Get all tracks
-  WTrackParameters TrackParameters;
   // Loop over all tracks
+  WTrackParameters TrackParameters;
+  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
   for(SmartRefVector<EvtRecTrack>::iterator Track_iter = Tracks.begin(); Track_iter != Tracks.end(); Track_iter++) {
     RecMdcKalTrack *MDCKalTrack = (*Track_iter)->mdcKalTrack();
     // If track is from pi+ and pi-, save track information for Kalman fit

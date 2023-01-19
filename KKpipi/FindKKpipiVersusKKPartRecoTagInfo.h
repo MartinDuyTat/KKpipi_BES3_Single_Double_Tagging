@@ -153,7 +153,7 @@ class FindKKpipiVersusKKPartRecoTagInfo {
     /**
      * Get the \f$h^+h^-\f$ information
      */
-    const FindhhTagInfo& GetpipiTagInfo() const;
+    const FindhhTagInfo& GetKKTagInfo() const;
   private:
     /**
      * Daughter track IDs, in the order K+ K- pi+ pi-
@@ -162,7 +162,7 @@ class FindKKpipiVersusKKPartRecoTagInfo {
     /**
      * The information about the \f$\pi^+\pi^-\f$
      */
-    FindhhTagInfo m_FindpipiTagInfo;
+    FindhhTagInfo m_FindKKTagInfo;
     /**
      * Flag equal to 1 for success and 0 for fail in the Kalman fit of tracks
      */
