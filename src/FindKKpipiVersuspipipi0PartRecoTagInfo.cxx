@@ -34,7 +34,6 @@
 #include "KKpipi/ParticleMasses.h"
 
 FindKKpipiVersuspipipi0PartRecoTagInfo::FindKKpipiVersuspipipi0PartRecoTagInfo(): m_DaughterTrackID_KKpipi(std::vector<int>(3)),
-				    m_DaughterTrackID_pipipi0(std::vector<int>(2)),
 				    m_KSFitSuccess_pipipi0(0),
 				    m_DecayLengthVeeVertex_pipipi0(0.0),
 				    m_Chi2VeeVertex_pipipi0(0.0),
@@ -42,6 +41,7 @@ FindKKpipiVersuspipipi0PartRecoTagInfo::FindKKpipiVersuspipipi0PartRecoTagInfo()
 				    m_DecayLengthFit_pipipi0(0.0),
 				    m_DecayLengthErrorFit_pipipi0(0.0),
 				    m_Chi2Fit_pipipi0(0.0),
+                                    m_FindpipiTagInfo("pipi"),
 				    m_KalmanFitSuccess(0),
 				    m_KalmanFitChi2(0.0),
 				    m_KSFitSuccess_KKpipi(0),
@@ -63,13 +63,13 @@ StatusCode FindKKpipiVersuspipipi0PartRecoTagInfo::CalculateTagInfo(DTagToolIter
   // First start with tag pipipi0 side
   // Find the two pions
   m_FindpipiTagInfo = FindhhTagInfo("pipi");
-  status = m_FindpipiTagInfo.CalculateTagInfo(DTTool_Tag_iter, DTTool);
+  StatusCode status = m_FindpipiTagInfo.CalculateTagInfo(DTTool_iter, DTTool);
   if(status != StatusCode::SUCCESS) {
     return status;
   }
   // Find KS from potential KSpi0 decay
-  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_Tag_iter)->tracks();
-  double Mpipi = m_FindpipiTagInfo.GetMpipi();
+  SmartRefVector<EvtRecTrack> Tracks = (*DTTool_iter)->tracks();
+  double Mpipi = m_FindpipiTagInfo.GetMhh();
   m_KSFitSuccess_pipipi0 = 0;
   if(Mpipi - MASS::KS_MASS < 0.050 && Mpipi - MASS::KS_MASS > -0.060) {
     FindKS findKS(false);
@@ -79,11 +79,11 @@ StatusCode FindKKpipiVersuspipipi0PartRecoTagInfo::CalculateTagInfo(DTagToolIter
 	PionTrackIDs.push_back((*Track_iter)->trackId());
       }
     }
-    StatusCode statuscode = findKS.findKS(DTTool_Tag_iter, DTTool, PionTrackIDs);
+    status = findKS.findKS(DTTool_iter, DTTool, PionTrackIDs);
     m_DecayLengthVeeVertex_pipipi0 = findKS.GetDecayLengthVeeVertex();
     m_Chi2VeeVertex_pipipi0 = findKS.GetChi2VeeVertex();
     m_KSMassVeeVertex_pipipi0 = findKS.GetKSMassVeeVertex();
-    if(statuscode == StatusCode::SUCCESS) {
+    if(status == StatusCode::SUCCESS) {
       m_KSFitSuccess_pipipi0 = 1;
       m_DecayLengthFit_pipipi0 = findKS.GetDecayLengthFit();
       m_DecayLengthErrorFit_pipipi0 = findKS.GetDecayLengthErrorFit();
@@ -181,7 +181,7 @@ StatusCode FindKKpipiVersuspipipi0PartRecoTagInfo::CalculateTagInfo(DTagToolIter
     m_KPlusP = KKpipiUtilities::GetMissingMomentum((*DTTool_iter)->p4(), P_X, (*DTTool_iter)->beamE());
     m_MissingMass2 = m_KPlusP.m2();
   }
-  double Mpipi = (m_PiPlusP + m_PiMinusP).m();
+  Mpipi = (m_PiPlusP + m_PiMinusP).m();
   m_KSFitSuccess_KKpipi = 0;
   // Check if the \f$\pi\pi\f$ pair is a \f$K_S\f$ in disguise
   if(Mpipi - MASS::KS_MASS < 0.050 && Mpipi - MASS::KS_MASS > -0.060) {
@@ -215,7 +215,7 @@ void FindKKpipiVersuspipipi0PartRecoTagInfo::DoKalmanFit(const WTrackParameters 
   Pi0KalmanFit->BuildVirtualParticle(0);
   WTrackParameter WTrackPi0 = Pi0KalmanFit->wVirtualTrack(0);
   // Do a Kalman kinematic fit of the D daughter tracks, and constrain the KS and D masses to their PDG values
-  if(KSKalmanFitSuccess && Pi0KalmanFitSuccess) {
+  if(Pi0KalmanFitSuccess) {
     KalmanKinematicFit *KalmanFit = KalmanKinematicFit::instance();
     KalmanFit->init();
     KalmanFit->AddTrack(0, TrackParameters.TagPiPlus);

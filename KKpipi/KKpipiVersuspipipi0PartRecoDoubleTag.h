@@ -6,8 +6,8 @@
  * It also runs a fit for the decay \f$K_S^0\to\pi^+\pi^-\f$ by refitting the primary and secondary vertex in the class FindKS, from this the flight significance is used to eliminate peaking background
  */
 
-#ifndef KKPIPIVERSUSKSPI0PARTRECODOUBLETAG
-#define KKPIPIVERSUSKSPI0PARTRECODOUBLETAG
+#ifndef KKPIPIVERSUSPIPIPI0PARTRECODOUBLETAG
+#define KKPIPIVERSUSPIPIPI0PARTRECODOUBLETAG
 
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
