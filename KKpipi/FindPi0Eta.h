@@ -81,11 +81,11 @@ class FindPi0Eta {
     /**
      * Get the shower object of the high energy photon
      */
-    const RecEmcShower* GetHighEShower();
+    const RecEmcShower* GetHighEShower() const;
     /**
      * Get the shower object of the low energy photon
      */
-    const RecEmcShower* GetHighEShower();
+    const RecEmcShower* GetLowEShower() const;
   private:
     /**
      * The high energy photon unconstrained four-momentum
@@ -126,11 +126,11 @@ class FindPi0Eta {
     /**
      * The high energy shower object
      */
-    RecEmcShower *m_HighEShower;
+    const RecEmcShower *m_HighEPhotonShower;
     /**
      * The low energy shower object
      */
-    RecEmcShower *m_LowEShower;
+    const RecEmcShower *m_LowEPhotonShower;
 };
 
 #endif

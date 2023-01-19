@@ -8,6 +8,7 @@
 
 //KKpipi
 #include "KKpipi/FindKS.h"
+#include "KKpipi/FindPi0Eta.h"
 // Gaudi
 #include "GaudiKernel/StatusCode.h"
 // BOSS
@@ -25,8 +26,8 @@ struct WTrackParameters {
   WTrackParameter SignalPiMinus;
   WTrackParameter TagKSPiPlus;
   WTrackParameter TagKSPiMinus;
-  RecEmcShower *TagHighEShower;
-  RecEmcShower *TagLowEShower;
+  const RecEmcShower *TagHighEShower;
+  const RecEmcShower *TagLowEShower;
 };
 
 class FindKKpipiVersusKSpi0PartRecoTagInfo {
@@ -200,7 +201,7 @@ class FindKKpipiVersusKSpi0PartRecoTagInfo {
     /**
      * Get the \f$\pi^0\f$ information
      */
-    const &FindPi0Eta GetPi0Info() const;
+    const FindPi0Eta& GetPi0Info() const;
   private:
     /**
      * Daughter track IDs, in the order K+ K- pi+ pi-

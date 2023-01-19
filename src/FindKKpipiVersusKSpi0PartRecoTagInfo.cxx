@@ -6,6 +6,7 @@
 #include "KKpipi/FindPi0Eta.h"
 #include "KKpipi/ParticleMasses.h"
 #include "KKpipi/KKpipiUtilities.h"
+#include "KKpipi/FindPi0Eta.h"
 // Gaudi
 #include "GaudiKernel/Bootstrap.h"
 #include "GaudiKernel/SmartRefVector.h"
@@ -32,7 +33,7 @@
 #include "KKpipi/ParticleMasses.h"
 
 FindKKpipiVersusKSpi0PartRecoTagInfo::FindKKpipiVersusKSpi0PartRecoTagInfo(): m_DaughterTrackID_KKpipi(std::vector<int>(3)),
-				    m_DaughterTrackID_KSpi0(std::vector<int>(4)),
+				    m_DaughterTrackID_KSpi0(std::vector<int>(2)),
 				    m_KSFitSuccess_KSpi0(0),
 				    m_DecayLengthVeeVertex_KSpi0(0.0),
 				    m_Chi2VeeVertex_KSpi0(0.0),
@@ -210,8 +211,8 @@ void FindKKpipiVersusKSpi0PartRecoTagInfo::DoKalmanFit(const WTrackParameters &T
   // Do a Kalman kinematic fit of the pi0 showers, and constrain the pi0 mass to its PDG value
   KalmanKinematicFit *Pi0KalmanFit = KalmanKinematicFit::instance();
   Pi0KalmanFit->init();
-  Pi0KalmanFit->AddTrack(0, TrackParameters.TagHighEShower);
-  Pi0KalmanFit->AddTrack(1, TrackParameters.TagLowEShower);
+  Pi0KalmanFit->AddTrack(0, 0.0, TrackParameters.TagHighEShower);
+  Pi0KalmanFit->AddTrack(1, 0.0, TrackParameters.TagLowEShower);
   Pi0KalmanFit->AddResonance(0, MASS::PI0_MASS, 0, 1);
   bool Pi0KalmanFitSuccess = Pi0KalmanFit->Fit();
   Pi0KalmanFit->BuildVirtualParticle(0);
@@ -236,18 +237,15 @@ void FindKKpipiVersusKSpi0PartRecoTagInfo::DoKalmanFit(const WTrackParameters &T
     m_KalmanFitSuccess = KalmanFit->Fit();
     if(m_KalmanFitSuccess) {
       m_KalmanFitChi2 = KalmanFit->chisq();
-      m_KShortPKalmanFit = KalmanFit->pfit(0);
-      m_hPlusPKalmanFit = KalmanFit->pfit(1);
-      m_hMinusPKalmanFit = KalmanFit->pfit(2);
       if(RecKCharge == +1) {
-	m_KPlusPKalmanFit = KalmanFit->pfit(3);
-	m_KMinusPKalmanFit = KalmanFit->pfit(4);
-      } else {
-	m_KPlusPKalmanFit = KalmanFit->pfit(4);
+	m_KPlusPKalmanFit = KalmanFit->pfit(2);
 	m_KMinusPKalmanFit = KalmanFit->pfit(3);
+      } else {
+	m_KPlusPKalmanFit = KalmanFit->pfit(3);
+	m_KMinusPKalmanFit = KalmanFit->pfit(2);
       }
-      m_PiPlusPKalmanFit = KalmanFit->pfit(5);
-      m_PiMinusPKalmanFit = KalmanFit->pfit(6);
+      m_PiPlusPKalmanFit = KalmanFit->pfit(4);
+      m_PiMinusPKalmanFit = KalmanFit->pfit(5);
     }
   }  
 }
@@ -339,18 +337,6 @@ double FindKKpipiVersusKSpi0PartRecoTagInfo::GetKalmanFitChi2() const {
   return m_KalmanFitChi2;
 }
 
-double FindKKpipiVersusKSpi0PartRecoTagInfo::GetKShortPKalmanFit(int i) const {
-  return m_KShortPKalmanFit[i];
-}
-
-double FindKKpipiVersusKSpi0PartRecoTagInfo::GethPlusPKalmanFit(int i) const {
-  return m_hPlusPKalmanFit[i];
-}
-
-double FindKKpipiVersusKSpi0PartRecoTagInfo::GethMinusPKalmanFit(int i) const {
-  return m_hMinusPKalmanFit[i];
-}
-
 double FindKKpipiVersusKSpi0PartRecoTagInfo::GetKPlusP(int i) const {
   return m_KPlusP[i];
 }
@@ -427,6 +413,6 @@ int FindKKpipiVersusKSpi0PartRecoTagInfo::GetNumberPi0() const {
   return m_NumberPi0;
 }
 
-const FindPi0Eta FindKKpipiVersusKSpi0PartRecoTagInfo::GetPi0Info() const {
-  return FindPi0Eta;
+const FindPi0Eta& FindKKpipiVersusKSpi0PartRecoTagInfo::GetPi0Info() const {
+  return m_FindPi0;
 }
