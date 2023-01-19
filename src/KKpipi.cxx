@@ -51,6 +51,11 @@ StatusCode KKpipi::initialize() {
       log << MSG::ERROR << "Error while creating KKpipiVersusKKDoubleTag" << endreq;
       return StatusCode::FAILURE;
     }
+    sc = createSubAlgorithm("KKpipiVersusKKPartRecoDoubleTag", "KKpipiVersusKKPartRecoDoubleTag", m_KKPartRecoTag);
+    if(sc.isFailure()) {
+      log << MSG::ERROR << "Error while creating KKpipiVersusKKPartRecoDoubleTag" << endreq;
+      return StatusCode::FAILURE;
+    }
     sc = createSubAlgorithm("KKSingleTag", "KKSingleTag", m_KKSingleTag);
     if(sc.isFailure()) {
       log << MSG::ERROR << "Error while creating KKSingleTag" << endreq;

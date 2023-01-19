@@ -1,13 +1,12 @@
 // Martin Duy Tat 19th January 2023
 /**
- * KKpipiVersuspipipi0PartRecoDoubleTag is a class for a BOSS algorithm
- * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to \pi^+\pi^-\pi^0\f$ tag
+ * KKpipiVersusKKPartRecoDoubleTag is a class for a BOSS algorithm
+ * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to K^+K^-\f$ tag
  * In \f$KK\pi\pi\f$, one of the kaons is missing
- * It also runs a fit for the decay \f$K_S^0\to\pi^+\pi^-\f$ by refitting the primary and secondary vertex in the class FindKS, from this the flight significance is used to eliminate peaking background
  */
 
-#ifndef KKPIPIVERSUSPIPIPI0PARTRECODOUBLETAG
-#define KKPIPIVERSUSPIPIPI0PARTRECODOUBLETAG
+#ifndef KKPIPIVERSUSKKPARTRECODOUBLETAG
+#define KKPIPIVERSUSKKPARTRECODOUBLETAG
 
 // Gaudi
 #include "GaudiKernel/AlgFactory.h"
@@ -19,16 +18,16 @@
 // STL
 #include<string>
 
-class KKpipiVersuspipipi0PartRecoDoubleTag: public Algorithm {
+class KKpipiVersusKKPartRecoDoubleTag: public Algorithm {
   public: 
     /**
      * Default constructor for an algorithm where all necessary properties are declared
      */
-    KKpipiVersuspipipi0PartRecoDoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
+    KKpipiVersusKKPartRecoDoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
     /**
      * Trivial destructor
      */
-    ~KKpipiVersuspipipi0PartRecoDoubleTag();
+    ~KKpipiVersusKKPartRecoDoubleTag();
     /**
      * This function runs when algorithm is initialized
      */
@@ -343,173 +342,53 @@ class KKpipiVersuspipipi0PartRecoDoubleTag: public Algorithm {
      */
     NTuple::Item<int> m_SignalPiMinusTrueID;
     /**
-     * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
+     * The \f$K^+\f$ daughter momentum along \f$x\f$ from the MDC track
      */
-    NTuple::Item<int> m_TagKSFitSuccess;
+    NTuple::Item<double> m_TagKPluspx;
     /**
-     * The tag \f$K_S\f$ decay length, from VeeVertexAlg
+     * The \f$K^+\f$ daughter momentum along \f$y\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagDecayLengthVeeVertex;
+    NTuple::Item<double> m_TagKPluspy;
     /**
-     * The tag \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
+     * The \f$K^+\f$ daughter momentum along \f$z\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagChi2VeeVertex;
+    NTuple::Item<double> m_TagKPluspz;
     /**
-     * The tag \f$K_S^0\f$ mass, from VeeVertexAlg
+     * The \f$K^+\f$ daughter energy from the MDC track
      */
-    NTuple::Item<double> m_TagKSMassVeeVertex;
+    NTuple::Item<double> m_TagKPlusenergy;
     /**
-     * The tag \f$K_S^0\f$ decay length, from fit
+     * The \f$K^-\f$ daughter momentum along \f$x\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagDecayLengthFit;
+    NTuple::Item<double> m_TagKMinuspx;
     /**
-     * The tag \f$K_S^0\f$ decay length error, from fit
+     * The \f$K^-\f$ daughter momentum along \f$y\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagDecayLengthErrorFit;
+    NTuple::Item<double> m_TagKMinuspy;
     /**
-     * The tag \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
+     * The \f$K^-\f$ daughter momentum along \f$z\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagChi2Fit;
+    NTuple::Item<double> m_TagKMinuspz;
     /**
-     * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
+     * The \f$K^-\f$ daughter energy from the MDC track
      */
-    NTuple::Item<double> m_TagPiPluspx;
-    /**
-     * The \f$\pi^+\f$ daughter momentum along \f$y\f$ from the MDC track
-     */
-    NTuple::Item<double> m_TagPiPluspy;
-    /**
-     * The \f$\pi^+\f$ daughter momentum along \f$z\f$ from the MDC track
-     */
-    NTuple::Item<double> m_TagPiPluspz;
-    /**
-     * The \f$\pi^+\f$ daughter energy from the MDC track
-     */
-    NTuple::Item<double> m_TagPiPlusenergy;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$x\f$ from the MDC track
-     */
-    NTuple::Item<double> m_TagPiMinuspx;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$y\f$ from the MDC track
-     */
-    NTuple::Item<double> m_TagPiMinuspy;
-    /**
-     * The \f$\pi^-\f$ daughter momentum along \f$z\f$ from the MDC track
-     */
-    NTuple::Item<double> m_TagPiMinuspz;
-    /**
-     * The \f$\pi^-\f$ daughter energy from the MDC track
-     */
-    NTuple::Item<double> m_TagPiMinusenergy;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_TagHighEPi0px;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_TagHighEPi0py;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_TagHighEPi0pz;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ unconstrained energy
-     */
-    NTuple::Item<double> m_TagHighEPi0energy;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_TagLowEPi0px;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_TagLowEPi0py;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ unconstrained momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_TagLowEPi0pz;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ unconstrained energy
-     */
-    NTuple::Item<double> m_TagLowEPi0energy;
-    /**
-     * The tag \f$\gamma\gamma\f$ invariant mass
-     */
-    NTuple::Item<double> m_TagMgammagamma;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_TagHighEPi0Constrainedpx;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_TagHighEPi0Constrainedpy;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_TagHighEPi0Constrainedpz;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ constrained energy
-     */
-    NTuple::Item<double> m_TagHighEPi0Constrainedenergy;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$x\f$
-     */
-    NTuple::Item<double> m_TagLowEPi0Constrainedpx;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$y\f$
-     */
-    NTuple::Item<double> m_TagLowEPi0Constrainedpy;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ constrained momentum along \f$z\f$
-     */
-    NTuple::Item<double> m_TagLowEPi0Constrainedpz;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ constrained energy
-     */
-    NTuple::Item<double> m_TagLowEPi0Constrainedenergy;
-    /**
-     * Tag \f$\pi^0\f$ kinematic fit \f$\chi^2\f$
-     */
-    NTuple::Item<double> m_Pi0Chi2Fit;
+    NTuple::Item<double> m_TagKMinusenergy;
     /**
      * Equal to 1 if the tag daughter tracks are from the same \f$D\f$ meson
      */
     NTuple::Item<int> m_TagIsSameDMother;
     /**
-     * Equal to 1 if all tag daughter tracks are from the same \f$D\f$ meson
-     */
-    NTuple::Item<int> m_TagIsSameDMotherAll;
-    /**
      * Equal to 1 if the tag daughter tracks are assigned a PID matching that of the MC truth
      */
     NTuple::Item<int> m_TagPIDTrue;
     /**
-     * The tag \f$\pi^+\f$ from \f$K_S^0\f$ true PID
+     * The tag \f$K^+\f$ true PID
      */
-    NTuple::Item<int> m_TagPiPlusTrueID;
+    NTuple::Item<int> m_TagKPlusTrueID;
     /**
-     * The tag \f$\pi^-\f$ from \f$K_S^0\f$ true PID
+     * The tag \f$K^-\f$ true PID
      */
-    NTuple::Item<int> m_TagPiMinusTrueID;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ true PID
-     */
-    NTuple::Item<int> m_TagHighEPi0PhotonTrueID;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ true PID
-     */
-    NTuple::Item<int> m_TagLowEPi0PhotonTrueID;
-    /**
-     * Tag high energy photon from \f$\pi^0\f$ true mother PID
-     */
-    NTuple::Item<int> m_TagHighEPi0PhotonMotherTrueID;
-    /**
-     * Tag low energy photon from \f$\pi^0\f$ true mother PID
-     */
-    NTuple::Item<int> m_TagLowEPi0PhotonMotherTrueID;
+    NTuple::Item<int> m_TagKMinusTrueID;
 };
 
 #endif

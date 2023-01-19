@@ -1,14 +1,12 @@
 // Martin Duy Tat 19th January 2023
 /**
- * FindKKpipiVersuspipipi0TagInfo is a class for extracting all the variables of a partially reconstructed KKpipi vs pipipi0 tag
+ * FindKKpipiVersusKKTagInfo is a class for extracting all the variables of a partially reconstructed KKpipi vs KK tag
  */
 
-#ifndef FINDKKPIPIVERSUSPIPIPI0PARTRECOTAGINFO
-#define FINDKKPIPIVERSUSPIPIPI0PARTRECOTAGINFO
+#ifndef FINDKKPIPIVERSUSKKPARTRECOTAGINFO
+#define FINDKKPIPIVERSUSKKPARTRECOTAGINFO
 
 //KKpipi
-#include "KKpipi/FindKS.h"
-#include "KKpipi/FindPi0Eta.h"
 #include "KKpipi/FindhhTagInfo.h"
 // Gaudi
 #include "GaudiKernel/StatusCode.h"
@@ -25,22 +23,20 @@ struct WTrackParameters {
   WTrackParameter SignalKaon;
   WTrackParameter SignalPiPlus;
   WTrackParameter SignalPiMinus;
-  WTrackParameter TagPiPlus;
-  WTrackParameter TagPiMinus;
-  const RecEmcShower *TagHighEShower;
-  const RecEmcShower *TagLowEShower;
+  WTrackParameter TagKPlus;
+  WTrackParameter TagKMinus;
 };
 
-class FindKKpipiVersuspipipi0PartRecoTagInfo {
+class FindKKpipiVersusKKPartRecoTagInfo {
   public: 
     /**
      * Default constructor that initalizes all variables to zero
      */
-    FindKKpipiVersuspipipi0PartRecoTagInfo();
+    FindKKpipiVersusKKPartRecoTagInfo();
     /**
      * Trivial destructor
      */
-    ~FindKKpipiVersuspipipi0PartRecoTagInfo();
+    ~FindKKpipiVersusKKPartRecoTagInfo();
     /**
      * Function that calculates all the tag information and saves them
      * @param DTTool_iter Iterator pointing to tag candidate
@@ -62,34 +58,6 @@ class FindKKpipiVersuspipipi0PartRecoTagInfo {
      * Get the daughter track IDs, in the order K pi+ pi-
      */
     std::vector<int> GetDaughterTrackID_KKpipi() const;
-    /**
-     * Get flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
-     */
-    int GetKSFitSuccess_pipipi0() const;
-    /**
-     * Get the \f$K_S\f$ decay length, from VeeVertexAlg
-     */
-    double GetDecayLengthVeeVertex_pipipi0() const;
-    /**
-     * Get the \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
-     */
-    double GetChi2VeeVertex_pipipi0() const;
-    /**
-     * Get the \f$K_S^0\f$ mass, from VeeVertexAlg
-     */
-    double GetKSMassVeeVertex_pipipi0() const;
-    /**
-     * Get the \f$K_S^0\f$ decay length, from fit
-     */
-    double GetDecayLengthFit_pipipi0() const;
-    /**
-     * Get the \f$K_S^0\f$ decay length error, from fit
-     */
-    double GetDecayLengthErrorFit_pipipi0() const;
-    /**
-     * Get the \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
-     */
-    double GetChi2Fit_pipipi0() const;
     /**
      * Get \f$K^+\f$ momentum component
      * @param i Component
@@ -183,10 +151,6 @@ class FindKKpipiVersuspipipi0PartRecoTagInfo {
      */
     int GetNumberPi0() const;
     /**
-     * Get the \f$\pi^0\f$ information
-     */
-    const FindPi0Eta& GetPi0Info() const;
-    /**
      * Get the \f$h^+h^-\f$ information
      */
     const FindhhTagInfo& GetpipiTagInfo() const;
@@ -195,38 +159,6 @@ class FindKKpipiVersuspipipi0PartRecoTagInfo {
      * Daughter track IDs, in the order K+ K- pi+ pi-
      */
     std::vector<int> m_DaughterTrackID_KKpipi;
-    /**
-     * Flag equal to 1 for success and 0 for fail in the \f$K_S^0\f$ fit of tracks
-     */
-    int m_KSFitSuccess_pipipi0;
-    /**
-     * The \f$K_S\f$ decay length, from VeeVertexAlg
-     */
-    double m_DecayLengthVeeVertex_pipipi0;
-    /**
-     * The \f$K_S^0\f$ \f$\chi^2\f$, from VeeVertexAlg
-     */
-    double m_Chi2VeeVertex_pipipi0;
-    /**
-     * The \f$K_S^0\f$ mass, from VeeVertexAlg
-     */
-    double m_KSMassVeeVertex_pipipi0;
-    /**
-     * The \f$K_S^0\f$ decay length, from fit
-     */
-    double m_DecayLengthFit_pipipi0;
-    /**
-     * The \f$K_S^0\f$ decay length error, from fit
-     */
-    double m_DecayLengthErrorFit_pipipi0;
-    /**
-     * The \f$K_S^0\f$ \f$\chi^2\f$, from fit of primary vertex
-     */
-    double m_Chi2Fit_pipipi0;
-    /**
-     * The information about the \f$\pi^0\f$
-     */
-    FindPi0Eta m_FindPi0;
     /**
      * The information about the \f$\pi^+\pi^-\f$
      */
