@@ -147,6 +147,10 @@ class KKpipi: public Algorithm {
      */
     Algorithm *m_KSpi0PartRecoTag;
     /**
+     * \f$\pi\pi\pi^0\f$ tag mode, partially reconstructed
+     */
+    Algorithm *m_pipipi0PartRecoTag;
+    /**
      * \f$K_S\pi\pi\f$ tag mode, single tag
      */
     Algorithm *m_KSpipiSingleTag;

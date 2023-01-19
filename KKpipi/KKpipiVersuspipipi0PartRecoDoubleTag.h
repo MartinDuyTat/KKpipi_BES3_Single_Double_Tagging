@@ -1,6 +1,6 @@
-// Martin Duy Tat 18th January 2023
+// Martin Duy Tat 19th January 2023
 /**
- * KKpipiVersusKSpi0PartRecoDoubleTag is a class for a BOSS algorithm
+ * KKpipiVersuspipipi0PartRecoDoubleTag is a class for a BOSS algorithm
  * It runs over \f$D^0\bar{D^0}\f$ data and saves all events with a double \f$D\to K^+K^-\pi^+\pi^-\f$ vs \f$D^0\to K_S^0\pi^0\f$ tag
  * In \f$KK\pi\pi\f$, one of the kaons is missing
  * It also runs a fit for the decay \f$K_S^0\to\pi^+\pi^-\f$ by refitting the primary and secondary vertex in the class FindKS, from this the flight significance is used to eliminate peaking background
@@ -19,16 +19,16 @@
 // STL
 #include<string>
 
-class KKpipiVersusKSpi0PartRecoDoubleTag: public Algorithm {
+class KKpipiVersuspipipi0PartRecoDoubleTag: public Algorithm {
   public: 
     /**
      * Default constructor for an algorithm where all necessary properties are declared
      */
-    KKpipiVersusKSpi0PartRecoDoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
+    KKpipiVersuspipipi0PartRecoDoubleTag(const std::string& name, ISvcLocator* pSvcLocator);
     /**
      * Trivial destructor
      */
-    ~KKpipiVersusKSpi0PartRecoDoubleTag();
+    ~KKpipiVersuspipipi0PartRecoDoubleTag();
     /**
      * This function runs when algorithm is initialized
      */
@@ -371,53 +371,37 @@ class KKpipiVersusKSpi0PartRecoDoubleTag: public Algorithm {
      */
     NTuple::Item<double> m_TagChi2Fit;
     /**
-     * Tag \f$K_S^0\f$ momentum along \f$x\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSpx;
-    /**
-     * Tag \f$K_S^0\f$ momentum along \f$y\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSpy;
-    /**
-     * Tag \f$K_S^0\f$ momentum along \f$z\f$ after vertex fit
-     */
-    NTuple::Item<double> m_TagKSpz;
-    /**
-     * Tag \f$K_S^0\f$ energy after vertex fit
-     */
-    NTuple::Item<double> m_TagKSenergy;
-    /**
      * The \f$\pi^+\f$ daughter momentum along \f$x\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKSPiPluspx;
+    NTuple::Item<double> m_TagPiPluspx;
     /**
      * The \f$\pi^+\f$ daughter momentum along \f$y\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKSPiPluspy;
+    NTuple::Item<double> m_TagPiPluspy;
     /**
      * The \f$\pi^+\f$ daughter momentum along \f$z\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKSPiPluspz;
+    NTuple::Item<double> m_TagPiPluspz;
     /**
      * The \f$\pi^+\f$ daughter energy from the MDC track
      */
-    NTuple::Item<double> m_TagKSPiPlusenergy;
+    NTuple::Item<double> m_TagPiPlusenergy;
     /**
      * The \f$\pi^-\f$ daughter momentum along \f$x\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKSPiMinuspx;
+    NTuple::Item<double> m_TagPiMinuspx;
     /**
      * The \f$\pi^-\f$ daughter momentum along \f$y\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKSPiMinuspy;
+    NTuple::Item<double> m_TagPiMinuspy;
     /**
      * The \f$\pi^-\f$ daughter momentum along \f$z\f$ from the MDC track
      */
-    NTuple::Item<double> m_TagKSPiMinuspz;
+    NTuple::Item<double> m_TagPiMinuspz;
     /**
      * The \f$\pi^-\f$ daughter energy from the MDC track
      */
-    NTuple::Item<double> m_TagKSPiMinusenergy;
+    NTuple::Item<double> m_TagPiMinusenergy;
     /**
      * Tag high energy photon from \f$\pi^0\f$ unconstrained momentum along \f$x\f$
      */
@@ -505,11 +489,11 @@ class KKpipiVersusKSpi0PartRecoDoubleTag: public Algorithm {
     /**
      * The tag \f$\pi^+\f$ from \f$K_S^0\f$ true PID
      */
-    NTuple::Item<int> m_TagKSPiPlusTrueID;
+    NTuple::Item<int> m_TagPiPlusTrueID;
     /**
      * The tag \f$\pi^-\f$ from \f$K_S^0\f$ true PID
      */
-    NTuple::Item<int> m_TagKSPiMinusTrueID;
+    NTuple::Item<int> m_TagPiMinusTrueID;
     /**
      * Tag high energy photon from \f$\pi^0\f$ true PID
      */
@@ -518,14 +502,6 @@ class KKpipiVersusKSpi0PartRecoDoubleTag: public Algorithm {
      * Tag low energy photon from \f$\pi^0\f$ true PID
      */
     NTuple::Item<int> m_TagLowEPi0PhotonTrueID;
-    /**
-     * Tag \f$\pi^+\f$ from \f$K_S^0\f$ true mother PID
-     */
-    NTuple::Item<int> m_TagKSPiPlusMotherTrueID;
-    /**
-     * Tag \f$\pi^-\f$ from \f$K_S^0\f$ true mother PID
-     */
-    NTuple::Item<int> m_TagKSPiMinusMotherTrueID;
     /**
      * Tag high energy photon from \f$\pi^0\f$ true mother PID
      */
