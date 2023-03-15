@@ -379,10 +379,10 @@ StatusCode KKpipiVersusKSKKDoubleTag::FillTuple(DTagToolIterator DTTool_Signal_i
     int SomeArray[4] = {211, -211, 321, -321};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_TagPIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
-    m_TagKPlusTrueID = ReconstructedPID[0];
-    m_TagKMinusTrueID = ReconstructedPID[1];
-    m_TagKSPiPlusTrueID = ReconstructedPID[2];
-    m_TagKSPiMinusTrueID = ReconstructedPID[3];
+    m_TagKPlusTrueID = ReconstructedPID[2];
+    m_TagKMinusTrueID = ReconstructedPID[3];
+    m_TagKSPiPlusTrueID = ReconstructedPID[0];
+    m_TagKSPiMinusTrueID = ReconstructedPID[1];
     m_TagKSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
     m_TagKSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
   }

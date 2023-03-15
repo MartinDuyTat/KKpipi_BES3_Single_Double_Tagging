@@ -256,10 +256,10 @@ StatusCode KSKKSingleTag::FillTuple(DTagToolIterator DTTool_iter, DTagTool &DTTo
     int SomeArray[4] = {211, -211, 321, -321};
     std::vector<int> ReconstructedPID(SomeArray, SomeArray + 4);
     m_PIDTrue = PID_Truth.FindTrueID(ReconstructedPID) ? 1 : 0;
-    m_KPlusTrueID = ReconstructedPID[0];
-    m_KMinusTrueID = ReconstructedPID[1];
-    m_KSPiPlusTrueID = ReconstructedPID[2];
-    m_KSPiMinusTrueID = ReconstructedPID[3];
+    m_KPlusTrueID = ReconstructedPID[2];
+    m_KMinusTrueID = ReconstructedPID[3];
+    m_KSPiPlusTrueID = ReconstructedPID[0];
+    m_KSPiMinusTrueID = ReconstructedPID[1];
     m_KSPiPlusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[0], true);
     m_KSPiMinusMotherTrueID = PID_Truth.GetTrueMotherID(DaughterTrackIDs[1], true);
   }
