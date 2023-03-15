@@ -35,6 +35,8 @@
 #include<vector>
 #include<string>
 
+DECLARE_COMPONENT(KpipipiSingleTag)
+
 KpipipiSingleTag::KpipipiSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }

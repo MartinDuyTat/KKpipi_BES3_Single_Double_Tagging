@@ -38,6 +38,8 @@
 #include<vector>
 #include<string>
 
+DECLARE_COMPONENT(KKpipiVersusKLpipipi0DoubleTag)
+
 KKpipiVersusKLpipipi0DoubleTag::KKpipiVersusKLpipipi0DoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }

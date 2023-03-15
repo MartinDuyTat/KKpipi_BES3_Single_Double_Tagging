@@ -42,6 +42,8 @@
 #include<string>
 #include<utility>
 
+DECLARE_COMPONENT(KKpipiVersusKSetaPrimepipietaDoubleTag)
+
 KKpipiVersusKSetaPrimepipietaDoubleTag::KKpipiVersusKSetaPrimepipietaDoubleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
