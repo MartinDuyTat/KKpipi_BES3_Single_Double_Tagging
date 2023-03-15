@@ -41,6 +41,8 @@
 #include<string>
 #include<utility>
 
+DECLARE_COMPONENT(pipipi0SingleTag)
+
 pipipi0SingleTag::pipipi0SingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }

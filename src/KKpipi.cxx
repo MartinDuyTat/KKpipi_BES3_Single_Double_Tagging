@@ -14,6 +14,8 @@
 // STL
 #include<string>
 
+DECLARE_COMPONENT(KKpipi)
+
 KKpipi::KKpipi(const std::string& name, ISvcLocator* pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("KKpipiVersusKKDoubleTag", m_recKKTag = true);
   declareProperty("KKpipiVersuspipiDoubleTag", m_recpipiTag = true);

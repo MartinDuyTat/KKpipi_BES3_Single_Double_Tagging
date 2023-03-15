@@ -37,6 +37,8 @@
 #include<string>
 #include<utility>
 
+DECLARE_COMPONENT(KSetaSingleTag)
+
 KSetaSingleTag::KSetaSingleTag(const std::string &name, ISvcLocator *pSvcLocator): Algorithm(name, pSvcLocator) {
   declareProperty("dummy", m_dummy = 0);
 }
